@@ -1,0 +1,23 @@
+{
+  "name": "sham-el-nessim",
+  "version": "1.0.0",
+  "description": "Sham El-Nessim celebration video — Remotion project",
+  "scripts": {
+    "start": "npx remotion studio",
+    "build": "npx remotion render ShamElNessim out/sham-el-nessim.mp4",
+    "still": "npx remotion still ShamElNessim --frame=30 out/still.png",
+    "upgrade": "npx remotion upgrade"
+  },
+  "dependencies": {
+    "@remotion/google-fonts": "4.0.0",
+    "@remotion/transitions": "4.0.0",
+    "remotion": "4.0.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "18.3.1",
+    "@types/react-dom": "18.3.1",
+    "typescript": "5.4.5"
+  }
+}

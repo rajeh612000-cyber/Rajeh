@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "esnext"],
+    "module": "commonjs",
+    "target": "es2017",
+    "strict": true,
+    "jsx": "react",
+    "esModuleInterop": true,
+    "outDir": "./dist",
+    "allowSyntheticDefaultImports": true
+  },
+  "exclude": ["dist", "node_modules"]
+}
