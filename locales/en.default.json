@@ -1,4 +1,32 @@
 {
+  "miko": {
+    "utility": {
+      "aria": "Store information",
+      "delivery": "Same-day delivery across Greater Cairo",
+      "halal": "100% Halal certified",
+      "call": "Call or WhatsApp"
+    },
+    "whatsapp": {
+      "order": "Order on WhatsApp",
+      "float": "Chat",
+      "prefill": "Hello Miko Foods, I'd like to order:",
+      "product_prefill": "Hello Miko Foods, I'd like to order:"
+    },
+    "breadcrumb": {
+      "aria": "Breadcrumb",
+      "home": "Home",
+      "search": "Search",
+      "collections": "Collections"
+    },
+    "product": {
+      "notify_me": "Notify me when available",
+      "add_to_cart": "Add to cart",
+      "order_whatsapp": "Order on WhatsApp",
+      "weight": "Weight",
+      "prep": "Preparation",
+      "quality": "Quality"
+    }
+  },
   "general": {
     "password_page": {
       "login_form_heading": "Enter store using password:",

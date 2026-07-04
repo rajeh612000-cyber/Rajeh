@@ -1451,5 +1451,61 @@
         "default": "scheme-1"
       }
     ]
+  },
+  {
+    "name": "Miko Foods · Contact & WhatsApp",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "These details power the top bar, the floating WhatsApp button, product WhatsApp links, and the contact section. Edit them here once — they update everywhere."
+      },
+      {
+        "type": "header",
+        "content": "WhatsApp & phone"
+      },
+      {
+        "type": "text",
+        "id": "miko_whatsapp_number",
+        "label": "WhatsApp number (international)",
+        "default": "201010402430",
+        "info": "Digits only, no + or spaces. Example: 201010402430. Used for every Order-on-WhatsApp link."
+      },
+      {
+        "type": "text",
+        "id": "miko_phone_display",
+        "label": "Phone number (as displayed)",
+        "default": "010 10402430"
+      },
+      {
+        "type": "header",
+        "content": "Top utility bar"
+      },
+      {
+        "type": "checkbox",
+        "id": "miko_show_utility_bar",
+        "label": "Show the top utility bar",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Floating WhatsApp button"
+      },
+      {
+        "type": "checkbox",
+        "id": "miko_show_wa_float",
+        "label": "Show the floating WhatsApp button",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Location"
+      },
+      {
+        "type": "url",
+        "id": "miko_maps_link",
+        "label": "Google Maps link",
+        "info": "Link to the World Trade Center Mall branch on Google Maps."
+      }
+    ]
   }
 ]

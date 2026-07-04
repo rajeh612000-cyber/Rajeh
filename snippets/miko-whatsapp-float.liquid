@@ -1,0 +1,31 @@
+{% comment %}
+  Miko Foods — floating WhatsApp button (bottom corner, every page).
+  Toggle + number in Theme settings > "Miko Foods · Contact & WhatsApp".
+
+  Optional overrides when rendered from a product page:
+    {% render 'miko-whatsapp-float', wa_text: custom_prefilled_message %}
+
+  Usage: {% render 'miko-whatsapp-float' %}
+{% endcomment %}
+
+{%- if settings.miko_show_wa_float -%}
+  {%- liquid
+    assign wa_number = settings.miko_whatsapp_number | strip
+    unless wa_text
+      assign wa_text = 'miko.whatsapp.prefill' | t
+    endunless
+    assign wa_href = 'https://wa.me/' | append: wa_number | append: '?text=' | append: wa_text | url_encode
+  -%}
+  <a
+    class="miko-wa-float"
+    href="https://wa.me/{{ wa_number }}?text={{ wa_text | url_encode }}"
+    target="_blank"
+    rel="noopener"
+    aria-label="{{ 'miko.whatsapp.order' | t }}"
+  >
+    <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+      <path d="M16 3C9.4 3 4 8.4 4 15c0 2.1.6 4.1 1.6 5.9L4 29l8.3-1.6c1.7.9 3.6 1.4 5.7 1.4 6.6 0 12-5.4 12-12S22.6 3 16 3Zm0 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-4.9 1 1-4.8-.2-.4A9.8 9.8 0 1 1 16 24.8Zm5.5-7.3c-.3-.2-1.8-.9-2-1-.3-.1-.5-.2-.7.2s-.8 1-.9 1.1c-.2.2-.3.2-.6.1a8 8 0 0 1-4-3.5c-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5l-1-2.3c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.2 3.4 5.4 4.7 2 .8 2.7.9 3.7.8.6-.1 1.8-.8 2.1-1.5.3-.7.3-1.4.2-1.5-.1-.2-.3-.2-.6-.4Z"/>
+    </svg>
+    <span class="miko-wa-float__label">{{ 'miko.whatsapp.float' | t }}</span>
+  </a>
+{%- endif -%}

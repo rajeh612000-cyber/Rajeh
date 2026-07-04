@@ -1,0 +1,48 @@
+{
+  "miko": {
+    "utility": {
+      "aria": "معلومات المتجر",
+      "delivery": "توصيل في نفس اليوم لجميع أنحاء القاهرة الكبرى",
+      "halal": "حلال 100%",
+      "call": "اتصل أو واتساب"
+    },
+    "whatsapp": {
+      "order": "اطلب عبر واتساب",
+      "float": "تواصل معنا",
+      "prefill": "مرحباً ميكو فودز، أود طلب:",
+      "product_prefill": "مرحباً ميكو فودز، أود طلب:"
+    },
+    "breadcrumb": {
+      "aria": "مسار التنقل",
+      "home": "الرئيسية",
+      "search": "بحث",
+      "collections": "التصنيفات"
+    },
+    "product": {
+      "notify_me": "أعلمني عند التوفر",
+      "add_to_cart": "أضف إلى السلة",
+      "order_whatsapp": "اطلب عبر واتساب",
+      "weight": "الوزن",
+      "prep": "طريقة التحضير",
+      "quality": "الجودة"
+    }
+  },
+  "general": {
+    "search": {
+      "search": "بحث"
+    },
+    "continue_shopping": "متابعة التسوق"
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "أضف إلى السلة",
+      "sold_out": "نفذ من المخزون",
+      "unavailable": "غير متوفر"
+    }
+  },
+  "sections": {
+    "cart": {
+      "title": "سلة التسوق"
+    }
+  }
+}

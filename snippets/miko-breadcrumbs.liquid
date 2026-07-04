@@ -1,0 +1,97 @@
+{% comment %}
+  Miko Foods — breadcrumbs + BreadcrumbList JSON-LD (SEO).
+  Renders a trail based on the current page. Products show their first
+  collection as the parent link. Safe to include on every template.
+
+  Usage: {% render 'miko-breadcrumbs' %}
+{% endcomment %}
+
+{%- liquid
+  assign home_label = 'miko.breadcrumb.home' | t
+  assign show = true
+  if template.name == 'index' or template.name == 'cart' or template.name == 'password' or template.name == '404'
+    assign show = false
+  endif
+-%}
+
+{%- if show -%}
+  <nav class="miko-breadcrumb page-width" aria-label="{{ 'miko.breadcrumb.aria' | t }}">
+    <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+      <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="{{ routes.root_url }}"><span itemprop="name">{{ home_label }}</span></a>
+        <meta itemprop="position" content="1">
+      </li>
+
+      {%- case template.name -%}
+        {%- when 'collection' -%}
+          <li class="miko-breadcrumb__sep" aria-hidden="true">›</li>
+          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">
+            <span itemprop="name">{{ collection.title }}</span>
+            <meta itemprop="position" content="2">
+          </li>
+
+        {%- when 'product' -%}
+          {%- assign parent = product.collections.first -%}
+          {%- if parent -%}
+            <li class="miko-breadcrumb__sep" aria-hidden="true">›</li>
+            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+              <a itemprop="item" href="{{ parent.url }}"><span itemprop="name">{{ parent.title }}</span></a>
+              <meta itemprop="position" content="2">
+            </li>
+          {%- endif -%}
+          <li class="miko-breadcrumb__sep" aria-hidden="true">›</li>
+          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">
+            <span itemprop="name">{{ product.title }}</span>
+            <meta itemprop="position" content="{% if parent %}3{% else %}2{% endif %}">
+          </li>
+
+        {%- when 'article' -%}
+          <li class="miko-breadcrumb__sep" aria-hidden="true">›</li>
+          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a itemprop="item" href="{{ blog.url }}"><span itemprop="name">{{ blog.title }}</span></a>
+            <meta itemprop="position" content="2">
+          </li>
+          <li class="miko-breadcrumb__sep" aria-hidden="true">›</li>
+          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">
+            <span itemprop="name">{{ article.title }}</span>
+            <meta itemprop="position" content="3">
+          </li>
+
+        {%- when 'blog' -%}
+          <li class="miko-breadcrumb__sep" aria-hidden="true">›</li>
+          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">
+            <span itemprop="name">{{ blog.title }}</span>
+            <meta itemprop="position" content="2">
+          </li>
+
+        {%- when 'page' -%}
+          <li class="miko-breadcrumb__sep" aria-hidden="true">›</li>
+          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">
+            <span itemprop="name">{{ page.title }}</span>
+            <meta itemprop="position" content="2">
+          </li>
+
+        {%- when 'search' -%}
+          <li class="miko-breadcrumb__sep" aria-hidden="true">›</li>
+          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">
+            <span itemprop="name">{{ 'miko.breadcrumb.search' | t }}</span>
+            <meta itemprop="position" content="2">
+          </li>
+
+        {%- when 'list-collections' -%}
+          <li class="miko-breadcrumb__sep" aria-hidden="true">›</li>
+          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">
+            <span itemprop="name">{{ 'miko.breadcrumb.collections' | t }}</span>
+            <meta itemprop="position" content="2">
+          </li>
+
+        {%- else -%}
+          <li class="miko-breadcrumb__sep" aria-hidden="true">›</li>
+          <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">
+            <span itemprop="name">{{ page_title }}</span>
+            <meta itemprop="position" content="2">
+          </li>
+      {%- endcase -%}
+    </ol>
+  </nav>
+{%- endif -%}

@@ -1,0 +1,477 @@
+/* ==========================================================================
+   MIKO FOODS — Theme layer on top of Dawn
+   Egypt's Finest Meat House · light red/gold/black · EN + AR (RTL)
+   --------------------------------------------------------------------------
+   This file layers Miko's brand system over Dawn. Loaded AFTER base.css, so
+   the :root overrides below win. Colours that feed buttons/cards come from the
+   theme-editor colour schemes (config/settings_data.json) — edit those in
+   Online Store > Themes > Customize > Colours to rebrand without touching CSS.
+   ========================================================================== */
+
+:root {
+  /* ---- Brand palette (from Miko's established system) ---- */
+  --miko-red: #c61718;
+  --miko-red-dark: #8b0f13;
+  --miko-red-light: #e8372a;
+  --miko-gold: #d4a62a;
+  --miko-gold-light: #ebc45a;
+  --miko-black: #080808;
+  --miko-charcoal: #111111;
+  --miko-cream: #f4ecd8;
+  --miko-cream-soft: #faf6ec;
+  --miko-muted: #8a7a6a;
+  --miko-whatsapp: #25d366;
+  --miko-whatsapp-dark: #128c7e;
+
+  /* ---- Hairlines & surfaces ---- */
+  --miko-line: rgba(17, 17, 17, 0.10);
+  --miko-line-strong: rgba(17, 17, 17, 0.18);
+
+  /* ---- Brand typography (self-hosted; see miko-fonts.css) ---- */
+  --font-heading-family: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-heading-weight: 600;
+  --font-body-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-body-weight: 400;
+  --font-body-weight-bold: 600;
+  --font-arabic-family: "Cairo", "Segoe UI", Tahoma, sans-serif;
+
+  /* ---- Shape ---- */
+  --miko-radius: 6px;
+  --miko-radius-sm: 4px;
+  --miko-shadow-card: 0 6px 24px rgba(8, 8, 8, 0.07);
+  --miko-shadow-pop: 0 12px 40px rgba(8, 8, 8, 0.16);
+
+  /* ---- Rhythm ---- */
+  --miko-eyebrow-spacing: 0.18em;
+}
+
+/* Arabic locale: Cormorant is Latin-only, so headings + body both use Cairo. */
+html[lang="ar"],
+html[lang^="ar-"] {
+  --font-heading-family: var(--font-arabic-family);
+  --font-body-family: var(--font-arabic-family);
+  --font-heading-weight: 700;
+}
+
+/* ==========================================================================
+   1. Typographic tone — calmer, more premium than stock Dawn
+   ========================================================================== */
+
+h1, h2, h3, h4, .h0, .h1, .h2, .h3, .h4 {
+  letter-spacing: 0.01em;
+  line-height: 1.12;
+}
+
+.miko-eyebrow {
+  display: inline-block;
+  font-family: var(--font-body-family);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: var(--miko-eyebrow-spacing);
+  text-transform: uppercase;
+  color: rgb(var(--color-foreground));
+}
+.miko-eyebrow--gold { color: var(--miko-gold); }
+.miko-eyebrow--red { color: var(--miko-red); }
+
+/* A gold rule used under section headings */
+.miko-rule-gold {
+  width: 4.4rem;
+  height: 2px;
+  border: 0;
+  margin: 1.2rem 0;
+  background: linear-gradient(90deg, var(--miko-gold), var(--miko-gold-light));
+}
+[dir="rtl"] .miko-rule-gold { margin-left: auto; }
+.center .miko-rule-gold,
+.title-wrapper--no-top-margin .miko-rule-gold { margin-inline: auto; }
+
+/* Inline Arabic inside an otherwise-LTR page (bilingual product names, etc.) */
+.miko-ar {
+  font-family: var(--font-arabic-family);
+  direction: rtl;
+  unicode-bidi: isolate;
+}
+
+/* ==========================================================================
+   2. Buttons — brand polish (colours still come from colour schemes)
+   ========================================================================== */
+
+.button,
+.shopify-payment-button__button--unbranded {
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 1.3rem;
+}
+.button--gold {
+  --color-button: 212, 166, 42;      /* --miko-gold */
+  --color-button-text: 8, 8, 8;
+}
+/* subtle lift on primary hover */
+.button:not([disabled]):hover::after { box-shadow: 0 0 0 0.2rem rgba(var(--color-button), 0.25); }
+
+/* ==========================================================================
+   3. Utility bar (very top) — NAP, delivery promise, language
+   ========================================================================== */
+
+.miko-utility {
+  background: var(--miko-red-dark);
+  color: var(--miko-cream);
+  font-size: 1.15rem;
+  border-bottom: 2px solid var(--miko-gold);
+}
+.miko-utility__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.6rem;
+  min-height: 3.6rem;
+  padding-block: 0.5rem;
+}
+.miko-utility a { color: inherit; text-decoration: none; }
+.miko-utility a:hover { color: var(--miko-gold-light); }
+.miko-utility__group { display: flex; align-items: center; gap: 1.8rem; }
+.miko-utility__item { display: inline-flex; align-items: center; gap: 0.6rem; white-space: nowrap; }
+.miko-utility__item svg { width: 1.5rem; height: 1.5rem; flex: 0 0 auto; }
+.miko-utility__sep { opacity: 0.4; }
+.miko-utility__lang { display: inline-flex; gap: 0.4rem; align-items: center; }
+.miko-utility__lang a { font-weight: 600; opacity: 0.6; }
+.miko-utility__lang a.is-active { opacity: 1; color: var(--miko-gold-light); }
+
+@media screen and (max-width: 749px) {
+  .miko-utility { font-size: 1.05rem; }
+  .miko-utility__hide-mobile { display: none; }
+  .miko-utility__inner { justify-content: center; gap: 1.2rem; }
+}
+
+/* ==========================================================================
+   4. Header — cleaner, Gourmet-calm
+   ========================================================================== */
+
+.header {
+  border-bottom: 1px solid var(--miko-line);
+}
+.header__heading-logo { max-height: 6.4rem; width: auto; }
+.header__menu-item {
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  font-size: 1.28rem;
+}
+.header__menu-item span { transition: color 0.15s ease; }
+.header__menu-item:hover span,
+.header__active-menu-item { color: var(--miko-red); }
+/* gold underline grow on hover */
+.header__inline-menu .header__menu-item { position: relative; }
+.header__inline-menu .list-menu__item--link::after,
+.header__inline-menu .header__menu-item::after {
+  content: "";
+  position: absolute;
+  left: 1.2rem; right: 1.2rem; bottom: 0.4rem;
+  height: 2px;
+  background: var(--miko-gold);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.22s ease;
+}
+[dir="rtl"] .header__inline-menu .header__menu-item::after { transform-origin: right center; }
+.header__inline-menu li:hover .header__menu-item::after,
+.header__inline-menu .mega-menu[open] .header__menu-item::after { transform: scaleX(1); }
+
+/* ==========================================================================
+   5. Mega-menu — the category tree, styled like a premium grocer
+   ========================================================================== */
+
+.mega-menu__content {
+  border-top: 2px solid var(--miko-gold);
+  box-shadow: var(--miko-shadow-pop);
+  padding-block: 3.2rem 3.6rem;
+}
+.mega-menu__list {
+  gap: 2.4rem 3.2rem;
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+}
+/* level-2 = category column heading */
+.mega-menu__link--level-2 {
+  font-family: var(--font-body-family);
+  font-weight: 700;
+  font-size: 1.3rem;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--miko-red);
+  padding-bottom: 0.8rem;
+  margin-bottom: 0.4rem;
+  border-bottom: 1px solid var(--miko-line);
+}
+.mega-menu__link--level-2:hover { color: var(--miko-red-dark); }
+/* level-3 = subcategory links */
+.mega-menu__list ul .mega-menu__link {
+  font-size: 1.4rem;
+  color: rgba(var(--color-foreground), 0.72);
+  padding-block: 0.55rem;
+}
+.mega-menu__list ul .mega-menu__link:hover {
+  color: var(--miko-red);
+  padding-inline-start: 0.4rem;
+}
+.mega-menu__list ul { margin-top: 0.6rem; }
+
+/* ==========================================================================
+   6. Breadcrumbs
+   ========================================================================== */
+
+.miko-breadcrumb {
+  padding: 1.6rem 0 0.4rem;
+  font-size: 1.2rem;
+}
+.miko-breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.8rem;
+  margin: 0; padding: 0;
+  list-style: none;
+}
+.miko-breadcrumb a {
+  color: var(--miko-muted);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+.miko-breadcrumb a:hover { color: var(--miko-red); text-decoration: underline; }
+.miko-breadcrumb li[aria-current="page"] { color: rgb(var(--color-foreground)); font-weight: 600; }
+.miko-breadcrumb__sep { color: var(--miko-gold); }
+[dir="rtl"] .miko-breadcrumb__sep { transform: scaleX(-1); display: inline-block; }
+
+/* ==========================================================================
+   7. WhatsApp — floating button + contact band
+   ========================================================================== */
+
+.miko-wa-float {
+  position: fixed;
+  inset-block-end: 2.2rem;
+  inset-inline-end: 2.2rem;
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1.1rem 1.6rem 1.1rem 1.3rem;
+  background: var(--miko-whatsapp);
+  color: #fff;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 1.35rem;
+  text-decoration: none;
+  box-shadow: 0 10px 28px rgba(18, 140, 126, 0.45);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.miko-wa-float:hover { transform: translateY(-2px); box-shadow: 0 14px 34px rgba(18, 140, 126, 0.55); color: #fff; }
+.miko-wa-float svg { width: 2.4rem; height: 2.4rem; }
+.miko-wa-float__label { white-space: nowrap; }
+@media screen and (max-width: 749px) {
+  .miko-wa-float { inset-block-end: 1.4rem; inset-inline-end: 1.4rem; padding: 1.2rem; }
+  .miko-wa-float__label { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .miko-wa-float, .miko-wa-float:hover { transition: none; transform: none; }
+}
+
+.miko-band {
+  background: var(--miko-charcoal);
+  color: var(--miko-cream);
+  background-image:
+    radial-gradient(120% 140% at 100% 0%, rgba(198, 23, 24, 0.35), transparent 55%),
+    radial-gradient(120% 140% at 0% 100%, rgba(212, 166, 42, 0.18), transparent 50%);
+}
+.miko-band__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2.4rem;
+  padding-block: 4.4rem;
+}
+.miko-band__text { max-width: 62rem; }
+.miko-band__title {
+  font-family: var(--font-heading-family);
+  font-weight: 600;
+  font-size: 3.6rem;
+  line-height: 1.05;
+  margin: 0 0 0.8rem;
+  color: var(--miko-cream);
+}
+.miko-band__sub { margin: 0; color: rgba(244, 236, 216, 0.78); font-size: 1.55rem; }
+.miko-band .miko-wa-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--miko-whatsapp);
+  color: #fff;
+  padding: 1.4rem 2.4rem;
+  border-radius: var(--miko-radius);
+  font-weight: 600;
+  font-size: 1.45rem;
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  transition: background 0.18s ease;
+}
+.miko-band .miko-wa-btn:hover { background: var(--miko-whatsapp-dark); }
+.miko-band .miko-wa-btn svg { width: 2.2rem; height: 2.2rem; }
+
+/* ==========================================================================
+   8. Product-card chips, badges, price, weight  (used from Phase 2 on)
+   ========================================================================== */
+
+.miko-card-titles { display: flex; flex-direction: column; gap: 0.2rem; }
+.miko-title-ar {
+  font-family: var(--font-arabic-family);
+  direction: rtl;
+  font-size: 1.3rem;
+  color: var(--miko-muted);
+  font-weight: 600;
+}
+
+.miko-weight {
+  display: inline-block;
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+  color: var(--miko-muted);
+  text-transform: uppercase;
+}
+
+.miko-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+.miko-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  line-height: 1;
+  border: 1px solid var(--miko-line-strong);
+  color: rgba(var(--color-foreground), 0.72);
+  background: transparent;
+}
+.miko-chip--prep { border-color: rgba(17, 17, 17, 0.20); }
+.miko-chip--quality { border-color: rgba(212, 166, 42, 0.55); color: #8a6d13; background: rgba(212, 166, 42, 0.10); }
+.miko-chip--halal { border-color: rgba(37, 122, 60, 0.4); color: #1f7a3c; background: rgba(37, 122, 60, 0.08); }
+.miko-chip--spicy { border-color: rgba(198, 23, 24, 0.45); color: var(--miko-red); background: rgba(198, 23, 24, 0.07); }
+.miko-chip svg { width: 1.2rem; height: 1.2rem; }
+
+/* discount badge + compare-at price */
+.miko-badge-sale {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 4.2rem;
+  padding: 0.4rem 0.7rem;
+  background: var(--miko-red);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: 0.02em;
+  border-radius: var(--miko-radius-sm);
+}
+.miko-badge-featured { background: var(--miko-gold); color: var(--miko-black); }
+.miko-badge-soldout { background: var(--miko-charcoal); color: var(--miko-cream); }
+
+.miko-price { display: flex; align-items: baseline; gap: 0.8rem; flex-wrap: wrap; }
+.miko-price__now { font-weight: 700; color: var(--miko-red); font-size: 1.7rem; }
+.miko-price__was { color: var(--miko-muted); text-decoration: line-through; font-size: 1.3rem; }
+
+/* out-of-stock "notify me" */
+.miko-notify {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--miko-muted);
+}
+
+/* ==========================================================================
+   9. Section rhythm & surfaces — the calm Gourmet grid
+   ========================================================================== */
+
+.miko-surface-cream { background: var(--miko-cream-soft); }
+.miko-section-hairline { border-top: 1px solid var(--miko-line); }
+
+/* Category tiles (homepage / department) */
+.miko-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
+  gap: 1.6rem;
+}
+.miko-tile {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: var(--miko-radius);
+  aspect-ratio: 4 / 3;
+  background: var(--miko-charcoal);
+  text-decoration: none;
+  box-shadow: var(--miko-shadow-card);
+}
+.miko-tile img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.miko-tile:hover img { transform: scale(1.05); }
+.miko-tile__overlay {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 2rem;
+  background: linear-gradient(to top, rgba(8, 8, 8, 0.78) 8%, rgba(8, 8, 8, 0.15) 55%, transparent);
+  color: #fff;
+}
+.miko-tile__title {
+  font-family: var(--font-heading-family);
+  font-weight: 600;
+  font-size: 2.4rem;
+  line-height: 1.05;
+  margin: 0;
+}
+.miko-tile__title .miko-title-ar { color: rgba(244, 236, 216, 0.85); font-size: 1.4rem; }
+.miko-tile__meta { margin: 0.4rem 0 0; font-size: 1.2rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--miko-gold-light); }
+@media (prefers-reduced-motion: reduce) {
+  .miko-tile img, .miko-tile:hover img { transition: none; transform: none; }
+}
+
+/* ==========================================================================
+   10. Footer — dark, weighty, gold accents (scheme-3 sets base colours)
+   ========================================================================== */
+
+.footer { border-top: 3px solid var(--miko-gold); }
+.footer .footer-block__heading {
+  color: var(--miko-gold);
+  font-family: var(--font-body-family);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 1.3rem;
+}
+.footer__content-bottom { border-top-color: rgba(244, 236, 216, 0.14); }
+.footer a:hover { color: var(--miko-gold-light); }
+
+/* ==========================================================================
+   11. RTL fixes beyond logical properties
+   ========================================================================== */
+
+[dir="rtl"] .miko-utility__inner,
+[dir="rtl"] .miko-band__inner { direction: rtl; }
+[dir="rtl"] .miko-chips { direction: rtl; }
+[dir="rtl"] .miko-price { direction: ltr; } /* keep EGP 000 numerals LTR */
+
+/* ==========================================================================
+   12. Focus visibility (accessibility floor)
+   ========================================================================== */
+
+.miko-wa-float:focus-visible,
+.miko-utility a:focus-visible,
+.miko-breadcrumb a:focus-visible {
+  outline: 2px solid var(--miko-gold);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
