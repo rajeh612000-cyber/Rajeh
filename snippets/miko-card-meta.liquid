@@ -1,0 +1,95 @@
+{% comment %}
+  Miko Foods — product-card metadata row.
+  Renders weight, prep/quality chips and a compact WhatsApp order button.
+  Data comes from product metafields (set once per product; also filterable
+  via Search & Discovery), with a graceful fallback to product tags.
+
+  Metafields used (namespace "miko"):
+    - weight_label   (single line text)         e.g. "500g", "450–500g", "1kg"
+    - prep_methods   (list.single_line_text)    e.g. Chilled, Grilling
+    - quality_tags   (list.single_line_text)    e.g. Premium, Halal, Hormone-Free
+
+  Accepts:
+    - card_product: {Object} product
+    - max_chips: {Number} cap on chips shown (default 4)
+
+  Usage: {% render 'miko-card-meta', card_product: card_product %}
+{% endcomment %}
+
+{%- liquid
+  assign p = card_product
+  assign weight = p.metafields.miko.weight_label.value
+  assign preps = p.metafields.miko.prep_methods.value
+  assign quals = p.metafields.miko.quality_tags.value
+  assign cap = max_chips | default: 4
+  assign wa_number = settings.miko_whatsapp_number | strip
+
+  comment
+    Build a combined, deduped chip list: prep first, then quality.
+  endcomment
+  assign has_meta_chips = false
+  if preps != blank or quals != blank
+    assign has_meta_chips = true
+  endif
+-%}
+
+{%- if weight != blank -%}
+  <div class="miko-weight">{{ weight }}</div>
+{%- endif -%}
+
+{%- liquid
+  assign shown = 0
+-%}
+<div class="miko-chips">
+  {%- if has_meta_chips -%}
+    {%- for c in preps -%}
+      {%- if shown >= cap -%}{%- break -%}{%- endif -%}
+      {%- assign lc = c | downcase -%}
+      {%- assign cl = 'miko-chip--prep' -%}
+      {%- if lc contains 'halal' -%}{%- assign cl = 'miko-chip--halal' -%}{%- elsif lc contains 'spicy' or lc contains 'hot' -%}{%- assign cl = 'miko-chip--spicy' -%}{%- endif -%}
+      <span class="miko-chip {{ cl }}">{{ c }}</span>
+      {%- assign shown = shown | plus: 1 -%}
+    {%- endfor -%}
+    {%- for c in quals -%}
+      {%- if shown >= cap -%}{%- break -%}{%- endif -%}
+      {%- assign lc = c | downcase -%}
+      {%- assign cl = 'miko-chip--quality' -%}
+      {%- if lc contains 'halal' -%}{%- assign cl = 'miko-chip--halal' -%}{%- elsif lc contains 'spicy' or lc contains 'hot' -%}{%- assign cl = 'miko-chip--spicy' -%}{%- endif -%}
+      <span class="miko-chip {{ cl }}">{{ c }}</span>
+      {%- assign shown = shown | plus: 1 -%}
+    {%- endfor -%}
+  {%- else -%}
+    {%- for t in p.tags -%}
+      {%- if shown >= cap -%}{%- break -%}{%- endif -%}
+      {%- unless t contains '__' or t contains ':' -%}
+        {%- assign lc = t | downcase -%}
+        {%- assign cl = 'miko-chip--prep' -%}
+        {%- if lc contains 'halal' -%}{%- assign cl = 'miko-chip--halal' -%}{%- elsif lc contains 'spicy' or lc contains 'hot' -%}{%- assign cl = 'miko-chip--spicy' -%}{%- endif -%}
+        <span class="miko-chip {{ cl }}">{{ t }}</span>
+        {%- assign shown = shown | plus: 1 -%}
+      {%- endunless -%}
+    {%- endfor -%}
+  {%- endif -%}
+</div>
+
+{%- if wa_number != blank -%}
+  {%- liquid
+    assign wa_msg = 'miko.whatsapp.product_prefill' | t | append: ' ' | append: p.title
+    if weight != blank
+      assign wa_msg = wa_msg | append: ' (' | append: weight | append: ')'
+    endif
+  -%}
+  <a
+    class="miko-card-wa"
+    href="https://wa.me/{{ wa_number }}?text={{ wa_msg | url_encode }}"
+    target="_blank"
+    rel="noopener"
+    aria-label="{{ 'miko.whatsapp.order' | t }} — {{ p.title | escape }}"
+    onclick="event.stopPropagation();"
+  >
+    <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+      <path d="M16 3C9.4 3 4 8.4 4 15c0 2.1.6 4.1 1.6 5.9L4 29l8.3-1.6c1.7.9 3.6 1.4 5.7 1.4 6.6 0 12-5.4 12-12S22.6 3 16 3Zm0 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-4.9 1 1-4.8-.2-.4A9.8 9.8 0 1 1 16 24.8Zm5.5-7.3c-.3-.2-1.8-.9-2-1-.3-.1-.5-.2-.7.2s-.8 1-.9 1.1c-.2.2-.3.2-.6.1a8 8 0 0 1-4-3.5c-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5l-1-2.3c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.2 3.4 5.4 4.7 2 .8 2.7.9 3.7.8.6-.1 1.8-.8 2.1-1.5.3-.7.3-1.4.2-1.5-.1-.2-.3-.2-.6-.4Z"/>
+    </svg>
+    <span>{{ 'miko.whatsapp.order' | t }}</span>
+  </a>
+{%- endif -%}

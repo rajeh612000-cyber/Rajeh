@@ -394,6 +394,44 @@ h1, h2, h3, h4, .h0, .h1, .h2, .h3, .h4 {
   color: var(--miko-muted);
 }
 
+/* ---- Card metadata inside the collection grid ---- */
+.card__content .miko-weight { margin-top: 0.4rem; }
+.card__content .miko-chips { margin-top: 0.6rem; margin-bottom: 0.2rem; }
+.card-information .miko-title-ar { margin-top: -0.2rem; margin-bottom: 0.2rem; }
+
+/* Brand-red pricing + struck compare-at (works with Dawn's price snippet) */
+.price .price-item--sale,
+.price__sale .price-item--sale { color: var(--miko-red); font-weight: 700; }
+.price--on-sale .price-item--regular,
+.price .price-item--regular.price-item--last { color: rgb(var(--color-foreground)); }
+.price__sale .price-item--regular,
+s.price-item { color: var(--miko-muted); }
+
+/* Discount badge — brand red, tidy corners (Dawn badge base kept) */
+.card__badge .badge { font-weight: 700; letter-spacing: 0.02em; }
+
+/* Per-card WhatsApp — secondary to Add to cart, WhatsApp-green */
+.miko-card-wa {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  width: 100%;
+  margin-top: 0.8rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(18, 140, 126, 0.55);
+  border-radius: var(--miko-radius-sm);
+  color: var(--miko-whatsapp-dark);
+  background: rgba(37, 211, 102, 0.06);
+  font-weight: 600;
+  font-size: 1.2rem;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  transition: background 0.16s ease, color 0.16s ease;
+}
+.miko-card-wa:hover { background: var(--miko-whatsapp); color: #fff; border-color: var(--miko-whatsapp); }
+.miko-card-wa svg { width: 1.6rem; height: 1.6rem; }
+
 /* ==========================================================================
    9. Section rhythm & surfaces — the calm Gourmet grid
    ========================================================================== */
