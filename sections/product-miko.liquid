@@ -1,0 +1,100 @@
+{%- comment -%} Miko Foods — reliable, self-contained product page {%- endcomment -%}
+{%- assign v = product.selected_or_first_available_variant -%}
+<div class="miko-pdp page-width color-{{ section.settings.color_scheme }}">
+  <div class="miko-pdp__grid">
+    <div class="miko-pdp__media">
+      {%- if product.featured_image != blank -%}
+        <img class="miko-pdp__main" src="{{ product.featured_image | image_url: width: 1200 }}"
+             alt="{{ product.featured_image.alt | escape }}" width="1200" height="1200" loading="eager">
+      {%- endif -%}
+      {%- if product.images.size > 1 -%}
+        <div class="miko-pdp__thumbs">
+          {%- for image in product.images -%}
+            <img src="{{ image | image_url: width: 200 }}" data-full="{{ image | image_url: width: 1200 }}"
+                 alt="{{ image.alt | escape }}" width="72" height="72" loading="lazy"
+                 onclick="this.closest('.miko-pdp__media').querySelector('.miko-pdp__main').src=this.dataset.full">
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="miko-pdp__info">
+      <h1 class="miko-pdp__title">{{ product.title }}</h1>
+
+      <div class="miko-pdp__price">
+        {%- if v.compare_at_price > v.price -%}
+          <span class="miko-pdp__now">{{ v.price | money }}</span>
+          <s class="miko-pdp__was">{{ v.compare_at_price | money }}</s>
+        {%- else -%}
+          {{ v.price | money }}
+        {%- endif -%}
+      </div>
+
+      {%- form 'product', product -%}
+        {%- unless product.has_only_default_variant -%}
+          <label class="miko-pdp__label" for="miko-variant">Choose an option</label>
+        {%- endunless -%}
+        <select name="id" id="miko-variant" class="miko-pdp__select"{% if product.has_only_default_variant %} hidden{% endif %}>
+          {%- for variant in product.variants -%}
+            <option value="{{ variant.id }}"{% unless variant.available %} disabled{% endunless %}>
+              {{ variant.title }}{% unless product.has_only_default_variant %} — {{ variant.price | money }}{% endunless %}{% unless variant.available %} (Sold out){% endunless %}
+            </option>
+          {%- endfor -%}
+        </select>
+
+        <div class="miko-pdp__qty">
+          <label for="miko-qty">Quantity</label>
+          <input type="number" id="miko-qty" name="quantity" value="1" min="1" inputmode="numeric">
+        </div>
+
+        <button type="submit" name="add" class="button miko-pdp__add"{% unless product.available %} disabled{% endunless %}>
+          {%- if product.available -%}Add to cart{%- else -%}Sold out{%- endif -%}
+        </button>
+      {%- endform -%}
+
+      {%- assign wa = settings.miko_whatsapp_number | strip -%}
+      {%- if wa != blank -%}
+        <a class="button miko-pdp__wa" target="_blank" rel="noopener"
+           href="https://wa.me/{{ wa }}?text={{ 'Hi Miko! I would like to order: ' | append: product.title | url_encode }}">
+          Order on WhatsApp
+        </a>
+      {%- endif -%}
+
+      {%- if product.description != blank -%}
+        <div class="miko-pdp__desc rte">{{ product.description }}</div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{%- style -%}
+  .miko-pdp{padding:4rem 0;}
+  .miko-pdp__grid{display:grid;grid-template-columns:1fr;gap:3rem;}
+  @media(min-width:750px){.miko-pdp__grid{grid-template-columns:1.05fr 1fr;gap:4.5rem;align-items:start;}}
+  .miko-pdp__main{width:100%;height:auto;border-radius:10px;object-fit:cover;display:block;}
+  .miko-pdp__thumbs{display:flex;gap:.6rem;margin-top:.9rem;flex-wrap:wrap;}
+  .miko-pdp__thumbs img{width:72px;height:72px;object-fit:cover;border-radius:8px;cursor:pointer;border:1px solid #e6e6e6;}
+  .miko-pdp__title{font-size:2.6rem;line-height:1.2;margin:0 0 1.2rem;}
+  .miko-pdp__price{font-size:2.1rem;font-weight:700;margin-bottom:2rem;}
+  .miko-pdp__now{color:#C61718;}
+  .miko-pdp__was{color:#999;font-weight:400;margin-inline-start:.7rem;}
+  .miko-pdp__label{display:block;font-weight:600;margin-bottom:.5rem;}
+  .miko-pdp__select{width:100%;padding:1.2rem;border:1px solid #ccc;border-radius:8px;margin-bottom:1.6rem;font-size:1.05rem;background:#fff;}
+  .miko-pdp__qty{margin-bottom:1.6rem;}
+  .miko-pdp__qty label{display:block;font-weight:600;margin-bottom:.5rem;}
+  .miko-pdp__qty input{width:100px;padding:1.1rem;border:1px solid #ccc;border-radius:8px;font-size:1.05rem;}
+  .miko-pdp__add{width:100%;margin-bottom:1rem;}
+  .miko-pdp__wa{width:100%;background:#25D366;color:#fff;border:0;margin-bottom:2rem;display:inline-flex;align-items:center;justify-content:center;}
+  .miko-pdp__wa:hover{background:#1eb85a;color:#fff;}
+  .miko-pdp__desc{line-height:1.75;}
+{%- endstyle -%}
+
+{% schema %}
+{
+  "name": "Product",
+  "tag": "section",
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
+  ]
+}
+{% endschema %}
