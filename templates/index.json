@@ -80,8 +80,8 @@
         "t6": {
           "type": "tile",
           "settings": {
-            "collection": "bundles",
-            "link": "/collections/bundles",
+            "collection": "bundles-deals",
+            "link": "/collections/bundles-deals",
             "title": "Bundles & Deals",
             "title_ar": "عروض وباقات",
             "meta": "Miko Mix · Triple Deal"
