@@ -485,6 +485,44 @@
                     block: block,
                     surface: 'product_page'
                   -%}
+                {%- when 'miko_tags' -%}
+                  <div class="miko-product-block" {{ block.shopify_attributes }}>
+                    {% render 'miko-product-tags',
+                      product: product,
+                      show_ar: block.settings.show_ar,
+                      show_weight: block.settings.show_weight
+                    %}
+                  </div>
+                {%- when 'miko_whatsapp' -%}
+                  {%- liquid
+                    assign wa_number = settings.miko_whatsapp_number | strip
+                    assign wa_prefill = 'miko.whatsapp.product_prefill' | t
+                    assign wa_msg = wa_prefill | append: ' ' | append: product.title
+                  -%}
+                  <div
+                    class="miko-pdp-wa-wrap"
+                    data-miko-wa
+                    data-number="{{ wa_number }}"
+                    data-prefill="{{ wa_prefill | escape }}"
+                    data-title="{{ product.title | escape }}"
+                    {{ block.shopify_attributes }}
+                  >
+                    <a
+                      class="miko-pdp-wa button"
+                      href="https://wa.me/{{ wa_number }}?text={{ wa_msg | url_encode }}"
+                      target="_blank"
+                      rel="noopener"
+                    >
+                      <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+                        <path d="M16 3C9.4 3 4 8.4 4 15c0 2.1.6 4.1 1.6 5.9L4 29l8.3-1.6c1.7.9 3.6 1.4 5.7 1.4 6.6 0 12-5.4 12-12S22.6 3 16 3Zm0 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-4.9 1 1-4.8-.2-.4A9.8 9.8 0 1 1 16 24.8Zm5.5-7.3c-.3-.2-1.8-.9-2-1-.3-.1-.5-.2-.7.2s-.8 1-.9 1.1c-.2.2-.3.2-.6.1a8 8 0 0 1-4-3.5c-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5l-1-2.3c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.2 3.4 5.4 4.7 2 .8 2.7.9 3.7.8.6-.1 1.8-.8 2.1-1.5.3-.7.3-1.4.2-1.5-.1-.2-.3-.2-.6-.4Z"/>
+                      </svg>
+                      {{ block.settings.label | default: 'Order on WhatsApp' }}
+                    </a>
+                    {%- if block.settings.note != blank -%}
+                      <p class="miko-pdp-wa-note">{{ block.settings.note }}</p>
+                    {%- endif -%}
+                  </div>
+                  <script src="{{ 'miko-product.js' | asset_url }}" defer="defer"></script>
                 {%- when 'variant_picker' -%}
                   {% render 'product-variant-picker',
                     product: product,
@@ -761,6 +799,48 @@
   "blocks": [
     {
       "type": "@app"
+    },
+    {
+      "type": "miko_tags",
+      "name": "Miko · Tags & weight",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Shows the Arabic name, weight, and prep/quality chips. Data comes from the product's metafields (miko.name_ar, miko.weight_label, miko.prep_methods, miko.quality_tags)."
+        },
+        {
+          "type": "checkbox",
+          "id": "show_ar",
+          "label": "Show Arabic name",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_weight",
+          "label": "Show weight",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "miko_whatsapp",
+      "name": "Miko · WhatsApp order button",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Button label",
+          "default": "Order on WhatsApp"
+        },
+        {
+          "type": "text",
+          "id": "note",
+          "label": "Note under button",
+          "default": "Prefer to order by chat? We reply fast."
+        }
+      ]
     },
     {
       "type": "text",

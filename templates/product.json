@@ -3,15 +3,15 @@
     "main": {
       "type": "main-product",
       "blocks": {
-        "vendor": {
-          "type": "text",
-          "settings": {
-            "text": "{{ product.vendor }}",
-            "text_style": "uppercase"
-          }
-        },
         "title": {
           "type": "title"
+        },
+        "miko_tags": {
+          "type": "miko_tags",
+          "settings": {
+            "show_ar": true,
+            "show_weight": true
+          }
         },
         "price": {
           "type": "price"
@@ -30,7 +30,14 @@
           "type": "buy_buttons",
           "settings": {
             "show_dynamic_checkout": true,
-            "show_gift_card_recipient": true
+            "show_gift_card_recipient": false
+          }
+        },
+        "miko_whatsapp": {
+          "type": "miko_whatsapp",
+          "settings": {
+            "label": "Order on WhatsApp",
+            "note": "Prefer to order by chat? We reply fast."
           }
         },
         "description": {
@@ -44,12 +51,13 @@
         }
       },
       "block_order": [
-        "vendor",
         "title",
+        "miko_tags",
         "price",
         "variant_picker",
         "quantity_selector",
         "buy_buttons",
+        "miko_whatsapp",
         "description",
         "share"
       ],

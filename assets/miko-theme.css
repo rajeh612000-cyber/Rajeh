@@ -432,6 +432,38 @@ s.price-item { color: var(--miko-muted); }
 .miko-card-wa:hover { background: var(--miko-whatsapp); color: #fff; border-color: var(--miko-whatsapp); }
 .miko-card-wa svg { width: 1.6rem; height: 1.6rem; }
 
+/* ---- Product page (PDP) Miko blocks ---- */
+.miko-pdp-meta { display: flex; flex-direction: column; gap: 1rem; margin: 0.4rem 0; }
+.miko-pdp-ar {
+  font-family: var(--font-arabic-family);
+  font-weight: 600;
+  font-size: 2rem;
+  line-height: 1.25;
+  color: var(--miko-muted);
+}
+.miko-pdp-weight { display: inline-flex; align-items: baseline; gap: 0.8rem; font-size: 1.4rem; }
+.miko-pdp-weight__label {
+  letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600;
+  font-size: 1.15rem; color: var(--miko-muted);
+}
+.miko-pdp-weight__value { font-weight: 600; color: rgb(var(--color-foreground)); }
+.miko-chips--lg .miko-chip { font-size: 1.15rem; padding: 0.5rem 1.05rem; }
+
+.miko-pdp-wa-wrap { margin: 0.4rem 0; }
+/* Drive Dawn's button system green so the ::after border/hover match */
+.miko-pdp-wa {
+  --color-button: 37, 211, 102;
+  --color-button-text: 255, 255, 255;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+.miko-pdp-wa:hover { --color-button: 18, 140, 126; }
+.miko-pdp-wa svg { width: 2.2rem; height: 2.2rem; }
+.miko-pdp-wa-note { margin: 0.8rem 0 0; text-align: center; font-size: 1.2rem; color: var(--miko-muted); }
+
 /* ==========================================================================
    9. Section rhythm & surfaces — the calm Gourmet grid
    ========================================================================== */

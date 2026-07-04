@@ -1,0 +1,56 @@
+{% comment %}
+  Miko Foods — product-page tag block.
+  Arabic name, weight and prep/quality chips for the product page.
+  Data from product metafields (namespace "miko"), tag fallback for chips.
+
+  Accepts: product, show_ar (bool), show_weight (bool)
+  Usage: {% render 'miko-product-tags', product: product %}
+{% endcomment %}
+
+{%- liquid
+  assign name_ar = product.metafields.miko.name_ar.value
+  assign weight = product.metafields.miko.weight_label.value
+  assign preps = product.metafields.miko.prep_methods.value
+  assign quals = product.metafields.miko.quality_tags.value
+-%}
+
+<div class="miko-pdp-meta">
+  {%- if show_ar != false and name_ar != blank -%}
+    <div class="miko-pdp-ar" dir="rtl" lang="ar">{{ name_ar }}</div>
+  {%- endif -%}
+
+  {%- if show_weight != false and weight != blank -%}
+    <div class="miko-pdp-weight">
+      <span class="miko-pdp-weight__label">{{ 'miko.product.weight' | t }}</span>
+      <span class="miko-pdp-weight__value">{{ weight }}</span>
+    </div>
+  {%- endif -%}
+
+  {%- if preps != blank or quals != blank or product.tags != blank -%}
+    <div class="miko-chips miko-chips--lg">
+      {%- if preps != blank or quals != blank -%}
+        {%- for c in preps -%}
+          {%- assign lc = c | downcase -%}
+          {%- assign cl = 'miko-chip--prep' -%}
+          {%- if lc contains 'halal' -%}{%- assign cl = 'miko-chip--halal' -%}{%- elsif lc contains 'spicy' or lc contains 'hot' -%}{%- assign cl = 'miko-chip--spicy' -%}{%- endif -%}
+          <span class="miko-chip {{ cl }}">{{ c }}</span>
+        {%- endfor -%}
+        {%- for c in quals -%}
+          {%- assign lc = c | downcase -%}
+          {%- assign cl = 'miko-chip--quality' -%}
+          {%- if lc contains 'halal' -%}{%- assign cl = 'miko-chip--halal' -%}{%- elsif lc contains 'spicy' or lc contains 'hot' -%}{%- assign cl = 'miko-chip--spicy' -%}{%- endif -%}
+          <span class="miko-chip {{ cl }}">{{ c }}</span>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for t in product.tags limit: 6 -%}
+          {%- unless t contains '__' or t contains ':' -%}
+            {%- assign lc = t | downcase -%}
+            {%- assign cl = 'miko-chip--prep' -%}
+            {%- if lc contains 'halal' -%}{%- assign cl = 'miko-chip--halal' -%}{%- elsif lc contains 'spicy' or lc contains 'hot' -%}{%- assign cl = 'miko-chip--spicy' -%}{%- endif -%}
+            <span class="miko-chip {{ cl }}">{{ t }}</span>
+          {%- endunless -%}
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</div>
