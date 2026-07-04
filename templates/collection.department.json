@@ -1,0 +1,51 @@
+{
+  "sections": {
+    "banner": {
+      "type": "main-collection-banner",
+      "settings": {
+        "show_collection_description": true,
+        "show_collection_image": true,
+        "color_scheme": "scheme-3"
+      }
+    },
+    "department-tiles": {
+      "type": "miko-category-tiles",
+      "settings": {
+        "eyebrow": "Shop by category",
+        "heading": "Browse the department",
+        "heading_alignment": "center",
+        "tile_min_width": 22,
+        "color_scheme": "scheme-1"
+      },
+      "blocks": {
+        "t1": { "type": "tile", "settings": { "title": "Beef Steaks", "title_ar": "استيك بقري", "meta": "Premium & value cuts" } },
+        "t2": { "type": "tile", "settings": { "title": "Frozen & Ready-to-Cook", "title_ar": "لحوم مجمدة", "meta": "Burgers · kofta · classics" } },
+        "t3": { "type": "tile", "settings": { "title": "Marinated Chicken", "title_ar": "مصنعات فراخ متبلة", "meta": "Strips · pane · tawook" } },
+        "t4": { "type": "tile", "settings": { "title": "Baladi Lamb", "title_ar": "لحوم بلدي طازجة", "meta": "Fresh, local cuts" } },
+        "t5": { "type": "tile", "settings": { "title": "Premium Lamb", "title_ar": "لحوم ضاني طازجة", "meta": "The finest ضاني" } }
+      },
+      "block_order": ["t1", "t2", "t3", "t4", "t5"]
+    },
+    "product-grid": {
+      "type": "main-collection-product-grid",
+      "settings": {
+        "products_per_page": 24,
+        "columns_desktop": 4,
+        "color_scheme": "scheme-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "standard",
+        "enable_filtering": true,
+        "filter_type": "vertical",
+        "enable_sorting": true,
+        "columns_mobile": "2",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    }
+  },
+  "order": ["banner", "department-tiles", "product-grid"]
+}

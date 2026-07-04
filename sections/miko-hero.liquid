@@ -1,0 +1,101 @@
+{% comment %}
+  Miko Foods — homepage hero.
+  The one deliberately dark, dramatic moment on an otherwise light store.
+  Optional background image (falls back to a rich red/gold/charcoal wash).
+{% endcomment %}
+
+{{ 'miko-sections.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign wa_number = settings.miko_whatsapp_number | strip
+  assign wa_msg = section.settings.whatsapp_prefill | default: 'miko.whatsapp.prefill' | t
+  assign has_image = false
+  if section.settings.background_image != blank
+    assign has_image = true
+  endif
+-%}
+
+<div
+  class="miko-hero color-{{ section.settings.color_scheme }}{% if has_image %} miko-hero--image{% endif %}"
+  style="--miko-hero-min: {{ section.settings.height }}vh; --miko-overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"
+>
+  {%- if has_image -%}
+    <div class="miko-hero__media">
+      {{
+        section.settings.background_image
+        | image_url: width: 3000
+        | image_tag:
+          loading: 'eager',
+          fetchpriority: 'high',
+          sizes: '100vw',
+          widths: '750, 1100, 1500, 1900, 2400, 3000',
+          class: 'miko-hero__img',
+          alt: section.settings.heading | escape
+      }}
+    </div>
+  {%- endif -%}
+
+  <div class="miko-hero__inner page-width miko-hero--{{ section.settings.text_alignment }}">
+    {%- if section.settings.eyebrow != blank -%}
+      <span class="miko-eyebrow miko-eyebrow--gold">{{ section.settings.eyebrow }}</span>
+    {%- endif -%}
+    {%- if section.settings.heading != blank -%}
+      <h1 class="miko-hero__title">{{ section.settings.heading }}</h1>
+    {%- endif -%}
+    {%- if section.settings.heading_ar != blank -%}
+      <p class="miko-hero__title-ar" dir="rtl" lang="ar">{{ section.settings.heading_ar }}</p>
+    {%- endif -%}
+    {%- if section.settings.subheading != blank -%}
+      <p class="miko-hero__sub">{{ section.settings.subheading }}</p>
+    {%- endif -%}
+
+    <div class="miko-hero__actions">
+      {%- if section.settings.button_label != blank -%}
+        <a href="{{ section.settings.button_link | default: routes.all_products_collection_url }}" class="button button--primary miko-hero__btn">
+          {{ section.settings.button_label }}
+        </a>
+      {%- endif -%}
+      {%- if section.settings.show_whatsapp -%}
+        <a
+          href="https://wa.me/{{ wa_number }}?text={{ wa_msg | url_encode }}"
+          target="_blank"
+          rel="noopener"
+          class="button miko-hero__wa"
+        >
+          <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true" width="20" height="20">
+            <path d="M16 3C9.4 3 4 8.4 4 15c0 2.1.6 4.1 1.6 5.9L4 29l8.3-1.6c1.7.9 3.6 1.4 5.7 1.4 6.6 0 12-5.4 12-12S22.6 3 16 3Zm0 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-4.9 1 1-4.8-.2-.4A9.8 9.8 0 1 1 16 24.8Zm5.5-7.3c-.3-.2-1.8-.9-2-1-.3-.1-.5-.2-.7.2s-.8 1-.9 1.1c-.2.2-.3.2-.6.1a8 8 0 0 1-4-3.5c-.3-.5.3-.5.8-1.5.1-.2 0-.4 0-.5l-1-2.3c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.2 3.4 5.4 4.7 2 .8 2.7.9 3.7.8.6-.1 1.8-.8 2.1-1.5.3-.7.3-1.4.2-1.5-.1-.2-.3-.2-.6-.4Z"/>
+          </svg>
+          {{ section.settings.whatsapp_label | default: 'Order on WhatsApp' }}
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Miko · Hero",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Halal · Fresh daily · Same-day delivery" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Egypt's Finest Meat House" },
+    { "type": "text", "id": "heading_ar", "label": "Heading (Arabic)", "default": "أجود بيت لحوم في مصر" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Premium fresh & frozen cuts, prepared daily in New Cairo and delivered across Greater Cairo." },
+    { "type": "image_picker", "id": "background_image", "label": "Background image", "info": "Optional. A dark cut/meat photo works best. Falls back to a branded wash." },
+    { "type": "range", "id": "overlay_opacity", "min": 0, "max": 90, "step": 5, "unit": "%", "label": "Image darkening", "default": 55 },
+    { "type": "range", "id": "height", "min": 45, "max": 90, "step": 5, "unit": "vh", "label": "Height", "default": 72 },
+    {
+      "type": "select", "id": "text_alignment", "label": "Text alignment", "default": "left",
+      "options": [ { "value": "left", "label": "Left" }, { "value": "center", "label": "Center" } ]
+    },
+    { "type": "header", "content": "Buttons" },
+    { "type": "text", "id": "button_label", "label": "Primary button label", "default": "Shop the meat counter" },
+    { "type": "url", "id": "button_link", "label": "Primary button link" },
+    { "type": "checkbox", "id": "show_whatsapp", "label": "Show WhatsApp button", "default": true },
+    { "type": "text", "id": "whatsapp_label", "label": "WhatsApp button label", "default": "Order on WhatsApp" },
+    { "type": "textarea", "id": "whatsapp_prefill", "label": "WhatsApp pre-filled message", "info": "Leave blank for the default." },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Colour scheme", "default": "scheme-3" }
+  ],
+  "presets": [{ "name": "Miko · Hero" }]
+}
+{% endschema %}

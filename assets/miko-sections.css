@@ -1,0 +1,128 @@
+/* ==========================================================================
+   MIKO FOODS — homepage & department sections
+   (hero, category tiles, trust band, brand story)
+   ========================================================================== */
+
+/* ---- Shared section head ---- */
+.miko-section-head { margin-bottom: 3.2rem; }
+.miko-section-head--center { text-align: center; }
+.miko-section-head--center .miko-rule-gold { margin-inline: auto; }
+.miko-section-title {
+  font-family: var(--font-heading-family);
+  font-weight: 600;
+  font-size: clamp(2.8rem, 4vw, 4rem);
+  line-height: 1.05;
+  margin: 0.6rem 0 0;
+}
+.miko-section-title-ar {
+  font-family: var(--font-arabic-family);
+  color: var(--miko-muted);
+  font-size: 1.7rem;
+  font-weight: 600;
+  margin: 0.4rem 0 0;
+}
+
+/* ---- Hero ---- */
+.miko-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: var(--miko-hero-min, 72vh);
+  overflow: hidden;
+  background: var(--miko-charcoal);
+  background-image:
+    radial-gradient(120% 130% at 100% 0%, rgba(198, 23, 24, 0.5), transparent 55%),
+    radial-gradient(120% 120% at 0% 100%, rgba(212, 166, 42, 0.28), transparent 55%);
+}
+.miko-hero__media { position: absolute; inset: 0; z-index: 0; }
+.miko-hero__img { width: 100%; height: 100%; object-fit: cover; }
+.miko-hero--image::after {
+  content: "";
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(180deg, rgba(8, 8, 8, calc(var(--miko-overlay) * 0.7)), rgba(8, 8, 8, var(--miko-overlay)));
+}
+.miko-hero__inner { position: relative; z-index: 2; width: 100%; padding-block: 6rem; max-width: 72rem; }
+.miko-hero--center { margin-inline: auto; text-align: center; max-width: 82rem; }
+.miko-hero--center .miko-hero__actions { justify-content: center; }
+.miko-hero__title {
+  font-family: var(--font-heading-family);
+  font-weight: 700;
+  color: var(--miko-cream);
+  font-size: clamp(4rem, 7vw, 7.4rem);
+  line-height: 0.98;
+  margin: 1.2rem 0 0;
+  text-wrap: balance;
+}
+.miko-hero__title-ar {
+  font-family: var(--font-arabic-family);
+  color: var(--miko-gold-light);
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-weight: 700;
+  margin: 0.8rem 0 0;
+}
+.miko-hero__sub {
+  color: rgba(244, 236, 216, 0.82);
+  font-size: clamp(1.5rem, 2vw, 1.8rem);
+  max-width: 52rem;
+  margin: 1.6rem 0 0;
+}
+.miko-hero--center .miko-hero__sub { margin-inline: auto; }
+.miko-hero__actions { display: flex; flex-wrap: wrap; gap: 1.2rem; margin-top: 2.8rem; }
+.miko-hero__wa { --color-button: 37, 211, 102; --color-button-text: 255, 255, 255; display: inline-flex; align-items: center; gap: 0.9rem; }
+.miko-hero__wa:hover { --color-button: 18, 140, 126; }
+
+/* ---- Category tiles section (grid + tile in miko-theme.css) ---- */
+.miko-tiles-section { padding-block: var(--miko-section-pad, 6rem); }
+.miko-tile__ph {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  background:
+    radial-gradient(120% 120% at 80% 10%, rgba(198, 23, 24, 0.55), transparent 55%),
+    linear-gradient(160deg, #2a0f11, #7a1418);
+}
+.miko-tile__ph span { font-family: var(--font-heading-family); font-size: 8rem; color: rgba(255, 255, 255, 0.14); font-weight: 700; }
+
+/* ---- Trust band ---- */
+.miko-trust { padding-block: 5.6rem; }
+.miko-trust__grid {
+  display: grid;
+  grid-template-columns: repeat(var(--miko-trust-cols, 4), 1fr);
+  gap: 2.4rem 3.2rem;
+}
+.miko-trust__item { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.8rem; }
+.miko-trust__icon {
+  width: 5.6rem; height: 5.6rem;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  border: 1px solid rgba(212, 166, 42, 0.5);
+  color: var(--miko-gold);
+  background: rgba(212, 166, 42, 0.08);
+}
+.miko-trust__icon svg { width: 2.8rem; height: 2.8rem; }
+.miko-trust__title { font-family: var(--font-heading-family); font-weight: 600; font-size: 2.1rem; margin: 0; }
+.miko-trust__text { color: rgba(var(--color-foreground), 0.72); font-size: 1.4rem; margin: 0; max-width: 26ch; }
+
+/* ---- Brand story ---- */
+.miko-story { padding-block: 6.4rem; }
+.miko-story__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4.8rem; align-items: center; }
+.miko-story--media-right .miko-story__media { order: 2; }
+.miko-story__img, .miko-story__ph { width: 100%; border-radius: var(--miko-radius); aspect-ratio: 4 / 3; object-fit: cover; }
+.miko-story__ph {
+  display: flex; align-items: center; justify-content: center;
+  background: radial-gradient(120% 120% at 20% 10%, rgba(212, 166, 42, 0.35), transparent 55%), linear-gradient(160deg, #1a0a0b, #7a1418);
+}
+.miko-story__ph span { font-family: var(--font-heading-family); font-weight: 700; letter-spacing: 0.3em; font-size: 4rem; color: rgba(244, 236, 216, 0.5); }
+.miko-story__title { font-family: var(--font-heading-family); font-weight: 600; font-size: clamp(2.8rem, 4vw, 4.2rem); line-height: 1.04; margin: 0.6rem 0 0; }
+.miko-story__body { margin-top: 1.6rem; font-size: 1.55rem; color: rgba(var(--color-foreground), 0.82); line-height: 1.75; }
+.miko-story__btn { margin-top: 2rem; }
+
+@media screen and (max-width: 989px) {
+  .miko-trust__grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media screen and (max-width: 749px) {
+  .miko-story__grid { grid-template-columns: 1fr; gap: 2.8rem; }
+  .miko-story--media-right .miko-story__media { order: 0; }
+  .miko-hero__inner { padding-block: 4.4rem; }
+}
+
+[dir="rtl"] .miko-hero__inner:not(.miko-hero--center) { text-align: right; }
