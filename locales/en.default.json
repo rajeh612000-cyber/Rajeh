@@ -10,7 +10,10 @@
       "order": "Order on WhatsApp",
       "float": "Chat",
       "prefill": "Hello Miko Foods, I'd like to order:",
-      "product_prefill": "Hello Miko Foods, I'd like to order:"
+      "product_prefill": "Hello Miko Foods, I'd like to order:",
+      "send_cart": "Send this order on WhatsApp",
+      "cart_prefill": "Hello Miko Foods, I'd like to order:",
+      "cart_total": "Total"
     },
     "breadcrumb": {
       "aria": "Breadcrumb",

@@ -10,7 +10,10 @@
       "order": "اطلب عبر واتساب",
       "float": "تواصل معنا",
       "prefill": "مرحباً ميكو فودز، أود طلب:",
-      "product_prefill": "مرحباً ميكو فودز، أود طلب:"
+      "product_prefill": "مرحباً ميكو فودز، أود طلب:",
+      "send_cart": "أرسل الطلب عبر واتساب",
+      "cart_prefill": "مرحباً ميكو فودز، أود طلب:",
+      "cart_total": "الإجمالي"
     },
     "breadcrumb": {
       "aria": "مسار التنقل",
@@ -37,12 +40,40 @@
     "product": {
       "add_to_cart": "أضف إلى السلة",
       "sold_out": "نفذ من المخزون",
-      "unavailable": "غير متوفر"
+      "unavailable": "غير متوفر",
+      "choose_options": "اختر الخيارات",
+      "view_full_details": "عرض التفاصيل",
+      "quantity": {
+        "label": "الكمية"
+      }
+    },
+    "facets": {
+      "sort_by_label": "ترتيب حسب:",
+      "filter_by_label": "تصفية:",
+      "clear": "مسح",
+      "clear_all": "إزالة الكل"
     }
   },
   "sections": {
     "cart": {
-      "title": "سلة التسوق"
+      "title": "سلة التسوق",
+      "empty": "سلة التسوق فارغة",
+      "checkout": "إتمام الشراء",
+      "headings": {
+        "product": "المنتج",
+        "total": "الإجمالي"
+      }
+    },
+    "header": {
+      "menu": "القائمة"
+    }
+  },
+  "templates": {
+    "404": {
+      "title": "الصفحة غير موجودة"
+    },
+    "search": {
+      "no_results": "لا توجد نتائج لـ \"{{ terms }}\". تحقق من الإملاء أو استخدم كلمة أخرى."
     }
   }
 }

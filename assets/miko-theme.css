@@ -535,13 +535,63 @@ s.price-item { color: var(--miko-muted); }
 [dir="rtl"] .miko-price { direction: ltr; } /* keep EGP 000 numerals LTR */
 
 /* ==========================================================================
-   12. Focus visibility (accessibility floor)
+   12. Cart WhatsApp + 404 + search polish
+   ========================================================================== */
+
+.miko-cart-wa {
+  --color-button: 37, 211, 102;
+  --color-button-text: 255, 255, 255;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+  width: 100%;
+  margin-top: 1rem;
+}
+.miko-cart-wa:hover { --color-button: 18, 140, 126; }
+
+/* 404 helper links */
+.miko-404-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2.4rem;
+}
+.miko-404-links a {
+  border: 1px solid var(--miko-line-strong);
+  border-radius: 999px;
+  padding: 0.9rem 1.8rem;
+  font-weight: 600;
+  font-size: 1.3rem;
+  text-decoration: none;
+  color: rgb(var(--color-foreground));
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.miko-404-links a:hover { border-color: var(--miko-red); color: var(--miko-red); }
+
+/* Predictive search: brand-red price, tidy */
+.predictive-search .price { color: var(--miko-red); font-weight: 700; }
+
+/* ==========================================================================
+   13. Focus visibility (accessibility floor)
    ========================================================================== */
 
 .miko-wa-float:focus-visible,
 .miko-utility a:focus-visible,
-.miko-breadcrumb a:focus-visible {
+.miko-breadcrumb a:focus-visible,
+.miko-card-wa:focus-visible,
+.miko-tile:focus-visible {
   outline: 2px solid var(--miko-gold);
   outline-offset: 3px;
   border-radius: 2px;
+}
+
+/* Respect reduced motion across Miko components */
+@media (prefers-reduced-motion: reduce) {
+  .card, .card:hover,
+  .header__inline-menu .header__menu-item::after {
+    transition: none !important;
+    transform: none !important;
+  }
 }

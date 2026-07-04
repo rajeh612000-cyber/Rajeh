@@ -20,4 +20,21 @@
   <a href="{{ routes.all_products_collection_url }}" class="button">
     {{ 'general.continue_shopping' | t }}
   </a>
+
+  {%- if linklists.main-menu.links != blank -%}
+    <div class="miko-404-links">
+      {%- for link in linklists.main-menu.links limit: 6 -%}
+        <a href="{{ link.url }}">{{ link.title }}</a>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  {%- if settings.miko_whatsapp_number != blank -%}
+    <p style="margin-top:2.4rem;color:var(--miko-muted);">
+      {{ 'miko.utility.call' | t }}:
+      <a href="https://wa.me/{{ settings.miko_whatsapp_number | strip }}" target="_blank" rel="noopener" style="color:var(--miko-red);font-weight:600;">
+        {{ settings.miko_phone_display | default: settings.miko_whatsapp_number }}
+      </a>
+    </p>
+  {%- endif -%}
 </div>
