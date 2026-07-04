@@ -474,7 +474,7 @@ s.price-item { color: var(--miko-muted); }
 /* Category tiles (homepage / department) */
 .miko-tiles {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(var(--miko-tile-min, 24rem), 1fr));
   gap: 1.6rem;
 }
 .miko-tile {

@@ -30,6 +30,8 @@
         "t1": {
           "type": "tile",
           "settings": {
+            "collection": "beef-steaks",
+            "link": "/collections/beef-steaks",
             "title": "Beef Steaks",
             "title_ar": "استيك بقري",
             "meta": "Premium & value cuts"
@@ -38,6 +40,8 @@
         "t2": {
           "type": "tile",
           "settings": {
+            "collection": "frozen-ready-to-cook",
+            "link": "/collections/frozen-ready-to-cook",
             "title": "Frozen & Ready-to-Cook",
             "title_ar": "لحوم مجمدة",
             "meta": "Burgers · kofta · classics"
@@ -46,6 +50,8 @@
         "t3": {
           "type": "tile",
           "settings": {
+            "collection": "marinated-chicken",
+            "link": "/collections/marinated-chicken",
             "title": "Marinated Chicken",
             "title_ar": "مصنعات فراخ متبلة",
             "meta": "Strips · pane · tawook"
@@ -54,6 +60,8 @@
         "t4": {
           "type": "tile",
           "settings": {
+            "collection": "baladi-lamb",
+            "link": "/collections/baladi-lamb",
             "title": "Baladi Lamb",
             "title_ar": "لحوم بلدي طازجة",
             "meta": "Fresh, local cuts"
@@ -62,6 +70,8 @@
         "t5": {
           "type": "tile",
           "settings": {
+            "collection": "premium-lamb",
+            "link": "/collections/premium-lamb",
             "title": "Premium Lamb",
             "title_ar": "لحوم ضاني طازجة",
             "meta": "The finest ضاني"
@@ -70,6 +80,8 @@
         "t6": {
           "type": "tile",
           "settings": {
+            "collection": "bundles",
+            "link": "/collections/bundles",
             "title": "Bundles & Deals",
             "title_ar": "عروض وباقات",
             "meta": "Miko Mix · Triple Deal"
