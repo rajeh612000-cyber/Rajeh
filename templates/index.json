@@ -8,7 +8,7 @@
         "heading_ar": "أجود بيت لحوم في مصر",
         "subheading": "Premium fresh & frozen cuts, prepared daily in New Cairo and delivered across Greater Cairo.",
         "overlay_opacity": 55,
-        "height": 72,
+        "height": 70,
         "text_alignment": "left",
         "button_label": "Shop the meat counter",
         "show_whatsapp": true,
@@ -27,14 +27,63 @@
         "color_scheme": "scheme-1"
       },
       "blocks": {
-        "t1": { "type": "tile", "settings": { "title": "Beef Steaks", "title_ar": "استيك بقري", "meta": "Premium & value cuts" } },
-        "t2": { "type": "tile", "settings": { "title": "Frozen & Ready-to-Cook", "title_ar": "لحوم مجمدة", "meta": "Burgers · kofta · classics" } },
-        "t3": { "type": "tile", "settings": { "title": "Marinated Chicken", "title_ar": "مصنعات فراخ متبلة", "meta": "Strips · pane · tawook" } },
-        "t4": { "type": "tile", "settings": { "title": "Baladi Lamb", "title_ar": "لحوم بلدي طازجة", "meta": "Fresh, local cuts" } },
-        "t5": { "type": "tile", "settings": { "title": "Premium Lamb", "title_ar": "لحوم ضاني طازجة", "meta": "The finest ضاني" } },
-        "t6": { "type": "tile", "settings": { "title": "Bundles & Deals", "title_ar": "عروض وباقات", "meta": "Miko Mix · Triple Deal" } }
+        "t1": {
+          "type": "tile",
+          "settings": {
+            "title": "Beef Steaks",
+            "title_ar": "استيك بقري",
+            "meta": "Premium & value cuts"
+          }
+        },
+        "t2": {
+          "type": "tile",
+          "settings": {
+            "title": "Frozen & Ready-to-Cook",
+            "title_ar": "لحوم مجمدة",
+            "meta": "Burgers · kofta · classics"
+          }
+        },
+        "t3": {
+          "type": "tile",
+          "settings": {
+            "title": "Marinated Chicken",
+            "title_ar": "مصنعات فراخ متبلة",
+            "meta": "Strips · pane · tawook"
+          }
+        },
+        "t4": {
+          "type": "tile",
+          "settings": {
+            "title": "Baladi Lamb",
+            "title_ar": "لحوم بلدي طازجة",
+            "meta": "Fresh, local cuts"
+          }
+        },
+        "t5": {
+          "type": "tile",
+          "settings": {
+            "title": "Premium Lamb",
+            "title_ar": "لحوم ضاني طازجة",
+            "meta": "The finest ضاني"
+          }
+        },
+        "t6": {
+          "type": "tile",
+          "settings": {
+            "title": "Bundles & Deals",
+            "title_ar": "عروض وباقات",
+            "meta": "Miko Mix · Triple Deal"
+          }
+        }
       },
-      "block_order": ["t1", "t2", "t3", "t4", "t5", "t6"]
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4",
+        "t5",
+        "t6"
+      ]
     },
     "bestsellers": {
       "type": "featured-collection",
@@ -65,14 +114,50 @@
     },
     "trust": {
       "type": "miko-trust",
-      "settings": { "heading": "Why Miko", "color_scheme": "scheme-2" },
-      "blocks": {
-        "b1": { "type": "promise", "settings": { "icon": "halal", "title": "100% Halal", "text": "Certified halal, cut the right way." } },
-        "b2": { "type": "promise", "settings": { "icon": "fresh", "title": "Fresh daily", "text": "Prepared the morning of delivery." } },
-        "b3": { "type": "promise", "settings": { "icon": "delivery", "title": "Same-day delivery", "text": "Across Greater Cairo, to your door." } },
-        "b4": { "type": "promise", "settings": { "icon": "b2b", "title": "For business too", "text": "Restaurants, hotels & caterers." } }
+      "settings": {
+        "heading": "Why Miko",
+        "color_scheme": "scheme-2"
       },
-      "block_order": ["b1", "b2", "b3", "b4"]
+      "blocks": {
+        "b1": {
+          "type": "promise",
+          "settings": {
+            "icon": "halal",
+            "title": "100% Halal",
+            "text": "Certified halal, cut the right way."
+          }
+        },
+        "b2": {
+          "type": "promise",
+          "settings": {
+            "icon": "fresh",
+            "title": "Fresh daily",
+            "text": "Prepared the morning of delivery."
+          }
+        },
+        "b3": {
+          "type": "promise",
+          "settings": {
+            "icon": "delivery",
+            "title": "Same-day delivery",
+            "text": "Across Greater Cairo, to your door."
+          }
+        },
+        "b4": {
+          "type": "promise",
+          "settings": {
+            "icon": "b2b",
+            "title": "For business too",
+            "text": "Restaurants, hotels & caterers."
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3",
+        "b4"
+      ]
     },
     "story": {
       "type": "miko-story",
@@ -96,5 +181,12 @@
       }
     }
   },
-  "order": ["hero", "tiles", "bestsellers", "trust", "story", "whatsapp"]
+  "order": [
+    "hero",
+    "tiles",
+    "bestsellers",
+    "trust",
+    "story",
+    "whatsapp"
+  ]
 }
