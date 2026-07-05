@@ -23,41 +23,161 @@
         "heading": "The Miko counter",
         "heading_ar": "تسوق حسب القسم",
         "heading_alignment": "center",
-        "tile_min_width": 24,
+        "tile_min_width": 22,
         "color_scheme": "scheme-1"
       },
       "blocks": {
         "t1": {
           "type": "tile",
           "settings": {
-            "collection": "beef-steaks",
-            "link": "/collections/beef-steaks",
-            "title": "Beef Steaks",
-            "title_ar": "استيك بقري",
-            "meta": "Premium & value cuts"
+            "collection": "premium-cuts",
+            "link": "/collections/premium-cuts",
+            "title": "Premium Cuts",
+            "title_ar": "قطع فاخرة",
+            "meta": "Rib eye · T-bone · Tomahawk"
           }
         },
         "t2": {
           "type": "tile",
           "settings": {
-            "collection": "frozen-ready-to-cook",
-            "link": "/collections/frozen-ready-to-cook",
-            "title": "Frozen & Ready-to-Cook",
-            "title_ar": "لحوم مجمدة",
-            "meta": "Burgers · kofta · classics"
+            "collection": "value-cuts",
+            "link": "/collections/value-cuts",
+            "title": "Value Cuts",
+            "title_ar": "قطع اقتصادية",
+            "meta": "Ribs · Sirloin cap · Bolognese"
           }
         },
         "t3": {
           "type": "tile",
           "settings": {
-            "collection": "marinated-chicken",
-            "link": "/collections/marinated-chicken",
-            "title": "Marinated Chicken",
-            "title_ar": "مصنعات فراخ متبلة",
-            "meta": "Strips · pane · tawook"
+            "collection": "veal",
+            "link": "/collections/veal",
+            "title": "Veal",
+            "title_ar": "بتلو",
+            "meta": "Escalope · Kabab halla"
           }
         },
         "t4": {
+          "type": "tile",
+          "settings": {
+            "collection": "burgers",
+            "link": "/collections/burgers",
+            "title": "Burgers",
+            "title_ar": "برجر",
+            "meta": "Classic · Cheddar · Smash"
+          }
+        },
+        "t5": {
+          "type": "tile",
+          "settings": {
+            "collection": "kofta-sausage",
+            "link": "/collections/kofta-sausage",
+            "title": "Kofta & Sausage",
+            "title_ar": "كفتة وسجق",
+            "meta": "Beef kofta · Sausage · Kabab halla"
+          }
+        },
+        "t6": {
+          "type": "tile",
+          "settings": {
+            "collection": "egyptian-classics",
+            "link": "/collections/egyptian-classics",
+            "title": "Egyptian Classics",
+            "title_ar": "أكلات مصرية",
+            "meta": "Hawawshi · Shawarma · Rice kofta"
+          }
+        },
+        "t7": {
+          "type": "tile",
+          "settings": {
+            "collection": "liver-offal",
+            "link": "/collections/liver-offal",
+            "title": "Liver & Offal",
+            "title_ar": "كبدة وسواقط",
+            "meta": "Marinated · Sliced"
+          }
+        },
+        "t8": {
+          "type": "tile",
+          "settings": {
+            "collection": "minced",
+            "link": "/collections/minced",
+            "title": "Minced",
+            "title_ar": "لحم مفروم",
+            "meta": "350g · 850g packs"
+          }
+        },
+        "t9": {
+          "type": "tile",
+          "settings": {
+            "collection": "pigeon",
+            "link": "/collections/pigeon",
+            "title": "Pigeon",
+            "title_ar": "حمام",
+            "meta": "With rice · Freekeh · Grilled"
+          }
+        },
+        "t10": {
+          "type": "tile",
+          "settings": {
+            "collection": "bundles-deals",
+            "link": "/collections/bundles-deals",
+            "title": "Bundles & Deals",
+            "title_ar": "عروض وباقات",
+            "meta": "Miko Mix · Triple Deal"
+          }
+        },
+        "t11": {
+          "type": "tile",
+          "settings": {
+            "collection": "sides",
+            "link": "/collections/sides",
+            "title": "Sides",
+            "title_ar": "أطباق جانبية",
+            "meta": "Pomme frites & more"
+          }
+        },
+        "t12": {
+          "type": "tile",
+          "settings": {
+            "collection": "appetizers",
+            "link": "/collections/appetizers",
+            "title": "Appetizers",
+            "title_ar": "مقبلات",
+            "meta": "Samosa · Kibbeh"
+          }
+        },
+        "t13": {
+          "type": "tile",
+          "settings": {
+            "collection": "strips",
+            "link": "/collections/strips",
+            "title": "Strips",
+            "title_ar": "شرائح فراخ",
+            "meta": "Regular · Spicy"
+          }
+        },
+        "t14": {
+          "type": "tile",
+          "settings": {
+            "collection": "breaded",
+            "link": "/collections/breaded",
+            "title": "Breaded",
+            "title_ar": "بانيه",
+            "meta": "Pane · Cordon bleu · Kiev"
+          }
+        },
+        "t15": {
+          "type": "tile",
+          "settings": {
+            "collection": "grill",
+            "link": "/collections/grill",
+            "title": "Grill",
+            "title_ar": "مشويات",
+            "meta": "Shish tawook"
+          }
+        },
+        "t16": {
           "type": "tile",
           "settings": {
             "collection": "baladi-lamb",
@@ -67,7 +187,7 @@
             "meta": "Fresh, local cuts"
           }
         },
-        "t5": {
+        "t17": {
           "type": "tile",
           "settings": {
             "collection": "premium-lamb",
@@ -76,25 +196,11 @@
             "title_ar": "لحوم ضاني طازجة",
             "meta": "The finest ضاني"
           }
-        },
-        "t6": {
-          "type": "tile",
-          "settings": {
-            "collection": "bundles-deals",
-            "link": "/collections/bundles-deals",
-            "title": "Bundles & Deals",
-            "title_ar": "عروض وباقات",
-            "meta": "Miko Mix · Triple Deal"
-          }
         }
       },
       "block_order": [
-        "t1",
-        "t2",
-        "t3",
-        "t4",
-        "t5",
-        "t6"
+        "t1", "t2", "t3", "t4", "t5", "t6", "t7", "t8", "t9", "t10",
+        "t11", "t12", "t13", "t14", "t15", "t16", "t17"
       ]
     },
     "bestsellers": {
