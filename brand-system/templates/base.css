@@ -1,0 +1,96 @@
+/* ============================================================================
+   Smart Value(TM) — template base system
+   Palette, Sora type, signature divider, logo lockup, single amber CTA.
+   Every post template is built on these primitives.
+   ========================================================================== */
+
+@font-face { font-family:'Sora'; font-weight:300; src:url('../assets/fonts/Sora-300.ttf') format('truetype'); }
+@font-face { font-family:'Sora'; font-weight:400; src:url('../assets/fonts/Sora-400.ttf') format('truetype'); }
+@font-face { font-family:'Sora'; font-weight:500; src:url('../assets/fonts/Sora-500.ttf') format('truetype'); }
+@font-face { font-family:'Sora'; font-weight:600; src:url('../assets/fonts/Sora-600.ttf') format('truetype'); }
+@font-face { font-family:'Sora'; font-weight:700; src:url('../assets/fonts/Sora-700.ttf') format('truetype'); }
+@font-face { font-family:'Sora'; font-weight:800; src:url('../assets/fonts/Sora-800.ttf') format('truetype'); }
+
+:root{
+  /* brand palette */
+  --navy:#1A1A4E;
+  --deep-navy:#0E337B;
+  --purple:#7751FF;
+  --purple-lt:#8E7BF2;      /* periwinkle emphasis on dark bg */
+  --amber:#F19526;
+  --ice:#E8F3FE;
+  --white:#FFFFFF;
+  --green:#61CE70;
+  --muted:#9AA6C7;          /* muted caption on navy */
+
+  --font:'Sora',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%}
+body{font-family:var(--font);-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
+
+/* ---- canvas & background -------------------------------------------------- */
+.canvas{
+  position:relative; overflow:hidden; color:var(--white);
+  background:
+    radial-gradient(120% 85% at 28% -5%, #26265F 0%, rgba(38,38,95,0) 55%),
+    radial-gradient(90% 90% at 108% 115%, #3A2A78 0%, rgba(58,42,120,0) 45%),
+    linear-gradient(160deg, #1C1C52 0%, #17173F 48%, #101030 100%);
+}
+/* faint node-grid texture in a corner (isometric brand nod) */
+.canvas::before{
+  content:""; position:absolute; inset:0; pointer-events:none; opacity:.5;
+  background:
+    radial-gradient(circle at 82% 20%, rgba(119,81,255,.16) 0, rgba(119,81,255,0) 22%),
+    radial-gradient(circle at 12% 88%, rgba(59,130,246,.12) 0, rgba(59,130,246,0) 24%);
+}
+
+/* ---- logo lockup ---------------------------------------------------------- */
+.lockup{display:flex; align-items:center; gap:var(--lg-gap,26px)}
+.lockup .sym{width:var(--sym,120px); height:auto; flex:none;
+  filter:drop-shadow(0 6px 18px rgba(0,0,0,.28))}
+.lockup .word{display:flex; flex-direction:column; line-height:1}
+.lockup .word .name{
+  font-weight:800; font-size:var(--word,48px); letter-spacing:.005em;
+  line-height:.92; color:var(--white);
+}
+.lockup .word .name sup{font-size:.42em; font-weight:700; top:-.9em; margin-left:.04em}
+.lockup .word .desc{
+  font-weight:500; font-size:var(--desc,15px); letter-spacing:.42em;
+  color:var(--white); opacity:.92; margin-top:.62em; padding-left:.14em;
+}
+
+/* ---- signature divider ---------------------------------------------------- */
+.divider-v{width:2px; align-self:stretch; border-radius:2px;
+  background:linear-gradient(180deg,#4B8DF8 0%,#6A63E6 42%,#8E5CC8 68%,#F19526 100%);
+  box-shadow:0 0 14px rgba(123,110,240,.45)}
+.divider-h{height:2px; width:100%; border-radius:2px;
+  background:linear-gradient(90deg,#4B8DF8 0%,#7751FF 46%,#B36BB0 72%,#F19526 100%);
+  box-shadow:0 0 14px rgba(123,110,240,.4)}
+
+/* ---- type primitives ------------------------------------------------------ */
+.kicker{font-weight:700; color:var(--amber); letter-spacing:.005em;
+  font-size:var(--kick,27px); margin-bottom:.5em}
+.headline{font-weight:800; color:var(--white); line-height:1.02;
+  font-size:var(--head,56px); letter-spacing:-.005em}
+.headline .accent{color:var(--purple-lt)}
+.sub{color:var(--muted); font-weight:400; line-height:1.4; font-size:var(--sub,25px)}
+.eyebrow{font-weight:600; letter-spacing:.34em; color:var(--purple-lt);
+  font-size:var(--eye,20px); text-transform:uppercase}
+
+/* ---- the single amber CTA ------------------------------------------------- */
+.cta{display:inline-flex; align-items:center; justify-content:center;
+  background:var(--amber); color:var(--navy); font-weight:700;
+  font-size:var(--cta,26px); padding:.62em 1.5em; border-radius:999px;
+  box-shadow:0 10px 26px rgba(241,149,38,.32)}
+.pill{display:inline-flex; align-items:center; background:var(--amber); color:var(--navy);
+  font-weight:700; letter-spacing:.06em; font-size:var(--pill,20px);
+  padding:.5em 1.2em; border-radius:999px; text-transform:uppercase}
+
+/* ---- layout scaffolds ----------------------------------------------------- */
+.split{display:grid; height:100%; align-items:center}
+.left-zone{display:flex; align-items:center; justify-content:center; height:100%}
+.right-zone{display:flex; flex-direction:column; justify-content:center; height:100%}
+.stack{display:flex; flex-direction:column}
+.tm{font-size:.5em; font-weight:700; vertical-align:super}

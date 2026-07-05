@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 306 234" fill="none" role="img" aria-label="Smart Value symbol">
+<defs>
+      <linearGradient id="iceTop" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#EAF3FE"/><stop offset="1" stop-color="#CFE4FC"/>
+      </linearGradient>
+      <linearGradient id="peri" x1="0" y1="0" x2="0.6" y2="1">
+        <stop offset="0" stop-color="#9AA2F6"/><stop offset="1" stop-color="#7C7FEB"/>
+      </linearGradient>
+      <radialGradient id="node" cx="0.35" cy="0.30" r="0.85">
+        <stop offset="0" stop-color="#5E9BF9"/><stop offset="0.55" stop-color="#2F7BF5"/>
+        <stop offset="1" stop-color="#2464E8"/>
+      </radialGradient>
+      <linearGradient id="edge" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#3B82F6"/><stop offset="1" stop-color="#7C86F0"/>
+      </linearGradient>
+    </defs>
+<polygon points="13.0,110.0 107.0,56.0 95.0,8.0" fill="#594E9C"/>
+<polygon points="13.0,110.0 108.0,173.0 95.0,220.0" fill="#443A7C"/>
+<line x1="95" y1="8" x2="13" y2="110" stroke="#6E62B4" stroke-width="1.2" stroke-opacity="0.7"/>
+<line x1="95" y1="220" x2="13" y2="110" stroke="#5A4EA0" stroke-width="1.2" stroke-opacity="0.7"/>
+<polygon points="107.0,114.0 201.0,60.0 296.0,123.0 202.0,177.0" fill="none" stroke="#BFE0FF" stroke-width="1.3" stroke-opacity="0.45"/>
+<polygon points="202.0,119.0 296.0,65.0 296.0,123.0 202.0,177.0" fill="#C6DFFB" fill-opacity="0.30" stroke="url(#edge)" stroke-width="2"/>
+<polygon points="107.0,56.0 202.0,119.0 202.0,177.0 107.0,114.0" fill="#DCEBFB" fill-opacity="0.42" stroke="url(#edge)" stroke-width="2"/>
+<polygon points="107.0,56.0 201.0,2.0 296.0,65.0 202.0,119.0" fill="url(#iceTop)" fill-opacity="0.9" stroke="url(#edge)" stroke-width="2"/>
+<line x1="201.0" y1="2.0" x2="201.0" y2="60.0" stroke="#7FB0F2" stroke-width="1.3" stroke-opacity="0.55"/>
+<polygon points="13.0,110.0 107.0,56.0 202.0,119.0 108.0,173.0" fill="url(#peri)" fill-opacity="0.5" stroke="#8E93F0" stroke-width="1.5" stroke-opacity="0.6"/>
+<line x1="13" y1="110" x2="202" y2="119" stroke="#8CA0F2" stroke-width="2.2" stroke-dasharray="2 7" stroke-linecap="round"/>
+<line x1="107" y1="56" x2="108" y2="173" stroke="#6C63D8" stroke-width="2.6"/>
+<circle cx="55" cy="49" r="5.5" fill="#2F7BF5"/>
+<circle cx="70" cy="99" r="4" fill="#7751FF" fill-opacity="0.9"/>
+<circle cx="152" cy="150" r="4.5" fill="#1A1A4E"/>
+<circle cx="107" cy="56" r="11" fill="url(#node)"/>
+<circle cx="13" cy="110" r="11" fill="url(#node)"/>
+<circle cx="202" cy="119" r="11.5" fill="url(#node)"/>
+<circle cx="108" cy="173" r="6" fill="#1A1A4E"/>
+<circle cx="107.5" cy="114.5" r="15" fill="url(#node)"/>
+<circle cx="107.5" cy="114.5" r="9.5" fill="#FFFFFF"/>
+<rect x="103.0" y="113.1" width="9" height="2.8" rx="1.4" fill="#2F7BF5"/>
+</svg>

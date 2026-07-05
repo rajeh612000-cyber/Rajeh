@@ -1,0 +1,42 @@
+/* ============================================================================
+   Smart Value(TM) — Design Tokens
+   The single source of truth for colour, type and spacing across every asset.
+   Import this anywhere: <link rel="stylesheet" href="tokens.css">
+   ========================================================================== */
+:root{
+  /* ---- Brand palette ------------------------------------------------------
+     Balance target (see guidelines): Navy ~60% · Ice/White ~25% ·
+     Purple ~12% · Amber ~3% (CTA/action only). Green is rare — growth only. */
+  --sv-navy:        #1A1A4E;   /* dominant · backgrounds            */
+  --sv-deep-navy:   #0E337B;   /* gradient depth                    */
+  --sv-purple:      #7751FF;   /* accent · highlights · links       */
+  --sv-purple-lt:   #8E7BF2;   /* emphasis on dark backgrounds      */
+  --sv-amber:       #F19526;   /* CTA / single action ONLY          */
+  --sv-ice:         #E8F3FE;   /* light fields · breathing room     */
+  --sv-white:       #FFFFFF;
+  --sv-green:       #61CE70;   /* growth only · use rarely          */
+  --sv-muted:       #9AA6C7;   /* captions / sources on navy        */
+
+  /* ---- Signature gradients ------------------------------------------------ */
+  --sv-divider-v: linear-gradient(180deg,#4B8DF8 0%,#6A63E6 42%,#8E5CC8 68%,#F19526 100%);
+  --sv-divider-h: linear-gradient(90deg,#4B8DF8 0%,#7751FF 46%,#B36BB0 72%,#F19526 100%);
+  --sv-bg: radial-gradient(120% 85% at 28% -5%, #26265F 0%, rgba(38,38,95,0) 55%),
+           radial-gradient(90% 90% at 108% 115%, #3A2A78 0%, rgba(58,42,120,0) 45%),
+           linear-gradient(160deg, #1C1C52 0%, #17173F 48%, #101030 100%);
+
+  /* ---- Typography — Sora, one family, every weight ------------------------ */
+  --sv-font: 'Sora', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --sv-w-light:300; --sv-w-regular:400; --sv-w-medium:500;
+  --sv-w-semibold:600; --sv-w-bold:700; --sv-w-extrabold:800;
+
+  /* type scale (see guidelines) */
+  --sv-display: 800 40px/1.05 var(--sv-font);
+  --sv-title:   800 32px/1.1  var(--sv-font);
+  --sv-subhead: 600 20px/1.3  var(--sv-font);
+  --sv-body:    400 16px/1.5  var(--sv-font);
+  --sv-caption: 500 12px/1.4  var(--sv-font);
+
+  /* ---- Shape ----------------------------------------------------------------*/
+  --sv-radius-pill: 999px;
+  --sv-cta-shadow: 0 10px 26px rgba(241,149,38,.32);
+}

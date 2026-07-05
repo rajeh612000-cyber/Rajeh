@@ -1,0 +1,17 @@
+{
+  "name": "smart-value-brand-system",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Smart Value(TM) brand design system - logo assets, tokens, and pixel-perfect social/blog image templates.",
+  "scripts": {
+    "build": "node scripts/build_templates.mjs",
+    "render": "node scripts/render.mjs",
+    "logos": "python3 scripts/build_symbol.py assets/logo/symbol.svg && node scripts/export_logos.mjs",
+    "symbol": "python3 scripts/build_symbol.py assets/logo/symbol.svg",
+    "all": "npm run build && npm run render"
+  },
+  "dependencies": {
+    "playwright-core": "1.49"
+  }
+}
