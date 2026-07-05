@@ -1,0 +1,79 @@
+/* ============================================================================
+   Smart Value(TM) — Presentation deck framework (16:9, 1280×720)
+   Built on the brand design system. Consistent fixed logo placement,
+   navy ground, Sora type, the signature divider. Rendered to PNG @2x.
+   ========================================================================== */
+
+@font-face{font-family:'Sora';font-weight:300;src:url('../assets/fonts/Sora-300.ttf') format('truetype')}
+@font-face{font-family:'Sora';font-weight:400;src:url('../assets/fonts/Sora-400.ttf') format('truetype')}
+@font-face{font-family:'Sora';font-weight:500;src:url('../assets/fonts/Sora-500.ttf') format('truetype')}
+@font-face{font-family:'Sora';font-weight:600;src:url('../assets/fonts/Sora-600.ttf') format('truetype')}
+@font-face{font-family:'Sora';font-weight:700;src:url('../assets/fonts/Sora-700.ttf') format('truetype')}
+@font-face{font-family:'Sora';font-weight:800;src:url('../assets/fonts/Sora-800.ttf') format('truetype')}
+
+:root{
+  --navy:#1A1A4E; --deep:#0E337B; --purple:#7751FF; --purple-lt:#8E7BF2;
+  --amber:#F19526; --ice:#E8F3FE; --white:#fff; --green:#61CE70;
+  --muted:#9AA6C7; --ink:#EAEDFA; --line:rgba(146,128,244,.20);
+  --f:'Sora',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1280px;height:720px}
+body{font-family:var(--f);-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
+
+.slide{position:relative;width:1280px;height:720px;overflow:hidden;color:var(--ink);
+  background:
+    radial-gradient(1100px 620px at 16% -8%, #26265F 0%, rgba(38,38,95,0) 58%),
+    radial-gradient(900px 560px at 104% 112%, #3A2A78 0%, rgba(58,42,120,0) 52%),
+    linear-gradient(158deg,#1C1C52 0%,#17173F 48%,#101030 100%);
+}
+.slide.light{background:linear-gradient(158deg,#F4F8FE 0%,#E6EFFB 100%);color:#1A1A4E}
+
+/* ---- persistent brand mark — SAME size & position on every content slide -- */
+.mark{position:absolute;top:46px;left:64px;display:flex;align-items:center;gap:15px;z-index:8}
+.mark img{width:60px;height:auto;filter:drop-shadow(0 5px 14px rgba(0,0,0,.3))}
+.mark .w{display:flex;flex-direction:column;line-height:1}
+.mark .w .n{font-weight:800;font-size:23px;line-height:.9;color:var(--white)}
+.mark .w .n sup{font-size:.42em;font-weight:700;vertical-align:super}
+.mark .w .d{font-weight:500;font-size:8.5px;letter-spacing:.34em;color:var(--white);opacity:.9;margin-top:.55em;padding-left:.1em}
+.slide.light .mark .w .n{color:#1A1A4E}
+.slide.light .mark .w .d{color:#3A3A6B}
+
+/* ---- footer: page number + wordline (consistent) ---- */
+.foot{position:absolute;left:64px;right:64px;bottom:34px;display:flex;justify-content:space-between;
+  align-items:center;font-weight:500;font-size:12px;letter-spacing:.14em;color:var(--muted);
+  text-transform:uppercase;z-index:8}
+.foot .pg{font-variant-numeric:tabular-nums}
+.slide.light .foot{color:#6A6F95}
+
+/* ---- content region (clears the mark) ---- */
+.body{position:absolute;left:64px;right:64px;top:150px;bottom:78px}
+
+/* ---- eyebrow ---- */
+.eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.eyebrow .num{font-weight:800;font-size:13px;color:var(--amber);letter-spacing:.1em}
+.eyebrow .ttl{font-weight:600;font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:var(--purple-lt)}
+
+/* ---- type primitives ---- */
+h1.title{font-weight:800;font-size:58px;line-height:1;letter-spacing:-.01em;color:#F5F7FF}
+h2.head{font-weight:800;font-size:40px;line-height:1.05;letter-spacing:-.01em;color:#F5F7FF;margin-bottom:16px}
+.slide.light h2.head,.slide.light h1.title{color:#141438}
+.accent{color:var(--purple-lt)}
+.amber{color:var(--amber)}
+.lead{color:#C4CBE6;font-size:20px;line-height:1.55;max-width:62ch}
+.lead b{color:#fff;font-weight:700}
+.slide.light .lead{color:#3A4066}.slide.light .lead b{color:#1A1A4E}
+
+/* ---- signature dividers ---- */
+.dv{width:2px;border-radius:2px;background:linear-gradient(180deg,#4B8DF8,#6A63E6 42%,#8E5CC8 68%,#F19526);box-shadow:0 0 14px rgba(123,110,240,.45)}
+.dh{height:2px;border-radius:2px;background:linear-gradient(90deg,#4B8DF8,#7751FF 46%,#B36BB0 72%,#F19526);box-shadow:0 0 14px rgba(123,110,240,.4)}
+
+/* ---- reusable pill / CTA ---- */
+.pill{display:inline-flex;align-items:center;background:var(--amber);color:var(--navy);font-weight:700;
+  letter-spacing:.05em;font-size:15px;padding:9px 22px;border-radius:999px;text-transform:uppercase}
+.cta{display:inline-flex;align-items:center;background:var(--amber);color:var(--navy);font-weight:700;
+  font-size:18px;padding:12px 28px;border-radius:999px;box-shadow:0 10px 24px rgba(241,149,38,.3)}
+
+/* ---- generic card ---- */
+.card{background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:18px}
+.slide.light .card{background:#fff;border-color:rgba(26,26,78,.1);box-shadow:0 10px 30px rgba(20,20,60,.06)}

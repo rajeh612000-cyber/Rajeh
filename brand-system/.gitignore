@@ -1,2 +1,6 @@
 node_modules/
 *.log
+
+# regenerable render caches (rebuild with: node deck/build.mjs && node deck/render.mjs)
+deck/html/
+deck/png/

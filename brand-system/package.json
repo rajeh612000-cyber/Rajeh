@@ -9,7 +9,11 @@
     "render": "node scripts/render.mjs",
     "logos": "python3 scripts/build_symbol.py assets/logo/symbol.svg && node scripts/export_logos.mjs",
     "symbol": "python3 scripts/build_symbol.py assets/logo/symbol.svg",
-    "all": "npm run build && npm run render"
+    "all": "npm run build && npm run render",
+    "deck": "node deck/build.mjs && node deck/render.mjs && python3 deck/assemble.py",
+    "deck:build": "node deck/build.mjs",
+    "deck:render": "node deck/render.mjs",
+    "deck:pptx": "python3 deck/assemble.py"
   },
   "dependencies": {
     "playwright-core": "1.49"
