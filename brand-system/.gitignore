@@ -4,3 +4,6 @@ node_modules/
 # regenerable render caches (rebuild with: node deck/build.mjs && node deck/render.mjs)
 deck/html/
 deck/png/
+
+# lighter regenerable variant (python3 deck/assemble.py jpeg)
+Smart_Value_Brand_System_light.pptx
