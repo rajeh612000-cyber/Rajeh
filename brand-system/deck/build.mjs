@@ -18,7 +18,7 @@ const lines = (a) => a.map(p => `<div>${p.accent ? `<span class="accent">${p.t}<
 const lock = (sym = 66, word = 27, { form = 'full', primary = false } = {}) => {
   const nCol = primary ? '#1A1A4E' : '#fff';
   const vCol = primary ? '#7751FF' : '#fff';
-  const dCol = primary ? '#3A3A6B' : '#fff';
+  const dCol = primary ? '#7751FF' : '#fff';
   const w = `<span class="lw" style="--w:${word}px"><span class="ln" style="color:${nCol}">SMART<br><span style="color:${vCol}">VALUE</span><sup>™</sup></span><span class="ld" style="color:${dCol}">AI SOLUTIONS</span></span>`;
   const s = `<img class="ls" style="width:${sym}px" src="${SYM}" alt="">`;
   if (form === 'symbol') return `<span class="lock">${s}</span>`;
@@ -220,11 +220,11 @@ L.combos = (s, i, t) => page(i, t, '', `
    </div>`);
 
 L.typeScale = (s, i, t) => page(i, t, '', `
-  .spec{display:flex;gap:14px;margin-top:22px}
-  .sw{flex:1;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.03);padding:16px 20px}
-  .sw .g{font-size:38px;color:#fff;line-height:1}.sw .l{font-size:12.5px;color:var(--muted);margin-top:8px}
-  .ty{margin-top:18px;border:1px solid var(--line);border-radius:16px;overflow:hidden}
-  .tr{display:grid;grid-template-columns:150px 1fr;gap:20px;padding:16px 24px;align-items:center;border-bottom:1px solid var(--line)}
+  .spec{display:flex;gap:14px;margin-top:14px}
+  .sw{flex:1;border:1px solid var(--line);border-radius:14px;background:rgba(255,255,255,.03);padding:11px 18px}
+  .sw .g{font-size:32px;color:#fff;line-height:1}.sw .l{font-size:12.5px;color:var(--muted);margin-top:6px}
+  .ty{margin-top:12px;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  .tr{display:grid;grid-template-columns:150px 1fr;gap:20px;padding:10px 24px;align-items:center;border-bottom:1px solid var(--line)}
   .tr:last-child{border-bottom:0}.tr .tg b{display:block;font-weight:700;font-size:14px;color:#fff}.tr .tg span{font-size:12px;color:var(--muted)}
   .tr .td{color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}`,
   `<div class="body">${eyebrow(s.num, s.sect)}<h2 class="head" style="font-size:36px">${s.head}</h2><p class="lead" style="max-width:82ch">${s.lead}</p>
@@ -275,11 +275,12 @@ L.showcase = (s, i, t) => page(i, t, '', `
    </div></div>`);
 
 L.showcase2 = (s, i, t) => page(i, t, '', `
-  .s2{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:28px;align-items:start}
-  .s2c .frame{border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 18px 44px rgba(0,0,0,.38);background:#10102c;display:flex;align-items:center;justify-content:center;height:330px}
-  .s2c .frame img{max-width:100%;max-height:100%;display:block}
+  .s2{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:26px;align-items:start;justify-items:center}
+  .s2c{display:flex;flex-direction:column;align-items:center}
+  .s2c .frame{display:inline-block;line-height:0;border-radius:12px;overflow:hidden;box-shadow:0 18px 44px rgba(0,0,0,.38)}
+  .s2c .frame img{display:block;width:auto;height:auto;max-width:520px;max-height:260px}
   .s2c .cap{color:var(--muted);font-size:14px;margin-top:12px;letter-spacing:.03em}
-  .s2note{color:#C4CBE6;font-size:16px;margin-top:20px}.s2note b{color:#fff}`,
+  .s2note{color:#C4CBE6;font-size:16px;margin-top:22px;text-align:center}.s2note b{color:#fff}`,
   `<div class="body">${eyebrow(s.num, s.sect)}<h2 class="head">${s.head}</h2>
      <div class="s2">${s.shots.map(([sh, cap]) => `<div class="s2c"><div class="frame"><img src="${OUT(sh)}"></div><div class="cap">${cap}</div></div>`).join('')}</div>
      <div class="s2note">${s.note}</div>
@@ -317,14 +318,14 @@ L.letterhead = (s, i, t) => page(i, t, '', `
   .lh{display:grid;grid-template-columns:1fr 420px;gap:48px;align-items:center;height:100%}
   .sheet{background:#fff;color:#1A1A4E;border-radius:8px;box-shadow:0 30px 70px rgba(0,0,0,.5);padding:40px 44px;height:420px;display:flex;flex-direction:column}
   .sheet .dh2{height:2px;border-radius:2px;background:linear-gradient(90deg,#4B8DF8,#7751FF 50%,#F19526);margin:22px 0}
-  .sheet .ln{height:9px;border-radius:5px;background:#E3E9F5;margin-bottom:12px}
-  .sheet .ln.s{width:55%}.sheet .ln.h{height:14px;width:70%;background:#C9D3EA;margin-bottom:18px}
+  .sheet .phl{height:9px;border-radius:5px;background:#E3E9F5;margin-bottom:12px}
+  .sheet .phl.s{width:55%}.sheet .phl.h{height:14px;width:70%;background:#C9D3EA;margin-bottom:18px}
   .sheet .ft{margin-top:auto;font-size:11px;color:#8791B0;letter-spacing:.04em}`,
   `<div class="body"><div class="lh">
      <div>${eyebrow(s.num, s.sect)}<h2 class="head" style="font-size:34px">${s.head}</h2><p class="lead">${s.lead}</p></div>
      <div class="sheet">${lock(46, 20, { primary: true })}<div class="dh2"></div>
-       <div class="ln h"></div><div class="ln"></div><div class="ln"></div><div class="ln s"></div>
-       <div class="ln" style="margin-top:16px"></div><div class="ln"></div><div class="ln s"></div>
+       <div class="phl h"></div><div class="phl"></div><div class="phl"></div><div class="phl s"></div>
+       <div class="phl" style="margin-top:16px"></div><div class="phl"></div><div class="phl s"></div>
        <div class="ft">Smart Value™ AI Solutions · smartvalue.ai · hello@smartvalue.ai</div></div>
    </div></div>`);
 

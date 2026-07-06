@@ -165,7 +165,7 @@ export const slides = [
 
   { layout: 'bizcard', num: '07', sect: 'Stationery', head: 'Business cards.',
     lead: 'Navy face carries the reversed mark; the reverse carries details in Sora with a single purple accent. 85 × 55 mm, rounded 3 mm.',
-    person: ['Rajeh Hazem', 'Founder & CEO', 'rajeh@smartvalue.ai', '+20 100 000 0000', 'smartvalue.ai'] },
+    person: ['Rajeh Hazem', 'Founder', 'rajeh@smartvalueaisolutions.com', '+20 100 000 0000', 'smartvalueaisolutions.com'] },
 
   { layout: 'letterhead', num: '07', sect: 'Stationery', head: 'Letterhead & documents.',
     lead: 'A4 with the primary mark top-left, the divider under the header, and Sora body at 16/24. Amber reserved for a single action or highlight.' },
