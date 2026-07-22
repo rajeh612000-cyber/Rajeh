@@ -1,16 +1,16 @@
 {
   "audio": "audio/vo.m4a",
-  "duration": 59.285333,
+  "duration": 37.525333,
   "fps": 30,
-  "speechStart": 1.41,
-  "speechEnd": 57.78,
+  "speechStart": 2.87,
+  "speechEnd": 35.96,
   "chunks": [
     {
       "index": 0,
-      "text": "Smart Shopper is our",
-      "start": 1.41,
+      "text": "Smart Shopper is",
+      "start": 2.87,
       "end": 3.88,
-      "startFrame": 42,
+      "startFrame": 86,
       "endFrame": 116,
       "highlight": [
         0,
@@ -19,311 +19,303 @@
       "words": [
         {
           "t": "Smart",
-          "start": 1.41,
-          "end": 2.05
+          "start": 2.87,
+          "end": 3.191
         },
         {
           "t": "Shopper",
-          "start": 2.05,
-          "end": 3.057
+          "start": 3.191,
+          "end": 3.696
         },
         {
           "t": "is",
-          "start": 3.057,
-          "end": 3.423
-        },
-        {
-          "t": "our",
-          "start": 3.423,
+          "start": 3.696,
           "end": 3.88
         }
       ]
     },
     {
       "index": 1,
-      "text": "solution for price optimization",
+      "text": "our solution for price optimization",
       "start": 3.88,
-      "end": 6.36,
+      "end": 5.88,
       "startFrame": 116,
-      "endFrame": 191,
+      "endFrame": 176,
       "highlight": [
-        2,
-        3
+        3,
+        4
       ],
       "words": [
         {
-          "t": "solution",
+          "t": "our",
           "start": 3.88,
-          "end": 4.52
+          "end": 4.32
+        },
+        {
+          "t": "solution",
+          "start": 4.32,
+          "end": 4.56
         },
         {
           "t": "for",
-          "start": 4.52,
-          "end": 5.12
+          "start": 4.56,
+          "end": 4.68
         },
         {
           "t": "price",
-          "start": 5.12,
-          "end": 5.52
+          "start": 4.68,
+          "end": 5.2
         },
         {
           "t": "optimization",
-          "start": 5.52,
-          "end": 6.36
+          "start": 5.2,
+          "end": 5.88
         }
       ]
     },
     {
       "index": 2,
       "text": "and price pack architecture.",
-      "start": 6.36,
-      "end": 8.52,
-      "startFrame": 191,
-      "endFrame": 256,
+      "start": 5.88,
+      "end": 8.0,
+      "startFrame": 176,
+      "endFrame": 240,
       "highlight": [
         3
       ],
       "words": [
         {
           "t": "and",
-          "start": 6.36,
-          "end": 6.56
+          "start": 5.88,
+          "end": 6.08
         },
         {
           "t": "price",
-          "start": 6.56,
-          "end": 7.04
+          "start": 6.08,
+          "end": 6.32
         },
         {
           "t": "pack",
-          "start": 7.04,
-          "end": 7.36
+          "start": 6.32,
+          "end": 6.8
         },
         {
           "t": "architecture.",
-          "start": 7.36,
-          "end": 8.52
+          "start": 6.8,
+          "end": 8.0
         }
       ]
     },
     {
       "index": 3,
-      "text": "And actually, it uses",
-      "start": 8.52,
-      "end": 10.24,
-      "startFrame": 256,
-      "endFrame": 307,
-      "highlight": [],
+      "text": "It shares survey data",
+      "start": 8.0,
+      "end": 9.56,
+      "startFrame": 240,
+      "endFrame": 287,
+      "highlight": [
+        2,
+        3
+      ],
       "words": [
         {
-          "t": "And",
-          "start": 8.52,
-          "end": 8.92
+          "t": "It",
+          "start": 8.0,
+          "end": 8.2
         },
         {
-          "t": "actually,",
-          "start": 8.92,
-          "end": 9.28
+          "t": "shares",
+          "start": 8.2,
+          "end": 8.64
         },
         {
-          "t": "it",
-          "start": 9.28,
-          "end": 9.48
+          "t": "survey",
+          "start": 8.64,
+          "end": 9.12
         },
         {
-          "t": "uses",
-          "start": 9.48,
-          "end": 10.24
+          "t": "data",
+          "start": 9.12,
+          "end": 9.56
         }
       ]
     },
     {
       "index": 4,
-      "text": "survey data through a",
-      "start": 10.24,
-      "end": 11.8,
-      "startFrame": 307,
-      "endFrame": 354,
+      "text": "through a virtual shop",
+      "start": 9.56,
+      "end": 10.64,
+      "startFrame": 287,
+      "endFrame": 319,
       "highlight": [
-        0,
-        1
+        2,
+        3
       ],
       "words": [
         {
-          "t": "survey",
-          "start": 10.24,
-          "end": 10.96
-        },
-        {
-          "t": "data",
-          "start": 10.96,
-          "end": 11.12
-        },
-        {
           "t": "through",
-          "start": 11.12,
-          "end": 11.36
+          "start": 9.56,
+          "end": 9.64
         },
         {
           "t": "a",
-          "start": 11.36,
-          "end": 11.8
+          "start": 9.64,
+          "end": 9.72
+        },
+        {
+          "t": "virtual",
+          "start": 9.72,
+          "end": 10.16
+        },
+        {
+          "t": "shop",
+          "start": 10.16,
+          "end": 10.64
         }
       ]
     },
     {
       "index": 5,
-      "text": "virtual shop with the respondent,",
-      "start": 11.8,
-      "end": 16.24,
-      "startFrame": 354,
-      "endFrame": 487,
+      "text": "with the respondent,",
+      "start": 10.64,
+      "end": 11.44,
+      "startFrame": 319,
+      "endFrame": 343,
       "highlight": [
-        0,
-        1
+        2
       ],
       "words": [
         {
-          "t": "virtual",
-          "start": 11.8,
-          "end": 13.24
-        },
-        {
-          "t": "shop",
-          "start": 13.24,
-          "end": 14.04
-        },
-        {
           "t": "with",
-          "start": 14.04,
-          "end": 14.28
+          "start": 10.64,
+          "end": 10.84
         },
         {
           "t": "the",
-          "start": 14.28,
-          "end": 14.68
+          "start": 10.84,
+          "end": 10.89
         },
         {
           "t": "respondent,",
-          "start": 14.68,
-          "end": 16.24
+          "start": 10.89,
+          "end": 11.44
         }
       ]
     },
     {
       "index": 6,
-      "text": "and at the same time,",
-      "start": 16.24,
-      "end": 17.96,
-      "startFrame": 487,
-      "endFrame": 539,
+      "text": "and at the same time",
+      "start": 11.44,
+      "end": 13.08,
+      "startFrame": 343,
+      "endFrame": 392,
       "highlight": [],
       "words": [
         {
           "t": "and",
-          "start": 16.24,
-          "end": 16.72
+          "start": 11.44,
+          "end": 12.04
         },
         {
           "t": "at",
-          "start": 16.72,
-          "end": 16.8
+          "start": 12.04,
+          "end": 12.2
         },
         {
           "t": "the",
-          "start": 16.8,
-          "end": 17.08
+          "start": 12.2,
+          "end": 12.4
         },
         {
           "t": "same",
-          "start": 17.08,
-          "end": 17.4
+          "start": 12.4,
+          "end": 12.68
         },
         {
-          "t": "time,",
-          "start": 17.4,
-          "end": 17.96
+          "t": "time",
+          "start": 12.68,
+          "end": 13.08
         }
       ]
     },
     {
       "index": 7,
-      "text": "it integrates the results of",
-      "start": 17.96,
-      "end": 20.21,
-      "startFrame": 539,
-      "endFrame": 606,
+      "text": "it integrates the results",
+      "start": 13.08,
+      "end": 14.36,
+      "startFrame": 392,
+      "endFrame": 431,
       "highlight": [
         1
       ],
       "words": [
         {
           "t": "it",
-          "start": 17.96,
-          "end": 18.16
+          "start": 13.08,
+          "end": 13.28
         },
         {
           "t": "integrates",
-          "start": 18.16,
-          "end": 18.72
+          "start": 13.28,
+          "end": 13.64
         },
         {
           "t": "the",
-          "start": 18.72,
-          "end": 19.16
+          "start": 13.64,
+          "end": 13.76
         },
         {
           "t": "results",
-          "start": 19.16,
-          "end": 20.16
-        },
-        {
-          "t": "of",
-          "start": 20.16,
-          "end": 20.21
+          "start": 13.76,
+          "end": 14.36
         }
       ]
     },
     {
       "index": 8,
-      "text": "the virtual shop survey",
-      "start": 20.21,
-      "end": 21.81,
-      "startFrame": 606,
-      "endFrame": 654,
+      "text": "of the virtual shop survey",
+      "start": 14.36,
+      "end": 15.8,
+      "startFrame": 431,
+      "endFrame": 474,
       "highlight": [
-        3
+        4
       ],
       "words": [
         {
+          "t": "of",
+          "start": 14.36,
+          "end": 14.44
+        },
+        {
           "t": "the",
-          "start": 20.21,
-          "end": 20.36
+          "start": 14.44,
+          "end": 14.6
         },
         {
           "t": "virtual",
-          "start": 20.36,
-          "end": 21.68
+          "start": 14.6,
+          "end": 14.96
         },
         {
           "t": "shop",
-          "start": 21.68,
-          "end": 21.76
+          "start": 14.96,
+          "end": 15.24
         },
         {
           "t": "survey",
-          "start": 21.76,
-          "end": 21.81
+          "start": 15.24,
+          "end": 15.8
         }
       ]
     },
     {
       "index": 9,
       "text": "with the actual market data",
-      "start": 21.81,
-      "end": 24.44,
-      "startFrame": 654,
-      "endFrame": 733,
+      "start": 15.8,
+      "end": 17.24,
+      "startFrame": 474,
+      "endFrame": 517,
       "highlight": [
         3,
         4
@@ -331,275 +323,297 @@
       "words": [
         {
           "t": "with",
-          "start": 21.81,
-          "end": 21.86
+          "start": 15.8,
+          "end": 16.2
         },
         {
           "t": "the",
-          "start": 21.86,
-          "end": 22.12
+          "start": 16.2,
+          "end": 16.48
         },
         {
           "t": "actual",
-          "start": 22.12,
-          "end": 23.2
+          "start": 16.48,
+          "end": 16.8
         },
         {
           "t": "market",
-          "start": 23.2,
-          "end": 23.56
+          "start": 16.8,
+          "end": 17.0
         },
         {
           "t": "data",
-          "start": 23.56,
-          "end": 24.44
+          "start": 17.0,
+          "end": 17.24
         }
       ]
     },
     {
       "index": 10,
-      "text": "for calibration of the model.",
-      "start": 24.44,
-      "end": 28.8,
-      "startFrame": 733,
-      "endFrame": 864,
+      "text": "for calibration of the variables.",
+      "start": 17.24,
+      "end": 19.2,
+      "startFrame": 517,
+      "endFrame": 576,
       "highlight": [
         1
       ],
       "words": [
         {
           "t": "for",
-          "start": 24.44,
-          "end": 24.96
+          "start": 17.24,
+          "end": 17.96
         },
         {
           "t": "calibration",
-          "start": 24.96,
-          "end": 26.24
+          "start": 17.96,
+          "end": 18.64
         },
         {
           "t": "of",
-          "start": 26.24,
-          "end": 26.76
+          "start": 18.64,
+          "end": 18.76
         },
         {
           "t": "the",
-          "start": 26.76,
-          "end": 28.24
+          "start": 18.76,
+          "end": 18.92
         },
         {
-          "t": "model.",
-          "start": 28.24,
-          "end": 28.8
+          "t": "variables.",
+          "start": 18.92,
+          "end": 19.2
         }
       ]
     },
     {
       "index": 11,
-      "text": "Both of them, the market data",
-      "start": 28.8,
-      "end": 31.48,
-      "startFrame": 864,
-      "endFrame": 944,
-      "highlight": [
-        4,
-        5
-      ],
+      "text": "Both of them,",
+      "start": 19.2,
+      "end": 20.44,
+      "startFrame": 576,
+      "endFrame": 613,
+      "highlight": [],
       "words": [
         {
           "t": "Both",
-          "start": 28.8,
-          "end": 29.72
+          "start": 19.2,
+          "end": 20.12
         },
         {
           "t": "of",
-          "start": 29.72,
-          "end": 30.04
+          "start": 20.12,
+          "end": 20.24
         },
         {
           "t": "them,",
-          "start": 30.04,
-          "end": 30.56
-        },
-        {
-          "t": "the",
-          "start": 30.56,
-          "end": 30.84
-        },
-        {
-          "t": "market",
-          "start": 30.84,
-          "end": 31.32
-        },
-        {
-          "t": "data",
-          "start": 31.32,
-          "end": 31.48
+          "start": 20.24,
+          "end": 20.44
         }
       ]
     },
     {
       "index": 12,
+      "text": "the market data",
+      "start": 20.44,
+      "end": 21.8,
+      "startFrame": 613,
+      "endFrame": 654,
+      "highlight": [
+        1,
+        2
+      ],
+      "words": [
+        {
+          "t": "the",
+          "start": 20.44,
+          "end": 20.92
+        },
+        {
+          "t": "market",
+          "start": 20.92,
+          "end": 21.36
+        },
+        {
+          "t": "data",
+          "start": 21.36,
+          "end": 21.8
+        }
+      ]
+    },
+    {
+      "index": 13,
       "text": "and the results of the survey,",
-      "start": 31.48,
-      "end": 34.8,
-      "startFrame": 944,
-      "endFrame": 1044,
+      "start": 21.8,
+      "end": 23.0,
+      "startFrame": 654,
+      "endFrame": 690,
       "highlight": [
         2
       ],
       "words": [
         {
           "t": "and",
-          "start": 31.48,
-          "end": 32.28
+          "start": 21.8,
+          "end": 21.92
         },
         {
           "t": "the",
-          "start": 32.28,
-          "end": 32.88
+          "start": 21.92,
+          "end": 22.04
         },
         {
           "t": "results",
-          "start": 32.88,
-          "end": 33.48
+          "start": 22.04,
+          "end": 22.44
         },
         {
           "t": "of",
-          "start": 33.48,
-          "end": 33.68
+          "start": 22.44,
+          "end": 22.52
         },
         {
           "t": "the",
-          "start": 33.68,
-          "end": 34.0
+          "start": 22.52,
+          "end": 22.72
         },
         {
           "t": "survey,",
-          "start": 34.0,
-          "end": 34.8
-        }
-      ]
-    },
-    {
-      "index": 13,
-      "text": "we integrate into what we call",
-      "start": 34.8,
-      "end": 40.32,
-      "startFrame": 1044,
-      "endFrame": 1210,
-      "highlight": [],
-      "words": [
-        {
-          "t": "we",
-          "start": 34.8,
-          "end": 35.56
-        },
-        {
-          "t": "integrate",
-          "start": 35.56,
-          "end": 36.32
-        },
-        {
-          "t": "into",
-          "start": 36.32,
-          "end": 36.84
-        },
-        {
-          "t": "what",
-          "start": 36.84,
-          "end": 38.32
-        },
-        {
-          "t": "we",
-          "start": 38.32,
-          "end": 39.68
-        },
-        {
-          "t": "call",
-          "start": 39.68,
-          "end": 40.32
+          "start": 22.72,
+          "end": 23.0
         }
       ]
     },
     {
       "index": 14,
-      "text": "the Smart Shopper simulator,",
-      "start": 40.32,
-      "end": 42.16,
-      "startFrame": 1210,
-      "endFrame": 1265,
+      "text": "we integrate into",
+      "start": 23.0,
+      "end": 24.4,
+      "startFrame": 690,
+      "endFrame": 732,
+      "highlight": [],
+      "words": [
+        {
+          "t": "we",
+          "start": 23.0,
+          "end": 23.48
+        },
+        {
+          "t": "integrate",
+          "start": 23.48,
+          "end": 24.0
+        },
+        {
+          "t": "into",
+          "start": 24.0,
+          "end": 24.4
+        }
+      ]
+    },
+    {
+      "index": 15,
+      "text": "what we call",
+      "start": 24.4,
+      "end": 25.2,
+      "startFrame": 732,
+      "endFrame": 756,
+      "highlight": [],
+      "words": [
+        {
+          "t": "what",
+          "start": 24.4,
+          "end": 24.68
+        },
+        {
+          "t": "we",
+          "start": 24.68,
+          "end": 24.76
+        },
+        {
+          "t": "call",
+          "start": 24.76,
+          "end": 25.2
+        }
+      ]
+    },
+    {
+      "index": 16,
+      "text": "the Smart Shopper engine,",
+      "start": 25.2,
+      "end": 27.52,
+      "startFrame": 756,
+      "endFrame": 826,
       "highlight": [
         3
       ],
       "words": [
         {
           "t": "the",
-          "start": 40.32,
-          "end": 40.37
+          "start": 25.2,
+          "end": 25.68
         },
         {
           "t": "Smart",
-          "start": 40.37,
-          "end": 40.72
+          "start": 25.68,
+          "end": 25.92
         },
         {
           "t": "Shopper",
-          "start": 40.72,
-          "end": 41.16
+          "start": 25.92,
+          "end": 26.36
         },
         {
-          "t": "simulator,",
-          "start": 41.16,
-          "end": 42.16
+          "t": "engine,",
+          "start": 26.36,
+          "end": 27.52
         }
       ]
     },
     {
-      "index": 15,
+      "index": 17,
       "text": "which can predict and identify",
-      "start": 42.16,
-      "end": 45.8,
-      "startFrame": 1265,
-      "endFrame": 1374,
+      "start": 27.52,
+      "end": 30.32,
+      "startFrame": 826,
+      "endFrame": 910,
       "highlight": [
         2
       ],
       "words": [
         {
           "t": "which",
-          "start": 42.16,
-          "end": 42.6
+          "start": 27.52,
+          "end": 27.64
         },
         {
           "t": "can",
-          "start": 42.6,
-          "end": 43.32
+          "start": 27.64,
+          "end": 27.8
         },
         {
           "t": "predict",
-          "start": 43.32,
-          "end": 44.0
+          "start": 27.8,
+          "end": 28.16
         },
         {
           "t": "and",
-          "start": 44.0,
-          "end": 44.8
+          "start": 28.16,
+          "end": 28.52
         },
         {
           "t": "identify",
-          "start": 44.8,
-          "end": 45.8
+          "start": 28.52,
+          "end": 30.32
         }
       ]
     },
     {
-      "index": 16,
+      "index": 18,
       "text": "the best pricing strategies",
-      "start": 45.8,
-      "end": 48.04,
-      "startFrame": 1374,
-      "endFrame": 1441,
+      "start": 30.32,
+      "end": 32.52,
+      "startFrame": 910,
+      "endFrame": 976,
       "highlight": [
         2,
         3
@@ -607,103 +621,115 @@
       "words": [
         {
           "t": "the",
-          "start": 45.8,
-          "end": 46.48
+          "start": 30.32,
+          "end": 30.44
         },
         {
           "t": "best",
-          "start": 46.48,
-          "end": 46.88
+          "start": 30.44,
+          "end": 30.68
         },
         {
           "t": "pricing",
-          "start": 46.88,
-          "end": 47.32
+          "start": 30.68,
+          "end": 31.12
         },
         {
           "t": "strategies",
-          "start": 47.32,
-          "end": 48.04
+          "start": 31.12,
+          "end": 32.52
         }
       ]
     },
     {
-      "index": 17,
-      "text": "I should be doing for",
-      "start": 48.04,
-      "end": 50.72,
-      "startFrame": 1441,
-      "endFrame": 1522,
+      "index": 19,
+      "text": "I could be doing",
+      "start": 32.52,
+      "end": 33.0,
+      "startFrame": 976,
+      "endFrame": 990,
       "highlight": [],
       "words": [
         {
           "t": "I",
-          "start": 48.04,
-          "end": 48.56
+          "start": 32.52,
+          "end": 32.64
         },
         {
-          "t": "should",
-          "start": 48.56,
-          "end": 49.0
+          "t": "could",
+          "start": 32.64,
+          "end": 32.84
         },
         {
           "t": "be",
-          "start": 49.0,
-          "end": 49.24
+          "start": 32.84,
+          "end": 32.89
         },
         {
           "t": "doing",
-          "start": 49.24,
-          "end": 50.12
-        },
-        {
-          "t": "for",
-          "start": 50.12,
-          "end": 50.72
+          "start": 32.89,
+          "end": 33.0
         }
       ]
     },
     {
-      "index": 18,
-      "text": "my portfolio of brands and SKUs.",
-      "start": 50.72,
-      "end": 57.78,
-      "startFrame": 1522,
-      "endFrame": 1733,
+      "index": 20,
+      "text": "for my portfolio",
+      "start": 33.0,
+      "end": 34.52,
+      "startFrame": 990,
+      "endFrame": 1036,
       "highlight": [
-        1,
-        5
+        2
       ],
       "words": [
         {
+          "t": "for",
+          "start": 33.0,
+          "end": 33.44
+        },
+        {
           "t": "my",
-          "start": 50.72,
-          "end": 51.36
+          "start": 33.44,
+          "end": 33.84
         },
         {
           "t": "portfolio",
-          "start": 51.36,
-          "end": 53.16
-        },
+          "start": 33.84,
+          "end": 34.52
+        }
+      ]
+    },
+    {
+      "index": 21,
+      "text": "of brands and SKUs.",
+      "start": 34.52,
+      "end": 35.96,
+      "startFrame": 1036,
+      "endFrame": 1079,
+      "highlight": [
+        3
+      ],
+      "words": [
         {
           "t": "of",
-          "start": 53.16,
-          "end": 54.16
+          "start": 34.52,
+          "end": 34.64
         },
         {
           "t": "brands",
-          "start": 54.16,
-          "end": 55.04
+          "start": 34.64,
+          "end": 35.08
         },
         {
           "t": "and",
-          "start": 55.04,
-          "end": 55.44
+          "start": 35.08,
+          "end": 35.56
         },
         {
           "t": "SKUs.",
-          "start": 55.44,
-          "end": 57.78
+          "start": 35.56,
+          "end": 35.96
         }
       ]
     }
@@ -715,8 +741,8 @@
       "bg": "navyBlue",
       "startChunk": 0,
       "endChunk": 2,
-      "start": 1.41,
-      "end": 8.52
+      "start": 2.87,
+      "end": 8.0
     },
     {
       "id": "virtualshop",
@@ -724,35 +750,35 @@
       "bg": "navyBlack",
       "startChunk": 3,
       "endChunk": 8,
-      "start": 8.52,
-      "end": 21.81
+      "start": 8.0,
+      "end": 15.8
     },
     {
       "id": "marketdata",
       "theme": "market-calibration",
       "bg": "navyBlue",
       "startChunk": 9,
-      "endChunk": 12,
-      "start": 21.81,
-      "end": 34.8
+      "endChunk": 13,
+      "start": 15.8,
+      "end": 23.0
     },
     {
-      "id": "simulator",
-      "theme": "simulator",
+      "id": "engine",
+      "theme": "engine",
       "bg": "navyBlack",
-      "startChunk": 13,
-      "endChunk": 14,
-      "start": 34.8,
-      "end": 42.16
+      "startChunk": 14,
+      "endChunk": 16,
+      "start": 23.0,
+      "end": 27.52
     },
     {
       "id": "predict",
       "theme": "predictive-strategy",
       "bg": "navyBlue",
-      "startChunk": 15,
-      "endChunk": 18,
-      "start": 42.16,
-      "end": 57.78
+      "startChunk": 17,
+      "endChunk": 21,
+      "start": 27.52,
+      "end": 35.96
     }
   ]
 }

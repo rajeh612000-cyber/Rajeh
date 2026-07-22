@@ -3,15 +3,14 @@ import { AbsoluteFill, useCurrentFrame, useVideoConfig, spring, interpolate, Eas
 import { SmartShopperLockup } from "../components/logo/SmartShopperLockup";
 import { PALETTE } from "../theme/palette";
 
-export const ColdOpen: React.FC<{ life: number }> = ({ life }) => {
+/** buildDur = frames over which the logo builds; timed so it lands on the first spoken word. */
+export const ColdOpen: React.FC<{ life: number; buildDur?: number }> = ({ life, buildDur = 42 }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  // Build completes ~1.4s to land on "Smart Shopper"
-  const build = spring({ frame, fps, durationInFrames: 42, config: { damping: 200 } });
-  const textReveal = spring({ frame: frame - 24, fps, durationInFrames: 26, config: { damping: 200 } });
+  const build = spring({ frame, fps, durationInFrames: Math.max(24, buildDur), config: { damping: 200 } });
+  const textReveal = spring({ frame: frame - Math.round(buildDur * 0.55), fps, durationInFrames: 26, config: { damping: 200 } });
 
-  // Exit: scale down + fade as the watermark takes over
   const exit = interpolate(frame, [life - 18, life], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.in(Easing.cubic) });
   const exitScale = interpolate(frame, [life - 18, life], [1, 0.6], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.in(Easing.cubic) });
   const exitX = interpolate(frame, [life - 18, life], [0, -560], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.in(Easing.cubic) });
@@ -21,7 +20,6 @@ export const ColdOpen: React.FC<{ life: number }> = ({ life }) => {
 
   return (
     <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", opacity: exit }}>
-      {/* soft brand glow */}
       <div
         style={{
           position: "absolute",

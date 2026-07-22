@@ -6,8 +6,7 @@ running the full length of the voice-over with burned-in, word-synced captions a
 motion graphics.
 
 ## Deliverables (`/deliverables`)
-- `SmartShopper_Intro_1080p.mp4` — primary cut (voice-over + subtle ducked music bed).
-- `SmartShopper_Intro_voiceonly_1080p.mp4` — voice-over only, original audio stream untouched.
+- `SmartShopper_Intro_1080p.mp4` — final cut (voice-over + subtle ducked music bed).
 - `captions.json` — the timed caption data (chunks + per-word timing + highlights + scenes).
 
 ## Brand system
@@ -21,13 +20,13 @@ motion graphics.
 
 ## Structure
 - Cold open (logo build-on) → 5 themed motion-graphic scenes synced to the transcript
-  (price optimization → virtual-shop survey → market-data calibration → simulator →
+  (price optimization → virtual-shop survey → market-data calibration → the engine →
   predictive strategy) → outro card (reversed logo + "Empowering Growth").
 - `src/Composition.tsx` sequences the timeline; `src/components/Captions.tsx` renders the
   word-synced lower-third captions from `captions.json`.
 
 ## Transcription & sync (how the captions were built)
-1. Exact audio duration via `ffprobe` → **59.285333s**.
+1. Exact audio duration via `ffprobe` → **37.525333s**.
 2. Transcript via Gemini (proofread for brand terms: Smart Shopper, price-pack architecture,
    virtual shop, SKUs), cross-checked with a second pass.
 3. Per-word timing via **aeneas** forced alignment (espeak MFCC/DTW), validated against
@@ -45,7 +44,8 @@ REMOTION_BROWSER_EXECUTABLE=/path/to/chrome-headless-shell \
 Preview live: `npm run studio`.
 
 ## Notes
-- Captions are faithful to the spoken V/O with filler "uh" removed and minimal ESL
-  readability fixes; adjust `captions.json` for strict verbatim if preferred.
-- Final duration is 1779 frames = 59.30s — the tightest whole-frame envelope of the
-  59.285s audio (30fps can't land exactly on 59.285; the audio plays in full).
+- Captions are faithful to the spoken V/O; adjust `captions.json` for strict verbatim if preferred.
+- The source V/O was recorded quietly (~-29 LUFS); the voice is loudness-normalized to
+  ~-15 LUFS (a clean gain — no pitch/speed/character change) so it's audible on social.
+- Final duration is 1126 frames = 37.53s — the tightest whole-frame envelope of the
+  37.525s audio (30fps can't land exactly on 37.525; the audio plays in full).

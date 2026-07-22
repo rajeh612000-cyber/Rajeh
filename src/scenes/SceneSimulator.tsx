@@ -36,7 +36,7 @@ export const SceneSimulator: React.FC<{ life: number }> = ({ life }) => {
 
   return (
     <AbsoluteFill style={{ opacity: o }}>
-      <SceneKicker label="Smart Shopper Simulator" local={frame} life={life} />
+      <SceneKicker label="Smart Shopper Engine" local={frame} life={life} />
       <AbsoluteFill>
         <svg width={1920} height={1080} style={{ position: "absolute", inset: 0 }}>
           {inputs.map((n, i) => {
@@ -72,7 +72,7 @@ export const SceneSimulator: React.FC<{ life: number }> = ({ life }) => {
         <div style={{ position: "absolute", left: CX - 130, top: CY - 130 + bob, width: 260, height: 260, opacity: chipE, transform: `scale(${chipE})` }}>
           <div style={{ position: "absolute", inset: 0, borderRadius: 40, background: "rgba(8,24,54,0.75)", border: `4px solid ${power > 0.4 ? PALETTE.yellow : "rgba(255,255,255,0.3)"}`, boxShadow: power > 0.4 ? `0 0 60px ${PALETTE.yellow}55` : "none", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8 }}>
             <SmartShopperMark size={120} variant="reversed" />
-            <div style={{ fontFamily: FONT, fontWeight: W.extraBold, fontSize: 22, color: PALETTE.white, letterSpacing: 3 }}>SIMULATOR</div>
+            <div style={{ fontFamily: FONT, fontWeight: W.extraBold, fontSize: 26, color: PALETTE.white, letterSpacing: 3 }}>ENGINE</div>
           </div>
         </div>
 

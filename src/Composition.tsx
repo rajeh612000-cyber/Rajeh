@@ -19,17 +19,34 @@ import { ScenePredict } from "./scenes/ScenePredict";
 import { Outro } from "./scenes/Outro";
 
 const data = captions as unknown as CaptionsT;
+const FPS = data.fps;
+const TOTAL = Math.round(data.duration * FPS);
+const F = (s: number) => Math.round(s * FPS);
+const OVL = 10; // crossfade overlap (frames)
 
-// Scene sequencing (frames @30fps). Slight overlaps allow crossfades.
-const SC = {
-  coldOpen: { from: 0, dur: 132 },
-  pricing: { from: 120, dur: 168 },
-  virtualShop: { from: 252, dur: 408 },
-  marketData: { from: 654, dur: 396 },
-  simulator: { from: 1044, dur: 231 },
-  predict: { from: 1263, dur: 474 },
-  outro: { from: 1728, dur: 51 },
+const speechStartF = F(data.speechStart);
+// Cold open builds the logo across the lead-in and hands off after the first line.
+const COLD_DUR = speechStartF + 84;
+
+const byId = (id: string) => data.scenes.find((s) => s.id === id)!;
+const SCENE_COMPONENTS: Record<string, React.FC<{ life: number }>> = {
+  pricing: ScenePricing,
+  virtualshop: SceneVirtualShop,
+  marketdata: SceneMarketData,
+  engine: SceneSimulator,
+  predict: ScenePredict,
 };
+
+const OUTRO_FROM = F(data.speechEnd) - 4;
+const OUTRO_DUR = Math.max(30, TOTAL - OUTRO_FROM);
+
+// Build each themed scene's frame window from the caption data.
+const sceneSeqs = data.scenes.map((s, i) => {
+  const last = i === data.scenes.length - 1;
+  const from = i === 0 ? COLD_DUR - OVL : F(s.start) - OVL;
+  const endF = last ? OUTRO_FROM + 14 : F(data.scenes[i + 1].start) + OVL;
+  return { id: s.id, from, dur: Math.max(30, endF - from), Comp: SCENE_COMPONENTS[s.id] };
+});
 
 const Vignette: React.FC = () => (
   <AbsoluteFill
@@ -44,38 +61,29 @@ export const SmartShopperIntro: React.FC = () => {
   ensureFonts();
   return (
     <AbsoluteFill style={{ backgroundColor: PALETTE.navy }}>
-      {/* Original V/O — untouched (kept for preview; final delivery re-muxes the source stream) */}
+      {/* Original V/O — untouched (final delivery re-muxes the source stream) */}
       <Audio src={staticFile(data.audio)} />
 
       <BackgroundController scenes={data.scenes} />
       <FloatingField count={18} seed={5} accent />
 
-      <Sequence from={SC.coldOpen.from} durationInFrames={SC.coldOpen.dur} name="ColdOpen">
-        <ColdOpen life={SC.coldOpen.dur} />
-      </Sequence>
-      <Sequence from={SC.pricing.from} durationInFrames={SC.pricing.dur} name="Pricing">
-        <ScenePricing life={SC.pricing.dur} />
-      </Sequence>
-      <Sequence from={SC.virtualShop.from} durationInFrames={SC.virtualShop.dur} name="VirtualShop">
-        <SceneVirtualShop life={SC.virtualShop.dur} />
-      </Sequence>
-      <Sequence from={SC.marketData.from} durationInFrames={SC.marketData.dur} name="MarketData">
-        <SceneMarketData life={SC.marketData.dur} />
-      </Sequence>
-      <Sequence from={SC.simulator.from} durationInFrames={SC.simulator.dur} name="Simulator">
-        <SceneSimulator life={SC.simulator.dur} />
-      </Sequence>
-      <Sequence from={SC.predict.from} durationInFrames={SC.predict.dur} name="Predict">
-        <ScenePredict life={SC.predict.dur} />
+      <Sequence from={0} durationInFrames={COLD_DUR} name="ColdOpen">
+        <ColdOpen life={COLD_DUR} buildDur={speechStartF} />
       </Sequence>
 
-      <LogoWatermark appearAt={4.3} hideAt={57.2} />
+      {sceneSeqs.map((s) => (
+        <Sequence key={s.id} from={s.from} durationInFrames={s.dur} name={s.id}>
+          <s.Comp life={s.dur} />
+        </Sequence>
+      ))}
+
+      <LogoWatermark appearAt={(COLD_DUR - 10) / FPS} hideAt={data.speechEnd - 0.2} />
 
       <Vignette />
 
       <Captions chunks={data.chunks} />
 
-      <Sequence from={SC.outro.from} durationInFrames={SC.outro.dur} name="Outro">
+      <Sequence from={OUTRO_FROM} durationInFrames={OUTRO_DUR} name="Outro">
         <Outro />
       </Sequence>
     </AbsoluteFill>
