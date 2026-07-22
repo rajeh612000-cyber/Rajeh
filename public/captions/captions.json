@@ -1,0 +1,758 @@
+{
+  "audio": "audio/vo.m4a",
+  "duration": 59.285333,
+  "fps": 30,
+  "speechStart": 1.41,
+  "speechEnd": 57.78,
+  "chunks": [
+    {
+      "index": 0,
+      "text": "Smart Shopper is our",
+      "start": 1.41,
+      "end": 3.88,
+      "startFrame": 42,
+      "endFrame": 116,
+      "highlight": [
+        0,
+        1
+      ],
+      "words": [
+        {
+          "t": "Smart",
+          "start": 1.41,
+          "end": 2.05
+        },
+        {
+          "t": "Shopper",
+          "start": 2.05,
+          "end": 3.057
+        },
+        {
+          "t": "is",
+          "start": 3.057,
+          "end": 3.423
+        },
+        {
+          "t": "our",
+          "start": 3.423,
+          "end": 3.88
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "text": "solution for price optimization",
+      "start": 3.88,
+      "end": 6.36,
+      "startFrame": 116,
+      "endFrame": 191,
+      "highlight": [
+        2,
+        3
+      ],
+      "words": [
+        {
+          "t": "solution",
+          "start": 3.88,
+          "end": 4.52
+        },
+        {
+          "t": "for",
+          "start": 4.52,
+          "end": 5.12
+        },
+        {
+          "t": "price",
+          "start": 5.12,
+          "end": 5.52
+        },
+        {
+          "t": "optimization",
+          "start": 5.52,
+          "end": 6.36
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "text": "and price pack architecture.",
+      "start": 6.36,
+      "end": 8.52,
+      "startFrame": 191,
+      "endFrame": 256,
+      "highlight": [
+        3
+      ],
+      "words": [
+        {
+          "t": "and",
+          "start": 6.36,
+          "end": 6.56
+        },
+        {
+          "t": "price",
+          "start": 6.56,
+          "end": 7.04
+        },
+        {
+          "t": "pack",
+          "start": 7.04,
+          "end": 7.36
+        },
+        {
+          "t": "architecture.",
+          "start": 7.36,
+          "end": 8.52
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "text": "And actually, it uses",
+      "start": 8.52,
+      "end": 10.24,
+      "startFrame": 256,
+      "endFrame": 307,
+      "highlight": [],
+      "words": [
+        {
+          "t": "And",
+          "start": 8.52,
+          "end": 8.92
+        },
+        {
+          "t": "actually,",
+          "start": 8.92,
+          "end": 9.28
+        },
+        {
+          "t": "it",
+          "start": 9.28,
+          "end": 9.48
+        },
+        {
+          "t": "uses",
+          "start": 9.48,
+          "end": 10.24
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "text": "survey data through a",
+      "start": 10.24,
+      "end": 11.8,
+      "startFrame": 307,
+      "endFrame": 354,
+      "highlight": [
+        0,
+        1
+      ],
+      "words": [
+        {
+          "t": "survey",
+          "start": 10.24,
+          "end": 10.96
+        },
+        {
+          "t": "data",
+          "start": 10.96,
+          "end": 11.12
+        },
+        {
+          "t": "through",
+          "start": 11.12,
+          "end": 11.36
+        },
+        {
+          "t": "a",
+          "start": 11.36,
+          "end": 11.8
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "text": "virtual shop with the respondent,",
+      "start": 11.8,
+      "end": 16.24,
+      "startFrame": 354,
+      "endFrame": 487,
+      "highlight": [
+        0,
+        1
+      ],
+      "words": [
+        {
+          "t": "virtual",
+          "start": 11.8,
+          "end": 13.24
+        },
+        {
+          "t": "shop",
+          "start": 13.24,
+          "end": 14.04
+        },
+        {
+          "t": "with",
+          "start": 14.04,
+          "end": 14.28
+        },
+        {
+          "t": "the",
+          "start": 14.28,
+          "end": 14.68
+        },
+        {
+          "t": "respondent,",
+          "start": 14.68,
+          "end": 16.24
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "text": "and at the same time,",
+      "start": 16.24,
+      "end": 17.96,
+      "startFrame": 487,
+      "endFrame": 539,
+      "highlight": [],
+      "words": [
+        {
+          "t": "and",
+          "start": 16.24,
+          "end": 16.72
+        },
+        {
+          "t": "at",
+          "start": 16.72,
+          "end": 16.8
+        },
+        {
+          "t": "the",
+          "start": 16.8,
+          "end": 17.08
+        },
+        {
+          "t": "same",
+          "start": 17.08,
+          "end": 17.4
+        },
+        {
+          "t": "time,",
+          "start": 17.4,
+          "end": 17.96
+        }
+      ]
+    },
+    {
+      "index": 7,
+      "text": "it integrates the results of",
+      "start": 17.96,
+      "end": 20.21,
+      "startFrame": 539,
+      "endFrame": 606,
+      "highlight": [
+        1
+      ],
+      "words": [
+        {
+          "t": "it",
+          "start": 17.96,
+          "end": 18.16
+        },
+        {
+          "t": "integrates",
+          "start": 18.16,
+          "end": 18.72
+        },
+        {
+          "t": "the",
+          "start": 18.72,
+          "end": 19.16
+        },
+        {
+          "t": "results",
+          "start": 19.16,
+          "end": 20.16
+        },
+        {
+          "t": "of",
+          "start": 20.16,
+          "end": 20.21
+        }
+      ]
+    },
+    {
+      "index": 8,
+      "text": "the virtual shop survey",
+      "start": 20.21,
+      "end": 21.81,
+      "startFrame": 606,
+      "endFrame": 654,
+      "highlight": [
+        3
+      ],
+      "words": [
+        {
+          "t": "the",
+          "start": 20.21,
+          "end": 20.36
+        },
+        {
+          "t": "virtual",
+          "start": 20.36,
+          "end": 21.68
+        },
+        {
+          "t": "shop",
+          "start": 21.68,
+          "end": 21.76
+        },
+        {
+          "t": "survey",
+          "start": 21.76,
+          "end": 21.81
+        }
+      ]
+    },
+    {
+      "index": 9,
+      "text": "with the actual market data",
+      "start": 21.81,
+      "end": 24.44,
+      "startFrame": 654,
+      "endFrame": 733,
+      "highlight": [
+        3,
+        4
+      ],
+      "words": [
+        {
+          "t": "with",
+          "start": 21.81,
+          "end": 21.86
+        },
+        {
+          "t": "the",
+          "start": 21.86,
+          "end": 22.12
+        },
+        {
+          "t": "actual",
+          "start": 22.12,
+          "end": 23.2
+        },
+        {
+          "t": "market",
+          "start": 23.2,
+          "end": 23.56
+        },
+        {
+          "t": "data",
+          "start": 23.56,
+          "end": 24.44
+        }
+      ]
+    },
+    {
+      "index": 10,
+      "text": "for calibration of the model.",
+      "start": 24.44,
+      "end": 28.8,
+      "startFrame": 733,
+      "endFrame": 864,
+      "highlight": [
+        1
+      ],
+      "words": [
+        {
+          "t": "for",
+          "start": 24.44,
+          "end": 24.96
+        },
+        {
+          "t": "calibration",
+          "start": 24.96,
+          "end": 26.24
+        },
+        {
+          "t": "of",
+          "start": 26.24,
+          "end": 26.76
+        },
+        {
+          "t": "the",
+          "start": 26.76,
+          "end": 28.24
+        },
+        {
+          "t": "model.",
+          "start": 28.24,
+          "end": 28.8
+        }
+      ]
+    },
+    {
+      "index": 11,
+      "text": "Both of them, the market data",
+      "start": 28.8,
+      "end": 31.48,
+      "startFrame": 864,
+      "endFrame": 944,
+      "highlight": [
+        4,
+        5
+      ],
+      "words": [
+        {
+          "t": "Both",
+          "start": 28.8,
+          "end": 29.72
+        },
+        {
+          "t": "of",
+          "start": 29.72,
+          "end": 30.04
+        },
+        {
+          "t": "them,",
+          "start": 30.04,
+          "end": 30.56
+        },
+        {
+          "t": "the",
+          "start": 30.56,
+          "end": 30.84
+        },
+        {
+          "t": "market",
+          "start": 30.84,
+          "end": 31.32
+        },
+        {
+          "t": "data",
+          "start": 31.32,
+          "end": 31.48
+        }
+      ]
+    },
+    {
+      "index": 12,
+      "text": "and the results of the survey,",
+      "start": 31.48,
+      "end": 34.8,
+      "startFrame": 944,
+      "endFrame": 1044,
+      "highlight": [
+        2
+      ],
+      "words": [
+        {
+          "t": "and",
+          "start": 31.48,
+          "end": 32.28
+        },
+        {
+          "t": "the",
+          "start": 32.28,
+          "end": 32.88
+        },
+        {
+          "t": "results",
+          "start": 32.88,
+          "end": 33.48
+        },
+        {
+          "t": "of",
+          "start": 33.48,
+          "end": 33.68
+        },
+        {
+          "t": "the",
+          "start": 33.68,
+          "end": 34.0
+        },
+        {
+          "t": "survey,",
+          "start": 34.0,
+          "end": 34.8
+        }
+      ]
+    },
+    {
+      "index": 13,
+      "text": "we integrate into what we call",
+      "start": 34.8,
+      "end": 40.32,
+      "startFrame": 1044,
+      "endFrame": 1210,
+      "highlight": [],
+      "words": [
+        {
+          "t": "we",
+          "start": 34.8,
+          "end": 35.56
+        },
+        {
+          "t": "integrate",
+          "start": 35.56,
+          "end": 36.32
+        },
+        {
+          "t": "into",
+          "start": 36.32,
+          "end": 36.84
+        },
+        {
+          "t": "what",
+          "start": 36.84,
+          "end": 38.32
+        },
+        {
+          "t": "we",
+          "start": 38.32,
+          "end": 39.68
+        },
+        {
+          "t": "call",
+          "start": 39.68,
+          "end": 40.32
+        }
+      ]
+    },
+    {
+      "index": 14,
+      "text": "the Smart Shopper simulator,",
+      "start": 40.32,
+      "end": 42.16,
+      "startFrame": 1210,
+      "endFrame": 1265,
+      "highlight": [
+        3
+      ],
+      "words": [
+        {
+          "t": "the",
+          "start": 40.32,
+          "end": 40.37
+        },
+        {
+          "t": "Smart",
+          "start": 40.37,
+          "end": 40.72
+        },
+        {
+          "t": "Shopper",
+          "start": 40.72,
+          "end": 41.16
+        },
+        {
+          "t": "simulator,",
+          "start": 41.16,
+          "end": 42.16
+        }
+      ]
+    },
+    {
+      "index": 15,
+      "text": "which can predict and identify",
+      "start": 42.16,
+      "end": 45.8,
+      "startFrame": 1265,
+      "endFrame": 1374,
+      "highlight": [
+        2
+      ],
+      "words": [
+        {
+          "t": "which",
+          "start": 42.16,
+          "end": 42.6
+        },
+        {
+          "t": "can",
+          "start": 42.6,
+          "end": 43.32
+        },
+        {
+          "t": "predict",
+          "start": 43.32,
+          "end": 44.0
+        },
+        {
+          "t": "and",
+          "start": 44.0,
+          "end": 44.8
+        },
+        {
+          "t": "identify",
+          "start": 44.8,
+          "end": 45.8
+        }
+      ]
+    },
+    {
+      "index": 16,
+      "text": "the best pricing strategies",
+      "start": 45.8,
+      "end": 48.04,
+      "startFrame": 1374,
+      "endFrame": 1441,
+      "highlight": [
+        2,
+        3
+      ],
+      "words": [
+        {
+          "t": "the",
+          "start": 45.8,
+          "end": 46.48
+        },
+        {
+          "t": "best",
+          "start": 46.48,
+          "end": 46.88
+        },
+        {
+          "t": "pricing",
+          "start": 46.88,
+          "end": 47.32
+        },
+        {
+          "t": "strategies",
+          "start": 47.32,
+          "end": 48.04
+        }
+      ]
+    },
+    {
+      "index": 17,
+      "text": "I should be doing for",
+      "start": 48.04,
+      "end": 50.72,
+      "startFrame": 1441,
+      "endFrame": 1522,
+      "highlight": [],
+      "words": [
+        {
+          "t": "I",
+          "start": 48.04,
+          "end": 48.56
+        },
+        {
+          "t": "should",
+          "start": 48.56,
+          "end": 49.0
+        },
+        {
+          "t": "be",
+          "start": 49.0,
+          "end": 49.24
+        },
+        {
+          "t": "doing",
+          "start": 49.24,
+          "end": 50.12
+        },
+        {
+          "t": "for",
+          "start": 50.12,
+          "end": 50.72
+        }
+      ]
+    },
+    {
+      "index": 18,
+      "text": "my portfolio of brands and SKUs.",
+      "start": 50.72,
+      "end": 57.78,
+      "startFrame": 1522,
+      "endFrame": 1733,
+      "highlight": [
+        1,
+        5
+      ],
+      "words": [
+        {
+          "t": "my",
+          "start": 50.72,
+          "end": 51.36
+        },
+        {
+          "t": "portfolio",
+          "start": 51.36,
+          "end": 53.16
+        },
+        {
+          "t": "of",
+          "start": 53.16,
+          "end": 54.16
+        },
+        {
+          "t": "brands",
+          "start": 54.16,
+          "end": 55.04
+        },
+        {
+          "t": "and",
+          "start": 55.04,
+          "end": 55.44
+        },
+        {
+          "t": "SKUs.",
+          "start": 55.44,
+          "end": 57.78
+        }
+      ]
+    }
+  ],
+  "scenes": [
+    {
+      "id": "pricing",
+      "theme": "price-optimization",
+      "bg": "navyBlue",
+      "startChunk": 0,
+      "endChunk": 2,
+      "start": 1.41,
+      "end": 8.52
+    },
+    {
+      "id": "virtualshop",
+      "theme": "virtual-shop-survey",
+      "bg": "navyBlack",
+      "startChunk": 3,
+      "endChunk": 8,
+      "start": 8.52,
+      "end": 21.81
+    },
+    {
+      "id": "marketdata",
+      "theme": "market-calibration",
+      "bg": "navyBlue",
+      "startChunk": 9,
+      "endChunk": 12,
+      "start": 21.81,
+      "end": 34.8
+    },
+    {
+      "id": "simulator",
+      "theme": "simulator",
+      "bg": "navyBlack",
+      "startChunk": 13,
+      "endChunk": 14,
+      "start": 34.8,
+      "end": 42.16
+    },
+    {
+      "id": "predict",
+      "theme": "predictive-strategy",
+      "bg": "navyBlue",
+      "startChunk": 15,
+      "endChunk": 18,
+      "start": 42.16,
+      "end": 57.78
+    }
+  ]
+}
