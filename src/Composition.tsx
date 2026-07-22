@@ -37,7 +37,9 @@ const SCENE_COMPONENTS: Record<string, React.FC<{ life: number }>> = {
   predict: ScenePredict,
 };
 
-const OUTRO_FROM = F(data.speechEnd) - 4;
+// Start the outro just after the last caption ("...brands and SKUs") has shown,
+// so it is never covered mid-word.
+const OUTRO_FROM = F(data.speechEnd) + 2;
 const OUTRO_DUR = Math.max(30, TOTAL - OUTRO_FROM);
 
 // Build each themed scene's frame window from the caption data.

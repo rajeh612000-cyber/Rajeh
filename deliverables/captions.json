@@ -3,7 +3,7 @@
   "duration": 37.525333,
   "fps": 30,
   "speechStart": 2.87,
-  "speechEnd": 35.96,
+  "speechEnd": 36.3,
   "chunks": [
     {
       "index": 0,
@@ -704,9 +704,9 @@
       "index": 21,
       "text": "of brands and SKUs.",
       "start": 34.52,
-      "end": 35.96,
+      "end": 36.3,
       "startFrame": 1036,
-      "endFrame": 1079,
+      "endFrame": 1089,
       "highlight": [
         3
       ],
@@ -729,7 +729,7 @@
         {
           "t": "SKUs.",
           "start": 35.56,
-          "end": 35.96
+          "end": 36.3
         }
       ]
     }
@@ -778,7 +778,7 @@
       "startChunk": 17,
       "endChunk": 21,
       "start": 27.52,
-      "end": 35.96
+      "end": 36.3
     }
   ]
 }
