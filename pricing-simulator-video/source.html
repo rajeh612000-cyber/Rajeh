@@ -1,0 +1,1983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Super Bock Pricing Simulator — Portugal Off-Trade Beer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root{
+    --ink:#08306B;
+    --ink-soft:#0E407B;
+    --ink-softer:#17518C;
+    --canvas:#F4F7FA;
+    --paper:#FFFFFF;
+    --amber:#CD393B;
+    --amber-deep:#A82E32;
+    --amber-pale:#F9E7E8;
+    --teal:#2A86B8;
+    --teal-pale:#E6F3FA;
+    --rust:#CD393B;
+    --rust-pale:#F9E7E8;
+    --ink-text:#12345B;
+    --muted:#6F7B8D;
+    --line:#D8E2EB;
+    --line-dark:#2B5B8C;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Inter',sans-serif;
+    background:var(--canvas);
+    color:var(--ink-text);
+    display:flex;
+    min-height:100vh;
+    font-size:14px;
+  }
+  ::selection{background:var(--amber-pale);}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  h1,h2,h3,.display{font-family:'Fraunces',serif;}
+  a{color:inherit;}
+  button{font-family:inherit;}
+
+  /* ---------- Sidebar ---------- */
+  .sidebar{
+    width:238px;
+    flex:0 0 238px;
+    background:var(--ink);
+    color:#F2F6FA;
+    display:flex;
+    flex-direction:column;
+    padding:22px 16px;
+    position:sticky;
+    top:0;
+    height:100vh;
+  }
+  .brand{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    padding:4px 4px 20px 4px;
+    border-bottom:1px solid var(--line-dark);
+    margin-bottom:18px;
+  }
+  .brand-logo-card{
+    background:#fff;
+    border-radius:8px;
+    padding:12px 14px;
+    box-shadow:inset 0 0 0 1px rgba(0,0,0,.04);
+  }
+  .brand-logo-card img{
+    width:100%;
+    height:auto;
+    display:block;
+  }
+  .brand-text{line-height:1.3;}
+  .brand-text .sub{font-size:10.5px; letter-spacing:.06em; text-transform:uppercase; color:#A8BED5;}
+  .brand-text .client{font-size:11px; color:#D8E5F0; font-weight:500; margin-top:2px;}
+
+  nav.primary-nav{display:flex; flex-direction:column; gap:2px;}
+  .nav-item{
+    display:flex; align-items:center; gap:11px;
+    padding:10px 10px;
+    border-radius:7px;
+    cursor:pointer;
+    color:#D8E5F0;
+    font-size:13.5px;
+    font-weight:500;
+    transition:background .15s ease, color .15s ease;
+  }
+  .nav-item .num{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:11px;
+    color:#8FB0CF;
+    width:16px;
+  }
+  .nav-item:hover{background:var(--ink-soft); color:#fff;}
+  .nav-item.active{background:var(--ink-softer); color:#fff;}
+  .nav-item.active .num{color:var(--amber);}
+  .nav-item.active{box-shadow:inset 3px 0 0 var(--amber);}
+
+  .sidebar-foot{
+    margin-top:auto;
+    padding-top:16px;
+    border-top:1px solid var(--line-dark);
+    font-size:11px;
+    color:#9BB5CF;
+    line-height:1.6;
+  }
+  .sidebar-foot b{color:#D1E0ED;}
+
+  /* ---------- Main ---------- */
+  .main{flex:1; min-width:0; display:flex; flex-direction:column;}
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 32px;
+    background:var(--paper);
+    border-bottom:1px solid var(--line);
+    position:sticky; top:0; z-index:5;
+  }
+  .topbar h1{font-size:20px; margin:0; font-weight:600; letter-spacing:-.01em;}
+  .topbar .crumb{font-size:11.5px; color:var(--muted); text-transform:uppercase; letter-spacing:.07em; margin-bottom:3px;}
+  .filters{display:flex; gap:10px; align-items:center;}
+  select, .btn, input[type=text]{
+    font-family:'Inter',sans-serif;
+    font-size:12.5px;
+  }
+  select{
+    padding:7px 26px 7px 11px;
+    border-radius:6px;
+    border:1px solid var(--line);
+    background:var(--paper) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="6"><path d="M0 0l5 6 5-6z" fill="%236B7280"/></svg>') no-repeat right 10px center;
+    appearance:none;
+    color:var(--ink-text);
+    cursor:pointer;
+  }
+  .btn{
+    padding:8px 14px;
+    border-radius:6px;
+    border:1px solid var(--ink);
+    background:var(--ink);
+    color:#fff;
+    cursor:pointer;
+    font-weight:600;
+    letter-spacing:.01em;
+  }
+  .btn:hover{background:var(--ink-soft);}
+  .btn.secondary{
+    background:transparent; color:var(--ink-text); border-color:var(--line);
+    font-weight:500;
+  }
+  .btn.secondary:hover{border-color:var(--ink-text);}
+  .btn.amber{background:var(--amber); border-color:var(--amber-deep); color:#fff;}
+  .btn.amber:hover{background:var(--amber-deep); color:#fff;}
+
+  .content{padding:26px 32px 60px 32px;}
+  .panel{display:none;}
+  .panel.active{display:block; animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:none;}}
+
+  .section-intro{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    margin-bottom:20px; gap:24px;
+  }
+  .section-intro .obj{font-size:13px; color:var(--muted); max-width:560px; line-height:1.55;}
+  .section-intro .obj b{color:var(--ink-text);}
+
+  .grid{display:grid; gap:18px;}
+  .grid.cols-2{grid-template-columns:1.3fr 1fr;}
+  .grid.cols-3{grid-template-columns:repeat(3,1fr);}
+
+  .card{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:20px 22px;
+  }
+  .card h3{font-size:15px; margin:0 0 4px 0; font-weight:600;}
+  .card .card-sub{font-size:12px; color:var(--muted); margin-bottom:14px;}
+  .card.tight{padding:16px 18px;}
+
+  .field-row{display:flex; gap:14px; flex-wrap:wrap; margin-bottom:14px;}
+  .field{display:flex; flex-direction:column; gap:5px; flex:1; min-width:150px;}
+  .field label{font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); font-weight:600;}
+
+  .slider-row{display:flex; align-items:center; gap:12px; margin-bottom:10px;}
+  .slider-row .lab{width:150px; font-size:12.5px; flex:0 0 150px;}
+  .slider-row input[type=range]{flex:1; accent-color:var(--amber-deep);}
+  .slider-row .val{
+    width:56px; text-align:right; font-family:'IBM Plex Mono',monospace; font-size:12.5px; font-weight:600;
+  }
+  .tag-own{color:var(--amber-deep); font-weight:700; font-size:10px; text-transform:uppercase; letter-spacing:.05em;}
+  .tag-comp{color:var(--teal); font-weight:700; font-size:10px; text-transform:uppercase; letter-spacing:.05em;}
+
+  table{width:100%; border-collapse:collapse; font-size:12.5px;}
+  th{
+    text-align:left; font-size:10.5px; text-transform:uppercase; letter-spacing:.05em;
+    color:var(--muted); font-weight:600; padding:8px 10px; border-bottom:1px solid var(--line);
+  }
+  td{padding:9px 10px; border-bottom:1px solid var(--line);}
+  tr:last-child td{border-bottom:none;}
+  td.num, th.num{font-family:'IBM Plex Mono',monospace; text-align:right;}
+  .pos{color:#276B4E;}
+  .neg{color:var(--rust);}
+  .dot{display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:6px;}
+  .dot.own{background:var(--amber);}
+  .dot.comp{background:var(--teal);}
+
+  .kpi-row{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:20px;}
+  .kpi-row.five{grid-template-columns:repeat(5,minmax(0,1fr));}
+  .kpi.snapshot{padding:14px 16px; min-height:112px; box-shadow:0 5px 16px rgba(8,48,107,.05);}
+  .kpi.snapshot .label{font-size:10px; border-bottom:1px dotted #AEBECD; padding-bottom:5px;}
+  .kpi.snapshot .value{font-size:21px; color:var(--ink);}
+  .kpi.snapshot .baseline{font-size:10.5px; color:var(--muted); margin-top:8px;}
+  .kpi.snapshot .pill{margin-top:7px;}
+  .model-confidence{
+    min-width:330px; display:flex; align-items:center; gap:14px;
+    padding:13px 18px; border:1px solid #CFE0D5; border-radius:10px;
+    background:#EEF7F1; color:var(--ink-text);
+  }
+  .model-confidence .status-dot{width:12px; height:12px; border-radius:50%; background:#4F7F5E; flex:0 0 12px;}
+  .model-confidence strong{display:block; font-size:14px; color:var(--ink);}
+  .model-confidence span{display:block; font-size:11.5px; color:var(--muted); margin-top:2px;}
+  .model-confidence{position:relative; cursor:help;}
+  .model-confidence .confidence-popover{
+    display:none; position:absolute; right:0; top:calc(100% + 10px); width:330px; z-index:20;
+    background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:14px 16px;
+    box-shadow:0 14px 35px rgba(8,48,107,.16); color:var(--ink-text);
+  }
+  .model-confidence:hover .confidence-popover{display:block;}
+  .confidence-popover .confidence-line{display:flex; justify-content:space-between; gap:14px; padding:6px 0; border-bottom:1px solid var(--line); font-size:11.5px;}
+  .confidence-popover .confidence-line:last-of-type{border-bottom:none;}
+  .confidence-popover .confidence-line b{font-family:'IBM Plex Mono',monospace; color:var(--ink);}
+  .confidence-popover .confidence-note{font-size:11px; color:var(--muted); line-height:1.5; margin-top:9px;}
+
+  .transfer-card{display:none; margin-bottom:18px; border-left:4px solid var(--teal);}
+  .transfer-summary{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:14px 0 16px;}
+  .transfer-stat{background:#F7FAFC; border:1px solid #DCE7F0; border-radius:8px; padding:12px 14px;}
+  .transfer-stat .ts-label{font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); font-weight:600; margin-bottom:5px;}
+  .transfer-stat .ts-value{font-family:'IBM Plex Mono',monospace; font-size:18px; font-weight:600; color:var(--ink);}
+  .transfer-direction{font-size:12px; color:var(--muted); line-height:1.5;}
+  .transfer-type{font-size:10px; text-transform:uppercase; letter-spacing:.05em; font-weight:700;}
+  .transfer-type.competitor{color:var(--teal);}
+  .transfer-type.own{color:var(--amber-deep);}
+  .transfer-type.category{color:var(--muted);}
+  @media (max-width:980px){.transfer-summary{grid-template-columns:1fr 1fr;}}
+  .kpi{background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:15px 18px;}
+  .kpi .label{font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); font-weight:600; margin-bottom:6px;}
+  .kpi .value{font-family:'IBM Plex Mono',monospace; font-size:22px; font-weight:600; line-height:1;}
+  .kpi .delta{font-size:11.5px; margin-top:6px; font-weight:600;}
+
+  .pill{
+    display:inline-flex; align-items:center; gap:5px;
+    padding:3px 9px; border-radius:20px; font-size:11px; font-weight:600;
+  }
+  .pill.green{background:#E3EFE7; color:#276B4E;}
+  .pill.amber{background:var(--amber-pale); color:var(--amber-deep);}
+  .pill.red{background:var(--rust-pale); color:var(--rust);}
+  .pill.gray{background:#EEF2F6; color:var(--muted);}
+
+  .chip-toggle{display:flex; border:1px solid var(--line); border-radius:7px; overflow:hidden; width:fit-content;}
+  .chip-toggle button{
+    padding:7px 14px; border:none; background:var(--paper); cursor:pointer; font-size:12.5px; font-weight:500; color:var(--muted);
+    border-right:1px solid var(--line);
+  }
+  .chip-toggle button:last-child{border-right:none;}
+  .chip-toggle button.active{background:var(--ink); color:#fff;}
+
+  .canvas-wrap{position:relative; height:260px;}
+  .canvas-wrap.short{height:190px;}
+  .canvas-wrap.tall{height:420px;}
+
+  .scenario-tabs{display:flex; gap:8px; margin-bottom:16px;}
+  .scenario-tab{
+    padding:9px 16px; border-radius:8px; border:1px solid var(--line); background:var(--paper);
+    cursor:pointer; font-size:12.5px; font-weight:600; color:var(--muted);
+  }
+  .scenario-tab.active{border-color:var(--ink); color:var(--ink-text); background:var(--amber-pale); border-color:var(--amber-deep);}
+
+  .note{
+    font-size:12px; color:var(--muted); background:#EEF4F8; border-radius:8px; padding:10px 13px; line-height:1.55;
+    border-left:3px solid var(--amber);
+  }
+
+  /* PPA ladder */
+  .ladder-wrap{display:flex; gap:26px; align-items:flex-end; height:380px; padding:10px 6px 0 6px; border-bottom:2px solid var(--ink-text); overflow-x:auto;}
+  .ladder-tier-labels{position:relative; height:380px; width:0;}
+  .ladder-col{display:flex; flex-direction:column; align-items:center; gap:8px; min-width:78px;}
+  .ladder-bar{
+    width:46px; border-radius:5px 5px 3px 3px;
+    display:flex; align-items:flex-start; justify-content:center; padding-top:6px;
+    font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#3a2c0d; font-weight:600;
+    box-shadow:inset 0 0 0 1px rgba(0,0,0,.08);
+    position:relative;
+  }
+  .ladder-bar.own{background:linear-gradient(180deg,#E77B7D,var(--amber-deep));}
+  .ladder-bar.comp{background:linear-gradient(180deg,#8ACAEC,var(--teal));}
+  .ladder-label{font-size:11px; text-align:center; line-height:1.3; color:var(--ink-text); font-weight:500;}
+  .ladder-label .brand{font-weight:700; font-size:10.5px;}
+  .ladder-label .price{font-family:'IBM Plex Mono',monospace; color:var(--muted); font-size:10.5px;}
+  .tier-band{position:absolute; left:0; right:0; font-size:10px; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); font-weight:700;}
+
+  .legend-row{display:flex; gap:18px; margin-top:14px; font-size:11.5px; color:var(--muted);}
+  .legend-row span{display:flex; align-items:center; gap:6px;}
+
+  /* Data hub */
+  .source-row{display:flex; align-items:center; justify-content:space-between; padding:13px 0; border-bottom:1px solid var(--line);}
+  .source-row:last-child{border-bottom:none;}
+  .source-name{display:flex; align-items:center; gap:12px;}
+  .source-icon{
+    width:34px; height:34px; border-radius:8px; background:var(--teal-pale); color:var(--teal);
+    display:flex; align-items:center; justify-content:center; font-weight:700; font-size:13px; flex:0 0 34px;
+  }
+  .source-meta{font-size:11.5px; color:var(--muted); margin-top:2px;}
+
+  .dropzone{
+    border:2px dashed var(--line); border-radius:10px; padding:34px 20px; text-align:center;
+    color:var(--muted); font-size:12.5px; background:#F7FAFC;
+  }
+  .dropzone b{color:var(--ink-text);}
+
+  ::-webkit-scrollbar{height:8px; width:8px;}
+  ::-webkit-scrollbar-thumb{background:#CBD8E4; border-radius:4px;}
+
+  @media (max-width: 980px){
+    .grid.cols-2, .grid.cols-3, .kpi-row, .kpi-row.five{grid-template-columns:1fr;}
+    body{flex-direction:column;}
+    .sidebar{width:100%; flex:none; height:auto; position:relative; flex-direction:row; overflow-x:auto;}
+    nav.primary-nav{flex-direction:row;}
+    .brand{border:none; margin:0; padding:0 12px 0 0;}
+    .sidebar-foot{display:none;}
+  }
+</style>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="brand">
+    <div class="brand-logo-card">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='70' viewBox='0 0 300 70'%3E%3Crect width='300' height='70' fill='%23ffffff'/%3E%3Ctext x='0' y='34' font-family='Georgia,serif' font-size='28' font-weight='700' fill='%2308306B' letter-spacing='0.5'%3EMarketeers%3C/text%3E%3Ctext x='2' y='54' font-family='Arial,sans-serif' font-size='10.5' font-weight='600' letter-spacing='2' fill='%232A86B8'%3EANALYTICS %C2%B7 INSIGHTS %C2%B7 IMPACT%3C/text%3E%3Crect x='0' y='60' width='46' height='4' fill='%23CD393B'/%3E%3C/svg%3E" alt="Marketeers — Analytics · Insights · Impact">
+    </div>
+    <div class="brand-text">
+      <div class="sub">Pricing Simulator</div>
+      <div class="client">Super Bock Group · Beer, Portugal</div>
+    </div>
+  </div>
+  <nav class="primary-nav" id="nav">
+    <div class="nav-item active" data-panel="opt"><span class="num">01</span> Price Optimization</div>
+    <div class="nav-item" data-panel="whatif"><span class="num">02</span> Price Simulation</div>
+    <div class="nav-item" data-panel="ppa"><span class="num">03</span> Price-Pack Architecture</div>
+    <div class="nav-item" data-panel="hub"><span class="num">04</span> Data Hub &amp; Trust</div>
+  </nav>
+  <div class="sidebar-foot">
+    <div><b>Category</b> · Beer, off-trade</div>
+    <div><b>Market</b> · Portugal</div>
+    <div><b>Base</b> · Choice-based conjoint, calibrated to NIQ/Circana</div>
+  </div>
+</aside>
+
+<main class="main">
+
+  <div class="topbar">
+    <div>
+      <div class="crumb" id="crumb">Section 01</div>
+      <h1 id="topTitle">Price Optimization</h1>
+    </div>
+    <div class="filters">
+      <select id="fChannel">
+        <option>All off-trade</option>
+        <option>Hypermarket</option>
+        <option>Supermarket</option>
+        <option>Convenience &amp; Traditional</option>
+        <option>Discounter</option>
+      </select>
+      <select id="fRetailer">
+        <option>All retailers</option>
+        <option>Continente</option>
+        <option>Pingo Doce</option>
+        <option>Auchan</option>
+        <option>Lidl</option>
+      </select>
+      <button class="btn secondary">Export view</button>
+    </div>
+  </div>
+
+  <div class="content">
+<!-- ============ 01 PRICE OPTIMIZATION ============ -->
+    <section class="panel active" id="panel-opt">
+      <div class="section-intro">
+        <div class="obj">Set an objective and guardrails, and the model returns a <b>recommended price</b> per SKU — anchored to the competitor the conjoint says consumers actually switch to, and held consistent across pack formats.</div>
+        <div class="model-confidence" aria-label="Model confidence details">
+          <i class="status-dot"></i>
+          <div>
+            <strong>Model confidence: <span id="modelConfidenceValue" style="display:inline; font-size:inherit; color:inherit; margin:0;">94%</span></strong>
+            <span id="modelConfidenceSummary">Smart Shopper validation 94% · Historical validation 94%</span>
+          </div>
+          <div class="confidence-popover">
+            <div class="confidence-line"><span>Smart Shopper research validation</span><b id="researchValidationValue">94%</b></div>
+            <div class="confidence-line"><span>Historical-data validation</span><b id="historicValidationValue">94%</b></div>
+            <div class="confidence-line"><span>Current market consistency</span><b id="marketConsistencyValue">Stable</b></div>
+            <div class="confidence-note">The score is recalculated whenever new validation data is uploaded. When current outcomes remain consistent with the research and historical pattern, the scores converge. Material political, economic, competitive or category changes increase divergence and reduce overall model confidence.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="kpi-row five">
+        <div class="kpi snapshot"><div class="label">Super Bock volume share</div><div class="value">52.5%</div><div class="baseline">Baseline: 53.0%</div><span class="pill red">-0.5 pts vs baseline</span></div>
+        <div class="kpi snapshot"><div class="label">Super Bock value share</div><div class="value">51.3%</div><div class="baseline">Baseline: 51.5%</div><span class="pill red">-0.2 pts vs baseline</span></div>
+        <div class="kpi snapshot"><div class="label">Avg. shelf price / litre</div><div class="value">€2,11</div><div class="baseline">Baseline: €2,08</div><span class="pill green">+1.2% vs baseline</span></div>
+        <div class="kpi snapshot"><div class="label">Retail sales value</div><div class="value">€1 106 305</div><div class="baseline">Baseline: €1 103 674</div><span class="pill green">+0.2% vs baseline</span></div>
+        <div class="kpi snapshot"><div class="label">Gross profit proxy</div><div class="value">€198 017</div><div class="baseline">Baseline: €194 108</div><span class="pill green">+2.0% vs baseline</span></div>
+      </div>
+
+      <div class="grid cols-2" style="margin-bottom:18px;">
+        <div class="card">
+          <h3>Objective &amp; guardrails</h3>
+          <div class="card-sub">Automated recommendation for Super Bock SKUs</div>
+          <div class="field-row">
+            <div class="field">
+              <label>Objective</label>
+              <select id="optObjective">
+                <option>Maximize contribution margin</option>
+                <option>Maximize volume</option>
+                <option>Maximize value share</option>
+                <option>Hold share, improve margin</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Apply to channel</label>
+              <select id="optChannel">
+                <option>All off-trade</option>
+                <option>Hypermarket</option>
+                <option>Supermarket</option>
+                <option>Convenience &amp; Traditional</option>
+                <option>Discounter</option>
+              </select>
+            </div>
+          </div>
+          <div class="slider-row">
+            <div class="lab">Max volume drop</div>
+            <input type="range" id="guardVol" min="0" max="20" value="10">
+            <div class="val" id="guardVolVal">10%</div>
+          </div>
+          <div class="slider-row">
+            <div class="lab">Min contribution margin</div>
+            <input type="range" id="guardCM" min="20" max="50" value="34">
+            <div class="val" id="guardCMVal">34%</div>
+          </div>
+          <button class="btn amber" id="runOpt" style="margin-top:6px;">Run recommendation</button>
+          <div class="note" style="margin-top:12px;">These two guardrails set the feasible price corridor below — the model won't recommend a price that breaches either one, even if a further move would raise CM.</div>
+        </div>
+
+        <div class="card">
+          <h3>Focus brand</h3>
+          <div class="card-sub">The line being priced. Its anchor is selected from cross-price elasticity, below.</div>
+          <div class="field">
+            <label>Focus brand / line</label>
+            <select id="focusBrand">
+              <option value="original">Super Bock Original</option>
+              <option value="abadia">Super Bock Abadia</option>
+              <option value="semalcool">Super Bock Sem Álcool</option>
+              <option value="cristal">Cristal Original</option>
+            </select>
+          </div>
+          <div class="note" id="focusNote" style="margin-top:12px;"></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:18px;">
+        <h3>Anchor brand candidates</h3>
+        <div class="card-sub">Where consumers switch to if <b id="focusBrandLabel">Super Bock Original</b> raises price 5% — from the conjoint's cross-price elasticity. Pick the anchor an RGM manager would defend to the category buyer.</div>
+        <table>
+          <thead><tr>
+            <th>Competitor brand</th><th class="num">Share of switching volume</th><th class="num">Current price index vs. focus brand</th><th></th>
+          </tr></thead>
+          <tbody id="anchorTableBody"></tbody>
+        </table>
+      </div>
+
+      <div class="grid cols-2" style="margin-bottom:18px;">
+        <div class="card">
+          <h3>Price corridor vs. anchor brand</h3>
+          <div class="card-sub">Anchor: <b id="anchorLabel">Sagres</b> · focus brand price shown as an index of anchor price (100 = parity)</div>
+          <div class="canvas-wrap"><canvas id="corridorChart"></canvas></div>
+          <div class="legend-row">
+            <span><i class="dot own"></i>Contribution margin</span>
+            <span><i class="dot comp"></i>Volume drop vs. today</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Corridor outcome</h3>
+          <div class="card-sub">Where each guardrail binds, and the resulting reference price</div>
+          <table>
+            <thead><tr><th>Bound</th><th class="num">Price point (€/L)</th><th class="num">Price index</th><th class="num">Volume drop</th><th class="num">CM</th></tr></thead>
+            <tbody id="corridorTableBody"></tbody>
+          </table>
+          <div class="note" style="margin-top:12px;" id="corridorNote"></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:18px;">
+        <h3>Recommended price by SKU</h3>
+        <div class="card-sub">Grouped by brand, then format, then size / multipack. Recommended unit price is derived from the €/L recommendation and total pack volume — no format arbitrage.</div>
+        <table id="ppaTable">
+          <thead><tr>
+            <th>Brand / format / pack</th><th class="num">Current unit price</th><th class="num">Recommended unit price</th><th class="num">Δ Price</th><th class="num">Δ Volume</th><th class="num">Δ Value share</th><th class="num">Δ CM</th>
+          </tr></thead>
+          <tbody id="ppaTableBody"></tbody>
+        </table>
+      </div>
+
+      <div class="card" style="margin-bottom:18px;">
+        <h3>Optimize vs. competitive moves</h3>
+        <div class="card-sub">Set an expected move for each competitor at once — the optimizer weighs them by switching share to find the best combined reaction</div>
+        <table style="margin-bottom:14px;">
+          <thead><tr><th>Competitor</th><th class="num">Switching share</th><th>Expected move</th></tr></thead>
+          <tbody id="compMovesBody"></tbody>
+        </table>
+        <button class="btn secondary" id="runReaction" style="margin-bottom:14px;">Run reaction optimizer</button>
+        <div id="reactionResult" class="note">Set expected moves for the competitors above and run the optimizer to see the best combined Super Bock reaction that still holds the stated objective.</div>
+      </div>
+
+      <div class="card">
+        <h3>Illustrative pricing path to objective</h3>
+        <div class="card-sub">Simulated share/margin trade-off along the guardrail range</div>
+        <div class="canvas-wrap"><canvas id="pathChart"></canvas></div>
+      </div>
+
+      <div style="margin-top:18px;">
+        <span class="chip-toggle" id="segToggleOpt">
+          <button class="active">All off-trade</button>
+          <button>By channel</button>
+          <button>By retailer</button>
+        </span>
+      </div>
+    </section>
+
+    <!-- ============ 02 PRICE SIMULATION WHAT-IF ============ -->
+    <section class="panel" id="panel-whatif">
+      <div class="section-intro">
+        <div class="obj">Set price points across the full SKU set from the study — <b>84 SKUs</b>, 20 of them Super Bock / Cristal — then compare scenarios on <b>volume, value index, and CM%</b> at the brand or manufacturer level.</div>
+        <div class="pill gray">84 SKUs · 20 own · 64 competitor</div>
+      </div>
+
+      <div class="scenario-tabs" id="scenarioTabs">
+        <div class="scenario-tab active" data-s="A">Scenario A</div>
+        <div class="scenario-tab" data-s="B">Scenario B</div>
+        <div class="scenario-tab" data-s="C">Scenario C</div>
+        <div class="scenario-tab" id="addScenarioTab" style="border-style:dashed;">+ New scenario</div>
+      </div>
+
+      <div class="card" style="margin-bottom:18px;">
+        <h3>Bulk price actions <span id="scenLabel" style="color:var(--amber-deep);">— Scenario A</span></h3>
+        <div class="card-sub">Apply a % change to a brand, a format, a saved custom group, or whatever's checked in the table below — no need to touch 5 SKUs at a time</div>
+        <div class="field-row">
+          <div class="field"><label>Brand</label><select id="bulkBrand"></select></div>
+          <div class="field"><label>Format</label><select id="bulkFormat"></select></div>
+          <div class="field"><label>Custom group</label><select id="bulkGroup"></select></div>
+          <div class="field" style="max-width:140px;"><label>% price change</label><input type="number" id="bulkPct" value="3" step="0.5" style="padding:8px 10px; border:1px solid var(--line); border-radius:6px; font-family:'IBM Plex Mono',monospace;"></div>
+        </div>
+        <div class="field-row" style="align-items:center;">
+          <button class="btn amber" id="applyBulk">Apply % to scope</button>
+          <button class="btn secondary" id="saveGroupBtn">Save checked rows as group</button>
+          <span class="pill gray" id="scopeCount" style="margin-left:auto;">Showing 84 of 84 SKUs</span>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:18px;">
+        <h3>SKU price points</h3>
+        <div class="card-sub">Edit a price point directly for fine control, or use bulk actions above for larger groups</div>
+        <div class="field-row">
+          <div class="field" style="flex:2; min-width:220px;"><label>Search</label><input type="text" id="skuSearch" placeholder="Search brand, format, pack…" style="padding:8px 10px; border:1px solid var(--line); border-radius:6px;"></div>
+          <div class="field"><label>Owner</label><select id="filterOwn"><option value="all">All SKUs</option><option value="own">Own only</option><option value="comp">Competitor only</option></select></div>
+          <div class="field"><label>Group by</label><select id="groupBy"><option value="brand">Brand</option><option value="format">Format</option><option value="none">None</option></select></div>
+          <div class="field"><label>Show</label><select id="filterChanged"><option value="all">All rows</option><option value="changed">Changed in this scenario</option></select></div>
+        </div>
+        <table>
+          <thead><tr>
+            <th style="width:30px;"><input type="checkbox" id="selectAllPage"></th>
+            <th>Brand</th><th>Format</th><th>Pack</th><th class="num">Current €/L</th><th class="num">New price point</th><th class="num">Δ%</th>
+          </tr></thead>
+          <tbody id="skuTableBody"></tbody>
+        </table>
+        <div class="field-row" style="margin-top:12px; align-items:center;">
+          <span class="pill gray" id="pageInfo">Page 1 of 7</span>
+          <button class="btn secondary" id="prevPage">Prev</button>
+          <button class="btn secondary" id="nextPage">Next</button>
+          <span style="margin-left:auto; font-size:12px; color:var(--muted);" id="changedCount">0 of 84 SKUs changed in Scenario A</span>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:18px;">
+        <h3>Scenario comparison</h3>
+        <div class="card-sub">Volume (bars), value index, and CM% (lines) across the current baseline and scenarios — S1, S2, S3… map to Scenario A, B, C…</div>
+        <div class="field-row" style="margin-bottom:6px;">
+          <span class="chip-toggle" id="viewToggle">
+            <button class="active" data-view="brand">By brand</button>
+            <button data-view="manufacturer">Manufacturer total</button>
+          </span>
+          <select id="viewBrandSelect" style="margin-left:10px;">
+            <option value="Super Bock">Super Bock</option>
+            <option value="Cristal">Cristal</option>
+          </select>
+        </div>
+        <div class="canvas-wrap tall"><canvas id="scenChart"></canvas></div>
+      </div>
+
+      <div class="kpi-row">
+        <div class="kpi"><div class="label">Volume index</div><div class="value" id="kpiVol">100.0</div><div class="delta pos" id="kpiVolD">Scenario A</div></div>
+        <div class="kpi"><div class="label">Value index</div><div class="value" id="kpiShare">100.0</div><div class="delta pos" id="kpiShareD">vs. base = 100</div></div>
+        <div class="kpi"><div class="label">Contribution margin</div><div class="value" id="kpiCM">36.0%</div><div class="delta pos" id="kpiCMD">CM%, current view</div></div>
+        <div class="kpi"><div class="label">SKUs changed</div><div class="value" id="kpiLosers">0</div><div class="delta neg" id="kpiLosersD">in this scenario, this view</div></div>
+      </div>
+
+      <div class="card transfer-card" id="volumeTransferCard">
+        <h3 id="volumeTransferTitle">Where the volume moved</h3>
+        <div class="card-sub" id="volumeTransferSub">Appears after a Super Bock or Cristal price change is applied.</div>
+        <div class="transfer-summary">
+          <div class="transfer-stat"><div class="ts-label">Predicted net volume change</div><div class="ts-value" id="transferNetUnits">—</div></div>
+          <div class="transfer-stat"><div class="ts-label">Competitor switching</div><div class="ts-value" id="transferCompetitorPct">—</div></div>
+          <div class="transfer-stat"><div class="ts-label" id="transferOwnLabel">Own-portfolio migration</div><div class="ts-value" id="transferOwnPct">—</div></div>
+          <div class="transfer-stat"><div class="ts-label" id="transferCategoryLabel">Category effect</div><div class="ts-value" id="transferCategoryPct">—</div></div>
+        </div>
+        <div class="transfer-direction" id="volumeTransferDirection"></div>
+        <table style="margin-top:10px;">
+          <thead><tr><th>Source / destination</th><th>Movement type</th><th class="num" id="transferUnitsHead">Transferred units</th><th class="num">Share of total change</th></tr></thead>
+          <tbody id="volumeTransferBody"></tbody>
+        </table>
+        <div class="note" style="margin-top:12px;">Illustrative switching logic for the simulator demonstration. Every transferred unit reconciles to the predicted net volume change across competitors, the owned portfolio and category expansion or walkaway.</div>
+      </div>
+
+      <div class="card">
+        <h3>SKU-level winners &amp; losers <span id="wlScenLabel" style="color:var(--amber-deep);">— Scenario A</span></h3>
+        <div class="card-sub">SKUs with a price change in this scenario, within the current view</div>
+        <table>
+          <thead><tr><th>Brand</th><th>Format</th><th>Pack</th><th class="num">Current €/L</th><th class="num">New price point</th><th class="num">Δ%</th><th class="num">Volume Δ</th><th class="num">CM% Δ</th></tr></thead>
+          <tbody id="whatifTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ 03 PPA ============ -->
+    <section class="panel" id="panel-ppa">
+      <div class="section-intro">
+        <div class="obj">Define how the product line is structured, set an optimization objective tied to <b>brand and category performance</b>, then see the resulting price ladder — current vs. optimized — and how volume sits across price tiers.</div>
+      </div>
+
+      <div class="card" style="margin-bottom:18px;">
+        <h3>Product line structure</h3>
+        <div class="card-sub">How SKUs are grouped and ordered on the ladder below</div>
+        <div class="field-row">
+          <div class="field">
+            <label>Primary grouping</label>
+            <select id="ppaPrimary">
+              <option value="format">Format</option>
+              <option value="brand">Brand</option>
+              <option value="tier">Price tier</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Secondary grouping</label>
+            <select id="ppaSecondary">
+              <option value="size">Size / pack (show every SKU)</option>
+              <option value="none">None (average per group)</option>
+            </select>
+          </div>
+        </div>
+        <div class="note">Primary sets the grouping shown on the ladder; secondary controls resolution — every pack size, or one averaged point per group.</div>
+      </div>
+
+      <div class="card" style="margin-bottom:18px;">
+        <h3>Optimization objective</h3>
+        <div class="card-sub">Tied to brand and category performance — volume, value, and CM</div>
+        <div class="field-row">
+          <div class="field">
+            <label>Objective</label>
+            <select id="ppaObjective">
+              <option>Maximize category contribution margin</option>
+              <option>Maximize brand volume</option>
+              <option>Maximize brand value share</option>
+              <option>Grow brand share without category CM leakage</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Scope</label>
+            <select id="ppaScope">
+              <option value="Super Bock">Super Bock</option>
+              <option value="Cristal">Cristal</option>
+              <option value="Both">Both owned brands</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn amber" id="runLadderOpt">Run ladder optimizer</button>
+        <div class="note" id="ladderOptNote" style="margin-top:12px;">Run the optimizer to generate an optimized ladder and see the impact on brand and category volume, value, and CM.</div>
+      </div>
+
+      <div class="kpi-row" id="ladderImpactRow" style="display:none;">
+        <div class="kpi"><div class="label">Brand volume</div><div class="value" id="kpiBrandVol">100.0</div><div class="delta pos" id="kpiBrandVolD">index vs. today</div></div>
+        <div class="kpi"><div class="label">Brand value</div><div class="value" id="kpiBrandVal">100.0</div><div class="delta pos" id="kpiBrandValD">index vs. today</div></div>
+        <div class="kpi"><div class="label">Brand CM%</div><div class="value" id="kpiBrandCM">36.0%</div><div class="delta pos" id="kpiBrandCMD">vs. today</div></div>
+        <div class="kpi"><div class="label">Category CM%</div><div class="value" id="kpiCatCM">38.0%</div><div class="delta pos" id="kpiCatCMD">whole beer category</div></div>
+      </div>
+
+      <div class="card" style="margin-bottom:18px;" id="ladderCard">
+        <h3>Price ladder — current vs. optimized</h3>
+        <div class="card-sub" id="ladderSub">Super Bock pack sizes are shown side by side at their current price per litre. Run the optimizer above to add the optimized line.</div>
+        <div class="canvas-wrap tall"><canvas id="ladderChart"></canvas></div>
+        <div class="legend-row">
+          <span><i class="dot own"></i>Current price</span>
+          <span><i class="dot comp"></i>Optimized price</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Tier composition</h3>
+        <div class="card-sub">Share of category volume by price tier — own vs. competitor. Define the bands yourself.</div>
+        <div class="field-row">
+          <div class="field" style="max-width:140px;">
+            <label>Number of tiers</label>
+            <select id="tierCount">
+              <option value="2">2</option>
+              <option value="3" selected>3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </div>
+          <div class="field" id="tierBoundsField" style="flex:3;">
+            <label>Tier boundaries (€/L, ascending)</label>
+            <div id="tierBoundsInputs" style="display:flex; gap:10px; flex-wrap:wrap;"></div>
+          </div>
+          <div class="field" style="max-width:140px; justify-content:flex-end;">
+            <label>&nbsp;</label>
+            <button class="btn secondary" id="applyBands">Apply bands</button>
+          </div>
+        </div>
+        <div class="canvas-wrap"><canvas id="tierChart"></canvas></div>
+        <div class="legend-row">
+          <span><i class="dot own"></i>Own (Super Bock + Cristal)</span>
+          <span><i class="dot comp"></i>Competitors</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 04 DATA HUB ============ -->
+    <section class="panel" id="panel-hub">
+      <div class="section-intro">
+        <div class="obj">Every recommendation above is only as good as the data behind it. This is where that data lives, gets refreshed, and gets checked.</div>
+      </div>
+
+      <div class="grid cols-2" style="margin-bottom:18px;">
+        <div class="card">
+          <h3>Data sources</h3>
+          <div class="card-sub">What's feeding the simulator right now</div>
+          <div class="source-row">
+            <div class="source-name"><div class="source-icon">HB</div><div><div>HBU utilities file</div><div class="source-meta">Choice-based conjoint · 1,204 respondents</div></div></div>
+            <span class="pill green">Current</span>
+          </div>
+          <div class="source-row">
+            <div class="source-name"><div class="source-icon">EP</div><div><div>Retailer EPOS data</div><div class="source-meta">Continente, Pingo Doce, Auchan · weekly feed</div></div></div>
+            <span class="pill green">Current</span>
+          </div>
+          <div class="source-row">
+            <div class="source-name"><div class="source-icon">NQ</div><div><div>NIQ / Circana audit</div><div class="source-meta">National + channel split, incl. Weighted Distribution</div></div></div>
+            <span class="pill amber">Refresh due in 9 days</span>
+          </div>
+          <div class="source-row">
+            <div class="source-name"><div class="source-icon">CG</div><div><div>COGS by SKU</div><div class="source-meta">Enables contribution margin calculation</div></div></div>
+            <span class="pill green">Current</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Upload new market data</h3>
+          <div class="card-sub">Quarterly refresh — recalibrates the simulator to current conditions</div>
+          <div class="dropzone">Drop EPOS / NIQ / Circana file here, or <b>browse</b><br><span style="font-size:11px;">.csv, .xlsx up to 200MB</span></div>
+          <div class="field-row" style="margin-top:14px;">
+            <div class="field"><label>Data period</label><select id="validationPeriod"><option>Q3 2026</option><option>Q2 2026</option></select></div>
+            <div class="field"><label>Source</label><select id="validationSource"><option>NIQ / Circana</option><option>Retailer EPOS</option><option>COGS</option></select></div>
+            <div class="field"><label>Detected market consistency</label><select id="validationContext"><option value="stable">Consistent with research period</option><option value="moderate">Moderate market divergence</option><option value="major">Major disruption / new competitor</option></select></div>
+          </div>
+          <button class="btn amber" id="uploadRecalibrate">Upload &amp; recalibrate</button>
+          <span id="recalibrationStatus" style="font-size:11.5px; color:var(--muted); margin-left:10px;"></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Validation — is the model still predicting reality?</h3>
+        <div class="card-sub">Held-out test month: <b>April 2026</b> (typical month, no major promo overlap) · predicted vs. actual performance</div>
+        <div class="canvas-wrap"><canvas id="validationChart"></canvas></div>
+        <div class="field-row" style="margin-top:14px; align-items:center;">
+          <span class="pill green" id="researchValidationPill">Smart Shopper validation: <b id="researchValidationHub" style="margin-left:4px;">94%</b></span>
+          <span class="pill green" id="historicValidationPill">Historical-data validation: <b id="historicValidationHub" style="margin-left:4px;">94%</b></span>
+          <span class="pill gray" id="marketConsistencyPill">Market consistency: <b id="marketConsistencyHub" style="margin-left:4px;">Stable</b></span>
+          <span style="font-size:12px; color:var(--muted);">Overall model confidence is recalculated after each upload and decreases when current market behaviour diverges from the research or historic pattern.</span>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<script>
+Chart.defaults.font.family = "'Inter', sans-serif";
+Chart.defaults.color = '#6B7280';
+Chart.defaults.font.size = 11.5;
+const AMBER = '#CD393B', AMBER_DEEP='#A82E32', TEAL = '#2A86B8', RUST='#CD393B', INK='#08306B';
+
+// ---------------- Nav ----------------
+document.querySelectorAll('.nav-item').forEach(item=>{
+  item.addEventListener('click', ()=>{
+    document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('active'));
+    item.classList.add('active');
+    const target = item.dataset.panel;
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    document.getElementById('panel-'+target).classList.add('active');
+    const titles = {opt:'Price Optimization', whatif:'Price Simulation "What If?"', ppa:'Price-Pack Architecture', hub:'Data Hub & Trust'};
+    const nums = {opt:'01', whatif:'02', ppa:'03', hub:'04'};
+    document.getElementById('topTitle').textContent = titles[target];
+    document.getElementById('crumb').textContent = 'Section '+nums[target];
+  });
+});
+
+// segmentation chip toggles (cosmetic - all three groups)
+['segToggleOpt'].forEach(id=>{
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      el.querySelectorAll('button').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+    });
+  });
+});
+
+// ---------------- Guardrail sliders ----------------
+const guardVol = document.getElementById('guardVol');
+guardVol.addEventListener('input', ()=>{ document.getElementById('guardVolVal').textContent = guardVol.value+'%'; renderCorridor(); });
+const guardCM = document.getElementById('guardCM');
+guardCM.addEventListener('input', ()=>{ document.getElementById('guardCMVal').textContent = guardCM.value+'%'; renderCorridor(); });
+
+document.getElementById('runOpt').addEventListener('click', ()=>{
+  const btn = document.getElementById('runOpt');
+  btn.textContent = 'Recalculating…';
+  setTimeout(()=>{ btn.textContent='Run recommendation'; renderCorridor(); }, 500);
+});
+
+// ================= FOCUS BRAND / ANCHOR / CORRIDOR =================
+const focusBrands = {
+  original: {
+    label:'Super Bock Original', refSku:'Super Bock Original 33cl can', currentPrice:1.42,
+    ppaBrand:'Super Bock', ppaFormat:'Original',
+    candidates:[
+      {brand:'Sagres', share:58, corridor:{anchorPrice:1.32, peakIndex:110, peakCM:44, cmSlope:0.030, volSlope:0.50}},
+      {brand:'Estrella Damm', share:24, corridor:{anchorPrice:1.68, peakIndex:96,  peakCM:41, cmSlope:0.035, volSlope:0.55}},
+      {brand:'Amstel',        share:18, corridor:{anchorPrice:0.95, peakIndex:145, peakCM:38, cmSlope:0.020, volSlope:0.40}}
+    ]
+  },
+  abadia: {
+    label:'Super Bock Abadia', refSku:'Super Bock Abadia 33cl bottle', currentPrice:2.08,
+    ppaBrand:'Super Bock', ppaFormat:'Abadia',
+    candidates:[
+      {brand:'Heineken',      share:64, corridor:{anchorPrice:2.15, peakIndex:104, peakCM:51, cmSlope:0.050, volSlope:0.65}},
+      {brand:'Estrella Damm', share:21, corridor:{anchorPrice:1.68, peakIndex:130, peakCM:47, cmSlope:0.040, volSlope:0.60}},
+      {brand:'Sagres',        share:15, corridor:{anchorPrice:1.32, peakIndex:160, peakCM:45, cmSlope:0.030, volSlope:0.45}}
+    ]
+  },
+  semalcool: {
+    label:'Super Bock Sem Álcool', refSku:'Super Bock Sem Álcool 33cl can', currentPrice:1.61,
+    ppaBrand:'Super Bock', ppaFormat:'Sem Álcool',
+    candidates:[
+      {brand:'Estrella Damm', share:48, corridor:{anchorPrice:1.58, peakIndex:101, peakCM:39, cmSlope:0.060, volSlope:0.80}},
+      {brand:'Sagres',        share:30, corridor:{anchorPrice:1.50, peakIndex:118, peakCM:36, cmSlope:0.045, volSlope:0.70}},
+      {brand:'Amstel',        share:22, corridor:{anchorPrice:1.15, peakIndex:140, peakCM:33, cmSlope:0.025, volSlope:0.50}}
+    ]
+  },
+  cristal: {
+    label:'Cristal Original', refSku:'Cristal Original 33cl bottle', currentPrice:1.15,
+    ppaBrand:'Cristal', ppaFormat:'Original',
+    candidates:[
+      {brand:'Sagres',        share:45, corridor:{anchorPrice:1.32, peakIndex:95,  peakCM:34, cmSlope:0.050, volSlope:0.60}},
+      {brand:'Amstel',        share:35, corridor:{anchorPrice:0.95, peakIndex:112, peakCM:30, cmSlope:0.060, volSlope:0.55}},
+      {brand:'Estrella Damm', share:20, corridor:{anchorPrice:1.68, peakIndex:75,  peakCM:32, cmSlope:0.040, volSlope:0.50}}
+    ]
+  }
+};
+let currentFocusKey = 'original';
+let currentAnchorIdx = 0;
+const recPrices = {}; // "Brand|Format" -> recommended €/L (from corridor recIndex)
+
+function renderFocusBrand(){
+  const fb = focusBrands[currentFocusKey];
+  document.getElementById('focusBrandLabel').textContent = fb.label;
+  document.getElementById('focusNote').innerHTML = `Reference SKU: <b>${fb.refSku}</b>. All other ${fb.label} pack sizes are priced off this SKU at a consistent €/L.`;
+  currentAnchorIdx = 0;
+  renderAnchorTable();
+  renderCorridor();
+}
+document.getElementById('focusBrand').addEventListener('change', (e)=>{
+  currentFocusKey = e.target.value;
+  renderFocusBrand();
+});
+
+function renderAnchorTable(){
+  const fb = focusBrands[currentFocusKey];
+  const body = document.getElementById('anchorTableBody');
+  body.innerHTML='';
+  fb.candidates.forEach((c,i)=>{
+    const idxNow = Math.round(fb.currentPrice / c.corridor.anchorPrice * 100);
+    const isActive = i===currentAnchorIdx;
+    body.innerHTML += `<tr style="${isActive?'background:var(--amber-pale);':''}">
+      <td>${c.brand}${i===0?' <span class="pill gray" style="margin-left:6px;">Highest switching share</span>':''}</td>
+      <td class="num">${c.share}%</td>
+      <td class="num">${idxNow}</td>
+      <td style="text-align:right;"><button class="btn secondary" style="padding:5px 11px; font-size:11.5px;" onclick="selectAnchor(${i})">${isActive?'Selected':'Select as anchor'}</button></td>
+    </tr>`;
+  });
+}
+function selectAnchor(i){
+  currentAnchorIdx = i;
+  renderAnchorTable();
+  renderCorridor();
+}
+let corridorChart;
+function renderCorridor(){
+  const fb = focusBrands[currentFocusKey];
+  const c = fb.candidates[currentAnchorIdx].corridor;
+  document.getElementById('anchorLabel').textContent = fb.candidates[currentAnchorIdx].brand;
+
+  const guardCMVal = parseFloat(document.getElementById('guardCM').value);
+  const guardVolVal = parseFloat(document.getElementById('guardVol').value);
+
+  const idxs = []; const cmVals = []; const volVals = [];
+  for(let idx=80; idx<=150; idx+=5){
+    idxs.push(idx);
+    cmVals.push(Math.max(0, c.peakCM - c.cmSlope*Math.pow(idx-c.peakIndex,2)));
+    volVals.push(Math.round((c.volSlope*(idx-100))*10)/10);
+  }
+
+  // solve bounds
+  let minIdx, maxIdxCM, maxIdxVol;
+  const underRoot = (c.peakCM - guardCMVal) / c.cmSlope;
+  if(underRoot >= 0){
+    minIdx = c.peakIndex - Math.sqrt(underRoot);
+    maxIdxCM = c.peakIndex + Math.sqrt(underRoot);
+  } else { minIdx = 80; maxIdxCM = 150; }
+  maxIdxVol = 100 + guardVolVal / c.volSlope;
+  const maxIdx = Math.min(maxIdxCM, maxIdxVol);
+  const recIdx = Math.min(Math.max(c.peakIndex, minIdx), maxIdx);
+  const bindingLabel = maxIdxVol < maxIdxCM ? 'max volume drop' : 'min contribution margin';
+
+  const priceAt = idx => c.anchorPrice * idx/100;
+  const cmAt = idx => Math.max(0, c.peakCM - c.cmSlope*Math.pow(idx-c.peakIndex,2));
+  const volAt = idx => Math.round((c.volSlope*(idx-100))*10)/10;
+
+  document.getElementById('corridorTableBody').innerHTML = `
+    <tr><td>Min price point <span class="pill gray">min CM</span></td><td class="num">€${priceAt(minIdx).toFixed(2)}</td><td class="num">${minIdx.toFixed(0)}</td><td class="num">${volAt(minIdx)>=0?'+':''}${volAt(minIdx).toFixed(1)}%</td><td class="num">${cmAt(minIdx).toFixed(0)}%</td></tr>
+    <tr style="background:var(--amber-pale);"><td><b>Recommended price point</b> <span class="pill amber">max CM</span></td><td class="num"><b>€${priceAt(recIdx).toFixed(2)}</b></td><td class="num">${recIdx.toFixed(0)}</td><td class="num">${volAt(recIdx)>=0?'+':''}${volAt(recIdx).toFixed(1)}%</td><td class="num"><b>${cmAt(recIdx).toFixed(0)}%</b></td></tr>
+    <tr><td>Max price point <span class="pill gray">${bindingLabel}</span></td><td class="num">€${priceAt(maxIdx).toFixed(2)}</td><td class="num">${maxIdx.toFixed(0)}</td><td class="num">+${volAt(maxIdx).toFixed(1)}%</td><td class="num">${cmAt(maxIdx).toFixed(0)}%</td></tr>
+  `;
+  document.getElementById('corridorNote').innerHTML = `Recommended price point: <b>€${priceAt(recIdx).toFixed(2)}/L</b> (index ${recIdx.toFixed(0)} vs. ${fb.candidates[currentAnchorIdx].brand}) — this becomes the reference point for PPA by SKU below.`;
+
+  recPrices[fb.ppaBrand+'|'+fb.ppaFormat] = priceAt(recIdx);
+
+  const pricePoints = idxs.map(idx => priceAt(idx));
+  const guardLine = new Array(idxs.length).fill(guardCMVal);
+
+  if(corridorChart) corridorChart.destroy();
+  corridorChart = new Chart(document.getElementById('corridorChart'), {
+    type:'line',
+    data:{
+      labels: pricePoints.map(p => '€'+p.toFixed(2)),
+      datasets:[
+        {label:'Contribution margin %', data:cmVals, borderColor:AMBER_DEEP, backgroundColor:'rgba(205,57,59,.12)', fill:true, tension:.35, pointRadius:0, yAxisID:'y'},
+        {label:'Volume drop %', data:volVals, borderColor:TEAL, backgroundColor:'transparent', borderDash:[5,4], tension:.2, pointRadius:0, yAxisID:'y1'},
+        {label:'Min CM guardrail', data:guardLine, borderColor:RUST, borderWidth:1, borderDash:[3,3], pointRadius:0, yAxisID:'y'}
+      ]
+    },
+    options:{
+      maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom'}},
+      scales:{
+        y:{position:'left', title:{display:true, text:'Contribution margin %'}, grid:{color:'#E5EDF4'}},
+        y1:{position:'right', title:{display:true, text:'Volume drop %'}, grid:{display:false}},
+        x:{title:{display:true, text:'Focus brand price point (€/L)'}, grid:{display:false}, ticks:{maxTicksLimit:8}}
+      }
+    }
+  });
+
+  renderPPATable();
+  renderCompMoves();
+}
+
+// ---------------- PPA (Price by SKU, grouped) ----------------
+function packLitres(pack){
+  const cl = pack.match(/(\d+(?:\.\d+)?)cl/i);
+  const litres = pack.match(/(\d+(?:\.\d+)?)\s*l(?:itre|iter)?/i);
+  let total = cl ? parseFloat(cl[1])/100 : (litres ? parseFloat(litres[1]) : 1);
+  const count = pack.match(/[×x]\s*(\d+)/i);
+  if(count) total *= parseInt(count[1],10);
+  return total;
+}
+function unitPrice(pricePerLitre, pack){
+  return pricePerLitre * packLitres(pack);
+}
+
+const ppaData = {
+  'Super Bock': {
+    Original: [
+      {pack:'33cl can', cur:1.42},
+      {pack:'50cl bottle', cur:1.38},
+      {pack:'25cl multipack ×6', cur:1.51}
+    ],
+    Abadia: [
+      {pack:'33cl bottle', cur:2.08}
+    ],
+    'Sem Álcool': [
+      {pack:'33cl can', cur:1.61}
+    ]
+  },
+  Cristal: {
+    Original: [
+      {pack:'33cl bottle', cur:1.15},
+      {pack:'44cl can', cur:1.10}
+    ]
+  }
+};
+function renderPPATable(){
+  const body = document.getElementById('ppaTableBody');
+  body.innerHTML='';
+  const cls = v=> v>=0?'pos':'neg';
+  const sign = v=> (v>=0?'+':'')+v.toFixed(1)+'%';
+  Object.keys(ppaData).forEach(brand=>{
+    body.innerHTML += `<tr class="grp-brand"><td colspan="7" style="background:var(--ink); color:#fff; font-weight:700; font-size:11.5px; text-transform:uppercase; letter-spacing:.04em;">${brand}</td></tr>`;
+    Object.keys(ppaData[brand]).forEach(format=>{
+      body.innerHTML += `<tr class="grp-format"><td colspan="7" style="background:#EDF3F8; font-weight:600; padding-left:22px;">${format}</td></tr>`;
+      const rec = recPrices[brand+'|'+format];
+      ppaData[brand][format].forEach(r=>{
+        const recVal = rec !== undefined ? rec : r.cur;
+        const dPrice = ((recVal-r.cur)/r.cur*100);
+        const dVol = -(dPrice*0.9);
+        const dShare = dVol*0.35;
+        const dCM = dPrice*1.6 + dVol*0.4;
+        body.innerHTML += `<tr>
+          <td style="padding-left:34px;">${r.pack}</td>
+          <td class="num">€${unitPrice(r.cur,r.pack).toFixed(2)}</td><td class="num">€${unitPrice(recVal,r.pack).toFixed(2)}</td>
+          <td class="num ${cls(dPrice)}">${sign(dPrice)}</td>
+          <td class="num ${cls(dVol)}">${sign(dVol)}</td>
+          <td class="num ${cls(dShare)}">${sign(dShare)}</td>
+          <td class="num ${cls(dCM)}">${sign(dCM)}</td>
+        </tr>`;
+      });
+    });
+  });
+}
+// ---------------- Optimize vs. competitive moves (multi-competitor) ----------------
+function renderCompMoves(){
+  const fb = focusBrands[currentFocusKey];
+  const body = document.getElementById('compMovesBody');
+  body.innerHTML='';
+  fb.candidates.forEach((c,i)=>{
+    body.innerHTML += `<tr>
+      <td>${c.brand}</td>
+      <td class="num">${c.share}%</td>
+      <td><select class="compMoveSel" data-idx="${i}">
+        <option value="-10">−10%</option><option value="-5">−5%</option>
+        <option value="0" selected>No change</option>
+        <option value="5">+5%</option><option value="10">+10%</option>
+      </select></td>
+    </tr>`;
+  });
+  document.getElementById('reactionResult').innerHTML = 'Set expected moves for the competitors above and run the optimizer to see the best combined Super Bock reaction that still holds the stated objective.';
+}
+document.getElementById('runReaction').addEventListener('click', ()=>{
+  const fb = focusBrands[currentFocusKey];
+  const sels = document.querySelectorAll('.compMoveSel');
+  let weightedMove = 0, totalShare = 0, parts = [];
+  sels.forEach(sel=>{
+    const i = parseInt(sel.dataset.idx,10);
+    const move = parseInt(sel.value,10);
+    const c = fb.candidates[i];
+    weightedMove += (c.share/100)*move;
+    totalShare += c.share/100;
+    if(move !== 0) parts.push(`${c.brand} ${move>0?'+':''}${move}% (${c.share}% share)`);
+  });
+  const combined = totalShare > 0 ? weightedMove : 0;
+  const reaction = Math.round(combined*0.6*10)/10;
+  const box = document.getElementById('reactionResult');
+  if(parts.length===0){
+    box.innerHTML = 'No competitor moves expected. Current recommendation stands — no reaction needed.';
+    return;
+  }
+  const breakdown = parts.join('; ');
+  if(combined > 0.1){
+    box.innerHTML = `Combined pressure from ${breakdown}: <b>+${combined.toFixed(1)}% weighted move</b>. ${fb.label} can follow with <b>+${Math.max(0.1,reaction).toFixed(1)}%</b> and still hold the stated guardrails — projected value share +${(reaction*0.15).toFixed(1)}pp, CM +€${Math.round(reaction*14)}K.`;
+  } else if(combined < -0.1){
+    box.innerHTML = `Combined pressure from ${breakdown}: <b>${combined.toFixed(1)}% weighted move</b>. Holding ${fb.label} price flat costs an estimated ${Math.abs(reaction*0.15).toFixed(1)}pp value share; matching it only preserves share at a CM cost of roughly €${Math.round(Math.abs(reaction)*18)}K — recommend holding and defending via distribution instead.`;
+  } else {
+    box.innerHTML = `Moves from ${breakdown} broadly offset each other. Current recommendation stands — no reaction needed.`;
+  }
+});
+
+renderFocusBrand();
+
+// ---------------- Path chart ----------------
+new Chart(document.getElementById('pathChart'), {
+  type:'line',
+  data:{
+    labels:['-8%','-6%','-4%','-2%','0','+2%','+4%','+6%','+8%'],
+    datasets:[
+      {label:'Value share %', data:[20.1,19.7,19.2,18.7,18.5,18.1,17.6,16.9,16.1], borderColor:TEAL, yAxisID:'y', tension:.35, pointRadius:2},
+      {label:'Contribution margin €M', data:[2.05,2.15,2.24,2.31,2.35,2.41,2.40,2.33,2.20], borderColor:AMBER_DEEP, yAxisID:'y1', tension:.35, pointRadius:2}
+    ]
+  },
+  options:{
+    maintainAspectRatio:false,
+    plugins:{legend:{position:'bottom'}},
+    scales:{
+      y:{position:'left', title:{display:true, text:'Value share %'}, grid:{color:'#E5EDF4'}},
+      y1:{position:'right', title:{display:true, text:'CM €M'}, grid:{display:false}},
+      x:{title:{display:true, text:'Price move vs. today'}, grid:{display:false}}
+    }
+  }
+});
+// ================= PRICE SIMULATION: SKU UNIVERSE =================
+const skuUniverse = [];
+(function buildUniverse(){
+  let uid=0;
+  const push=(brand,own,format,pack,price,weight)=> skuUniverse.push({id:'sku'+(uid++), brand, own, format, pack, price, weight: weight||0});
+
+  const superBockFormats = [
+    {format:'Original', packs:[['33cl can',1.42,.28],['50cl bottle',1.38,.12],['25cl multipack ×6',1.51,.10],['25cl multipack ×12',1.49,.06],['44cl can',1.40,.05],['33cl multipack ×12',1.47,.04]]},
+    {format:'Abadia', packs:[['33cl bottle',2.08,.08],['50cl bottle',2.02,.04]]},
+    {format:'Sem Álcool', packs:[['33cl can',1.61,.08],['25cl multipack ×6',1.64,.03]]},
+    {format:'Green', packs:[['33cl can',1.35,.08],['25cl multipack ×6',1.38,.04]]}
+  ];
+  superBockFormats.forEach(f=> f.packs.forEach(([pack,price,w])=> push('Super Bock', true, f.format, pack, price, w)));
+
+  const cristalFormats = [
+    {format:'Original', packs:[['33cl bottle',1.15,.30],['44cl can',1.10,.12],['33cl multipack ×6',1.20,.10],['33cl multipack ×12',1.18,.08]]},
+    {format:'Preta', packs:[['33cl bottle',1.45,.14],['44cl can',1.40,.06]]},
+    {format:'Fresh', packs:[['33cl bottle',1.25,.14],['44cl can',1.20,.06]]}
+  ];
+  cristalFormats.forEach(f=> f.packs.forEach(([pack,price,w])=> push('Cristal', true, f.format, pack, price, w)));
+
+  function genComp(brand, defs){
+    defs.forEach(f=> f.packs.forEach(([pack,price])=> push(brand, false, f.format, pack, price)));
+  }
+  genComp('Sagres', [
+    {format:'Original', packs:[['33cl can',1.32],['50cl bottle',1.28],['25cl multipack ×6',1.40],['25cl multipack ×12',1.38],['44cl can',1.30],['20cl can',1.45]]},
+    {format:'Radler', packs:[['33cl can',1.35],['25cl multipack ×6',1.38]]},
+    {format:'Preta', packs:[['33cl bottle',1.75],['50cl bottle',1.70]]},
+    {format:'Sem Álcool', packs:[['33cl can',1.50],['25cl multipack ×6',1.53]]},
+    {format:'Bohemia', packs:[['33cl bottle',1.95],['44cl can',1.90]]}
+  ]);
+  genComp('Heineken', [
+    {format:'Original', packs:[['33cl bottle',2.10],['50cl bottle',2.05],['25cl multipack ×6',2.20]]},
+    {format:'Silver', packs:[['33cl bottle',2.15],['50cl bottle',2.10]]},
+    {format:'0.0', packs:[['33cl bottle',2.30],['44cl can',2.25]]},
+    {format:'Draught', packs:[['33cl can',2.45],['44cl can',2.40]]},
+    {format:'Radler', packs:[['33cl can',2.00]]}
+  ]);
+  genComp('Amstel', [
+    {format:'Original', packs:[['33cl can',0.95],['50cl bottle',0.92],['25cl multipack ×6',1.05],['25cl multipack ×12',1.02],['44cl can',0.98],['20cl can',1.10]]},
+    {format:'Radler', packs:[['33cl can',1.00],['25cl multipack ×6',1.03]]},
+    {format:'Sem Álcool', packs:[['33cl can',1.15],['25cl multipack ×6',1.18]]},
+    {format:'Bright', packs:[['33cl bottle',1.35],['50cl bottle',1.30]]}
+  ]);
+  genComp('Estrella Damm', [
+    {format:'Original', packs:[['33cl can',1.68],['50cl bottle',1.62],['25cl multipack ×6',1.78],['44cl can',1.65],['20cl can',1.85]]},
+    {format:'Free Damm', packs:[['33cl can',1.58],['25cl multipack ×6',1.61]]},
+    {format:'Radler', packs:[['33cl can',1.62],['25cl multipack ×6',1.66]]},
+    {format:'Inedit', packs:[['33cl bottle',2.00],['50cl bottle',1.95]]},
+    {format:'Daura', packs:[['33cl bottle',2.10]]}
+  ]);
+  genComp('Dois Corvos', [
+    {format:'Original', packs:[['33cl bottle',2.35],['50cl bottle',2.30],['25cl multipack ×6',2.42]]},
+    {format:'IPA', packs:[['33cl bottle',2.55],['44cl can',2.50]]},
+    {format:'Stout', packs:[['33cl bottle',2.70]]},
+    {format:'Pale Ale', packs:[['33cl bottle',2.40],['44cl can',2.35]]}
+  ]);
+  genComp('Letra', [
+    {format:'Original', packs:[['33cl can',2.20],['33cl bottle',2.25]]},
+    {format:'IPA', packs:[['33cl bottle',2.60],['44cl can',2.55],['33cl multipack ×6',2.65]]},
+    {format:'Radler', packs:[['33cl can',2.15]]},
+    {format:'Stout', packs:[['33cl bottle',2.80],['44cl can',2.75]]}
+  ]);
+})();
+
+// category-wide volume weight per SKU (rough, illustrative) — used by PPA ladder & tier composition
+const brandTotalShare = {'Super Bock':0.20, 'Cristal':0.05, 'Sagres':0.18, 'Heineken':0.08, 'Amstel':0.16, 'Estrella Damm':0.14, 'Dois Corvos':0.07, 'Letra':0.06};
+(function assignCatWeights(){
+  const brandCounts = {};
+  skuUniverse.forEach(s=> brandCounts[s.brand] = (brandCounts[s.brand]||0)+1);
+  skuUniverse.forEach(s=>{
+    const share = brandTotalShare[s.brand] || 0.02;
+    s.catWeight = s.own ? (s.weight*share) : (share/brandCounts[s.brand]);
+  });
+})();
+// ================= STATE =================
+let customGroups = {};
+let checkedIds = new Set();
+let currentPage = 1;
+const pageSize = 12;
+let scenarioOrder = ['A','B','C'];
+let scenarioPrices = {A:{}, B:{}, C:{}};
+let scenarioLabels = {A:'Scenario A', B:'Scenario B', C:'Scenario C'};
+let activeScenario = 'A';
+let scenarioInteracted = {A:false, B:false, C:false};
+let currentView = 'brand';
+let currentViewBrand = 'Super Bock';
+// seed a couple of illustrative starting moves in Scenario A
+scenarioPrices.A[skuUniverse.find(s=>s.brand==='Super Bock'&&s.format==='Original'&&s.pack==='33cl can').id] = 1.46;
+scenarioPrices.A[skuUniverse.find(s=>s.brand==='Super Bock'&&s.format==='Abadia').id] = 2.19;
+
+function updateBulkFormatOptions(){
+  const brandSel = document.getElementById('bulkBrand').value;
+  const formatSelect = document.getElementById('bulkFormat');
+  const previousFormat = formatSelect.value;
+  const relevantSkus = brandSel === 'All'
+    ? skuUniverse
+    : skuUniverse.filter(s => s.brand === brandSel);
+  const formats = Array.from(new Set(relevantSkus.map(s => s.format))).sort((a,b)=>a.localeCompare(b));
+
+  formatSelect.innerHTML = '<option value="All">All formats</option>' +
+    formats.map(f=>`<option value="${f}">${f}</option>`).join('');
+
+  // Preserve the selected format only when it exists for the newly selected brand.
+  formatSelect.value = formats.includes(previousFormat) ? previousFormat : 'All';
+}
+function populateSelects(){
+  const brands = Array.from(new Set(skuUniverse.map(s=>s.brand))).sort((a,b)=>a.localeCompare(b));
+  document.getElementById('bulkBrand').innerHTML = '<option value="All">All brands</option>'+brands.map(b=>`<option value="${b}">${b}</option>`).join('');
+  updateBulkFormatOptions();
+  refreshGroupSelect();
+}
+function refreshGroupSelect(){
+  const sel = document.getElementById('bulkGroup');
+  const names = Object.keys(customGroups);
+  sel.innerHTML = '<option value="">None — use Brand/Format, or check rows</option>' + names.map(n=>`<option value="${n}">${n} (${customGroups[n].length} SKUs)</option>`).join('');
+}
+
+// ================= SKU TABLE =================
+function getFilteredSkus(){
+  const search = document.getElementById('skuSearch').value.trim().toLowerCase();
+  const own = document.getElementById('filterOwn').value;
+  const changed = document.getElementById('filterChanged').value;
+
+  // The bulk-action selectors also define the visible working scope.
+  // This lets users choose, for example, Super Bock + Original and immediately
+  // review only those SKUs before applying the price change.
+  const brandSel = document.getElementById('bulkBrand').value;
+  const formatSel = document.getElementById('bulkFormat').value;
+  const groupSel = document.getElementById('bulkGroup').value;
+  const groupIds = groupSel ? new Set(customGroups[groupSel] || []) : null;
+
+  return skuUniverse.filter(s=>{
+    if(groupIds){
+      if(!groupIds.has(s.id)) return false;
+    } else {
+      if(brandSel !== 'All' && s.brand !== brandSel) return false;
+      if(formatSel !== 'All' && s.format !== formatSel) return false;
+    }
+    if(search && !(`${s.brand} ${s.format} ${s.pack}`.toLowerCase().includes(search))) return false;
+    if(own==='own' && !s.own) return false;
+    if(own==='comp' && s.own) return false;
+    if(changed==='changed' && scenarioPrices[activeScenario][s.id]===undefined) return false;
+    return true;
+  });
+}
+function renderSkuTable(){
+  const groupField = document.getElementById('groupBy').value;
+  let filtered = getFilteredSkus();
+  filtered.sort((a,b)=>{
+    if(groupField!=='none'){
+      const ga = groupField==='brand'? a.brand : a.format;
+      const gb = groupField==='brand'? b.brand : b.format;
+      if(ga!==gb) return ga.localeCompare(gb);
+    }
+    if(a.brand!==b.brand) return a.brand.localeCompare(b.brand);
+    if(a.format!==b.format) return a.format.localeCompare(b.format);
+    return a.pack.localeCompare(b.pack);
+  });
+  const totalPages = Math.max(1, Math.ceil(filtered.length/pageSize));
+  if(currentPage>totalPages) currentPage = totalPages;
+  const start = (currentPage-1)*pageSize;
+  const pageItems = filtered.slice(start, start+pageSize);
+
+  const body = document.getElementById('skuTableBody');
+  body.innerHTML = '';
+  let lastGroup = null;
+  if(pageItems.length===0){
+    body.innerHTML = '<tr><td colspan="7" style="text-align:center; color:var(--muted); padding:18px;">No SKUs match these filters.</td></tr>';
+  }
+  pageItems.forEach(s=>{
+    if(groupField!=='none'){
+      const g = groupField==='brand'? s.brand : s.format;
+      if(g!==lastGroup){
+        body.innerHTML += `<tr><td colspan="7" style="background:#EDF3F8; font-weight:600; padding:8px 10px;">${g}</td></tr>`;
+        lastGroup = g;
+      }
+    }
+    const overridden = scenarioPrices[activeScenario][s.id];
+    const newPrice = overridden!==undefined ? overridden : s.price;
+    const dPct = (newPrice-s.price)/s.price*100;
+    const dClass = dPct>0.001?'pos':(dPct<-0.001?'neg':'');
+    body.innerHTML += `<tr>
+      <td><input type="checkbox" class="rowCheck" data-id="${s.id}" ${checkedIds.has(s.id)?'checked':''}></td>
+      <td>${s.brand}${s.own?' <span class="tag-own">Own</span>':''}</td>
+      <td>${s.format}</td>
+      <td>${s.pack}</td>
+      <td class="num">€${s.price.toFixed(2)}</td>
+      <td class="num"><input type="number" step="0.01" class="priceInput" data-id="${s.id}" value="${newPrice.toFixed(2)}" style="width:80px; text-align:right; font-family:'IBM Plex Mono',monospace; border:1px solid var(--line); border-radius:5px; padding:4px 6px;"></td>
+      <td class="num ${dClass}">${Math.abs(dPct)<0.05?'—':(dPct>0?'+':'')+dPct.toFixed(1)+'%'}</td>
+    </tr>`;
+  });
+  document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
+  document.getElementById('scopeCount').textContent = `Showing ${filtered.length} of ${skuUniverse.length} SKUs`;
+  const changedCount = skuUniverse.filter(s=>scenarioPrices[activeScenario][s.id]!==undefined).length;
+  document.getElementById('changedCount').textContent = `${changedCount} of ${skuUniverse.length} SKUs changed in ${scenarioLabels[activeScenario]}`;
+
+  body.querySelectorAll('.priceInput').forEach(inp=>{
+    inp.addEventListener('change', ()=>{
+      const id = inp.dataset.id;
+      const sku = skuUniverse.find(x=>x.id===id);
+      const val = parseFloat(inp.value);
+      if(!isNaN(val) && Math.abs(val-sku.price)>0.004) scenarioPrices[activeScenario][id]=val;
+      else delete scenarioPrices[activeScenario][id];
+      scenarioInteracted[activeScenario] = true;
+      renderSkuTable();
+      renderComparison();
+    });
+  });
+  body.querySelectorAll('.rowCheck').forEach(cb=>{
+    cb.addEventListener('change', ()=>{
+      if(cb.checked) checkedIds.add(cb.dataset.id); else checkedIds.delete(cb.dataset.id);
+    });
+  });
+}
+document.getElementById('skuSearch').addEventListener('input', ()=>{ currentPage=1; renderSkuTable(); });
+document.getElementById('filterOwn').addEventListener('change', ()=>{ currentPage=1; renderSkuTable(); });
+document.getElementById('groupBy').addEventListener('change', ()=>{ currentPage=1; renderSkuTable(); });
+document.getElementById('filterChanged').addEventListener('change', ()=>{ currentPage=1; renderSkuTable(); });
+document.getElementById('bulkBrand').addEventListener('change', ()=>{
+  updateBulkFormatOptions();
+  currentPage = 1;
+  renderSkuTable();
+});
+['bulkFormat','bulkGroup'].forEach(id=>{
+  document.getElementById(id).addEventListener('change', ()=>{
+    currentPage = 1;
+    renderSkuTable();
+  });
+});
+document.getElementById('prevPage').addEventListener('click', ()=>{ if(currentPage>1){currentPage--; renderSkuTable();} });
+document.getElementById('nextPage').addEventListener('click', ()=>{ currentPage++; renderSkuTable(); });
+document.getElementById('selectAllPage').addEventListener('change', (e)=>{
+  const checked = e.target.checked;
+  document.querySelectorAll('.rowCheck').forEach(cb=>{
+    cb.checked = checked;
+    if(checked) checkedIds.add(cb.dataset.id); else checkedIds.delete(cb.dataset.id);
+  });
+});
+// ---------------- Bulk % actions & custom groups ----------------
+document.getElementById('applyBulk').addEventListener('click', ()=>{
+  const pct = parseFloat(document.getElementById('bulkPct').value) || 0;
+  const brandSel = document.getElementById('bulkBrand').value;
+  const formatSel = document.getElementById('bulkFormat').value;
+  const groupSel = document.getElementById('bulkGroup').value;
+  let scope;
+  if(checkedIds.size>0){
+    scope = skuUniverse.filter(s=>checkedIds.has(s.id));
+  } else if(groupSel){
+    const ids = customGroups[groupSel]||[];
+    scope = skuUniverse.filter(s=>ids.includes(s.id));
+  } else {
+    scope = skuUniverse.filter(s=> (brandSel==='All'||s.brand===brandSel) && (formatSel==='All'||s.format===formatSel));
+  }
+  scope.forEach(s=>{
+    const base = scenarioPrices[activeScenario][s.id]!==undefined ? scenarioPrices[activeScenario][s.id] : s.price;
+    const newVal = Math.round(base*(1+pct/100)*100)/100;
+    if(Math.abs(newVal-s.price)>0.004) scenarioPrices[activeScenario][s.id]=newVal;
+    else delete scenarioPrices[activeScenario][s.id];
+  });
+  scenarioInteracted[activeScenario] = true;
+  renderSkuTable();
+  renderComparison();
+});
+document.getElementById('saveGroupBtn').addEventListener('click', ()=>{
+  if(checkedIds.size===0){ alert('Check one or more rows in the table first.'); return; }
+  const name = prompt('Name this group of '+checkedIds.size+' SKUs:');
+  if(!name) return;
+  customGroups[name] = Array.from(checkedIds);
+  refreshGroupSelect();
+});
+
+// ---------------- Scenario tabs ----------------
+function refreshScenarioTabsUI(){
+  document.querySelectorAll('.scenario-tab[data-s]').forEach(t=> t.classList.toggle('active', t.dataset.s===activeScenario));
+  document.getElementById('scenLabel').textContent = '— '+scenarioLabels[activeScenario];
+  document.getElementById('wlScenLabel').textContent = '— '+scenarioLabels[activeScenario];
+}
+document.getElementById('scenarioTabs').addEventListener('click', (e)=>{
+  const tab = e.target.closest('.scenario-tab');
+  if(!tab) return;
+  if(tab.id==='addScenarioTab'){
+    const nextLetter = String.fromCharCode(65+scenarioOrder.length);
+    scenarioOrder.push(nextLetter);
+    scenarioPrices[nextLetter] = {};
+    scenarioLabels[nextLetter] = 'Scenario '+nextLetter;
+    scenarioInteracted[nextLetter] = false;
+    const newTab = document.createElement('div');
+    newTab.className = 'scenario-tab';
+    newTab.dataset.s = nextLetter;
+    newTab.textContent = 'Scenario '+nextLetter;
+    tab.parentNode.insertBefore(newTab, tab);
+    activeScenario = nextLetter;
+  } else if(tab.dataset.s){
+    activeScenario = tab.dataset.s;
+  }
+  refreshScenarioTabsUI();
+  currentPage = 1;
+  renderSkuTable();
+  renderComparison();
+});
+
+// ---------------- Scenario comparison (brand / manufacturer view) ----------------
+function computeViewScope(){
+  return currentView==='manufacturer' ? skuUniverse.filter(s=>s.own) : skuUniverse.filter(s=>s.own && s.brand===currentViewBrand);
+}
+function brandWeightInManufacturer(brand){ return brand==='Super Bock' ? 0.65 : 0.35; }
+function baselineCM(){
+  if(currentView==='manufacturer') return 38;
+  return currentViewBrand==='Super Bock' ? 36 : 41;
+}
+function aggregateScenario(scenarioKey){
+  const scope = computeViewScope();
+  let volAcc=0, valAcc=0, cmAcc=0;
+  scope.forEach(s=>{
+    let w = s.weight||0;
+    if(currentView==='manufacturer') w = w*brandWeightInManufacturer(s.brand);
+    const overridden = scenarioPrices[scenarioKey][s.id];
+    const dPct = overridden!==undefined ? (overridden-s.price)/s.price*100 : 0;
+    volAcc += w*(-0.85*dPct);
+    valAcc += w*(0.15*dPct);
+    cmAcc += w*(dPct*1.1);
+  });
+  return {
+    volumeIdx: 100+volAcc,
+    valueIdx: 100+valAcc,
+    cmPct: Math.max(5, Math.min(70, baselineCM()+cmAcc))
+  };
+}
+let scenChart;
+function initScenChart(){
+  scenChart = new Chart(document.getElementById('scenChart'), {
+    type:'bar',
+    data:{
+      labels:['Current','S1','S2','S3'],
+      datasets:[
+        {label:'Volume index', data:[100,100,100,100], backgroundColor:AMBER, borderRadius:6, yAxisID:'y', maxBarThickness:64},
+        {type:'line', label:'Value index', data:[100,100,100,100], borderColor:TEAL, yAxisID:'y1', tension:.3, pointRadius:4, borderWidth:2},
+        {type:'line', label:'CM %', data:[36,36,36,36], borderColor:RUST, yAxisID:'y2', tension:.3, pointRadius:4, borderWidth:2, borderDash:[5,4]}
+      ]
+    },
+    options:{
+      maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom'}},
+      scales:{
+        y:{position:'left', title:{display:true,text:'Volume index'}, grid:{color:'#E5EDF4'}, suggestedMin:80, suggestedMax:120},
+        y1:{position:'right', title:{display:true,text:'Value index'}, grid:{display:false}, suggestedMin:80, suggestedMax:120},
+        y2:{position:'right', title:{display:true,text:'CM %'}, grid:{display:false}, suggestedMin:10, suggestedMax:60},
+        x:{title:{display:true,text:'Scenario'}, grid:{display:false}}
+      }
+    }
+  });
+}
+function renderComparison(){
+  const labels = ['Current', ...scenarioOrder.map((k,i)=>'S'+(i+1))];
+  const vols=[100], vals=[100], cms=[baselineCM()];
+  scenarioOrder.forEach(k=>{
+    const agg = aggregateScenario(k);
+    vols.push(Math.round(agg.volumeIdx*10)/10);
+    vals.push(Math.round(agg.valueIdx*10)/10);
+    cms.push(Math.round(agg.cmPct*10)/10);
+  });
+  scenChart.data.labels = labels;
+  scenChart.data.datasets[0].data = vols;
+  scenChart.data.datasets[1].data = vals;
+  scenChart.data.datasets[2].data = cms;
+  scenChart.update();
+
+  const activeAgg = aggregateScenario(activeScenario);
+  document.getElementById('kpiVol').textContent = activeAgg.volumeIdx.toFixed(1);
+  document.getElementById('kpiVolD').textContent = scenarioLabels[activeScenario]+' · '+(currentView==='manufacturer'?'Manufacturer total':currentViewBrand);
+  document.getElementById('kpiShare').textContent = activeAgg.valueIdx.toFixed(1);
+  document.getElementById('kpiCM').textContent = activeAgg.cmPct.toFixed(1)+'%';
+  const scope = computeViewScope();
+  const changedCount = scope.filter(s=>scenarioPrices[activeScenario][s.id]!==undefined).length;
+  document.getElementById('kpiLosers').textContent = changedCount;
+
+  renderVolumeTransfer();
+  renderWinnersTable();
+}
+document.getElementById('viewToggle').addEventListener('click', (e)=>{
+  const btn = e.target.closest('button');
+  if(!btn) return;
+  document.querySelectorAll('#viewToggle button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  currentView = btn.dataset.view;
+  document.getElementById('viewBrandSelect').style.display = currentView==='brand' ? 'inline-block' : 'none';
+  renderComparison();
+});
+document.getElementById('viewBrandSelect').addEventListener('change', (e)=>{
+  currentViewBrand = e.target.value;
+  renderComparison();
+});
+function baselineUnitsForSku(s){
+  const brandBase = s.brand==='Super Bock' ? 520000 : 145000;
+  return Math.max(2500, brandBase*(s.weight||0.03));
+}
+function numberWithSign(v){
+  const rounded = Math.round(v);
+  return (rounded>0?'+':'')+rounded.toLocaleString('en-GB');
+}
+function buildTransferRows(viewBrand, direction){
+  const competitorRows = direction==='gain'
+    ? [
+        {name:'Sagres', type:'competitor', share:34},
+        {name:'Amstel', type:'competitor', share:14},
+        {name:'Heineken', type:'competitor', share:10},
+        {name:'Estrella Damm', type:'competitor', share:7}
+      ]
+    : [
+        {name:'Sagres', type:'competitor', share:32},
+        {name:'Amstel', type:'competitor', share:14},
+        {name:'Heineken', type:'competitor', share:11},
+        {name:'Estrella Damm', type:'competitor', share:8}
+      ];
+  const ownRows = viewBrand==='Cristal'
+    ? [
+        {name:'Super Bock portfolio', type:'own', share:15},
+        {name:'Other Cristal packs', type:'own', share:5}
+      ]
+    : [
+        {name:'Other Super Bock packs', type:'own', share:12},
+        {name:'Cristal portfolio', type:'own', share:8}
+      ];
+  const categoryRow = {name:direction==='gain'?'Category expansion / retained shoppers':'Category walkaway', type:'category', share:15};
+  return [...competitorRows, ...ownRows, categoryRow];
+}
+function renderVolumeTransfer(){
+  const card = document.getElementById('volumeTransferCard');
+  if(!scenarioInteracted[activeScenario]){
+    card.style.display = 'none';
+    return;
+  }
+
+  let scope = computeViewScope().filter(s=>scenarioPrices[activeScenario][s.id]!==undefined);
+  if(scope.length===0){
+    scope = skuUniverse.filter(s=>s.own && scenarioPrices[activeScenario][s.id]!==undefined);
+  }
+  if(scope.length===0){
+    card.style.display = 'block';
+    document.getElementById('volumeTransferTitle').textContent = 'Volume switching will appear after an owned-brand price change';
+    document.getElementById('volumeTransferSub').textContent = 'The current action only changes competitor SKUs. Change a Super Bock or Cristal price point to quantify competitor switching, own-portfolio cannibalisation and category walkaway.';
+    document.getElementById('volumeTransferBody').innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--muted); padding:20px;">No Super Bock or Cristal price change is active in this scenario.</td></tr>';
+    ['transferNetUnits','transferCompetitorPct','transferOwnPct','transferCategoryPct'].forEach(id=>document.getElementById(id).textContent='—');
+    document.getElementById('volumeTransferDirection').textContent = '';
+    return;
+  }
+
+  let netUnits = 0;
+  let weightedPct = 0;
+  let baseUnitsTotal = 0;
+  scope.forEach(s=>{
+    const newPrice = scenarioPrices[activeScenario][s.id];
+    const dPct = (newPrice-s.price)/s.price*100;
+    const dVolPct = -0.85*dPct;
+    const baseUnits = baselineUnitsForSku(s);
+    netUnits += baseUnits*dVolPct/100;
+    weightedPct += baseUnits*dVolPct;
+    baseUnitsTotal += baseUnits;
+  });
+  const netVolPct = baseUnitsTotal ? weightedPct/baseUnitsTotal : 0;
+  const direction = netUnits>=0 ? 'gain' : 'loss';
+  const totalUnits = Math.max(1, Math.round(Math.abs(netUnits)));
+  const viewBrand = currentView==='manufacturer'
+    ? (scope.every(s=>s.brand===scope[0].brand) ? scope[0].brand : 'Super Bock Group')
+    : currentViewBrand;
+  const rows = buildTransferRows(viewBrand, direction);
+
+  card.style.display = 'block';
+  document.getElementById('volumeTransferTitle').textContent = direction==='gain'
+    ? 'Where the gained volume came from'
+    : 'Where the lost volume went';
+  document.getElementById('volumeTransferSub').textContent = `${scenarioLabels[activeScenario]} · ${scope.length} changed owned SKU${scope.length===1?'':'s'} · ${viewBrand} view`;
+  document.getElementById('transferNetUnits').textContent = `${numberWithSign(netUnits)} units (${netVolPct>=0?'+':''}${netVolPct.toFixed(1)}%)`;
+  document.getElementById('transferCompetitorPct').textContent = '65%';
+  document.getElementById('transferOwnPct').textContent = '20%';
+  document.getElementById('transferCategoryPct').textContent = '15%';
+  document.getElementById('transferOwnLabel').textContent = direction==='gain' ? 'Own-portfolio cannibalisation' : 'Own-portfolio migration';
+  document.getElementById('transferCategoryLabel').textContent = direction==='gain' ? 'Category expansion / retention' : 'Category walkaway';
+  document.getElementById('transferUnitsHead').textContent = direction==='gain' ? 'Units sourced' : 'Units transferred';
+  document.getElementById('volumeTransferDirection').innerHTML = direction==='gain'
+    ? `<b>${totalUnits.toLocaleString('en-GB')} incremental units</b> are sourced from competitor switching, own-portfolio cannibalisation and category expansion.`
+    : `<b>${totalUnits.toLocaleString('en-GB')} lost units</b> are redistributed to competitors, other owned products and category walkaway.`;
+
+  let allocated = 0;
+  document.getElementById('volumeTransferBody').innerHTML = rows.map((r,i)=>{
+    const units = i===rows.length-1 ? totalUnits-allocated : Math.round(totalUnits*r.share/100);
+    allocated += units;
+    const typeLabel = r.type==='competitor' ? 'Competitor switching' : (r.type==='own' ? (direction==='gain'?'Own cannibalisation':'Own migration') : (direction==='gain'?'Category expansion':'Category walkaway'));
+    return `<tr>
+      <td>${r.name}</td>
+      <td><span class="transfer-type ${r.type}">${typeLabel}</span></td>
+      <td class="num">${units.toLocaleString('en-GB')}</td>
+      <td class="num">${r.share}%</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderWinnersTable(){
+  const scope = computeViewScope();
+  const cls = v=> v>=0?'pos':'neg';
+  const sign = v=> (v>=0?'+':'')+v.toFixed(1)+'%';
+  const rows = scope.filter(s=>scenarioPrices[activeScenario][s.id]!==undefined).map(s=>{
+    const newPrice = scenarioPrices[activeScenario][s.id];
+    const dPct = (newPrice-s.price)/s.price*100;
+    return {...s, newPrice, dPct, dVol:-0.85*dPct, dCM:dPct*1.1};
+  }).sort((a,b)=>Math.abs(b.dCM)-Math.abs(a.dCM));
+  const body = document.getElementById('whatifTableBody');
+  body.innerHTML = '';
+  if(rows.length===0){
+    body.innerHTML = '<tr><td colspan="8" style="text-align:center; color:var(--muted); padding:20px;">No price changes yet in this scenario, within this view.</td></tr>';
+    return;
+  }
+  rows.forEach(r=>{
+    body.innerHTML += `<tr>
+      <td>${r.brand}</td><td>${r.format}</td><td>${r.pack}</td>
+      <td class="num">€${r.price.toFixed(2)}</td><td class="num">€${r.newPrice.toFixed(2)}</td>
+      <td class="num ${cls(r.dPct)}">${sign(r.dPct)}</td>
+      <td class="num ${cls(r.dVol)}">${sign(r.dVol)}</td>
+      <td class="num ${cls(r.dCM)}">${r.dCM>=0?'+':''}${r.dCM.toFixed(1)}pp</td>
+    </tr>`;
+  });
+}
+
+populateSelects();
+initScenChart();
+renderSkuTable();
+renderComparison();
+// ================= PPA: LADDER (line, current vs. optimized) =================
+let ladderChartInst;
+let ppaOptimizedPrices = {}; // skuId -> optimized price (only set after running optimizer)
+let ppaHasRun = false;
+
+function tierLabelFor(price, bounds){
+  for(let i=0;i<bounds.length;i++){ if(price < bounds[i]) return 'Tier '+(i+1); }
+  return 'Tier '+(bounds.length+1);
+}
+let currentBounds = [1.20, 1.80]; // default 3-tier bounds
+
+function packSortKey(pack){
+  return packLitres(pack);
+}
+function buildLadderPoints(){
+  const primary = document.getElementById('ppaPrimary').value;
+  const secondary = document.getElementById('ppaSecondary').value;
+  const scope = document.getElementById('ppaScope').value;
+  const scopedBrands = scope==='Both' ? ['Super Bock','Cristal'] : [scope];
+  const source = skuUniverse.filter(s=>s.own && scopedBrands.includes(s.brand));
+
+  if(secondary==='size'){
+    return source.slice().sort((a,b)=>{
+      const sizeDiff = packSortKey(a.pack)-packSortKey(b.pack);
+      if(sizeDiff!==0) return sizeDiff;
+      const brandDiff = a.brand.localeCompare(b.brand);
+      if(brandDiff!==0) return brandDiff;
+      return a.format.localeCompare(b.format);
+    }).map(s=>({
+      label: scope==='Both' ? [s.pack, `${s.brand} · ${s.format}`] : [s.pack, s.format],
+      current:s.price,
+      ids:[s.id],
+      own:true,
+      pack:s.pack,
+      format:s.format,
+      brand:s.brand
+    }));
+  }
+
+  const groupKey = s => primary==='brand' ? s.brand : primary==='tier' ? tierLabelFor(s.price, currentBounds) : s.format;
+  const groups = {};
+  source.forEach(s=>{ const g=groupKey(s); (groups[g]=groups[g]||[]).push(s); });
+  return Object.keys(groups).map(g=>{
+    const items=groups[g];
+    const avg=items.reduce((a,s)=>a+s.price,0)/items.length;
+    return {label:g, current:avg, ids:items.map(s=>s.id), own:true, pack:g, format:'', brand:scope};
+  }).sort((a,b)=>b.current-a.current);
+}
+function optimizedPriceFor(id){
+  return ppaOptimizedPrices[id]!==undefined ? ppaOptimizedPrices[id] : skuUniverse.find(s=>s.id===id).price;
+}
+const ladderPointLabels = {
+  id:'ladderPointLabels',
+  afterDatasetsDraw(chart){
+    const meta=chart.getDatasetMeta(0);
+    const points=chart.$ladderPoints || [];
+    const ctx=chart.ctx;
+    ctx.save();
+    ctx.font="500 10px 'IBM Plex Mono', monospace";
+    ctx.fillStyle='#44546A';
+    ctx.textAlign='center';
+    meta.data.forEach((el,i)=>{
+      if(!points[i]) return;
+      const y=Math.max(chart.chartArea.top+12, el.y-11);
+      ctx.fillText(`€${points[i].current.toFixed(2)}/L`, el.x, y);
+    });
+    ctx.restore();
+  }
+};
+function renderLadder(){
+  const points = buildLadderPoints();
+  const labels = points.map(p=>p.label);
+  const currentSeries = points.map(p=>p.current);
+  const optimizedSeries = ppaHasRun ? points.map(p=> {
+    const optVals = p.ids.map(optimizedPriceFor);
+    return optVals.reduce((a,v)=>a+v,0)/optVals.length;
+  }) : null;
+
+  if(ladderChartInst) ladderChartInst.destroy();
+  const datasets = [
+    {
+      label:'Current price per litre',
+      data:currentSeries,
+      borderColor:INK,
+      backgroundColor:'rgba(138,202,236,.25)',
+      pointBackgroundColor:INK,
+      pointBorderColor:'#FFFFFF',
+      pointBorderWidth:2,
+      pointRadius:5,
+      pointHoverRadius:7,
+      borderWidth:2.5,
+      tension:.24,
+      fill:true
+    }
+  ];
+  if(optimizedSeries){
+    datasets.push({
+      label:'Optimized price per litre',
+      data:optimizedSeries,
+      borderColor:RUST,
+      backgroundColor:'transparent',
+      pointBackgroundColor:RUST,
+      pointBorderColor:'#FFFFFF',
+      pointBorderWidth:2,
+      pointRadius:4,
+      pointHoverRadius:6,
+      borderWidth:2.2,
+      borderDash:[6,4],
+      tension:.24,
+      fill:false
+    });
+  }
+  ladderChartInst = new Chart(document.getElementById('ladderChart'), {
+    type:'line',
+    data:{ labels, datasets },
+    plugins:[ladderPointLabels],
+    options:{
+      maintainAspectRatio:false,
+      layout:{padding:{top:24}},
+      interaction:{mode:'index', intersect:false},
+      plugins:{
+        legend:{position:'bottom'},
+        tooltip:{
+          callbacks:{
+            title(items){
+              const p=points[items[0].dataIndex];
+              return `${p.brand} ${p.format} — ${p.pack}`;
+            },
+            label(item){ return `${item.dataset.label}: €${Number(item.raw).toFixed(2)}/L`; }
+          }
+        }
+      },
+      scales:{
+        y:{title:{display:true, text:'Price per litre (€)'}, grid:{color:'#E5EDF4'}, beginAtZero:false, suggestedMin:0.9, suggestedMax:2.25},
+        x:{title:{display:true, text:'Pack size / format'}, grid:{display:false}, ticks:{autoSkip:false, maxRotation:50, minRotation:30, font:{size:10}}}
+      }
+    }
+  });
+  ladderChartInst.$ladderPoints = points;
+  const scope = document.getElementById('ppaScope').value;
+  document.getElementById('ladderSub').textContent = ppaHasRun
+    ? `${scope==='Both'?'Owned brands':scope} pack sizes are shown side by side. The dashed line shows the optimized price per litre.`
+    : `${scope==='Both'?'Owned brands':scope} pack sizes are shown side by side at their current price per litre. Run the optimizer above to add the optimized line.`;
+}
+document.getElementById('ppaPrimary').addEventListener('change', renderLadder);
+document.getElementById('ppaSecondary').addEventListener('change', renderLadder);
+document.getElementById('ppaScope').addEventListener('change', renderLadder);
+// ---------------- Ladder optimizer (objective tied to brand & category performance) ----------------
+function ppaObjectiveDelta(objective, format){
+  const premiumFormats = ['Abadia','Preta','IPA','Stout','Inedit'];
+  const isPremium = premiumFormats.includes(format);
+  switch(objective){
+    case 'Maximize category contribution margin':
+      return isPremium ? 6 : (format==='Original' ? 2 : 1);
+    case 'Maximize brand volume':
+      return isPremium ? -1 : -5;
+    case 'Maximize brand value share':
+      return isPremium ? 3 : 2;
+    case 'Grow brand share without category CM leakage':
+      return isPremium ? 4 : -2;
+    default: return 0;
+  }
+}
+document.getElementById('runLadderOpt').addEventListener('click', ()=>{
+  const objective = document.getElementById('ppaObjective').value;
+  const scope = document.getElementById('ppaScope').value;
+  const scopedBrands = scope==='Both' ? ['Super Bock','Cristal'] : [scope];
+
+  ppaOptimizedPrices = {};
+  skuUniverse.forEach(s=>{
+    if(s.own && scopedBrands.includes(s.brand)){
+      const pct = ppaObjectiveDelta(objective, s.format);
+      ppaOptimizedPrices[s.id] = Math.round(s.price*(1+pct/100)*100)/100;
+    }
+  });
+  ppaHasRun = true;
+  document.getElementById('ladderImpactRow').style.display = 'grid';
+
+  // brand-level impact
+  const brandScope = skuUniverse.filter(s=>s.own && scopedBrands.includes(s.brand));
+  const brandWeightSum = brandScope.reduce((a,s)=>a+s.weight,0) || 1;
+  let brandVolAcc=0, brandValAcc=0, brandCMAcc=0;
+  brandScope.forEach(s=>{
+    const w = s.weight/brandWeightSum;
+    const dPct = ((optimizedPriceFor(s.id)-s.price)/s.price*100);
+    brandVolAcc += w*(-0.85*dPct);
+    brandValAcc += w*(0.15*dPct);
+    brandCMAcc += w*(dPct*1.1);
+  });
+  const brandBaseCM = scopedBrands.length===1 ? (scopedBrands[0]==='Super Bock'?36:41) : 38;
+  document.getElementById('kpiBrandVol').textContent = (100+brandVolAcc).toFixed(1);
+  document.getElementById('kpiBrandVal').textContent = (100+brandValAcc).toFixed(1);
+  document.getElementById('kpiBrandCM').textContent = Math.max(5,Math.min(70,brandBaseCM+brandCMAcc)).toFixed(1)+'%';
+
+  // category-level impact (all 84 SKUs, weighted by catWeight; competitor SKUs contribute 0 delta)
+  const totalCatWeight = skuUniverse.reduce((a,s)=>a+s.catWeight,0) || 1;
+  let catCMAcc = 0;
+  skuUniverse.forEach(s=>{
+    const w = s.catWeight/totalCatWeight;
+    const dPct = (ppaOptimizedPrices[s.id]!==undefined) ? ((ppaOptimizedPrices[s.id]-s.price)/s.price*100) : 0;
+    catCMAcc += w*(dPct*1.1);
+  });
+  document.getElementById('kpiCatCM').textContent = Math.max(5,Math.min(70,38+catCMAcc)).toFixed(1)+'%';
+
+  document.getElementById('ladderOptNote').innerHTML = `Optimized for <b>${objective.toLowerCase()}</b> across <b>${scopedBrands.join(' + ')}</b>. Competitor prices are held at today's level — the ladder shows where the optimized SKUs land relative to them.`;
+
+  renderLadder();
+  renderTierChart();
+});
+
+// ================= PPA: TIER COMPOSITION (stacked, user-defined bands) =================
+function renderTierBoundInputs(){
+  const count = parseInt(document.getElementById('tierCount').value,10);
+  const container = document.getElementById('tierBoundsInputs');
+  container.innerHTML = '';
+  // ensure currentBounds has count-1 entries
+  while(currentBounds.length < count-1) currentBounds.push(currentBounds[currentBounds.length-1]+0.6);
+  currentBounds = currentBounds.slice(0, count-1);
+  currentBounds.forEach((b,i)=>{
+    container.innerHTML += `<input type="number" step="0.05" class="tierBoundInput" data-i="${i}" value="${b.toFixed(2)}" style="width:80px; padding:6px 8px; border:1px solid var(--line); border-radius:6px; font-family:'IBM Plex Mono',monospace;">`;
+  });
+}
+document.getElementById('tierCount').addEventListener('change', renderTierBoundInputs);
+document.getElementById('applyBands').addEventListener('click', ()=>{
+  document.querySelectorAll('.tierBoundInput').forEach(inp=>{
+    currentBounds[parseInt(inp.dataset.i,10)] = parseFloat(inp.value);
+  });
+  currentBounds.sort((a,b)=>a-b);
+  renderTierChart();
+  renderLadder();
+});
+
+let tierChartInst;
+function renderTierChart(){
+  const count = currentBounds.length+1;
+  const tierLabels = [];
+  for(let i=0;i<count;i++){
+    if(i===0) tierLabels.push(`< €${currentBounds[0].toFixed(2)}`);
+    else if(i===count-1) tierLabels.push(`> €${currentBounds[currentBounds.length-1].toFixed(2)}`);
+    else tierLabels.push(`€${currentBounds[i-1].toFixed(2)}–${currentBounds[i].toFixed(2)}`);
+  }
+  const totalCatWeight = skuUniverse.reduce((a,s)=>a+s.catWeight,0) || 1;
+  const ownPct = new Array(count).fill(0);
+  const compPct = new Array(count).fill(0);
+  skuUniverse.forEach(s=>{
+    let tierIdx = currentBounds.findIndex(b=>s.price<b);
+    if(tierIdx===-1) tierIdx = currentBounds.length;
+    const pct = s.catWeight/totalCatWeight*100;
+    if(s.own) ownPct[tierIdx]+=pct; else compPct[tierIdx]+=pct;
+  });
+  if(tierChartInst) tierChartInst.destroy();
+  tierChartInst = new Chart(document.getElementById('tierChart'), {
+    type:'bar',
+    data:{
+      labels: tierLabels,
+      datasets:[
+        {label:'Own (Super Bock + Cristal)', data:ownPct.map(v=>Math.round(v*10)/10), backgroundColor:AMBER, borderRadius:4, stack:'s'},
+        {label:'Competitors', data:compPct.map(v=>Math.round(v*10)/10), backgroundColor:TEAL, borderRadius:4, stack:'s'}
+      ]
+    },
+    options:{
+      maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom'}},
+      scales:{
+        y:{title:{display:true,text:'% of category volume'}, stacked:true, grid:{color:'#E5EDF4'}},
+        x:{stacked:true, grid:{display:false}}
+      }
+    }
+  });
+}
+
+renderTierBoundInputs();
+renderTierChart();
+renderLadder();
+// ---------------- Validation chart ----------------
+const validationChartInst = new Chart(document.getElementById('validationChart'), {
+  type:'line',
+  data:{
+    labels:['Wk1','Wk2','Wk3','Wk4'],
+    datasets:[
+      {label:'Predicted value share', data:[18.6,18.4,18.7,18.5], borderColor:AMBER_DEEP, tension:.3, pointRadius:3},
+      {label:'Actual value share', data:[18.3,18.6,18.9,18.2], borderColor:TEAL, borderDash:[5,4], tension:.3, pointRadius:3}
+    ]
+  },
+  options:{
+    maintainAspectRatio:false,
+    plugins:{legend:{position:'bottom'}},
+    scales:{ y:{title:{display:true,text:'Value share %'}, grid:{color:'#E5EDF4'}}, x:{title:{display:true,text:'April 2026 (held-out test month)'}, grid:{display:false}} }
+  }
+});
+
+// Model confidence is a dynamic validation output rather than a fixed recommendation label.
+// Smart Shopper research validation and historical-data validation are shown separately;
+// overall confidence is their average when both are available.
+const validationStates = {
+  stable:{historic:94, market:'Stable', actual:[18.3,18.6,18.9,18.2], pill:'green'},
+  moderate:{historic:84, market:'Moderate divergence', actual:[18.0,19.0,17.9,19.2], pill:'amber'},
+  major:{historic:68, market:'Major change detected', actual:[16.9,20.4,16.3,21.1], pill:'red'}
+};
+const researchValidationScore = 94;
+function setPillState(el, state){
+  el.classList.remove('green','amber','red','gray');
+  el.classList.add(state);
+}
+function applyValidationState(key){
+  const state = validationStates[key] || validationStates.stable;
+  const overall = Math.round((researchValidationScore + state.historic)/2);
+  document.getElementById('modelConfidenceValue').textContent = overall+'%';
+  document.getElementById('modelConfidenceSummary').textContent = `Smart Shopper validation ${researchValidationScore}% · Historical validation ${state.historic}%`;
+  document.getElementById('researchValidationValue').textContent = researchValidationScore+'%';
+  document.getElementById('historicValidationValue').textContent = state.historic+'%';
+  document.getElementById('marketConsistencyValue').textContent = state.market;
+  document.getElementById('researchValidationHub').textContent = researchValidationScore+'%';
+  document.getElementById('historicValidationHub').textContent = state.historic+'%';
+  document.getElementById('marketConsistencyHub').textContent = state.market;
+  setPillState(document.getElementById('researchValidationPill'),'green');
+  setPillState(document.getElementById('historicValidationPill'),state.pill);
+  setPillState(document.getElementById('marketConsistencyPill'),key==='stable'?'gray':state.pill);
+  validationChartInst.data.datasets[1].data = state.actual;
+  validationChartInst.update();
+  document.getElementById('recalibrationStatus').textContent = `Recalibrated · model confidence ${overall}%`;
+}
+document.getElementById('uploadRecalibrate').addEventListener('click', ()=>{
+  applyValidationState(document.getElementById('validationContext').value);
+});
+applyValidationState('stable');
+
+</script>
+
+</body>
+</html>
