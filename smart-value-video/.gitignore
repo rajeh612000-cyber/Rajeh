@@ -1,0 +1,8 @@
+render/node_modules/
+
+# Rendered output and inspection stills are build products.
+out/
+
+# Speaker footage: large, and it's your source material rather than code.
+assets/*.webm
+assets/*.mp4
