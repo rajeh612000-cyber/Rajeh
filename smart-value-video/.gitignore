@@ -6,3 +6,5 @@ out/
 # Speaker footage: large, and it's your source material rather than code.
 assets/*.webm
 assets/*.mp4
+insert-test/*.webm
+insert-test/*.png

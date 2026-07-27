@@ -1,0 +1,181 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Scene 1 insertion test</title></head><body>
+<!-- Reproduces the user's Scene 1 markup + their player script verbatim,
+     plus the three additive snippets, to verify the sync logic works
+     without touching their original file. -->
+<style>
+:root{
+  --primary:#534AB7; --accent:#EEEDFE; --heading:#1A1A4E; --body:#555555;
+  --borderA:#A09DE8; --borderSoft:#E0DFF8; --card:#FFFFFF;
+  --stage-deep:#100f2e; --stage-mid:#221f5c;
+}
+*{box-sizing:border-box;}
+.svp-root{font-family:sans-serif;background:var(--accent);padding:28px 20px 40px;border-radius:24px;max-width:980px;margin:0 auto;}
+.svp-controls{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.svp-btn{background:var(--heading);color:#fff;border:none;border-radius:10px;padding:8px 16px;font-weight:600;font-size:12.5px;cursor:pointer;}
+.svp-time{font-weight:600;font-size:12.5px;color:var(--heading);margin-left:auto;}
+.svp-stage{position:relative;width:100%;aspect-ratio:16/9;background:radial-gradient(120% 140% at 15% 10%, var(--stage-mid) 0%, var(--stage-deep) 65%);border-radius:18px;overflow:hidden;}
+.scene{position:absolute;inset:0;display:none;align-items:center;justify-content:center;padding:5%;}
+.scene.on{display:flex;}
+.ph-card{width:100%;height:100%;border:2px dashed rgba(238,237,254,0.55);border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:24px;}
+.ph-icon{width:44px;height:44px;opacity:0.85;}
+.ph-title{font-weight:700;color:#fff;font-size:15px;}
+.ph-sub{font-size:11.5px;color:rgba(238,237,254,0.75);max-width:420px;line-height:1.5;}
+.ph-badge{position:absolute;top:14px;left:14px;background:rgba(238,237,254,0.14);color:#EEEDFE;font-size:10px;font-weight:700;padding:5px 10px;border-radius:20px;text-transform:uppercase;}
+.ph-note{position:absolute;bottom:14px;left:14px;right:14px;font-size:10.5px;color:rgba(238,237,254,0.55);text-align:center;}
+.ph-split{display:flex;width:100%;height:100%;gap:16px;align-items:stretch;}
+.ph-split .ph-card{flex:1.15;height:auto;}
+.ontext-panel{flex:0.95;display:flex;flex-direction:column;justify-content:center;gap:12px;padding:6px 10px;border-left:1px solid rgba(238,237,254,0.25);}
+.ontext-eyebrow{font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--borderA);opacity:0;animation:fadeSmall .4s ease forwards;animation-delay:.1s;}
+.ontext-line{font-weight:800;font-size:16px;color:#fff;line-height:1.35;opacity:0;transform:translateX(10px);animation:slideText .55s ease forwards;}
+@keyframes slideText{to{opacity:1;transform:translateX(0);}}
+@keyframes fadeSmall{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+.svp-timeline{display:flex;gap:3px;margin-top:14px;position:relative;}
+.playhead{position:absolute;top:0;bottom:0;width:2px;background:#1A1A4E;pointer-events:none;}
+</style>
+
+<!-- ============ SNIPPET 1 : appended <style> ============ -->
+<style>
+.ph-card{position:relative;overflow:hidden;}
+.sv-scene1-video{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:center;display:block;
+  background:#07061a;border-radius:14px;z-index:0;
+}
+.ph-card:has(.sv-scene1-video) > .ph-icon,
+.ph-card:has(.sv-scene1-video) > .ph-title,
+.ph-card:has(.sv-scene1-video) > .ph-sub{display:none;}
+.ph-card:has(.sv-scene1-video){border-style:solid;border-color:rgba(160,157,232,0.45);}
+.ph-card > .ph-badge, .ph-card > .ph-note{z-index:2;}
+</style>
+
+<div class="svp-root">
+  <div class="svp-controls">
+    <button class="svp-btn" id="svpPlay">▶ Play</button>
+    <button class="svp-btn" id="svpRestart">↺ Restart</button>
+    <div class="svp-time" id="svpTime">0:00 / 1:36</div>
+  </div>
+  <div class="svp-stage" id="svpStage">
+    <div class="scene" data-scene="0">
+      <div class="ph-split">
+        <div class="ph-card">
+          <div class="ph-badge">Scene 1 · 0:00–0:12 · Live speaker</div>
+          <!-- ============ SNIPPET 2 : the <video> ============ -->
+          <video class="sv-scene1-video" src="scene1-speaker.webm" muted playsinline preload="auto"></video>
+          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="#EEEDFE" stroke-width="1.6"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+          <div class="ph-title">Insert live speaker footage</div>
+          <div class="ph-sub">"FMCG teams are surrounded by data — sales reports, EPOS, Nielsen or Circana, pricing files, promo calendars, retailer feedback, finance assumptions. The problem was never having enough data. It's knowing what decision to make next."</div>
+          <div class="ph-note">Sync sound · speaker on camera, medium shot</div>
+        </div>
+        <div class="ontext-panel">
+          <div class="ontext-eyebrow">On-screen text</div>
+          <div class="ontext-line" style="animation-delay:7.8s;">The problem was never having enough data.</div>
+          <div class="ontext-line" style="animation-delay:9.9s;">It's knowing what decision to make next.</div>
+        </div>
+      </div>
+    </div>
+    <div class="scene" data-scene="1"><div class="ph-card"><div class="ph-title">Scene 2</div></div></div>
+  </div>
+  <div class="svp-caption" id="svpCaption"></div>
+  <div class="svp-timeline" id="svpTimeline"><div class="playhead" id="svpPlayhead" style="left:0%;"></div></div>
+</div>
+
+<script>
+/* ---- user's original player script, verbatim (trimmed scene list) ---- */
+(function(){
+  const scenes = [
+    {start:0, end:12, type:'live', title:'Scene 1 · Live speaker', caption:'x'},
+    {start:12, end:22, type:'live', title:'Scene 2 · Live speaker', caption:'y'}
+  ];
+  const TOTAL = 96;
+  const stage = document.getElementById('svpStage');
+  const sceneEls = Array.from(stage.querySelectorAll('.scene'));
+  const timeline = document.getElementById('svpTimeline');
+  const playhead = document.getElementById('svpPlayhead');
+  const captionBox = document.getElementById('svpCaption');
+  const timeLabel = document.getElementById('svpTime');
+  const playBtn = document.getElementById('svpPlay');
+  const restartBtn = document.getElementById('svpRestart');
+  let t = 0, playing = false, lastTs = null, activeIdx = -1;
+  function fmt(sec){const m=Math.floor(sec/60),s=Math.floor(sec%60);return m+':'+(s<10?'0':'')+s;}
+  function render(forceRestartAnim){
+    let idx = scenes.findIndex(s => t >= s.start && t < s.end);
+    if (idx === -1) idx = scenes.length - 1;
+    if (idx !== activeIdx || forceRestartAnim){
+      sceneEls.forEach(el => el.classList.remove('on'));
+      void stage.offsetWidth;
+      sceneEls[idx].classList.add('on');
+      activeIdx = idx;
+    }
+    playhead.style.left = (t/TOTAL*100) + '%';
+    timeLabel.textContent = fmt(t) + ' / ' + fmt(TOTAL);
+  }
+  function tick(ts){
+    if (!playing) return;
+    if (lastTs === null) lastTs = ts;
+    t += (ts - lastTs)/1000; lastTs = ts;
+    if (t >= TOTAL){ t = TOTAL; playing=false; playBtn.textContent='▶ Play'; render(); return; }
+    render(); requestAnimationFrame(tick);
+  }
+  playBtn.addEventListener('click', () => {
+    playing = !playing;
+    playBtn.textContent = playing ? '⏸ Pause' : '▶ Play';
+    if (playing){ lastTs = null; requestAnimationFrame(tick); }
+  });
+  restartBtn.addEventListener('click', () => { t = 0; render(true); });
+  render(true);
+  window.__test = { setT: v => { t = v; render(true); }, getT: () => t };
+})();
+</script>
+
+<!-- ============ SNIPPET 3 : appended <script> ============ -->
+<script>
+/* Keeps the Scene 1 clip in step with the storyboard's own playhead.
+   Reads the playhead's left% instead of the player's private `t`, so the
+   original script is untouched. */
+(function () {
+  var SCENE_START = 0, TOTAL = 96, SYNC_TOLERANCE = 0.30;
+  var video    = document.querySelector('.sv-scene1-video');
+  var scene    = document.querySelector('.scene[data-scene="0"]');
+  var playhead = document.getElementById('svpPlayhead');
+  if (!video || !scene || !playhead) return;
+
+  var prevT = null, stillFrames = 0;
+
+  function storyboardTime() {
+    var pct = parseFloat(playhead.style.left);
+    return isNaN(pct) ? 0 : (pct / 100) * TOTAL;
+  }
+
+  function loop() {
+    var t = storyboardTime();
+    var moving = prevT !== null && Math.abs(t - prevT) > 1e-6;
+    stillFrames = moving ? 0 : stillFrames + 1;
+    prevT = t;
+
+    var local  = t - SCENE_START;
+    var onNow  = scene.classList.contains('on');
+    var inClip = onNow && local >= 0 && isFinite(video.duration) && local < video.duration;
+
+    if (inClip) {
+      if (moving) {
+        if (Math.abs(video.currentTime - local) > SYNC_TOLERANCE) video.currentTime = local;
+        if (video.paused) video.play().catch(function () {});
+      } else if (stillFrames > 2) {
+        if (!video.paused) video.pause();
+        if (Math.abs(video.currentTime - local) > 0.05) video.currentTime = local;
+      }
+    } else if (!video.paused) {
+      video.pause();
+    }
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+
+  window.__syncProbe = function () {
+    return { vt: video.currentTime, paused: video.paused,
+             dur: video.duration, ready: video.readyState };
+  };
+})();
+</script>
+</body></html>
