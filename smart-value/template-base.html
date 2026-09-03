@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <!--
   SMART VALUE(TM) / MARKETEERS RESEARCH - REUSABLE EMAIL SHELL
   ============================================================
@@ -11,6 +11,15 @@
     Smart Value navy  #1A1A4E     Smart Value purple #7751FF
     Smart Value amber #F19526     White              #ffffff
 
+  GETRESPONSE RULES. Breaking any of these makes the draft fail to save.
+    - The unsubscribe link href MUST be [[remove]]. GetResponse validates for
+      it and rejects the message without it. {{REMOVE_URL}} is not valid here.
+    - No {{ }} braces anywhere. Insert personalization from the GetResponse
+      menu instead of pasting merge tags as text.
+    - No Outlook conditional comments, no VML (<v:roundrect>), no xmlns
+      attributes, no <o:OfficeDocumentSettings>, no mso- properties.
+      The sanitizer strips or chokes on them.
+
   Fixed brand furniture, keep on every send:
     - Smart Value(TM) masthead
     - The brand ribbon (both palettes, left to right)
@@ -18,24 +27,24 @@
     - The legal footer
 
   Both logo PNGs carry a white background, so both logo bands are white and
-  are pinned white in dark mode via .keep-white. Do not put either logo on a
+  pinned white in dark mode via .keep-white. Do not put either logo on a
   coloured band: it will show as a white rectangle.
 
   No height attribute on either logo img. The hosted files are WordPress
-  "scaled" uploads whose exact pixel dimensions are unverified, and a wrong
-  height attribute distorts the image in Outlook. Width plus height:auto only.
+  "scaled" uploads whose exact dimensions are unverified, and a wrong height
+  attribute distorts the image in Outlook. Width plus height:auto only.
 
-  Rules this shell follows, do not break them:
+  Other rules:
     - Tables for layout. No div columns, no flexbox, no grid.
-    - Every style inline. The <style> block is progressive enhancement only
-      (mobile and dark mode) and Outlook ignores it.
+    - Every style inline. The <style> block carries only mobile and dark mode,
+      so nothing breaks if GetResponse strips it.
     - Live text, not text baked into images. Only the two logos are images.
-    - Total file under 100KB. 3 to 5 links maximum. No URL shorteners.
-    - Always ship the matching plain-text part.
+    - Under 100KB. 3 to 5 links maximum. No URL shorteners.
+    - Always add the plain-text version.
     - Every written instance of Smart Value carries &trade;.
 
-  MODULES: copy a block from the library at the bottom of this file into the
-  CONTENT AREA. Each module is a self-contained <tr>.
+  MODULES: copy a block from the library at the bottom into the CONTENT AREA.
+  Each module is a self-contained <tr>.
 -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -44,24 +53,11 @@
 <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
 <meta name="color-scheme" content="light dark" />
 <meta name="supported-color-schemes" content="light dark" />
-<title>{{SUBJECT}}</title>
-<!--[if mso]>
-<xml>
-  <o:OfficeDocumentSettings>
-    <o:PixelsPerInch>96</o:PixelsPerInch>
-    <o:AllowPNG/>
-  </o:OfficeDocumentSettings>
-</xml>
-<style>
-  body, table, td, p, a, span { font-family: Arial, sans-serif !important; }
-  .mso-serif { font-family: Georgia, serif !important; }
-</style>
-<![endif]-->
+<title>Smart Value&trade; AI Solutions</title>
 <style type="text/css">
   body { margin: 0 !important; padding: 0 !important; width: 100% !important; }
-  table { border-collapse: collapse !important; mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+  table { border-collapse: collapse; }
   img { border: 0; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; }
-  a { text-decoration: underline; }
   a[x-apple-data-detectors] { color: inherit !important; text-decoration: none !important; font-size: inherit !important; font-weight: inherit !important; }
   .appleLinksGrey a { color: #7a8699 !important; text-decoration: none !important; }
 
@@ -73,7 +69,6 @@
     .h-lead { font-size: 19px !important; line-height: 29px !important; }
     .body-txt { font-size: 16px !important; line-height: 27px !important; }
     .quote-txt { font-size: 19px !important; line-height: 30px !important; }
-    .btn-a { display: block !important; }
     .stack { display: block !important; width: 100% !important; }
     .stack-img { width: 100% !important; height: auto !important; }
     .hide-sm { display: none !important; }
@@ -82,7 +77,6 @@
   @media (prefers-color-scheme: dark) {
     .bg-page { background-color: #0d1322 !important; }
     .bg-card { background-color: #151d30 !important; }
-    .bg-soft { background-color: #1b2438 !important; }
     .txt-body { color: #e2e8f2 !important; }
     .txt-muted { color: #9aa7bd !important; }
     .txt-lead  { color: #9db4ff !important; }
@@ -90,53 +84,39 @@
     .keep-white { background-color: #ffffff !important; }
     .keep-white-txt { color: #5c6b80 !important; }
   }
-  [data-ogsc] .bg-page { background-color: #0d1322 !important; }
-  [data-ogsc] .bg-card { background-color: #151d30 !important; }
-  [data-ogsc] .bg-soft { background-color: #1b2438 !important; }
-  [data-ogsc] .txt-body { color: #e2e8f2 !important; }
-  [data-ogsc] .txt-muted { color: #9aa7bd !important; }
-  [data-ogsc] .txt-lead  { color: #9db4ff !important; }
-  [data-ogsc] .rule { border-color: #2b3550 !important; }
-  [data-ogsc] .keep-white { background-color: #ffffff !important; }
-  [data-ogsc] .keep-white-txt { color: #5c6b80 !important; }
 </style>
 </head>
 
 <body class="bg-page" style="margin:0; padding:0; background-color:#eef0f4;">
 
 <!-- PREHEADER: 40 to 90 characters. Never repeat the subject line here. -->
-<div style="display:none; font-size:1px; line-height:1px; max-height:0; max-width:0; opacity:0; overflow:hidden; mso-hide:all; font-family:Arial,sans-serif;">
-  {{PREHEADER}}
-  &#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;
+<div style="display:none; font-size:1px; line-height:1px; max-height:0; max-width:0; opacity:0; overflow:hidden;">
+  PREHEADER TEXT HERE
 </div>
 
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="bg-page" style="background-color:#eef0f4;">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" class="bg-page" style="background-color:#eef0f4;">
   <tr>
     <td align="center" style="padding:30px 12px;">
 
-      <!--[if mso]><table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0"><tr><td><![endif]-->
-      <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" class="wrap bg-card" style="width:600px; max-width:600px; background-color:#ffffff;">
+      <table width="600" cellpadding="0" cellspacing="0" border="0" align="center" class="wrap bg-card" style="width:600px; max-width:600px; background-color:#ffffff;">
 
         <!-- MASTHEAD -->
         <tr>
           <td class="band-pad keep-white" align="center" bgcolor="#ffffff" style="background-color:#ffffff; padding:34px 56px 30px 56px;">
-            <img src="https://smartvalueaisolutions.com/wp-content/uploads/2026/07/Logo-option-2-white-background-scaled.png"
-                 width="250"
-                 alt="Smart Value&trade; AI Solutions"
-                 style="display:block; width:250px; max-width:250px; height:auto; border:0; font-family:Arial,Helvetica,sans-serif; font-size:17px; line-height:24px; font-weight:bold; color:#1A1A4E;" />
+            <img src="https://smartvalueaisolutions.com/wp-content/uploads/2026/07/Logo-option-2-white-background-scaled.png" width="250" alt="Smart Value AI Solutions" style="display:block; width:250px; max-width:250px; height:auto; border:0; font-family:Arial,Helvetica,sans-serif; font-size:17px; line-height:24px; font-weight:bold; color:#1A1A4E;" />
           </td>
         </tr>
 
         <!-- BRAND RIBBON -->
         <tr>
-          <td style="font-size:0; line-height:0; height:5px;">
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+          <td style="font-size:0; line-height:0;">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
               <tr>
-                <td width="44%" bgcolor="#08306b" style="height:5px; font-size:0; line-height:0; background-color:#08306b;">&nbsp;</td>
-                <td width="8%"  bgcolor="#cd393b" style="height:5px; font-size:0; line-height:0; background-color:#cd393b;">&nbsp;</td>
-                <td width="24%" bgcolor="#7751FF" style="height:5px; font-size:0; line-height:0; background-color:#7751FF;">&nbsp;</td>
-                <td width="16%" bgcolor="#F19526" style="height:5px; font-size:0; line-height:0; background-color:#F19526;">&nbsp;</td>
-                <td width="8%"  bgcolor="#fbc210" style="height:5px; font-size:0; line-height:0; background-color:#fbc210;">&nbsp;</td>
+                <td width="44%" height="5" bgcolor="#08306b" style="font-size:0; line-height:0; background-color:#08306b;">&nbsp;</td>
+                <td width="8%"  height="5" bgcolor="#cd393b" style="font-size:0; line-height:0; background-color:#cd393b;">&nbsp;</td>
+                <td width="24%" height="5" bgcolor="#7751FF" style="font-size:0; line-height:0; background-color:#7751FF;">&nbsp;</td>
+                <td width="16%" height="5" bgcolor="#F19526" style="font-size:0; line-height:0; background-color:#F19526;">&nbsp;</td>
+                <td width="8%"  height="5" bgcolor="#fbc210" style="font-size:0; line-height:0; background-color:#fbc210;">&nbsp;</td>
               </tr>
             </table>
           </td>
@@ -145,12 +125,12 @@
         <!-- ==================== CONTENT AREA: paste modules here ==================== -->
 
         <tr>
-          <td class="pad" style="padding:46px 56px 0 56px;">
+          <td class="pad" style="padding:44px 56px 0 56px;">
             <p class="body-txt txt-body" style="margin:0 0 26px 0; font-family:Arial,Helvetica,sans-serif; font-size:17px; line-height:29px; color:#1f2937;">
-              {{GREETING}}
+              Hi there,
             </p>
             <p class="body-txt txt-body" style="margin:0 0 30px 0; font-family:Arial,Helvetica,sans-serif; font-size:17px; line-height:29px; color:#1f2937;">
-              {{BODY_PARAGRAPH}}
+              BODY PARAGRAPH HERE
             </p>
           </td>
         </tr>
@@ -160,21 +140,21 @@
         <!-- PERMISSION + SIGNATURE -->
         <tr>
           <td class="pad" style="padding:0 56px;">
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-              <tr><td class="rule" style="border-top:1px solid #e4e7ec; font-size:0; line-height:0; height:1px;">&nbsp;</td></tr>
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr><td class="rule" height="1" style="border-top:1px solid #e4e7ec; font-size:0; line-height:0;">&nbsp;</td></tr>
             </table>
           </td>
         </tr>
         <tr>
           <td class="pad" style="padding:26px 56px 0 56px;">
             <p class="txt-muted" style="margin:0 0 30px 0; font-family:Arial,Helvetica,sans-serif; font-size:14px; line-height:24px; color:#5c6b80;">
-              {{PERMISSION_LINE}}
+              PERMISSION LINE HERE
             </p>
             <p class="body-txt txt-body" style="margin:0 0 6px 0; font-family:Arial,Helvetica,sans-serif; font-size:17px; line-height:29px; color:#1f2937;">
               Best regards,
             </p>
-            <p style="margin:0 0 5px 0; font-family:Arial,Helvetica,sans-serif; font-size:18px; line-height:26px; color:#1A1A4E; font-weight:bold;">
-              <span class="txt-lead" style="color:#1A1A4E;">Mariam</span>
+            <p class="txt-lead" style="margin:0 0 5px 0; font-family:Arial,Helvetica,sans-serif; font-size:18px; line-height:26px; color:#1A1A4E; font-weight:bold;">
+              Mariam
             </p>
             <p class="txt-muted" style="margin:0 0 3px 0; font-family:Arial,Helvetica,sans-serif; font-size:14px; line-height:22px; color:#5c6b80;">
               Marketing &amp; PR Manager
@@ -182,7 +162,7 @@
             <p class="txt-muted" style="margin:0 0 3px 0; font-family:Arial,Helvetica,sans-serif; font-size:14px; line-height:22px; color:#5c6b80;">
               Smart Value&trade; AI Solutions and Marketeers Research
             </p>
-            <p style="margin:0 0 40px 0; font-family:Arial,Helvetica,sans-serif; font-size:14px; line-height:22px;">
+            <p style="margin:0 0 38px 0; font-family:Arial,Helvetica,sans-serif; font-size:14px; line-height:22px;">
               <a href="mailto:mariam@marketeersresearch.com" style="color:#7751FF; text-decoration:none;">mariam@marketeersresearch.com</a>
             </p>
           </td>
@@ -190,14 +170,14 @@
 
         <!-- RIBBON, MIRRORED -->
         <tr>
-          <td style="font-size:0; line-height:0; height:5px;">
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+          <td style="font-size:0; line-height:0;">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
               <tr>
-                <td width="8%"  bgcolor="#fbc210" style="height:5px; font-size:0; line-height:0; background-color:#fbc210;">&nbsp;</td>
-                <td width="16%" bgcolor="#F19526" style="height:5px; font-size:0; line-height:0; background-color:#F19526;">&nbsp;</td>
-                <td width="24%" bgcolor="#7751FF" style="height:5px; font-size:0; line-height:0; background-color:#7751FF;">&nbsp;</td>
-                <td width="8%"  bgcolor="#cd393b" style="height:5px; font-size:0; line-height:0; background-color:#cd393b;">&nbsp;</td>
-                <td width="44%" bgcolor="#08306b" style="height:5px; font-size:0; line-height:0; background-color:#08306b;">&nbsp;</td>
+                <td width="8%"  height="5" bgcolor="#fbc210" style="font-size:0; line-height:0; background-color:#fbc210;">&nbsp;</td>
+                <td width="16%" height="5" bgcolor="#F19526" style="font-size:0; line-height:0; background-color:#F19526;">&nbsp;</td>
+                <td width="24%" height="5" bgcolor="#7751FF" style="font-size:0; line-height:0; background-color:#7751FF;">&nbsp;</td>
+                <td width="8%"  height="5" bgcolor="#cd393b" style="font-size:0; line-height:0; background-color:#cd393b;">&nbsp;</td>
+                <td width="44%" height="5" bgcolor="#08306b" style="font-size:0; line-height:0; background-color:#08306b;">&nbsp;</td>
               </tr>
             </table>
           </td>
@@ -209,10 +189,7 @@
             <p class="keep-white-txt" style="margin:0 0 18px 0; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:18px; letter-spacing:1.6px; color:#5c6b80;">
               SMART VALUE&trade; IS BUILT BY
             </p>
-            <img src="https://marketeersresearch.com/wp-content/uploads/2024/10/Marketeers-Logo-Blue.png"
-                 width="210"
-                 alt="Marketeers Research: Analytics, Insights, Impact"
-                 style="display:block; margin:0 auto; width:210px; max-width:210px; height:auto; border:0; font-family:Arial,Helvetica,sans-serif; font-size:16px; line-height:24px; font-weight:bold; color:#08306b;" />
+            <img src="https://marketeersresearch.com/wp-content/uploads/2024/10/Marketeers-Logo-Blue.png" width="210" alt="Marketeers Research: Analytics, Insights, Impact" style="display:block; margin:0 auto; width:210px; max-width:210px; height:auto; border:0; font-family:Arial,Helvetica,sans-serif; font-size:16px; line-height:24px; font-weight:bold; color:#08306b;" />
             <p class="keep-white-txt" style="margin:18px 0 0 0; font-family:Arial,Helvetica,sans-serif; font-size:13px; line-height:21px; color:#5c6b80;">
               32 years of pricing, category and shopper work<br class="hide-sm" />
               for FMCG manufacturers across Europe, the Middle East and Africa.
@@ -221,25 +198,22 @@
         </tr>
 
       </table>
-      <!--[if mso]></td></tr></table><![endif]-->
 
-      <!-- FOOTER: address and unsubscribe are legally required, do not remove -->
-      <!--[if mso]><table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0"><tr><td><![endif]-->
-      <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" class="wrap" style="width:600px; max-width:600px;">
+      <!-- FOOTER: address and the [[remove]] link are both required, do not delete -->
+      <table width="600" cellpadding="0" cellspacing="0" border="0" align="center" class="wrap" style="width:600px; max-width:600px;">
         <tr>
           <td class="pad appleLinksGrey" align="center" style="padding:26px 56px 8px 56px;">
             <p class="txt-muted" style="margin:0 0 8px 0; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:20px; color:#7a8699;">
               Smart Value&trade; AI Solutions, by Marketeers Research<br />
-              {{POSTAL_ADDRESS}}
+              POSTAL ADDRESS HERE
             </p>
             <p class="txt-muted" style="margin:0; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:20px; color:#7a8699;">
-              {{WHY_YOU_GOT_THIS}}
-              <a href="{{REMOVE_URL}}" style="color:#7a8699; text-decoration:underline;">Unsubscribe</a>
+              WHY YOU GOT THIS
+              <a href="[[remove]]" style="color:#7a8699; text-decoration:underline;">Unsubscribe</a>
             </p>
           </td>
         </tr>
       </table>
-      <!--[if mso]></td></tr></table><![endif]-->
 
     </td>
   </tr>
@@ -252,10 +226,6 @@
 ================================================================================
   MODULE LIBRARY
   Paste any of these as a <tr> inside the CONTENT AREA.
-
-  NOTE: the MSO conditional comments in modules C and G have had their closing
-  dashes spaced out (- -) so they do not terminate this outer comment. Close
-  those spaces up when you paste the module in.
 ================================================================================
 
 
@@ -263,12 +233,12 @@
 
         <tr>
           <td class="pad" style="padding:0 56px 30px 56px;">
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
               <tr>
                 <td width="4" bgcolor="#7751FF" style="width:4px; font-size:0; line-height:0; background-color:#7751FF;">&nbsp;</td>
                 <td style="padding-left:18px;">
                   <p class="h-lead txt-lead" style="margin:0; font-family:Arial,Helvetica,sans-serif; font-size:20px; line-height:31px; color:#1A1A4E; font-weight:bold;">
-                    {{LEAD_SENTENCE}}
+                    LEAD SENTENCE
                   </p>
                 </td>
               </tr>
@@ -281,12 +251,12 @@
 
         <tr>
           <td class="pad" style="padding:0 56px 36px 56px;">
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#1A1A4E" style="background-color:#1A1A4E;">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#1A1A4E" style="background-color:#1A1A4E;">
               <tr>
                 <td width="6" bgcolor="#F19526" style="width:6px; font-size:0; line-height:0; background-color:#F19526;">&nbsp;</td>
                 <td class="quote-pad" style="padding:34px 38px 34px 32px;">
-                  <p class="quote-txt mso-serif" style="margin:0; font-family:Georgia,'Times New Roman',serif; font-size:22px; line-height:35px; color:#ffffff;">
-                    {{QUOTE}}
+                  <p class="quote-txt" style="margin:0; font-family:Georgia,'Times New Roman',serif; font-size:22px; line-height:35px; color:#ffffff;">
+                    QUOTE
                   </p>
                 </td>
               </tr>
@@ -295,43 +265,33 @@
         </tr>
 
 
---- C. BUTTON (bulletproof: VML for Outlook, table everywhere else) -----------
+--- C. BUTTON ----------------------------------------------------------------
     Swap both #7751FF values for #F19526 to get the amber secondary button.
+    Outlook renders this square rather than rounded, which is the accepted
+    trade for a draft that saves. It stays fully clickable everywhere.
 
         <tr>
           <td class="pad" align="left" style="padding:0 56px 40px 56px;">
-            <!--[if mso]>
-            <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word"
-              href="{{CTA_URL}}" style="height:52px; v-text-anchor:middle; width:236px;" arcsize="8%" strokecolor="#7751FF" fillcolor="#7751FF">
-              <w:anchorlock/>
-              <center style="color:#ffffff; font-family:Arial,sans-serif; font-size:16px; font-weight:bold;">{{CTA_TEXT}}</center>
-            </v:roundrect>
-            <![endif]- ->
-            <!--[if !mso]><!- - ->
-            <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+            <table cellpadding="0" cellspacing="0" border="0">
               <tr>
                 <td align="center" bgcolor="#7751FF" style="background-color:#7751FF; border-radius:4px;">
-                  <a class="btn-a" href="{{CTA_URL}}"
-                     style="display:inline-block; padding:17px 36px; font-family:Arial,Helvetica,sans-serif; font-size:16px; line-height:18px; font-weight:bold; color:#ffffff; text-decoration:none; border-radius:4px;">
-                    {{CTA_TEXT}}
+                  <a href="CTA URL" style="display:inline-block; padding:17px 36px; font-family:Arial,Helvetica,sans-serif; font-size:16px; line-height:18px; font-weight:bold; color:#ffffff; text-decoration:none; border-radius:4px;">
+                    CTA TEXT
                   </a>
                 </td>
               </tr>
             </table>
-            <!- -<![endif]- ->
           </td>
         </tr>
 
 
 --- D. IMAGE (full bleed inside the card) -------------------------------------
-    Always set width, always write real alt text: a large share of B2B
-    recipients see the alt text and nothing else. Export at 2x and compress.
+    Always set width, never height, and always write real alt text: a large
+    share of B2B recipients see the alt text and nothing else.
 
         <tr>
           <td style="padding:0 0 34px 0; font-size:0; line-height:0;">
-            <img src="{{IMAGE_URL}}" width="600" alt="{{ALT_TEXT}}"
-                 class="stack-img"
-                 style="display:block; width:100%; max-width:600px; height:auto; border:0;" />
+            <img src="IMAGE URL" width="600" alt="ALT TEXT" class="stack-img" style="display:block; width:100%; max-width:600px; height:auto; border:0;" />
           </td>
         </tr>
 
@@ -340,16 +300,16 @@
 
         <tr>
           <td class="pad" style="padding:0 56px 34px 56px;">
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
               <tr>
                 <td class="stack" width="48%" valign="top" style="padding-bottom:20px;">
-                  <p class="txt-lead" style="margin:0 0 6px 0; font-family:Arial,Helvetica,sans-serif; font-size:15px; line-height:22px; color:#1A1A4E; font-weight:bold;">{{POINT_1_TITLE}}</p>
-                  <p class="txt-body" style="margin:0; font-family:Arial,Helvetica,sans-serif; font-size:15px; line-height:26px; color:#1f2937;">{{POINT_1_BODY}}</p>
+                  <p class="txt-lead" style="margin:0 0 6px 0; font-family:Arial,Helvetica,sans-serif; font-size:15px; line-height:22px; color:#1A1A4E; font-weight:bold;">POINT 1 TITLE</p>
+                  <p class="txt-body" style="margin:0; font-family:Arial,Helvetica,sans-serif; font-size:15px; line-height:26px; color:#1f2937;">POINT 1 BODY</p>
                 </td>
                 <td class="stack" width="4%" style="font-size:0; line-height:0;">&nbsp;</td>
                 <td class="stack" width="48%" valign="top">
-                  <p class="txt-lead" style="margin:0 0 6px 0; font-family:Arial,Helvetica,sans-serif; font-size:15px; line-height:22px; color:#1A1A4E; font-weight:bold;">{{POINT_2_TITLE}}</p>
-                  <p class="txt-body" style="margin:0; font-family:Arial,Helvetica,sans-serif; font-size:15px; line-height:26px; color:#1f2937;">{{POINT_2_BODY}}</p>
+                  <p class="txt-lead" style="margin:0 0 6px 0; font-family:Arial,Helvetica,sans-serif; font-size:15px; line-height:22px; color:#1A1A4E; font-weight:bold;">POINT 2 TITLE</p>
+                  <p class="txt-body" style="margin:0; font-family:Arial,Helvetica,sans-serif; font-size:15px; line-height:26px; color:#1f2937;">POINT 2 BODY</p>
                 </td>
               </tr>
             </table>
@@ -362,24 +322,24 @@
         <tr>
           <td class="pad" style="padding:0 56px 34px 56px;">
             <p class="body-txt txt-body" style="margin:0; font-family:Arial,Helvetica,sans-serif; font-size:17px; line-height:29px; color:#1f2937;">
-              <a href="{{CTA_URL}}" style="color:#7751FF; text-decoration:underline; font-weight:bold;">{{CTA_TEXT}}</a>
+              <a href="CTA URL" style="color:#7751FF; text-decoration:underline; font-weight:bold;">CTA TEXT</a>
             </p>
           </td>
         </tr>
 
 
---- G. NUMBERED STEPS (amber numerals, one row each) --------------------------
+--- G. NUMBERED STEPS (amber numerals) ----------------------------------------
     Duplicate the inner <tr> per step and change the numeral.
 
         <tr>
           <td class="pad" style="padding:0 56px 34px 56px;">
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
               <tr>
                 <td width="34" valign="top" style="width:34px;">
-                  <p class="mso-serif" style="margin:0; font-family:Georgia,'Times New Roman',serif; font-size:24px; line-height:28px; color:#F19526; font-weight:bold;">1</p>
+                  <p style="margin:0; font-family:Georgia,'Times New Roman',serif; font-size:24px; line-height:28px; color:#F19526; font-weight:bold;">1</p>
                 </td>
                 <td valign="top" style="padding-bottom:18px;">
-                  <p class="txt-body" style="margin:0; font-family:Arial,Helvetica,sans-serif; font-size:16px; line-height:27px; color:#1f2937;">{{STEP_TEXT}}</p>
+                  <p class="txt-body" style="margin:0; font-family:Arial,Helvetica,sans-serif; font-size:16px; line-height:27px; color:#1f2937;">STEP TEXT</p>
                 </td>
               </tr>
             </table>

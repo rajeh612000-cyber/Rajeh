@@ -40,4 +40,4 @@ Africa.
 
 Smart Value(TM) AI Solutions, by Marketeers Research
 London, United Kingdom
-Unsubscribe: {{REMOVE_URL}}
+Unsubscribe: [[remove]]

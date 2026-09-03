@@ -28,17 +28,36 @@ sender, so add the street line and postcode in both the HTML and the text file,
 for example "12 Example Street, London EC1A 1AA, United Kingdom". Filters also
 score a bare city lower than a full address.
 
-Check `{{REMOVE_URL}}` renders as a working unsubscribe link in the GetResponse
-preview. If your account uses the older `[[remove]]` tag, swap it, or delete the
-whole link and insert GetResponse's own unsubscribe element in the editor. Never
-hand-write the URL.
+Logos, the article link and the unsubscribe tag are wired and need nothing.
 
-Logos and the article link are wired and need nothing.
+## The "Failed to save draft" error
 
-## What changed for GetResponse
+The cause was the unsubscribe tag. `{{REMOVE_URL}}` is not a GetResponse tag.
+GetResponse requires **`[[remove]]`** in custom HTML and validates for it on
+save, rejecting the message rather than saving without a valid opt-out. That one
+substitution is the actual fix.
 
-Three things in the previous version were the likely cause of the error, and all
-three are gone.
+While in there I also stripped everything else a GetResponse sanitizer commonly
+chokes on, so the draft saves first time rather than failing on the next thing:
+
+- All Outlook conditional comments and the VML `<v:roundrect>` button.
+- The `<o:OfficeDocumentSettings>` XML block and every `xmlns` attribute.
+- All `mso-` CSS properties.
+- The XHTML doctype, now a plain `<!DOCTYPE html>`.
+- The zero-width-space entities that padded the preheader.
+
+**What this costs:** the button renders square in Outlook desktop instead of
+rounded. It is still a solid purple block, fully clickable, correct everywhere
+else. A draft that saves beats a rounded corner.
+
+**What it does not cost:** nothing else. Width still holds at 600px in Outlook
+because the tables carry a `width` attribute, which is what Outlook actually
+reads. Georgia is a Windows system font, so the pull quote still renders in
+Georgia there without the `mso-` fallback.
+
+The file is now 13.9KB.
+
+## Two earlier fixes, still in place
 
 **The merge tag.** The greeting was
 ``{{CONTACT `ucfw(subscriber_first_name)` `there`}}``. Backticks inside a pasted
@@ -49,8 +68,8 @@ greeting is now a plain `Hi there,`.
 If you want the first name back, do not paste the tag as text. Put the cursor
 where it belongs and insert it from GetResponse's own personalization menu, which
 writes the syntax the account actually expects and lets you set the fallback in
-the UI. Test on a seed list before a real send, and set the fallback to `there`
-so nobody gets `Hi ,`.
+the UI. Test on a seed list first, and set the fallback to `there` so nobody gets
+`Hi ,`.
 
 **The logos.** They pointed at `/email-assets/` paths that were never uploaded.
 They now point at your live WordPress files:
@@ -121,9 +140,9 @@ senders, and on your own domain all three are available.
 - Tables and inline CSS throughout. No `div` columns, no flexbox, no web fonts.
   The `<style>` block only carries mobile and dark mode, so nothing breaks if
   GetResponse strips it.
-- Outlook: VML button, `mso` font fallbacks, conditional wrapper tables. The
-  Georgia pull quote falls back to Arial rather than Times.
-- Two outbound links plus the unsubscribe and Mariam's mailto. 17KB.
+- No conditional comments, VML, xmlns or `mso-` properties, so GetResponse
+  accepts it. Outlook width is held by the tables' `width` attribute instead.
+- Two outbound links plus the unsubscribe and Mariam's mailto. 13.9KB.
 
 ## Copy notes
 
