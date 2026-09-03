@@ -1,0 +1,182 @@
+<!--
+  Smart Value™ — Homepage Section 3: "How Smart Value Works"
+  (formerly "Platform Capabilities")
+
+  Amended per Smart_Value_Website_Amends.docx §3.
+  Numbers in the scenario mock are aligned to §4; SmartBot copy aligned to §6,
+  so the card previews do not contradict the full sections further down the page.
+
+  NOTE: no original CSS rule or DOM block has been removed. New rules are
+  appended in the "ADDED" blocks below.
+-->
+
+<style>
+.pc-wrap{background:#fff;padding:4rem 2rem;font-family:'Sora',sans-serif}
+.pc-inner{max-width:1100px;margin:0 auto;text-align:center}
+.pc-eyebrow{font-size:11px;font-weight:600;letter-spacing:.12em;color:#534AB7;margin-bottom:.8rem;display:block}
+.pc-heading{font-size:30px;font-weight:800;color:#1a1a4e;line-height:1.35;margin:0 0 2.5rem}
+.pc-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;text-align:left}
+.pc-card{background:#fff;border:1px solid #e8e6f8;border-radius:14px;padding:1.6rem 1.4rem;opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;display:flex;flex-direction:column}
+.pc-card.visible{opacity:1;transform:translateY(0)}
+.pc-card:nth-child(1){transition-delay:.1s}
+.pc-card:nth-child(2){transition-delay:.25s}
+.pc-card:nth-child(3){transition-delay:.4s}
+.pc-icon{width:46px;height:46px;border-radius:10px;background:#EEEDFE;display:flex;align-items:center;justify-content:center;margin-bottom:1rem}
+.pc-icon svg{width:24px;height:24px;stroke:#534AB7;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.pc-card-title{font-size:15px;font-weight:700;color:#1a1a4e;margin:0 0 .4rem}
+.pc-card-desc{font-size:12px;font-weight:300;color:#666;line-height:1.75;margin:0 0 1.2rem}
+.pc-mock{background:#f8f7fe;border-radius:10px;padding:1rem;border:1px solid #ede9fb;margin-bottom:1.2rem;flex:1}
+.pc-table-label{font-size:10px;font-weight:600;color:#888;margin:0 0 .6rem;letter-spacing:.06em}
+.pc-table-row{display:flex;align-items:center;justify-content:space-between;padding:.35rem 0;border-bottom:1px solid #ede9fb;font-size:11px}
+.pc-table-row:last-child{border-bottom:none}
+.pc-table-cat{color:#444;font-weight:400;flex:1}
+.pc-table-val{color:#1a1a4e;font-weight:600;min-width:52px;text-align:right}
+.pc-table-badge{font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px;min-width:42px;text-align:center;margin-left:6px}
+.badge-up{background:#e6f4ea;color:#2d7a3a}
+.badge-dn{background:#fdecea;color:#cd393b}
+.pc-scenario-label{font-size:11px;font-weight:700;color:#1a1a4e;margin:0 0 .2rem}
+.pc-scenario-sub{font-size:10px;color:#888;margin:0 0 .8rem}
+.pc-metrics{display:flex;gap:12px;margin-bottom:.8rem}
+.pc-metric{flex:1;text-align:center}
+.pc-metric-val{font-size:13px;font-weight:700}
+.pc-metric-val.up{color:#2d7a3a}
+.pc-metric-val.dn{color:#cd393b}
+.pc-metric-lbl{font-size:10px;color:#888;margin-top:2px}
+.pc-chart{height:40px;width:100%}
+.pc-bot-label{font-size:11px;font-weight:700;color:#1a1a4e;margin:0 0 .7rem}
+.pc-user-msg{background:#fff;border:1px solid #e0ddf8;border-radius:8px;padding:.5rem .7rem;font-size:11px;color:#444;margin-bottom:.6rem}
+.pc-bot-msg{background:#EEEDFE;border-radius:8px;padding:.5rem .7rem;font-size:11px;color:#3c3489;line-height:1.6;display:flex;gap:8px;align-items:flex-start}
+.pc-bot-avatar{width:22px;height:22px;border-radius:50%;background:#534AB7;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.pc-bot-avatar svg{width:12px;height:12px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pc-btn{display:block;width:100%;padding:.6rem 1rem;background:#534AB7;color:#fff;font-family:'Sora',sans-serif;font-size:12px;font-weight:600;text-align:center;text-decoration:none;border-radius:8px;border:none;cursor:pointer;box-sizing:border-box;transition:background .2s ease,transform .15s ease}
+.pc-btn:hover{background:#3f379a;transform:translateY(-1px)}
+.pc-btn:active{transform:translateY(0)}
+@media(max-width:768px){
+  .pc-grid{grid-template-columns:1fr}
+}
+
+/* ── ADDED: new elements introduced by the amendment ───────────────────── */
+
+/* Doc §3 gives each card a bold outcome line under the title, then the
+   supporting paragraph. Previously there was only one paragraph. */
+.pc-card-lead{font-size:12.5px;font-weight:600;color:#3c3489;line-height:1.6;margin:0 0 .5rem}
+
+/* Doc §3 demotes the capability name (Commercial Analytics / Scenario
+   Planning & Simulation / AI Decision Support) from the H3 to a label that
+   sits under the copy and titles the mock beneath it. */
+.pc-tag{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#534AB7;background:#EEEDFE;border-radius:999px;padding:4px 10px;margin:0 0 .9rem}
+
+/* Step numbering — reinforces "Understand → Test → Decide" as a sequence
+   rather than three parallel features (doc §3 and the §"complete website
+   story" flow). Decorative only, hidden from assistive tech. */
+.pc-step{position:absolute;top:1.4rem;right:1.4rem;font-size:11px;font-weight:700;color:#cfcaf2;letter-spacing:.04em}
+.pc-card{position:relative}
+
+/* Fallback: cards start at opacity:0 for the scroll animation. If JS or
+   IntersectionObserver is unavailable the copy must still render — this is
+   crawlable-content and accessibility insurance, not decoration. */
+.pc-card.pc-no-anim{opacity:1;transform:none;transition:none}
+@media(prefers-reduced-motion:reduce){
+  .pc-card{opacity:1;transform:none;transition:none}
+}
+
+/* Descriptive link text for screen readers without changing the visible
+   "Explore more" label. */
+.pc-sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+</style>
+
+<noscript><style>.pc-card{opacity:1;transform:none;transition:none}</style></noscript>
+
+<section class="pc-wrap" id="how-smart-value-works" aria-labelledby="pc-heading">
+  <div class="pc-inner">
+    <span class="pc-eyebrow">HOW SMART VALUE WORKS</span>
+    <h2 class="pc-heading" id="pc-heading">From performance to better decisions<br>— in one place</h2>
+
+    <div class="pc-grid">
+
+      <!-- STEP 1 — Understand Performance (capability: Commercial Analytics) -->
+      <div class="pc-card">
+        <span class="pc-step" aria-hidden="true">01</span>
+        <div class="pc-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="12" width="4" height="9" rx="1"/><rect x="10" y="7" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></svg>
+        </div>
+        <h3 class="pc-card-title">Understand Performance</h3>
+        <p class="pc-card-lead">See what's driving your results — and where the opportunities are.</p>
+        <p class="pc-card-desc">Bring together sales, pricing, promotions, distribution and market data to understand what is changing, where and why.</p>
+        <span class="pc-tag">Commercial Analytics</span>
+        <div class="pc-mock">
+          <p class="pc-table-label">Category Performance</p>
+          <div class="pc-table-row"><span class="pc-table-cat">Beverages</span><span class="pc-table-val">£2.45M</span><span class="pc-table-badge badge-up">+8.7%</span></div>
+          <div class="pc-table-row"><span class="pc-table-cat">Snacks</span><span class="pc-table-val">£1.82M</span><span class="pc-table-badge badge-dn">-6.3%</span></div>
+          <div class="pc-table-row"><span class="pc-table-cat">Dairy</span><span class="pc-table-val">£1.35M</span><span class="pc-table-badge badge-dn">-1.2%</span></div>
+          <div class="pc-table-row"><span class="pc-table-cat">Personal Care</span><span class="pc-table-val">£980K</span><span class="pc-table-badge badge-up">+2.6%</span></div>
+        </div>
+        <a class="pc-btn" href="https://smartvalueaisolutions.com/commercial-analytics/">Explore more<span class="pc-sr"> about Commercial Analytics</span></a>
+      </div>
+
+      <!-- STEP 2 — Test Your Options (capability: Scenario Planning & Simulation) -->
+      <div class="pc-card">
+        <span class="pc-step" aria-hidden="true">02</span>
+        <div class="pc-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+        </div>
+        <h3 class="pc-card-title">Test Your Options</h3>
+        <p class="pc-card-lead">Compare different decisions before choosing your next move.</p>
+        <p class="pc-card-desc">Test pricing, promotion, portfolio and distribution scenarios and compare their expected impact on volume, revenue and margin.</p>
+        <span class="pc-tag">Scenario Planning &amp; Simulation</span>
+        <div class="pc-mock">
+          <p class="pc-scenario-label">Pricing Scenario</p>
+          <p class="pc-scenario-sub">Current £3.50 &middot; +5% Price</p>
+          <div class="pc-metrics">
+            <div class="pc-metric"><div class="pc-metric-val up">+3.8%</div><div class="pc-metric-lbl">Revenue</div></div>
+            <div class="pc-metric"><div class="pc-metric-val up">+6.1%</div><div class="pc-metric-lbl">Margin</div></div>
+            <div class="pc-metric"><div class="pc-metric-val dn">&minus;1.2%</div><div class="pc-metric-lbl">Volume</div></div>
+          </div>
+          <svg class="pc-chart" viewBox="0 0 200 40" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <polyline points="0,35 30,28 60,30 90,20 120,22 150,12 180,8 200,5" fill="none" stroke="#534AB7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="0,35 30,28 60,30 90,20 120,22 150,12 180,8 200,5 200,40 0,40" fill="#EEEDFE" stroke="none"/>
+          </svg>
+        </div>
+        <a class="pc-btn" href="https://smartvalueaisolutions.com/strategic-acceleration/">Explore more<span class="pc-sr"> about Scenario Planning &amp; Simulation</span></a>
+      </div>
+
+      <!-- STEP 3 — Decide Faster (capability: AI Decision Support) -->
+      <div class="pc-card">
+        <span class="pc-step" aria-hidden="true">03</span>
+        <div class="pc-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/><circle cx="18" cy="5" r="3"/><path d="M18 3v2l1 1"/></svg>
+        </div>
+        <h3 class="pc-card-title">Decide Faster</h3>
+        <p class="pc-card-lead">Ask the question. Get to the answer faster.</p>
+        <p class="pc-card-desc">Use SmartBot to explore your data, compare scenarios, identify risks and opportunities, and support your next commercial decision.</p>
+        <span class="pc-tag">AI Decision Support</span>
+        <div class="pc-mock">
+          <p class="pc-bot-label">SmartBot</p>
+          <div class="pc-user-msg">Which pricing scenario improves margin while keeping volume decline below 2%?</div>
+          <div class="pc-bot-msg">
+            <div class="pc-bot-avatar">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 8v8"/></svg>
+            </div>
+            <span>Scenario B offers the strongest balance between margin improvement and volume protection.</span>
+          </div>
+        </div>
+        <a class="pc-btn" href="https://smartvalueaisolutions.com/ai-decision-support-smart-bot/">Explore more<span class="pc-sr"> about AI Decision Support</span></a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var cards = document.querySelectorAll('.pc-card');
+  if(!('IntersectionObserver' in window)){
+    cards.forEach(function(c){ c.classList.add('pc-no-anim'); });
+    return;
+  }
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  },{threshold:0.15});
+  cards.forEach(function(c){ observer.observe(c); });
+})();
+</script>
