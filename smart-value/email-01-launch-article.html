@@ -37,11 +37,11 @@
     .body-txt { font-size: 16px !important; line-height: 27px !important; }
     .quote-txt { font-size: 19px !important; line-height: 30px !important; }
     .btn-a { display: block !important; }
-    .stack { display: block !important; width: 100% !important; }
     .hide-sm { display: none !important; }
   }
 
-  /* The navy bands are already dark, so dark mode only has to handle the letter. */
+  /* Both logo PNGs carry a white background, so the two logo bands must stay
+     white in dark mode. Only the letter in between gets inverted. */
   @media (prefers-color-scheme: dark) {
     .bg-page { background-color: #0d1322 !important; }
     .bg-card { background-color: #151d30 !important; }
@@ -49,6 +49,8 @@
     .txt-muted { color: #9aa7bd !important; }
     .txt-lead  { color: #9db4ff !important; }
     .rule { border-color: #2b3550 !important; }
+    .keep-white { background-color: #ffffff !important; }
+    .keep-white-txt { color: #5c6b80 !important; }
   }
   [data-ogsc] .bg-page { background-color: #0d1322 !important; }
   [data-ogsc] .bg-card { background-color: #151d30 !important; }
@@ -56,6 +58,8 @@
   [data-ogsc] .txt-muted { color: #9aa7bd !important; }
   [data-ogsc] .txt-lead  { color: #9db4ff !important; }
   [data-ogsc] .rule { border-color: #2b3550 !important; }
+  [data-ogsc] .keep-white { background-color: #ffffff !important; }
+  [data-ogsc] .keep-white-txt { color: #5c6b80 !important; }
 </style>
 </head>
 
@@ -75,17 +79,18 @@
       <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" class="wrap bg-card" style="width:600px; max-width:600px; background-color:#ffffff;">
 
         <!-- ===================== MASTHEAD ===================== -->
+        <!-- White band, because the Smart Value PNG has a white background baked in. -->
         <tr>
-          <td class="band-pad" align="center" bgcolor="#1A1A4E" style="background-color:#1A1A4E; padding:34px 56px 32px 56px;">
-            <img src="https://smartvalueaisolutions.com/email-assets/smart-value-logo-white.png"
-                 width="228" height="76"
+          <td class="band-pad keep-white" align="center" bgcolor="#ffffff" style="background-color:#ffffff; padding:34px 56px 30px 56px;">
+            <img src="https://smartvalueaisolutions.com/wp-content/uploads/2026/07/Logo-option-2-white-background-scaled.png"
+                 width="250"
                  alt="Smart Value&trade; AI Solutions"
-                 style="display:block; width:228px; max-width:228px; height:auto; border:0; font-family:Arial,Helvetica,sans-serif; font-size:17px; line-height:24px; font-weight:bold; color:#ffffff;" />
+                 style="display:block; width:250px; max-width:250px; height:auto; border:0; font-family:Arial,Helvetica,sans-serif; font-size:17px; line-height:24px; font-weight:bold; color:#1A1A4E;" />
           </td>
         </tr>
 
-        <!-- Brand ribbon: both palettes, left to right. Marketeers navy, Marketeers red,
-             Smart Value purple, Smart Value amber, Marketeers yellow. -->
+        <!-- Brand ribbon: both palettes, left to right. Marketeers navy and red,
+             Smart Value purple and amber, Marketeers yellow. -->
         <tr>
           <td style="font-size:0; line-height:0; height:5px;">
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -102,10 +107,10 @@
 
         <!-- ===================== LETTER ===================== -->
         <tr>
-          <td class="pad" style="padding:46px 56px 0 56px;">
+          <td class="pad" style="padding:44px 56px 0 56px;">
 
             <p class="body-txt txt-body" style="margin:0 0 26px 0; font-family:Arial,Helvetica,sans-serif; font-size:17px; line-height:29px; color:#1f2937;">
-              Dear {{CONTACT `ucfw(subscriber_first_name)` `there`}},
+              Hi there,
             </p>
 
             <p class="body-txt txt-body" style="margin:0 0 30px 0; font-family:Arial,Helvetica,sans-serif; font-size:17px; line-height:29px; color:#1f2937;">
@@ -215,8 +220,8 @@
             <p class="body-txt txt-body" style="margin:0 0 6px 0; font-family:Arial,Helvetica,sans-serif; font-size:17px; line-height:29px; color:#1f2937;">
               Best regards,
             </p>
-            <p style="margin:0 0 5px 0; font-family:Arial,Helvetica,sans-serif; font-size:18px; line-height:26px; color:#1A1A4E; font-weight:bold;">
-              <span class="txt-lead" style="color:#1A1A4E;">Mariam</span>
+            <p class="txt-lead" style="margin:0 0 5px 0; font-family:Arial,Helvetica,sans-serif; font-size:18px; line-height:26px; color:#1A1A4E; font-weight:bold;">
+              Mariam
             </p>
             <p class="txt-muted" style="margin:0 0 3px 0; font-family:Arial,Helvetica,sans-serif; font-size:14px; line-height:22px; color:#5c6b80;">
               Marketing &amp; PR Manager
@@ -224,13 +229,13 @@
             <p class="txt-muted" style="margin:0 0 3px 0; font-family:Arial,Helvetica,sans-serif; font-size:14px; line-height:22px; color:#5c6b80;">
               Smart Value&trade; AI Solutions and Marketeers Research
             </p>
-            <p style="margin:0 0 40px 0; font-family:Arial,Helvetica,sans-serif; font-size:14px; line-height:22px;">
+            <p style="margin:0 0 38px 0; font-family:Arial,Helvetica,sans-serif; font-size:14px; line-height:22px;">
               <a href="mailto:mariam@marketeersresearch.com" style="color:#7751FF; text-decoration:none;">mariam@marketeersresearch.com</a>
             </p>
           </td>
         </tr>
 
-        <!-- ===================== PROVENANCE BAND ===================== -->
+        <!-- ===================== RIBBON, MIRRORED ===================== -->
         <tr>
           <td style="font-size:0; line-height:0; height:5px;">
             <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
@@ -245,16 +250,18 @@
           </td>
         </tr>
 
+        <!-- ===================== PROVENANCE BAND ===================== -->
+        <!-- White band, because the Marketeers PNG is the blue-on-light version. -->
         <tr>
-          <td class="band-pad" align="center" bgcolor="#08306b" style="background-color:#08306b; padding:34px 56px 36px 56px;">
-            <p style="margin:0 0 20px 0; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:18px; letter-spacing:1.6px; text-transform:uppercase; color:#a8bfe0;">
-              Smart Value&trade; is built by
+          <td class="band-pad keep-white" align="center" bgcolor="#ffffff" style="background-color:#ffffff; padding:32px 56px 34px 56px;">
+            <p class="keep-white-txt" style="margin:0 0 18px 0; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:18px; letter-spacing:1.6px; color:#5c6b80;">
+              SMART VALUE&trade; IS BUILT BY
             </p>
-            <img src="https://smartvalueaisolutions.com/email-assets/marketeers-logo-white.png"
-                 width="216" height="68"
+            <img src="https://marketeersresearch.com/wp-content/uploads/2024/10/Marketeers-Logo-Blue.png"
+                 width="210"
                  alt="Marketeers Research: Analytics, Insights, Impact"
-                 style="display:block; margin:0 auto; width:216px; max-width:216px; height:auto; border:0; font-family:Arial,Helvetica,sans-serif; font-size:16px; line-height:24px; font-weight:bold; color:#ffffff;" />
-            <p style="margin:20px 0 0 0; font-family:Arial,Helvetica,sans-serif; font-size:13px; line-height:21px; color:#a8bfe0;">
+                 style="display:block; margin:0 auto; width:210px; max-width:210px; height:auto; border:0; font-family:Arial,Helvetica,sans-serif; font-size:16px; line-height:24px; font-weight:bold; color:#08306b;" />
+            <p class="keep-white-txt" style="margin:18px 0 0 0; font-family:Arial,Helvetica,sans-serif; font-size:13px; line-height:21px; color:#5c6b80;">
               32 years of pricing, category and shopper work<br class="hide-sm" />
               for FMCG manufacturers across Europe, the Middle East and Africa.
             </p>

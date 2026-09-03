@@ -1,4 +1,4 @@
-Dear {{CONTACT `ucfw(subscriber_first_name)` `there`}},
+Hi there,
 
 I am the Marketing & PR Manager at Smart Value(TM) AI Solutions and Marketeers
 Research. Smart Value(TM) is revenue growth management software, and it comes

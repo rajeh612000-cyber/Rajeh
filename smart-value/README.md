@@ -8,180 +8,151 @@ Sender: `mariam@marketeersresearch.com`, sending through GetResponse.
 | `email-01-launch-article.txt` | The plain-text part. Not optional, see below. |
 | `template-base.html` | Shell plus module library for every email after this one. |
 
-## Before you send
-
-**1. Host the two logos.** This is the only blocker. The email points at:
-
-```
-https://smartvalueaisolutions.com/email-assets/smart-value-logo-white.png
-https://smartvalueaisolutions.com/email-assets/marketeers-logo-white.png
-```
-
-Both are the **white / light-on-dark** variants, because both logo bands sit on
-navy. Export from the source files at 2x and let the HTML scale them down:
-
-| File | Export at | Displays at | Sits on |
-|---|---|---|---|
-| `smart-value-logo-white.png` | 456 × 152 | 228 × 76 | `#1A1A4E` |
-| `marketeers-logo-white.png` | 432 × 136 | 216 × 68 | `#08306b` |
-
-PNG with transparency, compressed (TinyPNG or similar; each should land under
-30KB). Upload anywhere on a domain you control that serves over HTTPS and does
-not hotlink-block. If they live on the Marketeers domain instead, just change
-both `src` values. Do not use a Google Drive or Dropbox share link, those do not
-serve as images to email clients.
-
-The light-background logo variants are not used here. Keep them for anything on
-a white background.
-
-**2. Finish the postal address.** The footer currently reads "London, United
-Kingdom" in both the HTML and the text file. That is a city, not an address.
-CAN-SPAM requires a valid physical postal address and UK PECR expects an
-identifiable sender, so add the street line and postcode before a real send, for
-example "12 Example Street, London EC1A 1AA, United Kingdom". Filters also score
-a bare city lower than a full address.
-
-**3. Confirm the unsubscribe tag.** `{{REMOVE_URL}}` is GetResponse's. If your
-account inserts something different, use whatever the GetResponse editor itself
-produces rather than hand-writing a link.
-
-The article URL is already in place, in all three spots (Outlook VML button,
-normal button, text part).
-
-## The first-name question
-
-The merge field is resolved by GetResponse before the email leaves. The client
-never sees it, so it cannot affect rendering. The syntax with a fallback:
-
-```
-{{CONTACT `ucfw(subscriber_first_name)` `there`}}
-```
-
-`ucfw()` upper-cases the first word, which fixes contacts stored as `ahmed` or
-`AHMED`. The backtick `there` is what shows when the field is empty.
-
-**The fallback matters more than the personalization does.** "Dear ," is the
-clearest possible signal that an email came out of a database. If you would
-rather show a different sentence entirely when the name is missing:
-
-```
-{{IF `(subscriber_first_name IS_DEFINED)`}}Dear {{CONTACT `ucfw(subscriber_first_name)`}},{{ELSE}}Hello,{{END}}
-```
-
-Worth doing before this send: audit the first-name column. Company names,
-"Info", "Sales", and full names in the first-name field are common in B2B lists,
-and "Dear Procurement Department," reads worse than no name at all.
-
-If you ever move off GetResponse: Gmail multi-send uses `@firstname` with a
-default set by hovering the tag, GMass uses `{FirstName|there}`, Mailmeteor uses
-`{{First Name}}` with a fallback column in the sheet.
-
 ## Subject line
 
-Should read like a colleague wrote it, not a campaign.
+**`The promotion meeting`** — with the preheader already in the file:
 
-- **A. The promotion meeting** — plainest, no promotional trigger words,
-  highest open rate from a named human sender. My recommendation.
-- **B. Three dashboards open, decision made on instinct** — carries the hook
-  into the inbox and qualifies readers before they open.
-- **C. A question about how you decide promotions** — sets up a reply, which is
-  the response you actually want.
+> Three dashboards open, all the data current, and the promotion still gets
+> decided on instinct.
 
-Preheader already in the file: "Three dashboards open, all the data current, and
-the promotion still gets decided on instinct." Do not repeat the subject line
-there, Gmail shows both.
+Alternatives: `Decided on instinct`, `A question about how you decide
+promotions`, `Three dashboards, one decision`. Judge a test on clicks, not
+opens — Apple Mail Privacy Protection inflates open rate enough to mislead.
 
-## How the design works
+## Before you send
 
-The email is built as a letter with brand furniture at each end, rather than as
-a campaign. Reading down: Smart Value™ masthead on its navy, a ribbon carrying
-both palettes left to right, the letter itself on white, the pull quote as the
-one designed moment, then a mirrored ribbon into the Marketeers provenance band.
+**Only one thing is outstanding: the street address.** The footer currently
+reads "London, United Kingdom", which is a city, not an address. CAN-SPAM
+requires a valid physical postal address and UK PECR expects an identifiable
+sender, so add the street line and postcode in both the HTML and the text file,
+for example "12 Example Street, London EC1A 1AA, United Kingdom". Filters also
+score a bare city lower than a full address.
 
-Both branded bands are navy by design. That is what makes the dual-brand story
-work in the right order (Smart Value™ is the subject, Marketeers is the
-credential), and it also solves dark mode: the bands are already dark, so only
-the white letter in the middle needs overriding. Logo swapping between light and
-dark variants is unreliable across clients, and this sidesteps it entirely.
+Check `{{REMOVE_URL}}` renders as a working unsubscribe link in the GetResponse
+preview. If your account uses the older `[[remove]]` tag, swap it, or delete the
+whole link and insert GetResponse's own unsubscribe element in the editor. Never
+hand-write the URL.
 
-The ribbon is the one device that carries both palettes at once: Marketeers navy
-and red, Smart Value™ purple and amber, Marketeers yellow. The two brands share
-only white as an exact hex, so it borrows the shared *role* (navy anchor, warm
-accent) instead of forcing a shared colour.
+Logos and the article link are wired and need nothing.
 
-What the code handles:
+## What changed for GetResponse
 
-- Two images only, both logos. Roughly 2,400 characters of live text against the
-  ~400 floor filters look for, so the image-to-text ratio is comfortable.
-- Both logos carry real alt text styled white at the right size, so a recipient
-  with images off still sees "Smart Value™ AI Solutions" in white on navy rather
-  than a broken icon. Worth previewing with images disabled at least once.
-- Tables and inline CSS throughout. No `div` columns, no flexbox, no web fonts.
-- Outlook: VML button, `mso` font fallbacks, conditional wrapper tables. The
-  Georgia pull quote falls back to Arial rather than to Times.
-- Dark mode handled explicitly for Apple Mail, Gmail and Outlook.com.
-- Two outbound links plus the unsubscribe and Mariam's mailto. 16.6KB.
+Three things in the previous version were the likely cause of the error, and all
+three are gone.
+
+**The merge tag.** The greeting was
+``{{CONTACT `ucfw(subscriber_first_name)` `there`}}``. Backticks inside a pasted
+HTML block are fragile — the editor can smart-quote or escape them, and a
+malformed personalization tag fails validation rather than degrading quietly. The
+greeting is now a plain `Hi there,`.
+
+If you want the first name back, do not paste the tag as text. Put the cursor
+where it belongs and insert it from GetResponse's own personalization menu, which
+writes the syntax the account actually expects and lets you set the fallback in
+the UI. Test on a seed list before a real send, and set the fallback to `there`
+so nobody gets `Hi ,`.
+
+**The logos.** They pointed at `/email-assets/` paths that were never uploaded.
+They now point at your live WordPress files:
+
+```
+https://smartvalueaisolutions.com/wp-content/uploads/2026/07/Logo-option-2-white-background-scaled.png
+https://marketeersresearch.com/wp-content/uploads/2024/10/Marketeers-Logo-Blue.png
+```
+
+**Fixed height attributes.** Both `<img>` tags had `height="76"` and
+`height="68"` from the old design. Those were guesses. A height attribute that
+does not match the file's real aspect ratio squashes the logo in Outlook, so
+both are now width-only with `height:auto`.
+
+## Why both logo bands are now white
+
+You sent the blue-on-light Marketeers logo and the white-background Smart Value™
+logo. Both are built for light backgrounds. The previous version put them on navy
+bands, which would have rendered each logo inside a visible white rectangle.
+
+So the masthead and the provenance band are both white, and the colour now comes
+from the brand ribbon, the purple lead rule, the navy pull quote and the purple
+button. Reading down: Smart Value™ masthead, ribbon, the letter, the pull quote
+as the one designed moment, mirrored ribbon, then "Smart Value™ is built by" over
+the Marketeers logo. That order is the argument — Smart Value™ is the subject,
+Marketeers is the credential.
+
+Both bands are pinned white in dark mode through the `.keep-white` class, because
+a white-background PNG on an inverted dark band is the ugliest failure mode in
+email. Only the letter between them inverts.
+
+There is a third logo you sent, `Smart-Value-fnal-logo-scaled.png`, the version
+with navy baked in. It is unused here. It would only work on a band whose hex
+matches its baked background exactly, which is not worth the risk.
+
+**One optimisation worth doing.** Both files are WordPress `-scaled` uploads,
+which means roughly 2560px wide and likely several hundred KB each. They will
+render correctly but load slowly on mobile. When you have a moment, upload copies
+at 500px and 420px wide, compress them, and swap the two `src` values. Nothing
+else needs to change.
 
 ## Deliverability
 
-Sending from `marketeersresearch.com` rather than a free address changes the
-picture for the better. Since February 2024 Google and Yahoo require SPF, DKIM
-and DMARC from bulk senders, and on your own domain all three are available.
+Sending from `marketeersresearch.com` rather than a free address helps a lot.
+Since February 2024 Google and Yahoo require SPF, DKIM and DMARC from bulk
+senders, and on your own domain all three are available.
 
-- **Authenticate the domain in GetResponse before this send.** GetResponse will
-  give you DKIM records to add to the Marketeers DNS. If DKIM is not signed and
-  DMARC is not published, this is the single most likely reason a well-built
-  email lands in spam. Everything else on this list matters less.
-- **Send the plain-text part.** GetResponse can auto-generate one, but the
-  auto-generated version of a table-based email is usually mangled. Paste
-  `email-01-launch-article.txt` in manually.
+- **Authenticate the domain in GetResponse before this send.** GetResponse gives
+  you DKIM records to add to the Marketeers DNS. Unsigned DKIM with no DMARC is
+  the most likely reason a well-built email lands in spam, and it matters more
+  than anything in the HTML.
+- **Paste the plain-text part manually.** GetResponse can auto-generate one, but
+  the auto-generated version of a table-based email is usually mangled.
 - **Warm up if this list has not been mailed.** A few hundred a day, climbing.
-  Sending cold to a large list from a domain with no sending history is how a
-  domain reputation gets damaged, and it is slow to repair.
-- **Watch the reply address.** The email promises that a "no thanks" reply gets
-  someone removed. Somebody has to actually read and action that inbox, or the
-  promise is false and the complaints become spam reports.
+  Cold-blasting a large list from a domain with no sending history damages a
+  reputation that is slow to repair.
+- **Watch the reply address.** The email promises a "no thanks" reply gets
+  someone removed. Someone has to read and action that inbox, or the promise is
+  false and complaints become spam reports.
+
+## The build
+
+- Two images, both logos. Roughly 2,300 characters of live text against the ~400
+  floor filters look for, so the image-to-text ratio is comfortable.
+- Both logos carry real alt text styled at the right size and colour, so an
+  images-off recipient reads "Smart Value™ AI Solutions" in navy rather than
+  seeing a broken icon. Preview once with images disabled.
+- Tables and inline CSS throughout. No `div` columns, no flexbox, no web fonts.
+  The `<style>` block only carries mobile and dark mode, so nothing breaks if
+  GetResponse strips it.
+- Outlook: VML button, `mso` font fallbacks, conditional wrapper tables. The
+  Georgia pull quote falls back to Arial rather than Times.
+- Two outbound links plus the unsubscribe and Mariam's mailto. 17KB.
 
 ## Copy notes
 
-Your draft was already strong. The scene paragraph and the line about data not
-pointing to a decision are the best things in it and I left both nearly
-untouched. What changed:
+The body is unchanged from your draft apart from the greeting. Earlier edits,
+still in place: the opening was split so it names the role once then explains the
+two companies rather than packing everything into one sentence; "AI-powered
+revenue growth management solution" became "revenue growth management software";
+"all of the data current" became "all of the data is current"; the article
+sentence was split so the CTA has a clean run-up; "Read the article here:"
+became a real CTA, since "here" as link text is invisible to screen readers.
 
-- Opening rewritten around your actual title. It now names the role once and
-  then explains the relationship between the two companies, rather than packing
-  the role, the product, the parent company and 32 years of history into one
-  sentence with an em dash in the middle.
-- "AI-powered revenue growth management solution" became "revenue growth
-  management software". Three stacked modifiers read as positioning rather than
-  description, and the AI claim is already made by the company name.
-- "all of the data current" to "all of the data is current".
-- "our first article explains" split into its own sentence, so the CTA has a
-  clean run-up.
-- "optimise your growth decisions" to "optimise growth decisions". Dropping the
-  possessive makes the permission line sound less templated.
-- "Read the article here:" became a real CTA. "Here" as link text is invisible
-  to screen readers and weak everywhere else.
+Every rendered instance of Smart Value carries ™. The only bare mentions are in
+code comments naming colour swatches, which never render.
 
-Every visible instance of Smart Value carries ™. The only bare mentions left are
-inside code comments naming colour swatches, which never render.
-
-## Two things I would change but did not, because they are your call
+## Still your call
 
 **The CTA could be a reply rather than a click.** From a named human to senior
 commercial people, "reply and I will send it to you" usually beats a button and
 starts the conversation you actually want. Module F in `template-base.html` is
-the swap. I left the button because the article is the stated goal of the send.
+the swap. The button stayed because the article is the stated goal.
 
-**The permission paragraph sits above the signature.** It is honest and it is
-the right legal posture, but it is also the coldest sentence in the email and it
-is the last thing read before Mariam's name. Moving it into the footer keeps the
-compliance and loses the cold note. Left where you wrote it in case the
-placement was deliberate.
+**The permission paragraph sits above the signature.** Honest and the right legal
+posture, but it is the coldest sentence in the email and the last thing read
+before Mariam's name. Moving it into the footer keeps the compliance and loses
+the cold note.
 
 ## Testing
 
-Litmus or Email on Acid if you have access. Failing that, send to yourself and
-check: Gmail web, Gmail iOS, Outlook desktop on Windows, Apple Mail in dark
-mode, and **once with images blocked**. Outlook desktop is the one that breaks
-things; images-off is the one people forget.
+Litmus or Email on Acid if you have them. Otherwise send to yourself and check:
+Gmail web, Gmail iOS, Outlook desktop on Windows, Apple Mail in dark mode, and
+**once with images blocked**. Outlook desktop breaks things; images-off is the
+one people forget.

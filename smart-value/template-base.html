@@ -12,10 +12,18 @@
     Smart Value amber #F19526     White              #ffffff
 
   Fixed brand furniture, keep on every send:
-    - Smart Value masthead on #1A1A4E
+    - Smart Value(TM) masthead
     - The brand ribbon (both palettes, left to right)
-    - The Marketeers provenance band on #08306b
+    - The Marketeers provenance band
     - The legal footer
+
+  Both logo PNGs carry a white background, so both logo bands are white and
+  are pinned white in dark mode via .keep-white. Do not put either logo on a
+  coloured band: it will show as a white rectangle.
+
+  No height attribute on either logo img. The hosted files are WordPress
+  "scaled" uploads whose exact pixel dimensions are unverified, and a wrong
+  height attribute distorts the image in Outlook. Width plus height:auto only.
 
   Rules this shell follows, do not break them:
     - Tables for layout. No div columns, no flexbox, no grid.
@@ -25,9 +33,6 @@
     - Total file under 100KB. 3 to 5 links maximum. No URL shorteners.
     - Always ship the matching plain-text part.
     - Every written instance of Smart Value carries &trade;.
-
-  Both navy bands are dark by design, which is also why dark mode is simple
-  here: only the white letter in the middle needs overriding.
 
   MODULES: copy a block from the library at the bottom of this file into the
   CONTENT AREA. Each module is a self-contained <tr>.
@@ -82,6 +87,8 @@
     .txt-muted { color: #9aa7bd !important; }
     .txt-lead  { color: #9db4ff !important; }
     .rule { border-color: #2b3550 !important; }
+    .keep-white { background-color: #ffffff !important; }
+    .keep-white-txt { color: #5c6b80 !important; }
   }
   [data-ogsc] .bg-page { background-color: #0d1322 !important; }
   [data-ogsc] .bg-card { background-color: #151d30 !important; }
@@ -90,6 +97,8 @@
   [data-ogsc] .txt-muted { color: #9aa7bd !important; }
   [data-ogsc] .txt-lead  { color: #9db4ff !important; }
   [data-ogsc] .rule { border-color: #2b3550 !important; }
+  [data-ogsc] .keep-white { background-color: #ffffff !important; }
+  [data-ogsc] .keep-white-txt { color: #5c6b80 !important; }
 </style>
 </head>
 
@@ -110,11 +119,11 @@
 
         <!-- MASTHEAD -->
         <tr>
-          <td class="band-pad" align="center" bgcolor="#1A1A4E" style="background-color:#1A1A4E; padding:34px 56px 32px 56px;">
-            <img src="https://smartvalueaisolutions.com/email-assets/smart-value-logo-white.png"
-                 width="228" height="76"
+          <td class="band-pad keep-white" align="center" bgcolor="#ffffff" style="background-color:#ffffff; padding:34px 56px 30px 56px;">
+            <img src="https://smartvalueaisolutions.com/wp-content/uploads/2026/07/Logo-option-2-white-background-scaled.png"
+                 width="250"
                  alt="Smart Value&trade; AI Solutions"
-                 style="display:block; width:228px; max-width:228px; height:auto; border:0; font-family:Arial,Helvetica,sans-serif; font-size:17px; line-height:24px; font-weight:bold; color:#ffffff;" />
+                 style="display:block; width:250px; max-width:250px; height:auto; border:0; font-family:Arial,Helvetica,sans-serif; font-size:17px; line-height:24px; font-weight:bold; color:#1A1A4E;" />
           </td>
         </tr>
 
@@ -138,7 +147,7 @@
         <tr>
           <td class="pad" style="padding:46px 56px 0 56px;">
             <p class="body-txt txt-body" style="margin:0 0 26px 0; font-family:Arial,Helvetica,sans-serif; font-size:17px; line-height:29px; color:#1f2937;">
-              Dear {{CONTACT `ucfw(subscriber_first_name)` `there`}},
+              {{GREETING}}
             </p>
             <p class="body-txt txt-body" style="margin:0 0 30px 0; font-family:Arial,Helvetica,sans-serif; font-size:17px; line-height:29px; color:#1f2937;">
               {{BODY_PARAGRAPH}}
@@ -196,15 +205,15 @@
 
         <!-- PROVENANCE BAND -->
         <tr>
-          <td class="band-pad" align="center" bgcolor="#08306b" style="background-color:#08306b; padding:34px 56px 36px 56px;">
-            <p style="margin:0 0 20px 0; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:18px; letter-spacing:1.6px; text-transform:uppercase; color:#a8bfe0;">
-              Smart Value&trade; is built by
+          <td class="band-pad keep-white" align="center" bgcolor="#ffffff" style="background-color:#ffffff; padding:32px 56px 34px 56px;">
+            <p class="keep-white-txt" style="margin:0 0 18px 0; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:18px; letter-spacing:1.6px; color:#5c6b80;">
+              SMART VALUE&trade; IS BUILT BY
             </p>
-            <img src="https://smartvalueaisolutions.com/email-assets/marketeers-logo-white.png"
-                 width="216" height="68"
+            <img src="https://marketeersresearch.com/wp-content/uploads/2024/10/Marketeers-Logo-Blue.png"
+                 width="210"
                  alt="Marketeers Research: Analytics, Insights, Impact"
-                 style="display:block; margin:0 auto; width:216px; max-width:216px; height:auto; border:0; font-family:Arial,Helvetica,sans-serif; font-size:16px; line-height:24px; font-weight:bold; color:#ffffff;" />
-            <p style="margin:20px 0 0 0; font-family:Arial,Helvetica,sans-serif; font-size:13px; line-height:21px; color:#a8bfe0;">
+                 style="display:block; margin:0 auto; width:210px; max-width:210px; height:auto; border:0; font-family:Arial,Helvetica,sans-serif; font-size:16px; line-height:24px; font-weight:bold; color:#08306b;" />
+            <p class="keep-white-txt" style="margin:18px 0 0 0; font-family:Arial,Helvetica,sans-serif; font-size:13px; line-height:21px; color:#5c6b80;">
               32 years of pricing, category and shopper work<br class="hide-sm" />
               for FMCG manufacturers across Europe, the Middle East and Africa.
             </p>
