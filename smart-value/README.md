@@ -34,10 +34,12 @@ serve as images to email clients.
 The light-background logo variants are not used here. Keep them for anything on
 a white background.
 
-**2. Add the postal address.** Replace
-`[[REPLACE: registered street address, city, country]]` in both the HTML and the
-text file. A physical address is required by CAN-SPAM and by GDPR practice, and
-filters check for it.
+**2. Finish the postal address.** The footer currently reads "London, United
+Kingdom" in both the HTML and the text file. That is a city, not an address.
+CAN-SPAM requires a valid physical postal address and UK PECR expects an
+identifiable sender, so add the street line and postcode before a real send, for
+example "12 Example Street, London EC1A 1AA, United Kingdom". Filters also score
+a bare city lower than a full address.
 
 **3. Confirm the unsubscribe tag.** `{{REMOVE_URL}}` is GetResponse's. If your
 account inserts something different, use whatever the GetResponse editor itself
