@@ -1,0 +1,330 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!--
+  SMART VALUE / MARKETEERS RESEARCH - REUSABLE EMAIL SHELL
+  ========================================================
+  Built for personal-address sends through GetResponse.
+
+  Palette
+    Marketeers navy   #08306b     Marketeers yellow  #fbc210
+    Marketeers blue   #255e91     Marketeers red     #cd393b
+    Smart Value navy  #1A1A4E     Smart Value purple #7751FF
+    Smart Value amber #F19526     White              #ffffff
+
+  Rules this shell follows, do not break them:
+    - Tables for layout. No div-based columns, no flexbox, no grid.
+    - Every style inline on the element that needs it. The <style> block is
+      progressive enhancement only (mobile, dark mode) and is ignored by Outlook.
+    - Live text, not text baked into images. Keep images under ~40% of the email.
+    - Total file under 100KB.
+    - 3 to 5 links maximum. No URL shorteners.
+    - Always ship the matching plain-text part.
+
+  MODULES: copy a block from the library at the bottom of this file and paste it
+  into the CONTENT AREA. Each module is a self-contained <tr>.
+-->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="x-apple-disable-message-reformatting" />
+<meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
+<meta name="color-scheme" content="light dark" />
+<meta name="supported-color-schemes" content="light dark" />
+<title>{{SUBJECT}}</title>
+<!--[if mso]>
+<xml>
+  <o:OfficeDocumentSettings>
+    <o:PixelsPerInch>96</o:PixelsPerInch>
+    <o:AllowPNG/>
+  </o:OfficeDocumentSettings>
+</xml>
+<style>
+  body, table, td, p, a, span { font-family: Arial, sans-serif !important; }
+  .mso-serif { font-family: Georgia, serif !important; }
+</style>
+<![endif]-->
+<style type="text/css">
+  body { margin: 0 !important; padding: 0 !important; width: 100% !important; }
+  table { border-collapse: collapse !important; mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+  img { border: 0; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; }
+  a { text-decoration: underline; }
+  a[x-apple-data-detectors] { color: inherit !important; text-decoration: none !important; font-size: inherit !important; font-weight: inherit !important; }
+  .appleLinksGrey a { color: #5c6b80 !important; text-decoration: none !important; }
+
+  @media only screen and (max-width: 620px) {
+    .wrap { width: 100% !important; }
+    .pad { padding-left: 24px !important; padding-right: 24px !important; }
+    .quote-pad { padding: 24px 24px 24px 20px !important; }
+    .h-lead { font-size: 19px !important; line-height: 29px !important; }
+    .body-txt { font-size: 16px !important; line-height: 27px !important; }
+    .quote-txt { font-size: 19px !important; line-height: 30px !important; }
+    .btn-a { display: block !important; width: auto !important; }
+    .stack { display: block !important; width: 100% !important; }
+    .stack-img { width: 100% !important; height: auto !important; }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .bg-page { background-color: #0e1524 !important; }
+    .bg-card { background-color: #141c2e !important; }
+    .bg-soft { background-color: #1b2438 !important; }
+    .txt-body { color: #dfe5ef !important; }
+    .txt-muted { color: #9aa7bd !important; }
+    .txt-strong { color: #ffffff !important; }
+    .rule { border-color: #2a3448 !important; }
+  }
+  [data-ogsc] .bg-page { background-color: #0e1524 !important; }
+  [data-ogsc] .bg-card { background-color: #141c2e !important; }
+  [data-ogsc] .bg-soft { background-color: #1b2438 !important; }
+  [data-ogsc] .txt-body { color: #dfe5ef !important; }
+  [data-ogsc] .txt-muted { color: #9aa7bd !important; }
+  [data-ogsc] .txt-strong { color: #ffffff !important; }
+</style>
+</head>
+
+<body class="bg-page" style="margin:0; padding:0; background-color:#f4f5f7;">
+
+<!-- PREHEADER: 40 to 90 characters. Never repeat the subject line here. -->
+<div style="display:none; font-size:1px; line-height:1px; max-height:0; max-width:0; opacity:0; overflow:hidden; mso-hide:all; font-family:Arial,sans-serif;">
+  {{PREHEADER}}
+  &#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;
+</div>
+
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="bg-page" style="background-color:#f4f5f7;">
+  <tr>
+    <td align="center" style="padding:32px 12px;">
+
+      <!--[if mso]><table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0"><tr><td><![endif]-->
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" class="wrap bg-card" style="width:600px; max-width:600px; background-color:#ffffff;">
+
+        <!-- ACCENT RULE (keep on every send: it is the only fixed brand device) -->
+        <tr>
+          <td style="font-size:0; line-height:0; height:4px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td width="74%" bgcolor="#08306b" style="height:4px; font-size:0; line-height:0; background-color:#08306b;">&nbsp;</td>
+                <td width="26%" bgcolor="#F19526" style="height:4px; font-size:0; line-height:0; background-color:#F19526;">&nbsp;</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- ============ CONTENT AREA: paste modules between these markers ============ -->
+
+        <tr>
+          <td class="pad" style="padding:44px 56px 0 56px;">
+            <p class="body-txt txt-body" style="margin:0 0 24px 0; font-family:Arial,Helvetica,sans-serif; font-size:17px; line-height:28px; color:#1f2937;">
+              Dear {{CONTACT `ucfw(subscriber_first_name)` `there`}},
+            </p>
+            <p class="body-txt txt-body" style="margin:0 0 24px 0; font-family:Arial,Helvetica,sans-serif; font-size:17px; line-height:28px; color:#1f2937;">
+              {{BODY_PARAGRAPH}}
+            </p>
+          </td>
+        </tr>
+
+        <!-- ============ END CONTENT AREA ============ -->
+
+        <!-- SIGNATURE -->
+        <tr>
+          <td class="pad" style="padding:8px 56px 0 56px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr><td class="rule" style="border-top:1px solid #e4e7ec; font-size:0; line-height:0; height:1px;">&nbsp;</td></tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td class="pad" style="padding:24px 56px 0 56px;">
+            <p class="txt-muted" style="margin:0 0 28px 0; font-family:Arial,Helvetica,sans-serif; font-size:14px; line-height:24px; color:#5c6b80;">
+              {{PERMISSION_LINE}}
+            </p>
+            <p class="body-txt txt-body" style="margin:0 0 4px 0; font-family:Arial,Helvetica,sans-serif; font-size:17px; line-height:28px; color:#1f2937;">
+              Best regards,
+            </p>
+            <p class="txt-strong" style="margin:0 0 4px 0; font-family:Arial,Helvetica,sans-serif; font-size:17px; line-height:26px; color:#08306b; font-weight:bold;">
+              {{SENDER_NAME}}
+            </p>
+            <p class="txt-muted" style="margin:0 0 36px 0; font-family:Arial,Helvetica,sans-serif; font-size:14px; line-height:22px; color:#5c6b80;">
+              {{SENDER_TITLE}}
+            </p>
+          </td>
+        </tr>
+
+        <!-- DUAL BRAND LOCKUP (keep on every send) -->
+        <tr>
+          <td class="pad" style="padding:0 56px 44px 56px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f7f8fa" class="bg-soft" style="background-color:#f7f8fa;">
+              <tr>
+                <td style="padding:22px 26px;">
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                      <td class="stack" width="50%" valign="top" style="padding-bottom:4px;">
+                        <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td width="4" bgcolor="#7751FF" style="width:4px; font-size:0; line-height:0; background-color:#7751FF;">&nbsp;</td>
+                            <td style="padding-left:12px;">
+                              <p class="txt-strong" style="margin:0; font-family:Arial,Helvetica,sans-serif; font-size:15px; line-height:20px; color:#1A1A4E; font-weight:bold; letter-spacing:0.2px;">Smart Value&trade;</p>
+                              <p class="txt-muted" style="margin:2px 0 0 0; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:18px; color:#5c6b80;">AI Solutions</p>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                      <td class="stack" width="50%" valign="top" style="padding-top:4px;">
+                        <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                          <tr>
+                            <td width="4" bgcolor="#fbc210" style="width:4px; font-size:0; line-height:0; background-color:#fbc210;">&nbsp;</td>
+                            <td style="padding-left:12px;">
+                              <p class="txt-strong" style="margin:0; font-family:Arial,Helvetica,sans-serif; font-size:15px; line-height:20px; color:#08306b; font-weight:bold; letter-spacing:0.2px;">Marketeers Research</p>
+                              <p class="txt-muted" style="margin:2px 0 0 0; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:18px; color:#5c6b80;">FMCG research and analytics, 32 years</p>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+      </table>
+      <!--[if mso]></td></tr></table><![endif]-->
+
+      <!-- FOOTER (address and unsubscribe are legally required, do not remove) -->
+      <!--[if mso]><table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0"><tr><td><![endif]-->
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" class="wrap" style="width:600px; max-width:600px;">
+        <tr>
+          <td class="pad appleLinksGrey" align="center" style="padding:24px 56px 8px 56px;">
+            <p class="txt-muted" style="margin:0 0 8px 0; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:20px; color:#7a8699;">
+              Smart Value&trade; AI Solutions, by Marketeers Research<br />
+              {{POSTAL_ADDRESS}}
+            </p>
+            <p class="txt-muted" style="margin:0; font-family:Arial,Helvetica,sans-serif; font-size:12px; line-height:20px; color:#7a8699;">
+              {{WHY_YOU_GOT_THIS}}
+              <a href="{{REMOVE_URL}}" style="color:#7a8699; text-decoration:underline;">Unsubscribe</a>
+            </p>
+          </td>
+        </tr>
+      </table>
+      <!--[if mso]></td></tr></table><![endif]-->
+
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>
+
+<!--
+================================================================================
+  MODULE LIBRARY
+  Paste any of these as a <tr> inside the CONTENT AREA.
+================================================================================
+
+
+--- A. LEAD LINE (one strong sentence, navy, sets up the story) ---------------
+
+        <tr>
+          <td class="pad" style="padding:0 56px;">
+            <p class="h-lead txt-strong" style="margin:0 0 24px 0; font-family:Arial,Helvetica,sans-serif; font-size:20px; line-height:31px; color:#08306b; font-weight:bold;">
+              {{LEAD_SENTENCE}}
+            </p>
+          </td>
+        </tr>
+
+
+--- B. PULL QUOTE (the one idea you want remembered. Use once per email.) -----
+
+        <tr>
+          <td class="pad" style="padding:8px 56px 32px 56px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#1A1A4E" style="background-color:#1A1A4E;">
+              <tr>
+                <td width="6" bgcolor="#F19526" style="width:6px; font-size:0; line-height:0; background-color:#F19526;">&nbsp;</td>
+                <td class="quote-pad" style="padding:30px 34px 30px 30px;">
+                  <p class="quote-txt mso-serif" style="margin:0; font-family:Georgia,'Times New Roman',serif; font-size:21px; line-height:33px; color:#ffffff;">
+                    {{QUOTE}}
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+
+--- C. BUTTON (left aligned. Bulletproof: VML for Outlook, table elsewhere.) --
+    Swap fillcolor + bgcolor for #F19526 amber on a second, softer CTA.
+
+        <tr>
+          <td class="pad" align="left" style="padding:0 56px 36px 56px;">
+            <!--[if mso]>
+            <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word"
+              href="{{CTA_URL}}" style="height:50px; v-text-anchor:middle; width:240px;" arcsize="8%" strokecolor="#7751FF" fillcolor="#7751FF">
+              <w:anchorlock/>
+              <center style="color:#ffffff; font-family:Arial,sans-serif; font-size:16px; font-weight:bold;">{{CTA_TEXT}}</center>
+            </v:roundrect>
+            <![endif]- ->
+            <!--[if !mso]><!- - ->
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td align="center" bgcolor="#7751FF" style="background-color:#7751FF; border-radius:4px;">
+                  <a class="btn-a" href="{{CTA_URL}}"
+                     style="display:inline-block; padding:16px 34px; font-family:Arial,Helvetica,sans-serif; font-size:16px; line-height:18px; font-weight:bold; color:#ffffff; text-decoration:none; border-radius:4px;">
+                    {{CTA_TEXT}}
+                  </a>
+                </td>
+              </tr>
+            </table>
+            <!- -<![endif]- ->
+          </td>
+        </tr>
+
+
+--- D. IMAGE (full bleed inside the card) -------------------------------------
+    Always set width, always write real alt text: roughly 40% of B2B recipients
+    see the alt text and nothing else. Export at 2x (1176px wide) and compress.
+
+        <tr>
+          <td style="padding:0 0 32px 0; font-size:0; line-height:0;">
+            <img src="{{IMAGE_URL}}" width="600" alt="{{ALT_TEXT}}"
+                 class="stack-img"
+                 style="display:block; width:100%; max-width:600px; height:auto; border:0;" />
+          </td>
+        </tr>
+
+
+--- E. TWO COLUMN POINTS (stacks on mobile via .stack) ------------------------
+
+        <tr>
+          <td class="pad" style="padding:0 56px 32px 56px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td class="stack" width="48%" valign="top" style="padding-bottom:20px;">
+                  <p class="txt-strong" style="margin:0 0 6px 0; font-family:Arial,Helvetica,sans-serif; font-size:15px; line-height:22px; color:#08306b; font-weight:bold;">{{POINT_1_TITLE}}</p>
+                  <p class="txt-body" style="margin:0; font-family:Arial,Helvetica,sans-serif; font-size:15px; line-height:25px; color:#1f2937;">{{POINT_1_BODY}}</p>
+                </td>
+                <td class="stack" width="4%" style="font-size:0; line-height:0;">&nbsp;</td>
+                <td class="stack" width="48%" valign="top">
+                  <p class="txt-strong" style="margin:0 0 6px 0; font-family:Arial,Helvetica,sans-serif; font-size:15px; line-height:22px; color:#08306b; font-weight:bold;">{{POINT_2_TITLE}}</p>
+                  <p class="txt-body" style="margin:0; font-family:Arial,Helvetica,sans-serif; font-size:15px; line-height:25px; color:#1f2937;">{{POINT_2_BODY}}</p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+
+--- F. TEXT LINK CTA (use instead of module C when you want a reply, not a click)
+
+        <tr>
+          <td class="pad" style="padding:0 56px 32px 56px;">
+            <p class="body-txt txt-body" style="margin:0; font-family:Arial,Helvetica,sans-serif; font-size:17px; line-height:28px; color:#1f2937;">
+              <a href="{{CTA_URL}}" style="color:#7751FF; text-decoration:underline; font-weight:bold;">{{CTA_TEXT}}</a>
+            </p>
+          </td>
+        </tr>
+
+
+  NOTE ON MODULE C AND F: the MSO conditional comments inside this library have
+  had their dashes spaced out (- -) so they do not terminate this outer comment.
+  Close those spaces up when you paste the module into the content area.
+================================================================================
+-->

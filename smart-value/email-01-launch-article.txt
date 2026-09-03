@@ -1,0 +1,35 @@
+Dear {{CONTACT `ucfw(subscriber_first_name)` `there`}},
+
+I lead marketing at Smart Value(TM) AI Solutions. We build revenue growth
+management software, and we are part of Marketeers Research, an FMCG research
+and analytics consultancy that has spent 32 years on pricing, category and
+shopper work for manufacturers across Europe, the Middle East and Africa.
+
+I am writing because of a meeting most commercial teams will recognise.
+
+Someone asks whether to run the promotion. Three dashboards are open and all of
+the data is current. The retailer wants more depth, private label is taking
+share in the segment, and twenty minutes later the decision is made on instinct,
+because nobody in the room can say what that promotion will do to volume, to
+margin, or to the SKUs sitting next to it on shelf.
+
+The problem is not a shortage of data. It is that none of it points to a
+decision.
+
+We built Smart Value(TM) for that gap. Our first article explains the thinking
+behind it.
+
+Read the article: https://REPLACE-WITH-ARTICLE-URL
+
+I am contacting you in your professional capacity because of your role in using
+data to optimise growth decisions. If you would rather not hear from me, reply
+with "no thanks" and I will remove you.
+
+Best regards,
+Mariam
+Marketing Lead, Smart Value(TM) AI Solutions
+
+--
+Smart Value(TM) AI Solutions, by Marketeers Research
+[[REPLACE: registered street address, city, country]]
+Unsubscribe: {{REMOVE_URL}}
