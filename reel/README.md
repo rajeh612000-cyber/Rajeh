@@ -19,6 +19,10 @@ Scrubbable 24 fps previz with the timeline, sound lane and EDL cards: https://cl
 
 Source for that page is `storyboard.html` in this folder.
 
+## Animatic
+
+`the-unlanded-arc-animatic.mp4` is the storyboard rendered as a real video file at delivery spec: 1080 x 1920, 24 fps, 240 frames, H.264, AAC, with a soundtrack synthesized from the sound map (`synth-soundtrack.py`). It is the timing reference. Drop it on the timeline as the bottom track, then replace each shot with generated footage on top of it. It is not the final look.
+
 ## The idea in one line
 
 A man doing more than anyone can see, in a room nobody else is in, aiming at a place he has not reached yet.

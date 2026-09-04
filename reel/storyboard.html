@@ -112,6 +112,12 @@
     .card{grid-template-columns:70px 1fr}
     .seg span{display:none}
   }
+  body.render{background:#000}
+  body.render .wrap{padding:0;max-width:none}
+  body.render .slate,body.render .notes,body.render .foot,body.render .hud,body.render .controls,body.render .legend,body.render .timeline,body.render .lane,body.render .cards,body.render .safe{display:none}
+  body.render .stage{display:block}
+  body.render .phone{position:static}
+  body.render .screen{width:1080px;height:1920px;border:none;border-radius:0;box-shadow:none}
   @media (prefers-reduced-motion:reduce){ .seg,.card{transition:none} }
 </style>
 
@@ -444,6 +450,8 @@
   tl.addEventListener("pointerup",e=>{scrubbing=false;if(wasPlaying)setPlay(true)});
   tl.addEventListener("pointercancel",()=>{scrubbing=false});
 
+  window.__seek=f=>{setPlay(false);seek(f)};
+  if(location.hash==='#render'){document.body.classList.add('render');render();return}
   render();
   if(!matchMedia("(prefers-reduced-motion: reduce)").matches)setPlay(true);
 })();
