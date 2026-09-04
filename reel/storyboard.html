@@ -1,0 +1,450 @@
+<title>The Unlanded Arc</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --ground:#0A0F16; --panel:#111923; --panel-2:#0D141D; --line:#1E2A38; --line-2:#2A3848;
+    --ink:#D9E1EA; --ink-2:#9AA8B8; --mute:#6C7A8B;
+    --cold:#5BA7FF; --cold-dim:#1E3A5C; --warm:#FFA347; --warm-dim:#5A3A1C;
+    --display:"Barlow Condensed","Arial Narrow",Impact,sans-serif;
+    --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono","SFMono-Regular",Menlo,Consolas,monospace;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--serif);font-size:16px;line-height:1.5}
+  a{color:var(--cold)}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 20px 80px}
+
+  /* slate */
+  .slate{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end;border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:22px}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+  h1{font-family:var(--display);font-weight:700;font-size:clamp(44px,7vw,84px);line-height:.92;letter-spacing:.005em;margin:6px 0 10px;text-transform:uppercase;text-wrap:balance}
+  .slate p{max-width:62ch;margin:0;color:var(--ink-2)}
+  .spec{font-family:var(--mono);font-size:12px;color:var(--ink-2);display:grid;grid-template-columns:auto auto;gap:4px 18px;text-align:right}
+  .spec b{color:var(--ink);font-weight:500}
+
+  /* stage */
+  .stage{display:grid;grid-template-columns:300px minmax(0,1fr);gap:28px;align-items:start}
+  .stage>div{min-width:0}
+  .phone{position:sticky;top:20px}
+  .screen{width:270px;aspect-ratio:9/16;background:#05080D;border:1px solid var(--line-2);border-radius:18px;overflow:hidden;position:relative;box-shadow:0 30px 60px -30px #000, inset 0 0 0 1px #000}
+  .screen svg{position:absolute;inset:0;width:100%;height:100%;display:none}
+  .screen svg.on{display:block}
+  .safe{position:absolute;left:0;right:0;pointer-events:none;border-top:1px dashed rgba(91,167,255,.18);border-bottom:1px dashed rgba(91,167,255,.18)}
+  .safe.top{top:0;height:13%;border-top:none;background:linear-gradient(rgba(91,167,255,.05),transparent)}
+  .safe.bot{bottom:0;height:17.7%;border-bottom:none;background:linear-gradient(transparent,rgba(91,167,255,.05))}
+  .safe.side{top:0;bottom:0;left:auto;width:11%;border:none;border-left:1px dashed rgba(91,167,255,.18)}
+  .hud{display:flex;justify-content:space-between;align-items:baseline;margin-top:10px;font-family:var(--mono);font-size:12px;color:var(--ink-2)}
+  .tc{font-size:30px;color:var(--ink);font-weight:500;letter-spacing:.02em;font-variant-numeric:tabular-nums}
+  .tc small{font-size:12px;color:var(--mute);margin-left:6px}
+  .controls{display:flex;gap:8px;margin-top:10px}
+  button{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;background:var(--panel);color:var(--ink);border:1px solid var(--line-2);padding:8px 12px;border-radius:4px;cursor:pointer}
+  button:hover{border-color:var(--cold)}
+  button:focus-visible,[tabindex]:focus-visible,summary:focus-visible{outline:2px solid var(--cold);outline-offset:2px}
+  button.play{background:var(--cold);color:#04101E;border-color:var(--cold);font-weight:500;min-width:84px}
+  .legend{margin-top:12px;font-family:var(--mono);font-size:11px;color:var(--mute);line-height:1.6}
+  .legend i{display:inline-block;width:10px;height:10px;border:1px dashed rgba(91,167,255,.5);vertical-align:-1px;margin-right:6px}
+
+  /* timeline */
+  .timeline{position:relative;user-select:none;touch-action:none}
+  .ruler{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--mute);margin-bottom:4px}
+  .segs{display:flex;height:54px;gap:2px;cursor:col-resize}
+  .seg{position:relative;min-width:0;background:var(--cold-dim);border-radius:3px;overflow:hidden;display:flex;align-items:flex-end;padding:6px 7px;transition:background .15s}
+  .seg.warm{background:var(--warm-dim)}
+  .seg span{font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.03em;text-transform:uppercase;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .seg em{position:absolute;top:5px;left:7px;font-style:normal;font-family:var(--mono);font-size:10px;color:var(--ink-2)}
+  .seg.on{background:var(--cold)}
+  .seg.on span,.seg.on em{color:#04101E}
+  .seg.warm.on{background:var(--warm)}
+  .head{position:absolute;top:14px;bottom:0;width:2px;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.6);pointer-events:none;transform:translateX(-1px)}
+  .head::before{content:"";position:absolute;top:-6px;left:-5px;border:6px solid transparent;border-top:8px solid #fff}
+  .lane{margin-top:12px}
+  .lane .label{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-bottom:4px;display:flex;justify-content:space-between}
+  .lane svg{width:100%;height:64px;display:block}
+  .cues{position:relative;height:18px;margin-top:2px}
+  .cue{position:absolute;top:0;transform:translateX(-50%);font-family:var(--mono);font-size:9px;letter-spacing:.08em;color:var(--ink-2);white-space:nowrap}
+  .cue::before{content:"";position:absolute;left:50%;top:-6px;width:1px;height:5px;background:var(--ink-2)}
+  .cue.loud{color:var(--warm)}
+
+  /* cards */
+  .cards{display:flex;flex-direction:column;gap:10px;margin-top:26px}
+  .card{display:grid;grid-template-columns:96px 1fr;gap:0 18px;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--line-2);border-radius:4px;padding:14px 16px 14px 14px;cursor:pointer;transition:border-color .15s}
+  .card:hover{border-color:var(--line-2);border-left-color:var(--cold)}
+  .card.on{border-left-color:var(--cold);background:var(--panel-2)}
+  .card.warm.on,.card.warm:hover{border-left-color:var(--warm)}
+  .card .num{font-family:var(--display);font-weight:700;font-size:40px;line-height:.9;color:var(--ink)}
+  .card .rng{font-family:var(--mono);font-size:11px;color:var(--ink-2);margin-top:6px;line-height:1.7;font-variant-numeric:tabular-nums}
+  .card h3{font-family:var(--display);font-weight:600;font-size:24px;letter-spacing:.02em;text-transform:uppercase;margin:0 0 2px;line-height:1.05}
+  .card .says{font-style:italic;color:var(--ink-2);margin:0 0 10px;max-width:60ch}
+  .kv{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:6px 16px;font-size:13px}
+  .kv div{border-top:1px solid var(--line);padding-top:6px}
+  .kv b{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);font-weight:400;margin-bottom:2px}
+  .kv span{font-family:var(--serif);color:var(--ink)}
+  .sfx{margin-top:10px;font-family:var(--mono);font-size:12px;color:var(--ink-2)}
+  .sfx b{color:var(--cold);font-weight:500}
+  .card.warm .sfx b{color:var(--warm)}
+  details{margin-top:8px}
+  summary{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);cursor:pointer;list-style:none}
+  summary::before{content:"+ ";color:var(--cold)}
+  details[open] summary::before{content:"– "}
+  pre{font-family:var(--mono);font-size:12px;line-height:1.55;color:var(--ink);background:var(--ground);border:1px solid var(--line);padding:10px 12px;border-radius:3px;white-space:pre-wrap;margin:8px 0 0;overflow-x:auto}
+
+  /* notes */
+  .notes{margin-top:40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:28px 40px}
+  h2{font-family:var(--display);font-weight:600;font-size:22px;letter-spacing:.04em;text-transform:uppercase;margin:0 0 10px;padding-top:10px;border-top:1px solid var(--line)}
+  .notes p,.notes li{font-size:15px;color:var(--ink-2)}
+  .notes ol{padding-left:20px;margin:0}
+  .notes li{margin-bottom:8px}
+  .notes li b{color:var(--ink);font-weight:600}
+  .swatches{display:flex;gap:4px;margin:8px 0 12px}
+  .sw{flex:1;height:34px;border-radius:3px;position:relative}
+  .sw i{position:absolute;left:5px;bottom:3px;font-style:normal;font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.7)}
+  table{border-collapse:collapse;width:100%;font-size:13px}
+  td{padding:5px 0;border-top:1px solid var(--line);vertical-align:top;color:var(--ink-2)}
+  td:first-child{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute);width:38%;padding-right:10px}
+  .foot{margin-top:40px;padding-top:14px;border-top:1px solid var(--line);font-family:var(--mono);font-size:11px;color:var(--mute);line-height:1.8}
+
+  @media (max-width:760px){
+    .stage{grid-template-columns:1fr}
+    .phone{position:static;display:grid;grid-template-columns:auto 1fr;gap:0 16px;align-items:start}
+    .screen{width:200px}
+    .slate{grid-template-columns:1fr}.spec{text-align:left}
+    .card{grid-template-columns:70px 1fr}
+    .seg span{display:none}
+  }
+  @media (prefers-reduced-motion:reduce){ .seg,.card{transition:none} }
+</style>
+
+<div class="wrap">
+  <header class="slate">
+    <div>
+      <div class="eyebrow">Instagram reel · storyboard and edit decision list</div>
+      <h1>The Unlanded Arc</h1>
+      <p>Nine shots, two hundred and forty frames, one warm break, no dialogue. A man doing more than anyone can see, in a room nobody else is in, aiming at a place he has not reached yet.</p>
+    </div>
+    <div class="spec">
+      <span>Frame</span><b>1080 × 1920</b>
+      <span>Rate</span><b>24 fps</b>
+      <span>Length</span><b>10.000 s · 240 f</b>
+      <span>Palette</span><b>cold blue, one warm shot</b>
+      <span>Text</span><b>diegetic only</b>
+    </div>
+  </header>
+
+  <section class="stage">
+    <aside class="phone">
+      <div>
+        <div class="screen" id="screen" aria-label="Previsualisation of the current shot">
+          <div class="safe top"></div><div class="safe bot"></div><div class="safe side"></div>
+        </div>
+        <div class="hud">
+          <div class="tc"><span id="tc">0:00</span><small id="fr">f 000 / 240</small></div>
+          <div id="shotname">Shot 1</div>
+        </div>
+        <div class="controls">
+          <button class="play" id="play" aria-label="Play or pause">Play</button>
+          <button id="back" aria-label="Step back one frame">−1 f</button>
+          <button id="fwd" aria-label="Step forward one frame">+1 f</button>
+          <button id="loopbtn" aria-pressed="true">Loop on</button>
+        </div>
+      </div>
+      <div class="legend"><i></i>Instagram overlay zones. Keep the window, the arc, and all three text elements inside the centre.<br>Space plays. Arrow keys step frames. Drag the timeline to scrub.</div>
+    </aside>
+
+    <div>
+      <div class="timeline" id="timeline">
+        <div class="ruler" id="ruler"></div>
+        <div class="segs" id="segs"></div>
+        <div class="head" id="head"></div>
+      </div>
+
+      <div class="lane">
+        <div class="label"><span>Sound · relative level</span><span>−14 LUFS master · gym is the loudest point</span></div>
+        <svg id="level" viewBox="0 0 240 40" preserveAspectRatio="none" aria-hidden="true"></svg>
+        <div class="cues" id="cues"></div>
+      </div>
+
+      <div class="cards" id="cards"></div>
+    </div>
+  </section>
+
+  <section class="notes">
+    <div>
+      <h2>Why the cut is shaped like this</h2>
+      <ol>
+        <li><b>Frame one is the whole reel.</b> Start already inside the fall with the lit window visible at frame 0. The bass hit lands on frame 0. Nothing in this piece starts from rest.</li>
+        <li><b>Never show the face.</b> Reflection, back, silhouette. It is what makes nine generated clips read as one man, and it makes the viewer become him. Anchor identity with a charcoal overshirt and a watch on the left wrist.</li>
+        <li><b>One warm shot, cut short.</b> The gym is the only heat, speed, saturation and handheld in the reel. If it feels good, it is too long.</li>
+        <li><b>Two still beats, two different kinds of still.</b> The nameplate is a cut on action told dry. The render bar is where the sound drops out so the snap to 100 is the cleanest tick in the piece.</li>
+        <li><b>Cut for the loop.</b> Frame 239 is the map, frame 0 is Cairo from above. Same grammar, so the loop reads as "and again". Black is three frames at most.</li>
+        <li><b>Every screen is a comp.</b> Generate blank glowing screens. Add the logos, the cards, the counter, the bar and the nameplate in post. Generated text is never sharp and never says what you need.</li>
+      </ol>
+    </div>
+    <div>
+      <h2>Grade</h2>
+      <div class="swatches">
+        <div class="sw" style="background:#070B12"><i>black</i></div>
+        <div class="sw" style="background:#0F1A2B"><i>shadow</i></div>
+        <div class="sw" style="background:#1E3A5C"><i>mid</i></div>
+        <div class="sw" style="background:#5BA7FF"><i>practical</i></div>
+        <div class="sw" style="background:#B8C9DA"><i>high</i></div>
+      </div>
+      <p>Cold base on eight shots. Read 5600 K at 4300 K, shadows toward hue 215, highlights desaturated a fifth, gentle S curve, print emulation at half strength.</p>
+      <div class="swatches">
+        <div class="sw" style="background:#1A0E05"><i>black</i></div>
+        <div class="sw" style="background:#4A2410"><i>shadow</i></div>
+        <div class="sw" style="background:#A3521C"><i>mid</i></div>
+        <div class="sw" style="background:#FFA347"><i>shaft</i></div>
+        <div class="sw" style="background:#FFE2B8"><i>high</i></div>
+      </div>
+      <p>Warm break on the gym only. Read at 3200 K, saturation up a quarter, contrast up, blacks crushed here and nowhere else, halation on every bright edge.</p>
+      <p>Over everything, last: one fine 35 mm grain layer at one intensity, one anamorphic streak pass on every practical, a subtle top heavy vignette. Grain is the single biggest trick for making mixed generated footage cut together.</p>
+    </div>
+    <div>
+      <h2>Delivery</h2>
+      <table>
+        <tr><td>Export</td><td>1080 × 1920, 24 fps, H.264 High, 20 to 25 Mbps two pass, Rec.709</td></tr>
+        <tr><td>Audio</td><td>AAC 48 kHz 256 kbps, −14 LUFS integrated, true peak −1 dB</td></tr>
+        <tr><td>Cover</td><td>Frame 0 as a still. The lit window must be in it</td></tr>
+        <tr><td>Top zone</td><td>250 px. Username and audio label. Nothing important</td></tr>
+        <tr><td>Bottom zone</td><td>340 px. Caption and progress. Nothing important</td></tr>
+        <tr><td>Right zone</td><td>120 px. Like, comment, share. Keep the nameplate, the counter and the bar out of it</td></tr>
+        <tr><td>Loop check</td><td>Watch it loop five times on a phone before posting. The join should feel like a breath</td></tr>
+      </table>
+      <h2 style="margin-top:22px">Build order</h2>
+      <ol>
+        <li>Stills for every shot, then a nine frame animatic. Fix the rhythm here.</li>
+        <li>Sound sketch against the animatic. Hit, drone, gym, clack, tick, arc tone.</li>
+        <li>Video generations, desk shots first. Pick the best second of each, not the best clip.</li>
+        <li>Comps: screens, nameplate, bar, map and arc, whip pan.</li>
+        <li>Grade, then grain and flare last. Mix. Export. Loop check.</li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="foot">Full package with paste ready generation prompts, negatives and the frame by frame sound map lives in the repository under <span style="color:var(--ink)">reel/</span>. This page is the storyboard. The previz frames are abstractions of composition and motion, not the look.</div>
+</div>
+
+<script>
+(function(){
+  const FPS=24, TOTAL=240;
+  const CUTS=[0,29,58,82,106,130,158,182,211,240];
+  const SHOTS=[
+    {t:"The fall",says:"The city is asleep and one person is not.",cam:"Aerial, straight down tilting to 20°, already falling at frame 0",lens:"35 mm, deep haze, oval bokeh",speed:"1.5x easing to 1.0x",out:"Hard cut as the window fills the frame",sfx:"<b>f0</b> sub hit, D drone starts · air rush rises through the shot",
+      prompt:"Camera descends steadily toward the single lit window, haze thins as it falls, the lit window grows from a point of light to fill the lower frame, slight forward tilt as it approaches, smooth, no shake, dark windows slide past on both sides"},
+    {t:"The orbit",says:"The room is built for twenty and holds one.",cam:"Slow 40° orbit at chest height, empty desks pass soft in the foreground",lens:"50 mm at T1.4, monitors are the only key",speed:"0.8x",out:"Hard cut",sfx:"HVAC, monitor whine · <b>f44</b> one mouse click · logos comped in post",
+      prompt:"Slow smooth orbit around the occupied desk, about 40 degrees, chest height, foreground empty desks drift past out of focus, the seated man stays centred and does not turn, the two monitors are the only light source, no camera shake"},
+    {t:"The glass room",says:"The party is on the other side of the glass, and he is in the corridor.",cam:"Locked off in the corridor, 3% creep forward, never enters",lens:"40 mm, tall corridor, reflection is a shape not a face",speed:"1.0x",out:"Whip pan right, 4 frame smear built in post",sfx:"Fluorescent buzz louder than the laughter · laughter behind glass low passed at 800 Hz",
+      prompt:"Camera creeps forward very slightly along the corridor, the silhouettes inside the meeting room move naturally, laughing, gesturing, the reflection on the glass stays still, cold and quiet outside, warm and lively inside, no camera shake"},
+    {t:"The gym",says:"The one place where effort is visible.",cam:"Handheld, low angle, drifts up with the bar",lens:"24 mm, close, warm, saturated, heavy grain",speed:"1.0x",out:"Hard cut on the bar's downstroke into the keeper's crouch",sfx:"<b>f82</b> full band opens, distorted bass hit · iron, breath, chalk · <b>f96</b> second hit",warm:true,
+      prompt:"Handheld energy, the barbell rises through the shaft of light, plates blur with motion, dust swirls, chalk puffs from the grip, the camera drifts upward with the bar, then the bar begins to come down fast"},
+    {t:"The keeper",says:"He did his job, and the celebration is sixty yards away.",cam:"Slow push from behind the goal, low",lens:"85 mm, keeper sharp, celebration a smear",speed:"1.0x",out:"Hard cut",sfx:"Near silence · distant crowd low passed, wind · <b>f118</b> a whistle far away",
+      prompt:"Very slow push in from behind the goal toward the keeper, the keeper stays still and then straightens up slowly, the distant celebration moves as a blur, mist drifts across the floodlights, no camera shake"},
+    {t:"The day",says:"Sending, sending, sending. Nothing comes back.",cam:"Locked off, three quarter from behind, same desk as shot 2",lens:"35 mm",speed:"Time lapse, one day in 28 frames",out:"Cut on action, nameplate enters",sfx:"<b>f130</b> ticking begins and accelerates · a 'sent' whoosh per card, each a semitone higher · no inbox chime, ever",
+      prompt:"Time lapse across a full day, the bar of sunlight sweeps across the wall and floor from left to right and fades to blue dusk, the man stays at the desk with small quick movements, the monitors glow constant, clouds flicker in the windows, locked off camera"},
+    {t:"The nameplate",says:"Promoted, in name.",cam:"Macro on the plate, pulls straight back to the shot 2 wide",lens:"50 mm feel into 35 mm",speed:"1.0x",out:"Hard cut",sfx:"<b>f158</b> metal slide · <b>f163</b> clack, ticking stops · room tone",
+      prompt:"Camera starts tight on the nameplate and pulls straight back smoothly to reveal the full desk, the seated man from behind, two glowing monitors, and the empty office around, nothing else moves"},
+    {t:"The render",says:"The work finishes, and no one is there to see it.",cam:"Locked off over the shoulder, 6 frame push on the snap",lens:"50 mm, the monitor is the frame",speed:"1.0x, hold on 100",out:"Hard cut on the tick",sfx:"Fan hum · <b>f190</b> five keys and enter · <b>f199</b> the tick, everything else to zero for 3 frames",
+      prompt:"Locked off, the hand moves to the keyboard and types briefly, then rests, the monitor glow flickers slightly brighter, then a slow gentle push in toward the screen, no camera shake"},
+    {t:"The arc",says:"He is aiming somewhere he has not arrived.",cam:"Continuous reverse dolly out through the window, accelerating, then a settle on the map",lens:"35 mm into a top down map",speed:"1.0x ramping to 2.5x, then hold",out:"Hold on the arc. Loop.",sfx:"<b>f211</b> air rush, drone an octave lower · <b>f226</b> rising tone with the arc · <b>f234</b> hard stop · <b>f236</b> one pulse · wind",
+      prompt:"The man stands, and the camera pulls back fast through the window into the night air, the office becomes a single lit rectangle in a dark building, the building shrinks into a block of dark buildings, the city lights spread across the frame, accelerating pull back, smooth"}
+  ];
+  const CUES=[[0,"HIT",1],[44,"CLICK"],[58,"BUZZ"],[82,"GYM",1],[118,"WHISTLE"],[130,"TICKING"],[163,"CLACK"],[199,"TICK",1],[211,"RUSH"],[234,"STOP"]];
+  const LEVEL=[[0,.75],[4,.35],[28,.5],[29,.2],[44,.3],[46,.2],[58,.25],[78,.4],[81,.55],[82,1],[96,1],[105,.9],[106,.1],[118,.18],[120,.1],[130,.15],[157,.38],[158,.45],[163,.55],[165,.12],[182,.16],[190,.28],[198,.28],[199,.92],[200,.02],[202,.02],[203,.15],[211,.5],[226,.6],[234,.58],[235,.06],[239,.06]];
+
+  const $=s=>document.querySelector(s);
+  const fmt=f=>{const s=Math.floor(f/FPS),ff=f%FPS;return s+":"+String(ff).padStart(2,"0")};
+  const shotAt=f=>{for(let i=0;i<9;i++)if(f<CUTS[i+1])return i;return 8};
+
+  // ruler + segments
+  const ruler=$("#ruler");for(let s=0;s<=10;s++){const d=document.createElement("span");d.textContent=s+"s";ruler.appendChild(d)}
+  const segs=$("#segs");
+  SHOTS.forEach((s,i)=>{const d=document.createElement("div");d.className="seg"+(s.warm?" warm":"");d.style.flex=(CUTS[i+1]-CUTS[i])+" 0 0";d.innerHTML=`<em>${i+1}</em><span>${s.t}</span>`;d.dataset.i=i;segs.appendChild(d)});
+
+  // level lane
+  const lv=$("#level");
+  let pts=LEVEL.map(([f,l])=>`${f},${40-l*38}`).join(" ");
+  lv.innerHTML=`<defs><linearGradient id="lg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5BA7FF" stop-opacity=".55"/><stop offset="1" stop-color="#5BA7FF" stop-opacity=".05"/></linearGradient></defs>
+    <rect x="82" y="0" width="24" height="40" fill="#FFA347" opacity=".14"/>
+    <polygon points="0,40 ${pts} 240,40" fill="url(#lg)"/><polyline points="${pts}" fill="none" stroke="#5BA7FF" stroke-width=".6" vector-effect="non-scaling-stroke"/>
+    <line id="lvhead" x1="0" y1="0" x2="0" y2="40" stroke="#fff" stroke-width=".5" vector-effect="non-scaling-stroke"/>`;
+  const cues=$("#cues");
+  CUES.forEach(([f,l,loud])=>{const d=document.createElement("div");d.className="cue"+(loud?" loud":"");d.style.left=(f/TOTAL*100)+"%";d.textContent=l;cues.appendChild(d)});
+
+  // cards
+  const cards=$("#cards");
+  SHOTS.forEach((s,i)=>{
+    const c=document.createElement("article");c.className="card"+(s.warm?" warm":"");c.dataset.i=i;c.tabIndex=0;
+    c.innerHTML=`<div><div class="num">${i+1}</div><div class="rng">${fmt(CUTS[i])} → ${fmt(CUTS[i+1])}<br>${CUTS[i+1]-CUTS[i]} f · f${CUTS[i]}</div></div>
+      <div><h3>${s.t}</h3><p class="says">${s.says}</p>
+      <div class="kv"><div><b>Camera</b><span>${s.cam}</span></div><div><b>Lens</b><span>${s.lens}</span></div><div><b>Speed</b><span>${s.speed}</span></div><div><b>Out</b><span>${s.out}</span></div></div>
+      <div class="sfx">${s.sfx}</div>
+      <details><summary>Video prompt</summary><pre>${s.prompt}</pre></details></div>`;
+    c.addEventListener("click",e=>{if(e.target.closest("details"))return;seek(CUTS[i]);});
+    c.addEventListener("keydown",e=>{if(e.key==="Enter"){seek(CUTS[i])}});
+    cards.appendChild(c);
+  });
+
+  // ---------- previz frames ----------
+  const NS="http://www.w3.org/2000/svg";
+  const el=(n,a,txt)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;return e};
+  const screen=$("#screen");
+  const frames=[];
+  const mk=(bg)=>{const s=el("svg",{viewBox:"0 0 270 480"});s.appendChild(el("rect",{width:270,height:480,fill:bg}));screen.insertBefore(s,screen.firstChild);frames.push(s);return s};
+  const rnd=(seed=>()=>{seed=(seed*16807)%2147483647;return (seed-1)/2147483646})(42);
+  const filt=s=>{const d=el("defs",{});d.innerHTML=`<filter id="b${frames.length}" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter><filter id="g${frames.length}" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="10"/></filter><radialGradient id="r${frames.length}"><stop offset="0" stop-color="#FFB35C" stop-opacity=".9"/><stop offset="1" stop-color="#FFB35C" stop-opacity="0"/></radialGradient>`;s.appendChild(d);return frames.length};
+
+  // 1 fall
+  {const s=mk("#070B12");const id=filt(s);
+   const g=el("g",{});g.style.transformBox="view-box";g.style.transformOrigin="139px 356px";g.style.transform="scale(calc(1 + var(--p)*7))";
+   for(let r=0;r<26;r++)for(let c=0;c<15;c++){const x=8+c*17.5,y=8+r*18;const lit=(r===19&&c===7);
+     if(!lit&&rnd()<0.08)continue;
+     g.appendChild(el("rect",{x,y,width:11,height:12,fill:lit?"#FFB35C":"#0F1826",opacity:lit?1:(.5+rnd()*.5)}));}
+   g.appendChild(el("circle",{cx:139,cy:356,r:9,fill:`url(#r${id})`}));
+   s.appendChild(g);
+   const haze=el("rect",{width:270,height:480,fill:"#1B2A40"});haze.style.opacity="calc(.75 - var(--p)*.7)";s.appendChild(haze);}
+
+  // 2 orbit
+  {const s=mk("#080D14");const id=filt(s);
+   const bg=el("g",{});bg.style.transform="translateX(calc(var(--p)*-30px))";
+   for(let r=0;r<5;r++)for(let c=0;c<4;c++){const y=110+r*72,x=-20+c*80+(r%2)*30;bg.appendChild(el("rect",{x,y,width:56,height:22,rx:2,fill:"#0E1622"}));bg.appendChild(el("rect",{x:x+16,y:y-12,width:22,height:13,fill:"#0B1119"}));}
+   s.appendChild(bg);
+   const fg=el("g",{});fg.style.transform="translateX(calc(var(--p)*-14px))";
+   fg.appendChild(el("rect",{x:70,y:300,width:130,height:28,rx:2,fill:"#141E2C"}));
+   [[92,272],[128,268]].forEach(([x,y])=>{fg.appendChild(el("rect",{x:x-6,y:y-6,width:42,height:38,fill:"#8FC4FF",opacity:.35,filter:`url(#g${id})`}));fg.appendChild(el("rect",{x,y,width:30,height:24,rx:1,fill:"#BFDCFF"}))});
+   fg.appendChild(el("rect",{x:112,y:305,width:34,height:52,rx:14,fill:"#05080C"}));fg.appendChild(el("circle",{cx:129,cy:298,r:9,fill:"#05080C"}));
+   s.appendChild(fg);
+   const front=el("g",{});front.style.transform="translateX(calc(var(--p)*40px))";front.appendChild(el("rect",{x:-40,y:380,width:150,height:70,rx:3,fill:"#05080C"}));front.appendChild(el("rect",{x:190,y:400,width:150,height:70,rx:3,fill:"#05080C"}));s.appendChild(front);}
+
+  // 3 corridor
+  {const s=mk("#070C14");const id=filt(s);
+   const g=el("g",{});g.style.transformBox="view-box";g.style.transformOrigin="135px 220px";g.style.transform="scale(calc(1 + var(--p)*.05))";
+   g.appendChild(el("polygon",{points:"0,0 90,150 90,330 0,480",fill:"#0B121C"}));g.appendChild(el("polygon",{points:"270,0 180,150 180,330 270,480",fill:"#0B121C"}));
+   g.appendChild(el("polygon",{points:"0,480 90,330 180,330 270,480",fill:"#0A1018"}));
+   for(let i=0;i<5;i++){const y=30+i*24,w=200-i*28,x=135-w/2;g.appendChild(el("rect",{x,y,width:w,height:2,fill:"#5BA7FF",opacity:.5-i*.07}))}
+   g.appendChild(el("rect",{x:90,y:150,width:90,height:180,fill:"#FFB35C",opacity:.28,filter:`url(#b${id})`}));
+   g.appendChild(el("rect",{x:92,y:152,width:86,height:176,fill:"#2A1A0C"}));g.appendChild(el("rect",{x:92,y:152,width:86,height:176,fill:"#FFB35C",opacity:.32}));
+   [[104,262,10],[121,250,11],[140,266,10],[158,254,9],[112,300,8],[150,302,9]].forEach(([x,y,r])=>{g.appendChild(el("circle",{cx:x,cy:y,r,fill:"#1A1008"}));g.appendChild(el("rect",{x:x-r-3,y:y+r-2,width:r*2+6,height:30,rx:8,fill:"#1A1008"}))});
+   s.appendChild(g);
+   const ref=el("g",{filter:`url(#b${id})`,opacity:.55});ref.appendChild(el("rect",{x:190,y:250,width:70,height:230,rx:26,fill:"#1B2838"}));ref.appendChild(el("ellipse",{cx:222,cy:236,rx:20,ry:26,fill:"#1B2838"}));s.appendChild(ref);}
+
+  // 4 gym
+  {const s=mk("#1A0E05");const id=filt(s);
+   s.appendChild(el("polygon",{points:"120,-10 150,-10 215,480 60,480",fill:"#FFA347",opacity:.28}));
+   s.appendChild(el("polygon",{points:"128,-10 142,-10 190,480 80,480",fill:"#FFD08A",opacity:.22,filter:`url(#b${id})`}));
+   for(let i=0;i<70;i++)s.appendChild(el("circle",{cx:70+rnd()*140,cy:rnd()*480,r:.6+rnd()*1.4,fill:"#FFE2B8",opacity:.3+rnd()*.6}));
+   const bar=el("g",{});bar.style.transform="translateY(calc(70px - min(var(--p),.85)*100px + max(0px,(var(--p) - .85)*600px)))";
+   bar.appendChild(el("rect",{x:20,y:250,width:230,height:6,rx:3,fill:"#3A2412"}));bar.appendChild(el("rect",{x:20,y:250,width:230,height:2,fill:"#FFD08A",opacity:.7}));
+   [[24],[42],[212],[230]].forEach(([x])=>{bar.appendChild(el("rect",{x,y:218,width:14,height:70,rx:3,fill:"#0E0704"}));bar.appendChild(el("rect",{x:x+2,y:220,width:3,height:66,fill:"#FFA347",opacity:.35}))});
+   bar.appendChild(el("rect",{x:112,y:256,width:26,height:60,rx:12,fill:"#3D2010"}));bar.appendChild(el("rect",{x:110,y:290,width:30,height:6,rx:2,fill:"#C8CFD6"}));
+   s.appendChild(bar);}
+
+  // 5 keeper
+  {const s=mk("#071018");const id=filt(s);
+   const d=el("defs",{});d.innerHTML=`<linearGradient id="pitch" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0B1E22"/><stop offset="1" stop-color="#0E2A2A"/></linearGradient>`;s.appendChild(d);
+   const g=el("g",{});g.style.transformBox="view-box";g.style.transformOrigin="135px 400px";g.style.transform="scale(calc(1 + var(--p)*.08))";
+   g.appendChild(el("rect",{y:120,width:270,height:360,fill:"url(#pitch)"}));
+   g.appendChild(el("ellipse",{cx:135,cy:120,rx:170,ry:40,fill:"#BFDCFF",opacity:.18,filter:`url(#g${id})`}));
+   g.appendChild(el("rect",{x:40,y:330,width:190,height:130,fill:"none",stroke:"#B8C9DA",opacity:.35}));g.appendChild(el("rect",{x:95,y:410,width:80,height:50,fill:"none",stroke:"#B8C9DA",opacity:.35}));
+   g.appendChild(el("rect",{x:20,y:462,width:230,height:2,fill:"#B8C9DA",opacity:.5}));
+   g.appendChild(el("rect",{x:128,y:376,width:14,height:26,rx:5,fill:"#05080C"}));g.appendChild(el("circle",{cx:135,cy:370,r:5,fill:"#05080C"}));
+   const cel=el("g",{filter:`url(#b${id})`,opacity:.7});for(let i=0;i<7;i++)cel.appendChild(el("ellipse",{cx:120+rnd()*40,cy:150+rnd()*14,rx:5,ry:9,fill:"#1E3A48"}));g.appendChild(cel);
+   for(let i=0;i<3;i++)g.appendChild(el("rect",{y:140+i*40,width:270,height:20,fill:"#B8C9DA",opacity:.03}));
+   s.appendChild(g);}
+
+  // 6 the day
+  {const s=mk("#080D14");const id=filt(s);
+   s.appendChild(el("rect",{y:0,width:270,height:290,fill:"#0C1420"}));
+   const sun=el("g",{});sun.style.transform="translateX(calc(-160px + var(--p)*380px))";sun.style.opacity="calc(1 - max(0, (var(--p) - .8)*5))";sun.appendChild(el("polygon",{points:"40,0 110,0 150,290 80,290",fill:"#FFD08A",opacity:.18,filter:`url(#b${id})`}));s.appendChild(sun);
+   s.appendChild(el("rect",{x:40,y:300,width:190,height:30,rx:2,fill:"#141E2C"}));
+   s.appendChild(el("rect",{x:60,y:222,width:84,height:66,fill:"#8FC4FF",opacity:.3,filter:`url(#g${id})`}));
+   s.appendChild(el("rect",{x:66,y:228,width:72,height:56,rx:1,fill:"#0E1C2C",stroke:"#5BA7FF","stroke-width":.7}));
+   s.appendChild(el("rect",{x:150,y:232,width:60,height:50,rx:1,fill:"#BFDCFF",opacity:.85}));
+   const cg=el("g",{});cg.style.clipPath="inset(calc((1 - var(--p))*100%) 0 0 0)";
+   for(let i=0;i<9;i++){const y=278-i*6;cg.appendChild(el("rect",{x:70,y,width:52,height:4.5,rx:1,fill:"#5BA7FF",opacity:.55}));cg.appendChild(el("rect",{x:116,y:y+1,width:3,height:2.5,fill:"#D9E1EA"}))}
+   s.appendChild(cg);
+   s.appendChild(el("circle",{cx:132,cy:233,r:4,fill:"#0E1C2C",stroke:"#5BA7FF","stroke-width":.6}));
+   const z=el("text",{x:132,y:235.3,"text-anchor":"middle","font-size":5.5,fill:"#9AA8B8","font-family":"IBM Plex Mono, monospace"},"0");s.appendChild(z);
+   s.appendChild(el("rect",{x:118,y:296,width:34,height:40,rx:12,fill:"#05080C"}));s.appendChild(el("circle",{cx:135,cy:290,r:9,fill:"#05080C"}));
+   s.appendChild(el("rect",{x:112,y:344,width:5,height:5,rx:1,fill:"#C8CFD6",opacity:.8}));}
+
+  // 7 nameplate
+  {const s=mk("#080D14");const id=filt(s);
+   const g=el("g",{});g.style.transformBox="view-box";g.style.transformOrigin="135px 362px";g.style.transform="scale(calc(3 - 2*clamp(0, (var(--p) - .25)/.75, 1)))";
+   for(let r=0;r<4;r++)for(let c=0;c<4;c++){const y=110+r*60,x=-10+c*80+(r%2)*30;g.appendChild(el("rect",{x,y,width:56,height:20,rx:2,fill:"#0E1622"}))}
+   g.appendChild(el("rect",{x:70,y:300,width:130,height:28,rx:2,fill:"#141E2C"}));
+   [[92,272],[128,268]].forEach(([x,y])=>{g.appendChild(el("rect",{x:x-6,y:y-6,width:42,height:38,fill:"#8FC4FF",opacity:.35,filter:`url(#g${id})`}));g.appendChild(el("rect",{x,y,width:30,height:24,rx:1,fill:"#BFDCFF"}))});
+   g.appendChild(el("rect",{x:112,y:305,width:34,height:52,rx:14,fill:"#05080C"}));g.appendChild(el("circle",{cx:129,cy:298,r:9,fill:"#05080C"}));
+   const np=el("g",{});np.style.transform="translateX(calc(-220px * max(0, .2 - var(--p)) / .2))";
+   np.appendChild(el("rect",{x:112,y:356,width:46,height:12,rx:1,fill:"#2A3444",stroke:"#4A5668","stroke-width":.5}));
+   np.appendChild(el("text",{x:135,y:365,"text-anchor":"middle","font-size":8,"letter-spacing":".8",fill:"#C8D3E0","font-family":"Barlow Condensed, Arial Narrow, sans-serif","font-weight":600},"SENIOR"));
+   g.appendChild(np);s.appendChild(g);}
+
+  // 8 render
+  {const s=mk("#060A10");const id=filt(s);
+   const g=el("g",{});g.style.transformBox="view-box";g.style.transformOrigin="135px 240px";g.style.transform="scale(calc(1 + max(0, (var(--p) - .6))*.12))";
+   g.appendChild(el("rect",{x:20,y:120,width:230,height:250,fill:"#8FC4FF",opacity:.18,filter:`url(#g${id})`}));
+   g.appendChild(el("rect",{x:28,y:128,width:214,height:234,rx:2,fill:"#0B1520",stroke:"#1E3A5C","stroke-width":1}));
+   for(let i=0;i<8;i++)g.appendChild(el("rect",{x:44,y:150+i*10,width:40+rnd()*100,height:3,fill:"#5BA7FF",opacity:.18}));
+   g.appendChild(el("rect",{x:44,y:250,width:182,height:6,rx:1,fill:"#0F1A2A",stroke:"#2A3848","stroke-width":.5}));
+   const fill=el("rect",{x:44,y:250,height:6,rx:1,fill:"#5BA7FF"});fill.style.width="calc(182px * (.62 + clamp(0, var(--p)/.6, 1)*.04 + clamp(0, (var(--p) - .6)*100, 1)*.34))";g.appendChild(fill);
+   const t1=el("text",{x:44,y:272,"font-size":9,fill:"#9AA8B8","font-family":"IBM Plex Mono, monospace"},"rendering   62%");t1.style.opacity="calc(1 - clamp(0, (var(--p) - .6)*100, 1))";g.appendChild(t1);
+   const t2=el("text",{x:44,y:272,"font-size":9,fill:"#D9E1EA","font-family":"IBM Plex Mono, monospace"},"done       100%");t2.style.opacity="clamp(0, (var(--p) - .6)*100, 1)";g.appendChild(t2);
+   const cmd=el("text",{x:44,y:292,"font-size":8,fill:"#5BA7FF","font-family":"IBM Plex Mono, monospace"},"> commit");cmd.style.opacity="clamp(0, (var(--p) - .28)*8, 1)";g.appendChild(cmd);
+   s.appendChild(g);
+   s.appendChild(el("path",{d:"M0,480 L0,330 Q60,300 120,380 Q160,430 270,420 L270,480 Z",fill:"#05080C"}));
+   s.appendChild(el("rect",{x:150,y:352,width:36,height:14,rx:5,fill:"#0A0E14"}));s.appendChild(el("rect",{x:146,y:356,width:6,height:5,rx:1,fill:"#C8CFD6",opacity:.8}));}
+
+  // 9 arc
+  {const s=mk("#04070C");const id=filt(s);
+   const city=el("g",{});city.style.transformBox="view-box";city.style.transformOrigin="135px 240px";city.style.transform="scale(calc(1 + 6*max(0, 1 - var(--p)/.5)))";city.style.opacity="calc(1 - clamp(0, (var(--p) - .42)/.13, 1))";
+   for(let r=0;r<20;r++)for(let c=0;c<11;c++){if(rnd()<.25)continue;city.appendChild(el("rect",{x:8+c*24,y:8+r*24,width:9,height:11,fill:"#0F1826",opacity:.4+rnd()*.6}))}
+   city.appendChild(el("rect",{x:128,y:230,width:14,height:16,fill:"#FFB35C"}));city.appendChild(el("rect",{x:120,y:222,width:30,height:32,fill:"#FFB35C",opacity:.5,filter:`url(#g${id})`}));
+   s.appendChild(city);
+   const map=el("g",{});map.style.opacity="clamp(0, (var(--p) - .4)/.15, 1)";
+   map.appendChild(el("rect",{y:120,width:270,height:190,fill:"#06101C"}));
+   for(let i=0;i<120;i++){const x=rnd()*270,y=(i<40?rnd()*110:320+rnd()*160);map.appendChild(el("circle",{cx:x,cy:y,r:.6+rnd()*.9,fill:i<40?"#B8C9DA":"#FFD08A",opacity:.25+rnd()*.5}))}
+   for(let i=0;i<50;i++)map.appendChild(el("circle",{cx:150+(rnd()-.5)*44,cy:400+(rnd()-.5)*36,r:.8+rnd()*1.2,fill:"#FFB35C",opacity:.6+rnd()*.4}));
+   map.appendChild(el("circle",{cx:150,cy:400,r:14,fill:`url(#r${id})`,opacity:.5}));
+   const path=el("path",{d:"M150,400 C162,300 126,210 118,92",fill:"none",stroke:"#FFE2B8","stroke-width":1.1,pathLength:100,"stroke-dasharray":"100px 100px","stroke-linecap":"round"});
+   path.style.strokeDashoffset="calc(100px - 66px * clamp(0, (var(--p) - .55)/.3, 1))";map.appendChild(path);
+   s.appendChild(map);
+   const L=path.getTotalLength(),pt=path.getPointAtLength(L*.66);
+   const pulse=el("circle",{cx:pt.x,cy:pt.y,r:6,fill:"#FFE2B8"});pulse.style.opacity="calc(clamp(0, (var(--p) - .4)/.15, 1) * max(0, .8 - max(var(--p) - .9, .9 - var(--p))*16))";pulse.style.filter=`url(#b${id})`;s.appendChild(pulse);
+   const tip=el("circle",{cx:pt.x,cy:pt.y,r:1.6,fill:"#FFE2B8"});tip.style.opacity="clamp(0, (var(--p) - .85)*20, 1)";s.appendChild(tip);}
+
+  // ---------- transport ----------
+  let frame=0,playing=false,loop=true,last=0,acc=0;
+  const head=$("#head"),lvhead=$("#lvhead"),tc=$("#tc"),fr=$("#fr"),shotname=$("#shotname"),playBtn=$("#play");
+  const segEls=[...segs.children],cardEls=[...cards.children];
+  let curShot=-1;
+  function render(){
+    const i=shotAt(frame),p=(frame-CUTS[i])/(CUTS[i+1]-CUTS[i]-1);
+    frames[i].style.setProperty("--p",Math.max(0,Math.min(1,p)).toFixed(4));
+    if(i!==curShot){frames.forEach((f,k)=>f.classList.toggle("on",k===i));segEls.forEach((e,k)=>e.classList.toggle("on",k===i));cardEls.forEach((e,k)=>e.classList.toggle("on",k===i));shotname.textContent=`Shot ${i+1} · ${SHOTS[i].t}`;curShot=i}
+    const x=frame/TOTAL*100;head.style.left=x+"%";lvhead.setAttribute("x1",frame);lvhead.setAttribute("x2",frame);
+    tc.textContent=fmt(frame);fr.textContent="f "+String(frame).padStart(3,"0")+" / 240";
+  }
+  function seek(f){frame=((f%TOTAL)+TOTAL)%TOTAL;render()}
+  function tick(now){if(!playing)return;const dt=(now-last)/1000;last=now;acc+=dt;
+    while(acc>=1/FPS){acc-=1/FPS;frame++;if(frame>=TOTAL){if(loop)frame=0;else{frame=TOTAL-1;setPlay(false);break}}}
+    render();requestAnimationFrame(tick)}
+  function setPlay(v){playing=v;playBtn.textContent=v?"Pause":"Play";if(v){last=performance.now();acc=0;requestAnimationFrame(tick)}}
+  playBtn.addEventListener("click",()=>setPlay(!playing));
+  $("#back").addEventListener("click",()=>{setPlay(false);seek(frame-1)});
+  $("#fwd").addEventListener("click",()=>{setPlay(false);seek(frame+1)});
+  const lb=$("#loopbtn");lb.addEventListener("click",()=>{loop=!loop;lb.textContent=loop?"Loop on":"Loop off";lb.setAttribute("aria-pressed",loop)});
+  document.addEventListener("keydown",e=>{if(e.target.tagName==="BUTTON"||e.target.tagName==="SUMMARY")return;
+    if(e.code==="Space"){e.preventDefault();setPlay(!playing)}else if(e.key==="ArrowLeft"){setPlay(false);seek(frame-1)}else if(e.key==="ArrowRight"){setPlay(false);seek(frame+1)}});
+  // scrub
+  const tl=$("#timeline");let scrubbing=false,wasPlaying=false;
+  const posToFrame=e=>{const r=segs.getBoundingClientRect();return Math.round(Math.max(0,Math.min(1,(e.clientX-r.left)/r.width))*(TOTAL-1))};
+  tl.addEventListener("pointerdown",e=>{scrubbing=true;wasPlaying=playing;setPlay(false);tl.setPointerCapture(e.pointerId);seek(posToFrame(e))});
+  tl.addEventListener("pointermove",e=>{if(scrubbing)seek(posToFrame(e))});
+  tl.addEventListener("pointerup",e=>{scrubbing=false;if(wasPlaying)setPlay(true)});
+  tl.addEventListener("pointercancel",()=>{scrubbing=false});
+
+  render();
+  if(!matchMedia("(prefers-reduced-motion: reduce)").matches)setPlay(true);
+})();
+</script>
