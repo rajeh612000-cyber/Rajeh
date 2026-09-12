@@ -1,0 +1,705 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Marketeers Research Technical SEO Audit</title>
+<link rel="stylesheet" href="fonts-local.css"><link rel="stylesheet" href="shared.css">
+<style>
+@page{size:A4;margin:16mm 15mm 20mm 15mm;
+  @bottom-left{content:"Marketeers Research  ·  Technical SEO Audit & Fix-It Plan  ·  September 2026";font-family:'Open Sans',Arial,sans-serif;font-size:7.5pt;color:#8a857b;vertical-align:top;padding-top:4mm}
+  @bottom-right{content:"Page " counter(page);font-family:'Archivo','Open Sans',Arial,sans-serif;font-size:7.5pt;font-weight:700;color:#00265E;vertical-align:top;padding-top:4mm}
+}
+.card{page-break-inside:auto;break-inside:auto}
+.card h3,.card .lbl,.card .meta,h2,h3{break-after:avoid;page-break-after:avoid}
+.card .lbl + p,.card .lbl + ol,.card .lbl + table{break-before:avoid}
+.judge,.box,.stat,pre{break-inside:avoid}
+thead{display:table-header-group}
+</style>
+</head><body>
+
+<!-- ============ 1. READ ME FIRST ============ -->
+<div class="section" style="page-break-before:auto">
+<div class="logo-row" style="margin-bottom:10px"><img src="logo.svg" style="width:60mm"></div>
+<div class="kicker">Section 1</div>
+<h1>Read me first</h1>
+<div class="rule"></div>
+
+<p>This document was written for someone who has never touched the technical side of a website. Every issue follows the same four-question pattern, so you never need to guess what to do:</p>
+<div class="grid2">
+  <div class="box pale"><h4>1 · What we found</h4>The exact evidence, with the real web address, so a developer can reproduce it in a minute.</div>
+  <div class="box pale"><h4>2 · Why it matters</h4>In plain language, using a simple picture: <strong>your website is a house, Google is a visitor</strong> who wants to walk through every room and tell other people about it.</div>
+  <div class="box pale"><h4>3 · How to fix it, step by step</h4>Numbered steps. Where a step needs a developer, we say so, and we say exactly what to tell them.</div>
+  <div class="box pale"><h4>4 · Hours and who</h4>A realistic estimate for a competent WordPress developer or SEO, plus a "how you know it's done" test you can run yourself.</div>
+</div>
+
+<h3 style="margin-top:12px">The traffic-light labels</h3>
+<table class="tight"><thead><tr><th style="width:120px">Label</th><th>Meaning</th><th style="width:150px">When to do it</th></tr></thead><tbody>
+<tr><td><span class="pill crit">Critical</span></td><td>Google is actively confused or is showing visitors something broken. Costs you rankings or trust right now.</td><td>This week</td></tr>
+<tr><td><span class="pill high">High</span></td><td>Splits your ranking power between duplicate pages, or wastes Google's limited crawling time on junk.</td><td>Within 30 days</td></tr>
+<tr><td><span class="pill med">Medium</span></td><td>Makes results look worse in Google or slows growth. Fix in the first quarter.</td><td>Within 90 days</td></tr>
+<tr><td><span class="pill low">Low</span></td><td>Hygiene. Do it when a developer is already in the code.</td><td>When convenient</td></tr>
+<tr><td><span class="pill check">Check</span></td><td>We could not see this from the outside (explained below). You or your developer run a five-minute test; if it fails, the fix and hours are already written for you.</td><td>Week 1, all at once</td></tr>
+</tbody></table>
+
+<div class="box navy avoid">
+<h3><span class="yl">Honesty note:</span> what we could and could not inspect</h3>
+<p>This audit was run from a locked-down cloud workspace whose network rules <strong>block direct access to marketeersresearch.com</strong> (and to Google PageSpeed, the Wayback Machine and similar tools). Google Search Console is also not connected to this workspace. We therefore audited the site <strong>from the outside in</strong>, using three sources that are fully reliable:</p>
+<ul>
+  <li><strong>Google's own index</strong> of the site (what Google has stored about every page, its address and its title). This is the most important view anyway, because it is what customers see.</li>
+  <li><strong>DNS, the internet's phone book</strong>, which tells us where the site and its subdomains live.</li>
+  <li><strong>Your Canva brand system</strong> (for this document's design) and public company directories (for entity checks).</li>
+</ul>
+<p>Everything in <strong>Section 4 is confirmed</strong>: we saw it. Everything in <strong>Section 5 is a check</strong>: we tell you how to look, what "good" looks like, and how to fix it if it is wrong. Nothing in this report is guessed.</p>
+<p style="margin:0"><strong>To turn every "Check" into a confirmed answer,</strong> either (a) add <code>marketeersresearch.com</code> and <code>www.marketeersresearch.com</code> to the allowed domains of your Claude Code environment and re-run this audit, or (b) connect Google Search Console (Appendix B). Both take under ten minutes.</p>
+</div>
+
+<h3>Contents</h3>
+<table class="toc tight">
+<tr><td>1</td><td>Read me first</td></tr>
+<tr><td>2</td><td>Executive summary: the five things to do first, and the hours</td></tr>
+<tr><td>3</td><td>What we know about your site (platform, hosting, indexed pages)</td></tr>
+<tr><td>4</td><td>Confirmed issues C1 to C15, with step-by-step fixes and hours</td></tr>
+<tr><td>5</td><td>The A-to-Z checklist: 24 checks to run on the live site, with fixes and hours</td></tr>
+<tr><td>6</td><td>Your 90-day roadmap and total hours</td></tr>
+<tr><td>7</td><td>Glossary: every technical word in this document, explained simply</td></tr>
+<tr><td>A–C</td><td>Appendices: free tools, connecting Search Console, brand note</td></tr>
+</tbody></table>
+</div>
+
+<!-- ============ 2. EXECUTIVE SUMMARY ============ -->
+<div class="section">
+<div class="kicker">Section 2</div>
+<h1>Executive summary</h1>
+<div class="rule"></div>
+
+<div class="grid3" style="margin-bottom:12px">
+  <div class="stat red"><div class="n">2</div><div class="l">Critical</div></div>
+  <div class="stat" style="background:#d9541e"><div class="n" style="color:#fff">6</div><div class="l">High</div></div>
+  <div class="stat" style="background:#c99a00"><div class="n" style="color:#fff">5</div><div class="l">Medium</div></div>
+  <div class="stat grey"><div class="n">2</div><div class="l">Low</div></div>
+  <div class="stat blue"><div class="n">24</div><div class="l">Checks to run</div></div>
+  <div class="stat"><div class="n">26–41 h</div><div class="l">To clear all confirmed issues</div></div>
+</div>
+
+<div class="box pale">
+<h3>The big picture, in three sentences</h3>
+<p>Your site is a WordPress site sitting behind a Sucuri security firewall, and Google can find it. But Google is also finding <strong>the same page under several different addresses</strong> (a typo address, an old address, an insecure "http" address, an archive address), and <strong>a subdomain that no longer exists</strong> is still being offered to searchers. Your page titles also change style from page to page, so Google is not sure what your company is called. None of this is dramatic on its own, but together it leaks ranking power and makes you look less tidy than your competitors in Google results.</p>
+</div>
+
+<h3>Do these five things first</h3>
+<table><thead><tr><th style="width:34px">#</th><th>Action</th><th style="width:70px">Issue</th><th style="width:70px">Hours</th></tr></thead><tbody>
+<tr><td>1</td><td>Bring <code>onlinepanel.marketeersresearch.com</code> back to life or redirect it. Google is sending people to a dead address.</td><td>C1</td><td>2–3</td></tr>
+<tr><td>2</td><td>Force every address to one format: <code>https://marketeersresearch.com/...</code> with a trailing slash. Redirect http, www, the typo page, the old careers page and the old job page.</td><td>C2, C3, C4, C5, C10</td><td>6–11</td></tr>
+<tr><td>3</td><td>Stop Google indexing junk: testimonial query addresses, date archives, the "Featured" category, and the report sign-up form page.</td><td>C6, C7, C12</td><td>2.5–5</td></tr>
+<tr><td>4</td><td>Set one title pattern site-wide: <code>Page name | Marketeers Research</code>, and rewrite the titles that are too long, too short or missing your brand.</td><td>C8, C9</td><td>5–8</td></tr>
+<tr><td>5</td><td>Connect Google Search Console and run the 24 checks in Section 5 in one sitting. This turns every unknown into a known.</td><td>C13, Section 5</td><td>3–4 to check</td></tr>
+</tbody></table>
+
+<div class="judge"><b>My judgement after 30 years of doing this:</b> nothing here needs a redesign or a new website. This is a "tidy the house" job. A good WordPress developer with an SEO plugin (Yoast or Rank Math) can clear every confirmed issue in one working week. The biggest risk is not the issues themselves but <strong>leaving them for another year</strong>, because every new blog post inherits the same title and address problems.</div>
+
+<h3>What is working well</h3>
+<ul>
+  <li><strong>HTTPS is live</strong> and both <code>marketeersresearch.com</code> and <code>www.</code> resolve to the same server, so there is no split site.</li>
+  <li><strong>The site sits behind Sucuri</strong>, a professional web firewall and content network. That is good for security and usually for speed.</li>
+  <li><strong>The homepage title is excellent</strong>: "Marketeers Research | FMCG Market Research — Egypt, KSA &amp; Europe". Clear, keyworded, right length. Newer pages (About, Contact, Smart Value, Market Assessment, Careers) follow the same good pattern, which shows someone has already started this work.</li>
+  <li><strong>The blog is alive</strong>, with dated posts from 2024 through 2026 and clean addresses under <code>/blog/</code>.</li>
+  <li><strong>Google indexes the site with no obvious penalty</strong>: all core pages appear for a <code>site:</code> search.</li>
+</ul>
+</div>
+
+<!-- ============ 3. WHAT WE KNOW ============ -->
+<div class="section">
+<div class="kicker">Section 3</div>
+<h1>What we know about your site</h1>
+<div class="rule"></div>
+
+<h3>Platform and hosting (evidence-based)</h3>
+<table><thead><tr><th style="width:170px">Fact</th><th>Evidence</th><th style="width:160px">Why it matters</th></tr></thead><tbody>
+<tr><td>Built on <strong>WordPress</strong> (almost certainly)</td><td>Address <code>/cati-supervisor-2/</code> ("-2" is WordPress's automatic fix for a duplicate slug); <code>/?testimonials=...</code> is a WordPress custom post type leaking through a query parameter; "Featured Archives -" is WordPress's default archive title; <code>/blog/2026/02/</code> is a WordPress date archive; the "Page – Marketeers" en-dash title is WordPress's default title format.</td><td>Every fix in this document is written for WordPress with Yoast SEO or Rank Math.</td></tr>
+<tr><td>Behind the <strong>Sucuri</strong> firewall / CDN</td><td>Both hostnames resolve to <code>192.124.249.83</code>, a Sucuri (GoDaddy) CloudProxy address.</td><td>Redirect rules and "Force HTTPS" can be set in Sucuri as well as in WordPress. Cache must be cleared after changes.</td></tr>
+<tr><td>Email on <strong>GoDaddy</strong></td><td><code>mail.marketeersresearch.com</code> resolves to <code>208.109.42.241</code> (GoDaddy).</td><td>Hosting and DNS are most likely in GoDaddy; that is where subdomain records live (C1).</td></tr>
+<tr><td>No IPv6 address seen</td><td>Only an IPv4 (A) record was returned; no AAAA record.</td><td>Low priority (C14).</td></tr>
+<tr><td>Dead subdomain</td><td><code>onlinepanel.marketeersresearch.com</code> has <strong>no DNS record at all</strong>, yet Google still lists it.</td><td>Critical (C1).</td></tr>
+<tr><td>Search Console</td><td>No active Google Search Console connection was available to this audit.</td><td>Needed for the checks in Section 5 (C13).</td></tr>
+</tbody></table>
+
+<h3>Pages Google currently holds for your site</h3>
+<p class="small">Collected from Google's index on 12 September 2026. Titles are exactly as Google shows them. Notes flag the problem each row reveals.</p>
+<table class="tight"><thead><tr><th>Address (URL)</th><th>Title shown by Google</th><th style="width:34%">Notes</th></tr></thead><tbody>
+<tr><td>/</td><td>Marketeers Research | FMCG Market Research — Egypt, KSA &amp; Europe</td><td><span class="check">✓</span> Good title (62 chars)</td></tr>
+<tr><td>/about-us/</td><td>About Marketeers Research | FMCG Research Across Egypt, KSA &amp; Europe</td><td><span class="check">✓</span> Good pattern, slightly long (70)</td></tr>
+<tr><td>/contact-us/</td><td>Contact Marketeers Research | FMCG Market Research Experts <span class="small">(older copy: "Contact Us")</span></td><td><span class="check">✓</span> Recently improved</td></tr>
+<tr><td>/smart-value/</td><td>Smart Value™ RGM Platform | Revenue Growth Management | Marketeers Research</td><td>Long (76), will be cut off</td></tr>
+<tr><td>/smart-shopper/</td><td>Advanced Analytics (Smart Shopper™)</td><td><span class="cross">✗</span> No brand, no keyword, no region</td></tr>
+<tr><td>/data-analytics/</td><td>Data and Analytics Solutions – Marketeers</td><td><span class="cross">✗</span> Different brand suffix ("– Marketeers")</td></tr>
+<tr><td>/zerotime-insights/</td><td>ZeroTime™ Insights - Marketeers</td><td><span class="cross">✗</span> Third suffix style, no keyword</td></tr>
+<tr><td>/market-assessment/</td><td>Market Assessment for B2B &amp; B2C | Egypt, KSA &amp; GCC | Marketeers Research</td><td>Good pattern, long (74)</td></tr>
+<tr><td>/clients-advisory-team/</td><td>Client's Advisory Team - Marketeers Research</td><td>Fourth suffix style</td></tr>
+<tr><td>/partner-with-us/</td><td>Partner with Us - Marketeers Research</td><td rowspan="2"><span class="cross">✗</span> <strong>Same page, two addresses</strong>; "parnter" is a typo (C2)</td></tr>
+<tr><td>/parnter-with-us/</td><td>Partner with Us - Marketeers Research</td></tr>
+<tr><td>/careers/</td><td>Careers at Marketeers Research | Join Our Market Research Team</td><td rowspan="2"><span class="cross">✗</span> <strong>Duplicate</strong>; second one has no trailing slash (C3, C10)</td></tr>
+<tr><td>/careers-job-openings</td><td>Careers at Marketeers Research | Join Our Market Research Team</td></tr>
+<tr><td>/jobs/cati-supervisor</td><td>CATI Supervisor - Marketeers</td><td rowspan="2"><span class="cross">✗</span> <strong>Duplicate job post</strong> from June 2023, still indexed (C4)</td></tr>
+<tr><td>/cati-supervisor-2/</td><td>CATI Supervisor - Marketeers</td></tr>
+<tr><td>/digital-marketing-specialist/</td><td>Digital Marketing Specialist - Marketeers</td><td>Job post living at the root, not under /careers/ (C4)</td></tr>
+<tr><td>/report-sign-up/</td><td>Report Sign Up - Marketeers Research</td><td>Thin form page indexed (C12)</td></tr>
+<tr><td>/?testimonials=sherif-banhawy-...</td><td>Marketeers – Analytics . Insights . Impact</td><td><span class="cross">✗</span> Query-string address; old tagline title (C6, C8)</td></tr>
+<tr><td><b>http://</b>marketeersresearch.com/the-future-of-brand-tracking-is-now-dynamic-dashboard/</td><td>The Future of Brand Tracking is NOW: Dynamic Dashboard - Marketeers Research</td><td><span class="cross">✗</span> <strong>Insecure http address indexed</strong>; blog post outside /blog/ (C5)</td></tr>
+<tr><td>/blog/</td><td>Blog | Marketeers</td><td>Too short, no keyword (C9)</td></tr>
+<tr><td>/blog/2026/02/</td><td>Marketeers Research | FMCG Market Research — Egypt, KSA &amp; Europe</td><td><span class="cross">✗</span> Date archive indexed with the <strong>homepage title</strong> (C7)</td></tr>
+<tr><td>/blog/category/featured/</td><td>Featured Archives - Marketeers Research</td><td>Default archive title (C7)</td></tr>
+<tr><td>/blog/audience-panel/</td><td>Audience Panel - Marketeers Research</td><td>Candidate target for the dead subdomain (C1)</td></tr>
+<tr><td>/blog/the-role-of-ai-data-analytics-in-fmcg-growth-a-roadmap-for-revenue-optimization/</td><td>Data and Analytics in FMCG: The Practical Roadmap Brands in the EU and KSA Actually Use</td><td>Title 88 chars; address no longer matches title (C9, C11)</td></tr>
+<tr><td>/blog/brand-growth-strategies-2026-navigating-the-new-market-consumer-and-pricing-barriers/</td><td>Brand Growth Strategies 2026: Navigating the New Market, Consumer, and Pricing Barriers</td><td>Title 87 chars, no brand (C9)</td></tr>
+<tr><td>/blog/2026-will-reshape-fmcg-trends-pricing-promotion-rgm-are-you-ready/</td><td>2026 Will Reshape FMCG Trends, Pricing, Promotion, And RGM — Are You Ready?</td><td>Title 75 chars (C9)</td></tr>
+<tr><td>/blog/real-time-insights-are-important-in-changing-market/</td><td>Real-Time Insights are Important in Today's Changing Market!</td><td>No brand; exclamation mark (C9)</td></tr>
+<tr><td>/blog/… (8 more posts)</td><td>NPD guide 2026 · Data analytics decision engine · Digital maturity · Your data is valuable · Sustainable growth · CMO challenges 2024 · Understand your consumer · Audience panel</td><td>Mostly fine; older posts lack brand suffix</td></tr>
+<tr><td><b>onlinepanel.</b>marketeersresearch.com/</td><td>Online Panel in Middle East And Africa | Marketeers Research</td><td><span class="cross">✗</span> <strong>Subdomain does not resolve</strong> (C1)</td></tr>
+</tbody></table>
+</div>
+
+<!-- ============ 4. CONFIRMED ISSUES ============ -->
+<div class="section">
+<div class="kicker">Section 4</div>
+<h1>Confirmed issues, with fixes and hours</h1>
+<div class="rule"></div>
+<p>Fifteen issues. Each card has the same four parts. Hours are for a competent WordPress developer or SEO who knows the site; add roughly 30% for someone seeing it for the first time.</p>
+
+<div class="card crit">
+<h3><span class="tri"></span>C1 · A subdomain Google still lists no longer exists</h3>
+<div class="meta"><span class="pill crit">Critical</span><span class="pill hrs">2–3 hours</span><span class="pill who">Developer + whoever manages DNS (GoDaddy)</span></div>
+<div class="lbl">What we found</div>
+<p>Google shows <code>https://onlinepanel.marketeersresearch.com/</code> ("Online Panel in Middle East And Africa | Marketeers Research") in results. The DNS phone book has <strong>no entry at all</strong> for that name, so anyone who clicks gets a browser error, not even a "page not found" from your site.</p>
+<div class="lbl">Why it matters</div>
+<p>Imagine Google handing customers a business card with an address that leads to an empty lot. Every click is a lost lead and a trust signal against you. Google also slowly drops the page, taking any links and history it had earned with it.</p>
+<div class="lbl">How to fix it</div>
+<ol class="steps">
+<li><strong>Decide</strong>: do you still want a separate online-panel site? If <em>yes</em>, restore it (step 2). If <em>no</em>, redirect it (step 3). Redirecting is usually the right answer because the content already lives at <code>/blog/audience-panel/</code>.</li>
+<li><em>Restore</em>: in GoDaddy DNS add an A record for <code>onlinepanel</code> pointing to the panel's server, then confirm the site loads over https with a valid certificate.</li>
+<li><em>Redirect</em>: in GoDaddy DNS add an A record for <code>onlinepanel</code> pointing at the same Sucuri address as the main site (<code>192.124.249.83</code>). In Sucuri (Settings → Domains) add <code>onlinepanel.marketeersresearch.com</code> as an alias. Then add a permanent (301) redirect rule so that <em>everything</em> on the subdomain goes to <code>https://marketeersresearch.com/blog/audience-panel/</code> (or a proper "Online Panel" service page if you create one). In WordPress the free plugin "Redirection" can do this.</li>
+<li>In Google Search Console, add the subdomain as a property and use "Removals" if you want it gone faster.</li>
+</ol>
+<div class="lbl">How you know it is fixed</div>
+<p>Type <code>onlinepanel.marketeersresearch.com</code> into a browser: it should land on a real page on your site, with the padlock icon, in under a second.</p>
+<div class="judge"><b>My judgement:</b> a dead subdomain in Google results is the single most embarrassing thing a research company can show a client who Googles them. Do this first, today if possible.</div>
+</div>
+
+<div class="card crit">
+<h3><span class="tri"></span>C5 · An insecure "http://" address is indexed, and a blog post lives outside /blog/</h3>
+<div class="meta"><span class="pill crit">Critical</span><span class="pill hrs">2–4 hours</span><span class="pill who">Developer</span></div>
+<div class="lbl">What we found</div>
+<p>Google lists <code>http://marketeersresearch.com/the-future-of-brand-tracking-is-now-dynamic-dashboard/</code>, with plain <strong>http</strong>, not https. If your redirect from http to https were airtight, Google would have replaced this long ago. The same post also lives at the site root instead of under <code>/blog/</code> like your other posts, so you have two blog-address patterns.</p>
+<div class="lbl">Why it matters</div>
+<p>http is the unlocked front door. Browsers show "Not secure", Google prefers https versions, and if http pages answer normally you have <strong>two copies of the whole site</strong> competing with each other.</p>
+<div class="lbl">How to fix it</div>
+<ol class="steps">
+<li>Ask your developer to test these four addresses with a redirect checker (for example <code>httpstatus.io</code>): <code>http://marketeersresearch.com/</code>, <code>http://www.marketeersresearch.com/</code>, <code>https://www.marketeersresearch.com/</code> and the http blog address above. <strong>Every one must answer 301 → https://marketeersresearch.com/... in a single hop.</strong></li>
+<li>If any does not: in Sucuri turn on "Force HTTPS" (Settings → Security → Protocol Redirection), and in WordPress set both "WordPress Address" and "Site Address" to <code>https://marketeersresearch.com</code>. Add a fallback rule in <code>.htaccess</code>:
+<pre>RewriteEngine On
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} ^www\. [NC]
+RewriteRule ^ https://marketeersresearch.com%{REQUEST_URI} [L,R=301]</pre></li>
+<li>Move the stray post under the blog: change its permalink to <code>/blog/the-future-of-brand-tracking-is-now-dynamic-dashboard/</code> and add a 301 from the old root address. Check for any other posts published at the root and do the same.</li>
+<li>Make sure every page's canonical tag (Section 5, U5) says https, never http.</li>
+</ol>
+<div class="lbl">How you know it is fixed</div>
+<p>All four test addresses show exactly one 301 to the https, non-www version. In Search Console, "Pages" shows no http addresses as indexed after a few weeks.</p>
+</div>
+
+<div class="card high">
+<h3><span class="tri"></span>C2 · The "Partner with Us" page exists twice, once with a typo</h3>
+<div class="meta"><span class="pill high">High</span><span class="pill hrs">0.5–1 hour</span><span class="pill who">Anyone with WordPress admin</span></div>
+<div class="lbl">What we found</div>
+<p>Both <code>/parnter-with-us/</code> (misspelled) and <code>/partner-with-us/</code> are indexed with the identical title "Partner with Us - Marketeers Research".</p>
+<div class="lbl">Why it matters</div>
+<p>Two doors into the same room. Google splits the page's credit between them, and the misspelled address looks careless in results and in links you have shared.</p>
+<div class="lbl">How to fix it</div>
+<ol class="steps">
+<li>Install the free "Redirection" plugin (or use Yoast Premium / Rank Math redirects).</li>
+<li>Add a 301: source <code>/parnter-with-us/</code> → target <code>/partner-with-us/</code>.</li>
+<li>If the misspelled page is a separate WordPress page, move it to Trash <em>after</em> the redirect is live.</li>
+<li>Search your menus, footer, and any email signatures or LinkedIn posts for the misspelled link and update them.</li>
+</ol>
+<div class="lbl">How you know it is fixed</div>
+<p>Typing the misspelled address instantly lands on the correct one, and the address bar shows the correct spelling.</p>
+</div>
+
+<div class="card high">
+<h3><span class="tri"></span>C3 · The Careers page exists twice</h3>
+<div class="meta"><span class="pill high">High</span><span class="pill hrs">0.5–1 hour</span><span class="pill who">Anyone with WordPress admin</span></div>
+<div class="lbl">What we found</div>
+<p><code>/careers/</code> and <code>/careers-job-openings</code> (no trailing slash) both carry the title "Careers at Marketeers Research | Join Our Market Research Team".</p>
+<div class="lbl">Why it matters</div>
+<p>Same as C2: split credit, and Google may pick the older, uglier address as the "real" one.</p>
+<div class="lbl">How to fix it</div>
+<ol class="steps">
+<li>Decide which is the real page (keep <code>/careers/</code>: shorter, cleaner).</li>
+<li>Add a 301 from <code>/careers-job-openings</code> (and <code>/careers-job-openings/</code>) → <code>/careers/</code>.</li>
+<li>Trash the duplicate page if it is a separate WordPress page. Update any menu link that points to the old one.</li>
+</ol>
+</div>
+
+<div class="card high">
+<h3><span class="tri"></span>C4 · Job postings are duplicated, scattered and stale</h3>
+<div class="meta"><span class="pill high">High</span><span class="pill hrs">2–3 hours</span><span class="pill who">Developer + HR</span></div>
+<div class="lbl">What we found</div>
+<p>"CATI Supervisor" is indexed at <code>/jobs/cati-supervisor</code> <em>and</em> <code>/cati-supervisor-2/</code> (the "-2" means WordPress found the slug already taken). "Digital Marketing Specialist" sits at the site root. The CATI post is dated June 2023 but is still live and indexed as if current.</p>
+<div class="lbl">Why it matters</div>
+<p>Candidates apply for jobs that closed two years ago, Google wastes crawl time on duplicates, and job pages at the root compete with your service pages for attention in the site's structure.</p>
+<div class="lbl">How to fix it</div>
+<ol class="steps">
+<li>Pick one home for jobs: <code>/careers/</code> as the list, and <code>/careers/job-name/</code> for each role (or use the existing <code>/jobs/</code> folder consistently, but only one of the two).</li>
+<li>301 <code>/cati-supervisor-2/</code> → the surviving CATI page, or, if the role is closed, → <code>/careers/</code>. Do the same for <code>/digital-marketing-specialist/</code>.</li>
+<li>Rule for the future: when a role closes, either delete the post and 301 it to <code>/careers/</code>, or keep it with a clear "This position is filled" note and a <em>noindex</em> tag.</li>
+<li>Optional (1 extra hour): add JobPosting structured data via Yoast/Rank Math or a jobs plugin so open roles can appear in Google's jobs box.</li>
+</ol>
+</div>
+
+<div class="card high">
+<h3><span class="tri"></span>C6 · Testimonials leak through a query-string address with an outdated title</h3>
+<div class="meta"><span class="pill high">High</span><span class="pill hrs">1–2 hours</span><span class="pill who">Developer</span></div>
+<div class="lbl">What we found</div>
+<p>Google indexes <code>marketeersresearch.com/?testimonials=sherif-banhawy-department-manager-...</code> with the title "Marketeers – Analytics . Insights . Impact". That is a WordPress "testimonials" content type that was never meant to have its own page, and the title is an old site tagline that no longer matches your brand name elsewhere.</p>
+<div class="lbl">Why it matters</div>
+<p>Query-string addresses look like spam to Google and users, they are thin (one quote per page), and the old tagline title muddles what your company is called. There may be one such address per testimonial.</p>
+<div class="lbl">How to fix it</div>
+<ol class="steps">
+<li>Ask the developer to set the testimonial post type to <code>publicly_queryable => false</code> and <code>exclude_from_search => true</code> (in the theme, the Elementor/testimonial plugin settings, or a small snippet).</li>
+<li>In Yoast (SEO → Settings → Content types → Testimonials) or Rank Math (Titles &amp; Meta → Testimonials) set "Show in search results: No" and remove them from the XML sitemap.</li>
+<li>301 the known query addresses to the page where the testimonials are displayed (probably the homepage or About).</li>
+<li>Update the stale site tagline in Settings → General so no template can print "Analytics . Insights . Impact" again unless you want it.</li>
+</ol>
+</div>
+
+<div class="card high">
+<h3><span class="tri"></span>C7 · Date and category archives are indexed with duplicate or default titles</h3>
+<div class="meta"><span class="pill high">High</span><span class="pill hrs">1–2 hours</span><span class="pill who">Anyone with WordPress admin</span></div>
+<div class="lbl">What we found</div>
+<p><code>/blog/2026/02/</code> is indexed with the <strong>exact homepage title</strong>. <code>/blog/category/featured/</code> is indexed as "Featured Archives - Marketeers Research", WordPress's default wording.</p>
+<div class="lbl">Why it matters</div>
+<p>A month archive is just a list of links; it has nothing to say to a searcher, and giving it the homepage title makes Google think you have two homepages. Category pages can be useful, but only with a real title and a short intro.</p>
+<div class="lbl">How to fix it</div>
+<ol class="steps">
+<li>Yoast: SEO → Settings → Advanced → Date archives → <strong>Disable</strong>. Rank Math: Titles &amp; Meta → Misc Pages → Date Archives → "Disable" (or noindex).</li>
+<li>Also noindex author archives (a one-author blog does not need them) and the media/attachment pages (redirect attachments to the parent).</li>
+<li>For each category you keep ("Featured" and any others), write a real title, such as "Featured Insights on FMCG Growth | Marketeers Research", and a two-sentence intro at the top of the category page.</li>
+<li>Remove "Archives" from the archive title template.</li>
+</ol>
+</div>
+
+<div class="card high">
+<h3><span class="tri"></span>C8 · Four different brand suffixes and three different company names in titles</h3>
+<div class="meta"><span class="pill high">High</span><span class="pill hrs">3–5 hours</span><span class="pill who">SEO or marketing lead, with WordPress admin</span></div>
+<div class="lbl">What we found</div>
+<p>Across the indexed pages, titles end in "| Marketeers Research", "- Marketeers Research", "– Marketeers", "- Marketeers", or have no brand at all ("Advanced Analytics (Smart Shopper™)", most blog posts). One page calls you "Marketeers – Analytics . Insights . Impact".</p>
+<div class="lbl">Why it matters</div>
+<p>Google builds a picture of your company from repeated, consistent signals. Five different endings tell it five slightly different stories. It also looks untidy when several of your pages appear together in results. There are also other companies called "Marketeers" (a marketing agency at marketeers.tech, and amarketeers.org), so consistency is how Google keeps you apart from them.</p>
+<div class="lbl">How to fix it</div>
+<ol class="steps">
+<li>Choose the pattern: <code>Page name | Marketeers Research</code>. The pipe with "Marketeers Research" is already used on your best pages.</li>
+<li>Yoast: SEO → Settings → Site basics → set Site name to "Marketeers Research" and separator to "|". Rank Math: Titles &amp; Meta → Global → Separator "|". Then in Content types set every default template to <code>%%title%% %%sep%% %%sitename%%</code>.</li>
+<li>Open each page that has a custom title (Smart Shopper, Data Analytics, ZeroTime, Client's Advisory Team, Blog, every blog post) and either clear the custom title so the template applies, or rewrite it in the same pattern.</li>
+<li>Settings → General → Site Title = "Marketeers Research"; Tagline = "Guiding decisions for growth" (your approved slogan) rather than the old one.</li>
+<li>Add <code>WebSite</code> structured data with <code>name: "Marketeers Research"</code> and an alternate name "Marketeers", so Google's "site name" in results is right (Yoast and Rank Math do this automatically once the site name is set).</li>
+</ol>
+</div>
+
+<div class="card med">
+<h3><span class="tri"></span>C9 · Titles that are too long, too short, or say nothing about what you do</h3>
+<div class="meta"><span class="pill med">Medium</span><span class="pill hrs">2–3 hours</span><span class="pill who">Marketing lead</span></div>
+<div class="lbl">What we found</div>
+<table class="tight"><thead><tr><th>Page</th><th>Current title</th><th>Problem</th></tr></thead><tbody>
+<tr><td>/smart-shopper/</td><td>Advanced Analytics (Smart Shopper™)</td><td>No brand, no benefit, no market</td></tr>
+<tr><td>/blog/</td><td>Blog | Marketeers</td><td>Too short; "Blog" is not a search term</td></tr>
+<tr><td>/zerotime-insights/</td><td>ZeroTime™ Insights - Marketeers</td><td>Product name only</td></tr>
+<tr><td>Blog: EU &amp; KSA roadmap</td><td>88 characters</td><td>Cut off in results (limit is about 60)</td></tr>
+<tr><td>Blog: Brand Growth 2026</td><td>87 characters</td><td>Cut off</td></tr>
+<tr><td>/smart-value/</td><td>76 characters, three segments</td><td>Cut off; middle segment lost</td></tr>
+</tbody></table>
+<div class="lbl">Why it matters</div>
+<p>Your title is the blue link people click. Google shows roughly 60 characters; the rest is replaced by "...". A title with no keyword and no brand gives searchers no reason to click, and gives Google no clue what the page is about.</p>
+<div class="lbl">How to fix it</div>
+<ol class="steps">
+<li>Write titles in the shape <em>What it is + who it is for or where + | Marketeers Research</em>, 50–60 characters. Examples you can paste in:
+<ul>
+<li>Smart Shopper: <code>Smart Shopper™ Trade &amp; Distribution Analytics | Marketeers Research</code></li>
+<li>Blog: <code>FMCG Insights &amp; RGM Blog | Marketeers Research</code></li>
+<li>ZeroTime: <code>ZeroTime™ Real-Time Consumer Insights | Marketeers Research</code></li>
+<li>Smart Value: <code>Smart Value™ RGM Platform for FMCG | Marketeers Research</code></li>
+<li>Roadmap post: <code>Data &amp; Analytics in FMCG: A Practical Roadmap (EU &amp; KSA)</code></li>
+</ul></li>
+<li>Keep the long, descriptive wording as the on-page H1; the title tag can be shorter than the headline.</li>
+<li>Use the Yoast/Rank Math preview bar: stay in the green.</li>
+</ol>
+</div>
+
+<div class="card med">
+<h3><span class="tri"></span>C10 · Trailing slash is inconsistent</h3>
+<div class="meta"><span class="pill med">Medium</span><span class="pill hrs">1–2 hours</span><span class="pill who">Developer</span></div>
+<div class="lbl">What we found</div>
+<p>Most addresses end with "/" (<code>/careers/</code>), but some do not (<code>/careers-job-openings</code>, <code>/jobs/cati-supervisor</code>).</p>
+<div class="lbl">Why it matters</div>
+<p>To Google, <code>/page</code> and <code>/page/</code> are two different addresses. If both answer with content, every page can quietly become a duplicate.</p>
+<div class="lbl">How to fix it</div>
+<ol class="steps">
+<li>Pick "always trailing slash" (WordPress's default). Settings → Permalinks → Post name, and make sure the custom structure ends in "/".</li>
+<li>Ask the developer to confirm that <code>/careers</code> (no slash) answers 301 → <code>/careers/</code>. WordPress does this by default unless a plugin or Sucuri rule interferes. Add an <code>.htaccess</code> rule if not.</li>
+<li>Fix the <code>/jobs/</code> folder if it is a custom post type without the trailing slash.</li>
+</ol>
+</div>
+
+<div class="card med">
+<h3><span class="tri"></span>C11 · Blog addresses are very long and drift away from their titles</h3>
+<div class="meta"><span class="pill med">Medium</span><span class="pill hrs">0.5–1 hour (policy) · do not rename old posts</span><span class="pill who">Content team</span></div>
+<div class="lbl">What we found</div>
+<p><code>/blog/the-role-of-ai-data-analytics-in-fmcg-growth-a-roadmap-for-revenue-optimization/</code> (81 characters) now carries the title "Data and Analytics in FMCG: The Practical Roadmap...". The title was rewritten after publishing; the address was not. Several other posts have 70–90-character slugs.</p>
+<div class="lbl">Why it matters</div>
+<p>Long addresses are ugly when shared, get truncated in results, and a mismatch between address and title looks like the page changed subject.</p>
+<div class="lbl">How to fix it</div>
+<ol class="steps">
+<li><strong>Do not rename existing addresses</strong> unless you add a 301; renaming without one breaks every link you have ever shared.</li>
+<li>Set a policy for new posts: slug of 3–6 words carrying the main keyword, for example <code>/blog/fmcg-data-analytics-roadmap/</code>. Set it before publishing; never change it afterwards.</li>
+<li>In Yoast/Rank Math, the "slug" field is where you set it.</li>
+</ol>
+</div>
+
+<div class="card med">
+<h3><span class="tri"></span>C12 · The "Report Sign Up" form page is indexed</h3>
+<div class="meta"><span class="pill med">Medium</span><span class="pill hrs">0.5–1 hour</span><span class="pill who">Anyone with WordPress admin</span></div>
+<div class="lbl">What we found</div>
+<p><code>/report-sign-up/</code> ("Report Sign Up - Marketeers Research") is indexed. Form-only and thank-you pages are thin, and if they are meant to follow a specific campaign they should not be reachable from Google.</p>
+<div class="lbl">How to fix it</div>
+<ol class="steps">
+<li>If the page is a gate for a specific report, keep it out of Google: Yoast/Rank Math → Advanced → "Allow search engines to show this page in search results? No".</li>
+<li>If instead you want people to find your reports, turn it into a real page: describe the report, who it is for, and show a preview; then it earns its place in the index.</li>
+<li>Do the same noindex for any "thank you" pages (Section 5, U2).</li>
+</ol>
+</div>
+
+<div class="card med">
+<h3><span class="tri"></span>C13 · Google Search Console is not connected (to this audit, and possibly to anyone)</h3>
+<div class="meta"><span class="pill med">Medium</span><span class="pill hrs">1–2 hours</span><span class="pill who">Site owner</span></div>
+<div class="lbl">Why it matters</div>
+<p>Search Console is Google's free dashboard that tells you, every day, which pages it could not crawl, which are duplicates, which are slow, and what people searched for. Running a website without it is driving without a dashboard. Every check in Section 5 becomes a two-minute read once it is connected.</p>
+<div class="lbl">How to fix it</div>
+<ol class="steps">
+<li>Go to <code>search.google.com/search-console</code>, sign in with the company Google account, "Add property" → "Domain" → <code>marketeersresearch.com</code>.</li>
+<li>Google gives you a TXT record. Paste it into GoDaddy DNS (Domain → DNS → Add → TXT). Click Verify (can take a few minutes).</li>
+<li>Sitemaps → submit <code>https://marketeersresearch.com/sitemap_index.xml</code> (Yoast) or <code>/sitemap_index.xml</code> / <code>/sitemap.xml</code> (Rank Math). See U2.</li>
+<li>Add your SEO advisor (or this Claude workspace, Appendix B) as a user with "Full" permission.</li>
+<li>Also add the site to Bing Webmaster Tools (it imports from Search Console in one click).</li>
+</ol>
+</div>
+
+<div class="card low">
+<h3><span class="tri"></span>C14 · No IPv6 address</h3>
+<div class="meta"><span class="pill low">Low</span><span class="pill hrs">0.5–1 hour</span><span class="pill who">Hosting/Sucuri support</span></div>
+<p>Only an IPv4 address answers for the site. Google crawls fine over IPv4, so this costs you nothing today. Some mobile networks in the Gulf and Europe are IPv6-first and reach IPv4 through a translation layer, which adds a few milliseconds. Ask Sucuri support to enable IPv6 (AAAA) on your firewall plan; it is usually a checkbox.</p>
+</div>
+
+<div class="card low">
+<h3><span class="tri"></span>C15 · Google can confuse you with other "Marketeers" companies</h3>
+<div class="meta"><span class="pill low">Low (but high value)</span><span class="pill hrs">2–3 hours</span><span class="pill who">Developer or SEO</span></div>
+<div class="lbl">What we found</div>
+<p>Searches for your name also return marketeers.tech (a marketing agency) and amarketeers.org. Your ESOMAR, AmCham and EgyptInnovate profiles exist but the site itself does not appear to declare them.</p>
+<div class="lbl">How to fix it</div>
+<ol class="steps">
+<li>Add Organization structured data (Yoast: SEO → Settings → Site representation → Organization; Rank Math: Titles &amp; Meta → Local SEO) with: legal name, logo (square, at least 112 px), founding year 1994, address (2 Al Sarag Mall, Suite 88, Nasr City, Cairo 11471), phone, and <code>sameAs</code> links to your LinkedIn, ESOMAR directory entry, AmCham profile and EgyptInnovate profile.</li>
+<li>Make the same name, address and phone appear identically in your footer and on the Contact page.</li>
+<li>This is also the foundation for appearing in AI answers (ChatGPT, Perplexity, Google AI Overviews), which lean heavily on clear entity signals.</li>
+</ol>
+</div>
+</div>
+
+<!-- ============ 5. CHECKLIST ============ -->
+<div class="section">
+<div class="kicker">Section 5</div>
+<h1>The A-to-Z checklist: 24 checks to run on the live site</h1>
+<div class="rule"></div>
+<p>These are the things a normal audit sees by loading the site, which our workspace could not do. Each one is a five-minute check you or your developer can run. If a check passes, tick it and move on. If it fails, the fix and the hours are already written. Run them all in one sitting (about 3–4 hours including note-taking), ideally after C13 (Search Console) is done, because Search Console answers half of them for you.</p>
+
+<div class="box pale avoid"><h4>Two free tools that do most of this for you</h4>
+<ul style="margin:0">
+<li><strong>Screaming Frog SEO Spider</strong> (free up to 500 pages, Windows/Mac). Type your domain, press Start, and it lists every page's title, description, H1, canonical, status code, image alt text and more in a spreadsheet. This one tool covers U2, U5, U6, U7, U10, U12, U13, U15, U18, U19.</li>
+<li><strong>Google PageSpeed Insights</strong> (<code>pagespeed.web.dev</code>). Paste an address; it grades speed, mobile, accessibility and a basic SEO list. Covers U8, U9, and flags U15.</li>
+</ul></div>
+
+<h2 style="color:var(--red)">A · Can Google get in? (Crawling)</h2>
+
+<div class="card">
+<h3>U1 · robots.txt (the house rules on the front door)</h3>
+<div class="meta"><span class="pill check">Check</span><span class="pill hrs">0.5–1 h if wrong</span></div>
+<p><strong>Check:</strong> open <code>https://marketeersresearch.com/robots.txt</code> in a browser.<br><strong>Good looks like:</strong> a short text file that allows everything except <code>/wp-admin/</code>, and ends with a <code>Sitemap:</code> line pointing to your XML sitemap. <br><strong>Bad looks like:</strong> "Disallow: /" (blocks everything), no file at all, or blocking <code>/wp-content/</code> (blocks your images and styles, which breaks mobile rendering).<br><strong>Fix:</strong> Yoast → Tools → File editor, or Rank Math → General → Edit robots.txt. Paste:</p>
+<pre>User-agent: *
+Disallow: /wp-admin/
+Allow: /wp-admin/admin-ajax.php
+Disallow: /?s=
+Disallow: /*?testimonials=
+Sitemap: https://marketeersresearch.com/sitemap_index.xml</pre>
+</div>
+
+<div class="card">
+<h3>U2 · XML sitemap (the map you hand to the visitor)</h3>
+<div class="meta"><span class="pill check">Check</span><span class="pill hrs">1–2 h if wrong</span></div>
+<p><strong>Check:</strong> open <code>/sitemap_index.xml</code>, then <code>/sitemap.xml</code>, then <code>/wp-sitemap.xml</code>. One of them should load.<br><strong>Good looks like:</strong> lists only real, indexable pages and posts, all https, none of the duplicates from Section 4, no testimonials, no attachments, no date archives, and last-modified dates that are real.<br><strong>Fix:</strong> turn on the Yoast/Rank Math sitemap, untick testimonials, media and dates, submit in Search Console (C13). Sitemaps do not make Google index pages, but they make the crawl faster and reveal errors in Search Console's "Sitemaps" report.</p>
+</div>
+
+<div class="card">
+<h3>U3 · One address for everything (http, www, capital letters, index.php)</h3>
+<div class="meta"><span class="pill check">Check</span><span class="pill hrs">1–2 h if wrong</span></div>
+<p><strong>Check:</strong> at <code>httpstatus.io</code> paste these six: <code>http://marketeersresearch.com</code>, <code>http://www.marketeersresearch.com</code>, <code>https://www.marketeersresearch.com</code>, <code>https://marketeersresearch.com/index.php</code>, <code>https://marketeersresearch.com/About-Us/</code>, <code>https://marketeersresearch.com/about-us</code>.<br><strong>Good looks like:</strong> each shows exactly one 301 straight to the final https, lower-case, trailing-slash address. Chains of two or three redirects waste crawl budget and leak a little authority each hop.<br><strong>Fix:</strong> as in C5 and C10.</p>
+</div>
+
+<div class="card">
+<h3>U4 · Noindex tags where they should not be</h3>
+<div class="meta"><span class="pill check">Check</span><span class="pill hrs">0.5 h if wrong</span></div>
+<p><strong>Check:</strong> on each key page, right-click → "View page source" → Ctrl+F for <code>noindex</code>. It must not appear on any service page, About, Contact, Blog or blog posts.<br><strong>Why:</strong> a single accidental "noindex" (often left on after a site rebuild, or set by "Discourage search engines" in Settings → Reading) makes a page vanish from Google. This is the most common catastrophic mistake we see after redesigns.<br><strong>Fix:</strong> untick Settings → Reading → "Discourage search engines"; clear per-page noindex in Yoast/Rank Math.</p>
+</div>
+
+<h2 style="color:var(--red)">B · Which copy is the real one? (Duplication)</h2>
+
+<div class="card">
+<h3>U5 · Canonical tags</h3>
+<div class="meta"><span class="pill check">Check</span><span class="pill hrs">1–2 h if wrong</span></div>
+<p><strong>Check:</strong> view source on five pages and find <code>&lt;link rel="canonical"</code>. <br><strong>Good looks like:</strong> the canonical is the page's own clean https address (self-referencing). On the duplicate pages from Section 4 it should point to the survivor. <br><strong>Bad:</strong> missing, pointing to http, pointing to the homepage on every page (a known theme bug), or two canonicals.<br><strong>Fix:</strong> Yoast/Rank Math add correct canonicals automatically; remove any hard-coded ones from the theme header.</p>
+</div>
+
+<div class="card">
+<h3>U6 · Meta descriptions</h3>
+<div class="meta"><span class="pill check">Check</span><span class="pill hrs">4–6 h to write for ~40 pages</span></div>
+<p><strong>Check:</strong> Screaming Frog → "Meta Description" tab: missing, duplicate, over 160 characters.<br><strong>Why:</strong> the grey text under the blue link. It does not affect ranking directly, but it decides whether people click. Google writes its own if yours is missing, and its version is usually worse.<br><strong>Fix:</strong> one unique 140–155-character description per page: what the page offers, for whom, and a reason to click. Blog posts can use the first paragraph.</p>
+</div>
+
+<div class="card">
+<h3>U7 · Headings (H1, H2, H3)</h3>
+<div class="meta"><span class="pill check">Check</span><span class="pill hrs">3–5 h if wrong</span></div>
+<p><strong>Check:</strong> Screaming Frog → H1 tab. Each page needs exactly one H1 that says what the page is about. Elementor sites often have zero H1s (the logo or a decorative block is set as H1) or four H1s (every section heading).<br><strong>Fix:</strong> in Elementor, set the page's main heading to H1 and the section headings to H2; sub-points to H3. Never pick heading levels by font size; pick by meaning and style them separately.</p>
+</div>
+
+<h2 style="color:var(--red)">C · Is it fast and mobile-friendly? (Performance)</h2>
+
+<div class="card">
+<h3>U8 · Core Web Vitals and page speed</h3>
+<div class="meta"><span class="pill check">Check</span><span class="pill hrs">8–16 h typical for an Elementor site</span></div>
+<p><strong>Check:</strong> <code>pagespeed.web.dev</code> for the homepage, one service page (Smart Value) and one blog post, on Mobile. Also Search Console → "Core Web Vitals".<br><strong>Good looks like:</strong> LCP (time until the biggest thing on screen appears) under 2.5 s, INP (how quickly the page reacts to a tap) under 200 ms, CLS (how much things jump around) under 0.1. A mobile Performance score of 70+ is realistic for a page-builder site; 90+ is excellent.<br><strong>Why:</strong> Google uses these as a ranking tie-breaker and, more importantly, slow pages lose visitors before they read a word. Egyptian and Saudi mobile networks are less forgiving than a Cairo office Wi-Fi.<br><strong>Fix, in order of return on effort:</strong></p>
+<ol class="steps">
+<li>Compress and resize images; serve WebP (plugin: ShortPixel, Imagify or EWWW). Usually the single biggest win. (2–4 h)</li>
+<li>Caching and minification: WP Rocket (paid, easiest) or LiteSpeed/W3TC, plus Sucuri's caching set to "Enabled (recommended)". (2–3 h)</li>
+<li>Load fonts locally, limit to two families, and preload the hero image. (1–2 h)</li>
+<li>Remove unused plugins and Elementor add-ons; every plugin adds scripts to every page. (2–4 h)</li>
+<li>Defer non-critical JavaScript (chat widgets, analytics) and lazy-load videos. (1–3 h)</li>
+</ol>
+</div>
+
+<div class="card">
+<h3>U9 · Mobile-friendliness</h3>
+<div class="meta"><span class="pill check">Check</span><span class="pill hrs">2–4 h if wrong</span></div>
+<p><strong>Check:</strong> open the site on a phone. Do you need to pinch-zoom? Do buttons overlap? Is the menu usable? Also view source for <code>&lt;meta name="viewport"</code>.<br><strong>Why:</strong> Google ranks the mobile version of your site, not the desktop one, for everyone.<br><strong>Fix:</strong> Elementor → responsive mode → adjust font sizes, padding and column stacking for tablet and mobile; add the viewport meta if missing (any modern theme has it).</p>
+</div>
+
+<div class="card">
+<h3>U10 · Images: alt text, size, file names</h3>
+<div class="meta"><span class="pill check">Check</span><span class="pill hrs">4–8 h for a full pass</span></div>
+<p><strong>Check:</strong> Screaming Frog → Images tab: "Missing Alt Text" and "Over 100 KB".<br><strong>Why:</strong> alt text is how Google (and blind users) understand a picture; heavy images are the number one cause of slow pages.<br><strong>Fix:</strong> Media Library → add a short description to every meaningful image ("Marketeers Research retail audit dashboard, Egypt"); decorative images get an empty alt. Rename files before upload ("smart-value-dashboard.png" not "IMG_2231.png"). Compress as in U8.</p>
+</div>
+
+<h2 style="color:var(--red)">D · Is it safe and trustworthy? (Security)</h2>
+
+<div class="card">
+<h3>U11 · Certificate, HSTS and mixed content</h3>
+<div class="meta"><span class="pill check">Check</span><span class="pill hrs">1–2 h if wrong</span></div>
+<p><strong>Check:</strong> click the padlock in the browser: certificate should be valid and cover both the bare domain and www. Run <code>ssllabs.com/ssltest</code> (want an A). Open any page and press F12 → Console: no "Mixed Content" warnings (an https page loading an http image or script).<br><strong>Fix:</strong> renew or reissue the certificate in Sucuri; run the "Better Search Replace" plugin to change <code>http://marketeersresearch.com</code> to <code>https://</code> in the database; add the HSTS header in Sucuri → Settings → Headers.</p>
+</div>
+
+<div class="card">
+<h3>U12 · Broken links and the 404 page</h3>
+<div class="meta"><span class="pill check">Check</span><span class="pill hrs">3–5 h</span></div>
+<p><strong>Check:</strong> Screaming Frog → Response Codes → "Client Error (4xx)" lists every broken link on the site. Then visit <code>marketeersresearch.com/this-page-does-not-exist</code>: it must show a friendly "page not found" page with your menu, search and a link home, and the response code must be 404 (not 200, not a redirect to the homepage).<br><strong>Why:</strong> broken links are dead ends for visitors and Google; a 404 that returns "200 OK" ("soft 404") tells Google that thousands of nonsense addresses are real pages.<br><strong>Fix:</strong> update or 301 every broken link; design a proper 404 template in Elementor Theme Builder.</p>
+</div>
+
+<h2 style="color:var(--red)">E · Does Google understand the pages? (Structure and meaning)</h2>
+
+<div class="card">
+<h3>U13 · Internal links and orphan pages</h3>
+<div class="meta"><span class="pill check">Check</span><span class="pill hrs">4–6 h</span></div>
+<p><strong>Check:</strong> Screaming Frog → Crawl Analysis → "Orphan pages" (pages in the sitemap that no other page links to) and "Inlinks" count per page. Every service page (Smart Value, Smart Shopper, ZeroTime, Data Analytics, Market Assessment) should be reachable within two clicks of the homepage and be linked from relevant blog posts with descriptive words, not "click here".<br><strong>Why:</strong> links are the corridors of the house. Rooms without corridors do not get visited and do not get ranked.<br><strong>Fix:</strong> add a "Related solutions" block to each blog post, link services to each other, and add breadcrumbs (Yoast/Rank Math have a breadcrumb block for Elementor).</p>
+</div>
+
+<div class="card">
+<h3>U14 · Structured data (schema)</h3>
+<div class="meta"><span class="pill check">Check</span><span class="pill hrs">4–8 h</span></div>
+<p><strong>Check:</strong> paste the homepage, a blog post and the Contact page into <code>search.google.com/test/rich-results</code> and <code>validator.schema.org</code>.<br><strong>Good looks like:</strong> Organization + WebSite on the homepage; Article with author, dates and image on posts; BreadcrumbList everywhere; FAQPage where you have Q&amp;A; JobPosting on open roles; no errors.<br><strong>Why:</strong> schema is a label on each room telling Google, in its own language, what is inside. It unlocks richer results and is the raw material AI search engines quote.<br><strong>Fix:</strong> Yoast/Rank Math produce most of it once C8 and C15 are set; add FAQ blocks to service pages.</p>
+</div>
+
+<div class="card">
+<h3>U15 · Open Graph and social preview tags</h3>
+<div class="meta"><span class="pill check">Check</span><span class="pill hrs">1–2 h</span></div>
+<p><strong>Check:</strong> paste a page into <code>linkedin.com/post-inspector</code> and <code>opengraph.xyz</code>. Each page should show a title, description and a 1200×630 image (your brand system already defines a 1191×595 post format; make a 1200×630 export of it).<br><strong>Why:</strong> LinkedIn is your main channel; a link with no picture gets a fraction of the clicks.<br><strong>Fix:</strong> Yoast/Rank Math → Social → set a default image; per-page image for key services.</p>
+</div>
+
+<div class="card">
+<h3>U16 · Language, region and hreflang</h3>
+<div class="meta"><span class="pill check">Check</span><span class="pill hrs">0 h if single-language · a project if you add Arabic</span></div>
+<p><strong>Check:</strong> view source: <code>&lt;html lang="en"&gt;</code> should be present. Is there an Arabic version of the site? If yes, each page needs <code>hreflang</code> tags pairing en and ar versions (WPML or Polylang do this).<br><strong>Judgement:</strong> you sell in Egypt and KSA. An Arabic version of the five service pages is one of the highest-return SEO investments available to you, but it is content work, not a bug. Do the technical fixes first, then plan it (roughly 30–50 hours including translation).</p>
+</div>
+
+<div class="card">
+<h3>U17 · JavaScript rendering (can Google see the words?)</h3>
+<div class="meta"><span class="pill check">Check</span><span class="pill hrs">2–4 h if wrong</span></div>
+<p><strong>Check:</strong> in Search Console → URL Inspection → "Test live URL" → "View tested page" → Screenshot and HTML. Compare with what you see in a browser. Alternatively, disable JavaScript in Chrome DevTools and reload; the main text and links must still be there.<br><strong>Why:</strong> Google reads the raw page first and runs scripts later, sometimes days later. Text that only appears after scripts (some sliders, tabs, "load more" buttons, pop-ups holding your key message) is invisible at first pass.<br><strong>Fix:</strong> keep primary text in normal Elementor text widgets; avoid putting services only inside tabs or accordions that hide content from the raw HTML.</p>
+</div>
+
+<h2 style="color:var(--red)">F · WordPress housekeeping</h2>
+
+<div class="card">
+<h3>U18 · Archives, feeds and parameters WordPress creates by itself</h3>
+<div class="meta"><span class="pill check">Check</span><span class="pill hrs">1–2 h</span></div>
+<p><strong>Check:</strong> search Google for <code>site:marketeersresearch.com inurl:?</code>, <code>inurl:author</code>, <code>inurl:attachment</code>, <code>inurl:feed</code>, <code>inurl:page/</code>. Also try <code>/?s=test</code>, <code>/?replytocom=1</code>, <code>/author/admin/</code>.<br><strong>Fix:</strong> noindex author archives and search results; redirect attachment pages to the file or parent; noindex paginated blog pages beyond 1 or leave them indexable with proper "Page 2" titles (both acceptable); disable comment feeds if comments are off. All of these are switches in Yoast/Rank Math.</p>
+</div>
+
+<div class="card">
+<h3>U19 · Pagination and "load more"</h3>
+<div class="meta"><span class="pill check">Check</span><span class="pill hrs">1 h</span></div>
+<p><strong>Check:</strong> on <code>/blog/</code>, can you reach every old post through numbered page links (<code>/blog/page/2/</code>) that work without JavaScript? Infinite scroll alone hides older posts from Google.<br><strong>Fix:</strong> add standard numbered pagination under the post grid in Elementor.</p>
+</div>
+
+<div class="card">
+<h3>U20 · Updates, plugins and the login door</h3>
+<div class="meta"><span class="pill check">Check</span><span class="pill hrs">2–4 h</span></div>
+<p><strong>Check:</strong> Dashboard → Updates: WordPress core, theme, Elementor and every plugin current? Plugins → any inactive or unused ones? Users → any old staff accounts with admin rights?<br><strong>Why:</strong> a hacked WordPress site gets flagged "This site may be hacked" in Google, which is the fastest way to lose every ranking at once. Sucuri helps, but updates are the real defence.<br><strong>Fix:</strong> update everything after a backup (UpdraftPlus), delete unused plugins and themes, remove old users, enforce two-factor login (Wordfence or Sucuri plugin), rename the login address.</p>
+</div>
+
+<div class="card">
+<h3>U21 · Site name, favicon and logo in Google results</h3>
+<div class="meta"><span class="pill check">Check</span><span class="pill hrs">0.5–1 h</span></div>
+<p><strong>Check:</strong> search "Marketeers Research" on a phone: does Google show your name as "Marketeers Research" with your logo icon next to it? <br><strong>Fix:</strong> Appearance → Customize → Site Identity → upload a 512×512 icon (the "M" monogram from your brand system is perfect here); set WebSite schema name (C8).</p>
+</div>
+
+<h2 style="color:var(--red)">G · Measurement</h2>
+
+<div class="card">
+<h3>U22 · Analytics and Search Console wiring</h3>
+<div class="meta"><span class="pill check">Check</span><span class="pill hrs">1–2 h</span></div>
+<p><strong>Check:</strong> is Google Analytics 4 installed once (not twice, via both a plugin and Elementor's custom code)? Is it linked to Search Console? Is there a Google Tag Manager container?<br><strong>Fix:</strong> one GTM container carrying GA4 and LinkedIn Insight tag; link GA4 ↔ Search Console in GA4 Admin → Product links.</p>
+</div>
+
+<div class="card">
+<h3>U23 · Subdomain and secondary-domain policy</h3>
+<div class="meta"><span class="pill check">Check</span><span class="pill hrs">0.5 h</span></div>
+<p><strong>Check:</strong> list every subdomain and old domain the company owns (onlinepanel, dashboard, panel, smartvalue, any old <code>.net</code> or <code>.com.eg</code> domains). Each must either be a real, maintained site or a 301 to the main site.<br><strong>Why:</strong> C1 happened because nobody was tracking this list. Keep it in a shared document with an owner and a renewal date.</p>
+</div>
+
+<div class="card">
+<h3>U24 · Crawl stats and server errors</h3>
+<div class="meta"><span class="pill check">Check</span><span class="pill hrs">1 h to review</span></div>
+<p><strong>Check:</strong> Search Console → Settings → Crawl stats. Want: response time under 500 ms on average, almost no 5xx server errors, and "OK (200)" for the majority of requests. Also Search Console → Pages → "Why pages aren't indexed" lists exactly the duplicate issues from Section 4 with Google's own labels ("Duplicate without user-selected canonical", "Page with redirect", "Crawled, currently not indexed").<br><strong>Fix:</strong> each label maps to a card in Section 4; server errors go to the hosting provider.</p>
+</div>
+</div>
+
+<!-- ============ 6. ROADMAP ============ -->
+<div class="section">
+<div class="kicker">Section 6</div>
+<h1>Your 90-day roadmap and total hours</h1>
+<div class="rule"></div>
+
+<table><thead><tr><th style="width:110px">When</th><th>What</th><th style="width:105px">Hours</th></tr></thead><tbody>
+<tr><td><strong>Week 1</strong><br><span class="small">Stop the bleeding</span></td><td>C1 dead subdomain · C5 http and root-level post · C2, C3 duplicates · C13 Search Console and sitemap submitted · U1, U2, U3, U4, U5 checks (these five decide whether Google can even see the site properly)</td><td>10–15 h fixes<br>2 h checks</td></tr>
+<tr><td><strong>Weeks 2–4</strong><br><span class="small">Tidy the index</span></td><td>C4 jobs · C6 testimonials · C7 archives · C10 trailing slash · C12 sign-up page · C8 title pattern and site name · C9 title rewrites · C11 slug policy · run U6, U7, U11, U12, U18, U19, U20, U21, U23, U24</td><td>12–20 h fixes<br>2 h checks</td></tr>
+<tr><td><strong>Month 2</strong><br><span class="small">Speed and structure</span></td><td>U8 speed work · U9 mobile · U10 images · U13 internal links · U14 schema · U15 social tags · C15 Organization data · U17 rendering · U22 analytics</td><td>25–50 h depending on what the checks find</td></tr>
+<tr><td><strong>Month 3</strong><br><span class="small">Grow</span></td><td>Re-crawl with Screaming Frog, compare to this report · plan Arabic versions of the five service pages (U16) · monthly Search Console review habit (30 min/month)</td><td>4–6 h review<br>30–50 h Arabic (optional)</td></tr>
+</tbody></table>
+
+<div class="grid3">
+  <div class="stat"><div class="n">19.5–34 h</div><div class="l">Confirmed fixes (C1–C15)</div></div>
+  <div class="stat blue"><div class="n">6–7 h</div><div class="l">Testing, cache clearing, re-crawl</div></div>
+  <div class="stat grey"><div class="n">26–41 h</div><div class="l">Total to clear Section 4</div></div>
+</div>
+<p class="small" style="margin-top:8px">Section 5 fixes are conditional. If every check fails, the ceiling is about 55–95 hours; a typical Elementor site of this size lands around 35–55 hours, most of it in speed (U8) and content hygiene (U6, U10).</p>
+
+<h3>How to brief a developer in one message</h3>
+<div class="box pale">
+<p style="margin:0">"Please work through Section 4 of the attached audit in order C1, C5, C2, C3, C13, then C4–C12, C15. For every redirect use a permanent 301, keep a spreadsheet of old → new addresses, clear the Sucuri and WordPress caches after each change, and send me the httpstatus.io screenshot for each item's 'How you know it is fixed' test. Then run every check in Section 5 and mark each Pass/Fail with a one-line note. Estimated 26–41 hours for Section 4; quote Section 5 separately after the checks."</p>
+</div>
+
+<h3>Hours per issue, at a glance</h3>
+<table class="tight"><thead><tr><th>ID</th><th>Issue</th><th>Severity</th><th>Hours</th><th>ID</th><th>Issue</th><th>Severity</th><th>Hours</th></tr></thead><tbody>
+<tr><td>C1</td><td>Dead subdomain indexed</td><td>Critical</td><td>2–3</td><td>C9</td><td>Title lengths and wording</td><td>Medium</td><td>2–3</td></tr>
+<tr><td>C5</td><td>http address indexed, root post</td><td>Critical</td><td>2–4</td><td>C10</td><td>Trailing slash</td><td>Medium</td><td>1–2</td></tr>
+<tr><td>C2</td><td>Typo duplicate (parnter)</td><td>High</td><td>0.5–1</td><td>C11</td><td>Slug policy</td><td>Medium</td><td>0.5–1</td></tr>
+<tr><td>C3</td><td>Careers duplicate</td><td>High</td><td>0.5–1</td><td>C12</td><td>Sign-up page indexed</td><td>Medium</td><td>0.5–1</td></tr>
+<tr><td>C4</td><td>Job posts duplicated/stale</td><td>High</td><td>2–3</td><td>C13</td><td>Search Console</td><td>Medium</td><td>1–2</td></tr>
+<tr><td>C6</td><td>Testimonial query URLs</td><td>High</td><td>1–2</td><td>C14</td><td>IPv6</td><td>Low</td><td>0.5–1</td></tr>
+<tr><td>C7</td><td>Archives indexed</td><td>High</td><td>1–2</td><td>C15</td><td>Entity / Organization data</td><td>Low</td><td>2–3</td></tr>
+<tr><td>C8</td><td>Title pattern, site name</td><td>High</td><td>3–5</td><td></td><td><strong>Testing &amp; re-crawl</strong></td><td></td><td><strong>6–7</strong></td></tr>
+</tbody></table>
+</div>
+
+<!-- ============ 7. GLOSSARY ============ -->
+<div class="section">
+<div class="kicker">Section 7</div>
+<h1>Glossary, in plain words</h1>
+<div class="rule"></div>
+<div class="two">
+<div class="box"><h4>SEO</h4>Search Engine Optimisation: making it easy for Google to find, understand and recommend your site. <em>Technical</em> SEO is the plumbing: addresses, speed, security, structure. It is not about writing more articles.</div>
+<div class="box"><h4>Crawling</h4>Google's robot walking through your house, room by room, following the corridors (links).</div>
+<div class="box"><h4>Indexing</h4>Google writing down what it saw so it can show it in results. "Indexed" = in Google's notebook.</div>
+<div class="box"><h4>URL / address / slug</h4>The web address of a page. The slug is the last part: in <code>/blog/audience-panel/</code> the slug is <code>audience-panel</code>.</div>
+<div class="box"><h4>301 redirect</h4>A permanent "we moved, go here instead" sign. It passes almost all ranking power to the new address. A 302 is temporary and passes less; always use 301 for moves.</div>
+<div class="box"><h4>Duplicate content</h4>The same room reachable through two doors. Google has to guess which door is the main one, and often guesses wrong.</div>
+<div class="box"><h4>Canonical tag</h4>A small label inside a page saying "the official address of this page is X". It is how you tell Google which door is the main one.</div>
+<div class="box"><h4>noindex</h4>A label saying "do not put this page in your notebook". Useful for thank-you pages, archives and internal tools. Catastrophic on a service page.</div>
+<div class="box"><h4>robots.txt</h4>A text file with house rules for robots: which corridors they may not enter.</div>
+<div class="box"><h4>XML sitemap</h4>A map you hand to Google listing every room worth visiting and when it last changed.</div>
+<div class="box"><h4>Title tag</h4>The blue clickable headline in Google results and the words in the browser tab. About 60 characters fit.</div>
+<div class="box"><h4>Meta description</h4>The grey sentence under the blue link. About 155 characters fit.</div>
+<div class="box"><h4>H1, H2, H3</h4>Headline levels inside a page. One H1 (the page's name), several H2s (sections), H3s under them. Google uses them as a table of contents.</div>
+<div class="box"><h4>HTTPS / SSL certificate</h4>The padlock. Proves the site is yours and encrypts what visitors type. "http" without the "s" is the unlocked door.</div>
+<div class="box"><h4>DNS</h4>The internet's phone book: it turns <code>marketeersresearch.com</code> into the number of the computer that hosts it. Subdomains (<code>onlinepanel.</code>) each need their own entry.</div>
+<div class="box"><h4>Subdomain</h4>A separate "wing" of your domain, like <code>onlinepanel.marketeersresearch.com</code>. Google treats it almost like a separate site.</div>
+<div class="box"><h4>CDN / firewall (Sucuri)</h4>A guard and a fast courier standing in front of your server: blocks attacks and serves copies of your pages from nearby locations.</div>
+<div class="box"><h4>Core Web Vitals</h4>Google's three speed-and-comfort measurements: how fast the main content appears (LCP), how quickly the page reacts to taps (INP), how much things jump around while loading (CLS).</div>
+<div class="box"><h4>Structured data / schema</h4>Labels in Google's own language stuck on each room: "this is an Organization", "this is an Article by X on date Y".</div>
+<div class="box"><h4>hreflang</h4>A label saying "this page also exists in Arabic at address Z", so Google shows the right language to the right person.</div>
+<div class="box"><h4>Crawl budget</h4>The limited time Google's robot spends in your house per visit. Duplicates and junk addresses spend it on nothing.</div>
+<div class="box"><h4>Search Console</h4>Google's free dashboard telling you exactly what its robot saw, could not see, and what people searched to find you.</div>
+<div class="box"><h4>Query string</h4>The part of an address after a question mark, such as <code>/?testimonials=...</code>. Fine for filters and searches, bad as the only address of a page.</div>
+<div class="box"><h4>Orphan page</h4>A room with no corridor leading to it. It exists, but nobody, including Google, can walk in.</div>
+</div>
+</div>
+
+<!-- ============ APPENDICES ============ -->
+<div class="section">
+<div class="kicker">Appendix A</div>
+<h1>Free tools used in this plan</h1>
+<div class="rule"></div>
+<table><thead><tr><th style="width:190px">Tool</th><th>What it is for</th><th style="width:170px">Where</th></tr></thead><tbody>
+<tr><td>Google Search Console</td><td>Everything Google knows about your site. Non-negotiable.</td><td>search.google.com/search-console</td></tr>
+<tr><td>Screaming Frog SEO Spider</td><td>Crawls your site like Google and lists every page's title, description, headings, status, canonical, images. Free to 500 pages.</td><td>screamingfrog.co.uk</td></tr>
+<tr><td>PageSpeed Insights</td><td>Speed, Core Web Vitals, mobile.</td><td>pagespeed.web.dev</td></tr>
+<tr><td>httpstatus.io</td><td>Shows redirect chains and status codes for a list of addresses.</td><td>httpstatus.io</td></tr>
+<tr><td>Rich Results Test / Schema Validator</td><td>Checks structured data.</td><td>search.google.com/test/rich-results · validator.schema.org</td></tr>
+<tr><td>SSL Labs</td><td>Certificate and https configuration grade.</td><td>ssllabs.com/ssltest</td></tr>
+<tr><td>LinkedIn Post Inspector</td><td>Social preview check.</td><td>linkedin.com/post-inspector</td></tr>
+<tr><td>Redirection (WordPress plugin)</td><td>Creates 301 redirects and logs 404s.</td><td>wordpress.org/plugins/redirection</td></tr>
+<tr><td>Yoast SEO or Rank Math (WordPress plugin)</td><td>Titles, descriptions, canonicals, sitemap, noindex switches, schema. Use one, never both.</td><td>wordpress.org/plugins</td></tr>
+<tr><td>ShortPixel / Imagify</td><td>Image compression and WebP.</td><td>wordpress.org/plugins</td></tr>
+<tr><td>Bing Webmaster Tools</td><td>Bing and (indirectly) ChatGPT search visibility; imports from Search Console.</td><td>bing.com/webmasters</td></tr>
+</tbody></table>
+
+<div class="kicker" style="margin-top:18px">Appendix B</div>
+<h2>Turning the 24 checks into confirmed answers</h2>
+<div class="hair"></div>
+<p>Two options, either takes under ten minutes:</p>
+<ol class="steps">
+<li><strong>Allow the site in your Claude Code environment.</strong> In claude.ai/code → Environments → your environment → Network → add <code>marketeersresearch.com</code> and <code>www.marketeersresearch.com</code> to the allowed domains (or switch to the unrestricted policy). Then ask for a re-run: the same audit will fetch every page directly, read robots.txt, the sitemap, canonicals, headings, schema and images, and update Sections 4 and 5 with confirmed results.</li>
+<li><strong>Connect Google Search Console</strong> to the Whathead connector in Claude (Settings → Connectors → Whathead → reconnect Google Search Console with the account that owns the property). Search Console alone answers U1–U5, U8, U11, U17, U18, U24 and gives Google's own list of duplicates.</li>
+</ol>
+
+<div class="kicker" style="margin-top:18px">Appendix C</div>
+<h2>Brand note for this document</h2>
+<div class="hair"></div>
+<p>Colours, typography, the red section rule, the inverted-triangle markers and the 35° gradient follow "Marketeers — Brand &amp; Design System v3" from your Canva workspace (Navy #00265E, Red #B60002, Yellow #FBC210, Brand Blue #0073B4, Light Blue #3CB9FC; Archivo standing in for Pangram, Open Sans for body). The logo lock-up on the cover and page headers was <strong>redrawn as vector artwork from the guide's description</strong> (three pillars, one inverted red triangle) because the network rules of this workspace blocked downloading the original file from Canva. Before sharing externally, replace it with the official lock-up from "Marketeers Templates v5 — corrected logos" in Canva; the layout leaves the same 252-px width and clear space the guide specifies.</p>
+
+<div class="box navy" style="margin-top:24px">
+<p style="margin:0"><strong>Final word.</strong> Everything in this document is reversible, cheap, and boring. That is the good news: boring technical work is what lets the interesting work (your research, your Smart Value platform, your blog) actually get found. Do Week 1 this week.</p>
+</div>
+</div>
+
+</body></html>
