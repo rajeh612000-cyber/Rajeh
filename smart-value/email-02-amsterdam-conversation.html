@@ -14,8 +14,14 @@
   twice, once near the top and once at the end.
 
   GETRESPONSE RULES (breaking these makes the draft fail to save):
-    - Unsubscribe href MUST be [[remove]].
-    - No {{ }} braces. Insert personalization from the GetResponse menu.
+    - The unsubscribe href must be the GetResponse remove tag. It appears
+      exactly once, in the footer link, and nowhere else in this file.
+    - Never write a merge tag anywhere else, INCLUDING IN A COMMENT.
+      GetResponse parses comments too, so an example tag in documentation is
+      read as real dynamic content and fails validation. That is what caused
+      the "Couldn't save the draft, please check the dynamic content for
+      errors" message. Describe tags in words here; never paste one.
+    - Insert personalization from the GetResponse menu, not by typing it.
     - No conditional comments, no VML, no xmlns, no mso- properties.
 
   IMAGES: all four live on the GetResponse CDN and are wired. They are
