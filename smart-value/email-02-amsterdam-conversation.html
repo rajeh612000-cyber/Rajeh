@@ -18,9 +18,17 @@
     - No {{ }} braces. Insert personalization from the GetResponse menu.
     - No conditional comments, no VML, no xmlns, no mso- properties.
 
-  IMAGES: three headshots, all needing hosted URLs. Search this file for
-  REPLACE-HOST to find them. Every one has real alt text and a styled
-  fallback, so the email still reads if images are blocked.
+  IMAGES: four assets, all needing hosted URLs. Search for REPLACE-HOST.
+    amsterdam-hero.jpg   1200x660, hero background illustration
+    sami-ghabrial.jpg    144x144 square crop
+    ravneet-singh.jpg    144x144 square crop
+    mariam.jpg           152x152 square crop
+  Every headshot has real alt text; the hero degrades to solid #1A1A4E.
+  Nothing in this email depends on an image loading.
+
+  The hero illustration is generated, not stock: assets/build-amsterdam.py
+  draws the canal houses as SVG from a fixed seed and renders to PNG/JPG, so
+  it can be rebuilt or recoloured without redrawing anything by hand.
 -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -58,6 +66,7 @@
     .txt-muted { color: #9aa7bd !important; }
     .txt-lead  { color: #b9c6ff !important; }
     .rule { border-color: #2b3550 !important; }
+    .hero { background-color: #1A1A4E !important; }
   }
 </style>
 </head>
@@ -77,11 +86,16 @@
 
         <!-- ============ HERO: dateline, headline, watch CTA ============ -->
         <tr>
-          <td class="band-pad" bgcolor="#1A1A4E" style="background-color:#1A1A4E; padding:44px 56px 40px 56px;">
+          <td class="band-pad hero" bgcolor="#1A1A4E"
+              background="https://REPLACE-HOST/amsterdam-hero.jpg"
+              style="background-color:#1A1A4E; background-image:url('https://REPLACE-HOST/amsterdam-hero.jpg'); background-position:bottom center; background-repeat:no-repeat; background-size:cover; padding:44px 56px 40px 56px;">
 
-            <!-- Amsterdam dateline: an editorial device rather than a background
-                 image. A real background image needs VML in Outlook (stripped
-                 for GetResponse) and vanishes entirely when images are off. -->
+            <!-- Amsterdam canal houses, drawn to sit behind the type at low
+                 contrast. Deliberately no VML: Outlook desktop ignores both the
+                 background attribute and the CSS, falls back to solid #1A1A4E,
+                 and the hero still reads exactly as designed. Every other client
+                 gets the illustration. Images off degrades the same way.
+                 The dateline below carries Amsterdam regardless. -->
             <table cellpadding="0" cellspacing="0" border="0">
               <tr>
                 <td width="26" height="1" bgcolor="#F19526" style="font-size:0; line-height:0; background-color:#F19526;">&nbsp;</td>
