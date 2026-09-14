@@ -1,0 +1,620 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Marketeers Research Critical Technical SEO Report</title>
+<link rel="stylesheet" href="fonts-local.css"><link rel="stylesheet" href="shared.css">
+<style>
+@page{size:A4;margin:16mm 15mm 20mm 15mm;
+  @bottom-left{content:"Marketeers Research  ·  Critical Technical SEO Report  ·  14 September 2026";font-family:'Open Sans',Arial,sans-serif;font-size:7.5pt;color:#8a857b;vertical-align:top;padding-top:4mm}
+  @bottom-right{content:"Page " counter(page);font-family:'Archivo','Open Sans',Arial,sans-serif;font-size:7.5pt;font-weight:700;color:#00265E;vertical-align:top;padding-top:4mm}
+}
+.card{page-break-inside:auto;break-inside:auto}
+h2,h3,.hdr,.step h4{break-after:avoid;page-break-after:avoid}
+.judge,.box,.stat,pre,.verify,.ev,.step{break-inside:avoid}
+thead{display:table-header-group}
+</style></head><body>
+
+<!-- ===== 1. HOW TO READ ===== -->
+<div class="section" style="page-break-before:auto">
+<img src="logo.svg" style="width:56mm;margin-bottom:8px">
+<div class="kicker">Section 1</div>
+<h1>How to read this report</h1>
+<div class="rule"></div>
+
+<p>This replaces the first audit. That one was written without access to your website, so half of it was "go and check this". You then sent the real data: a Screaming Frog crawl of <strong>475 URLs</strong>, four Search Console exports, your live robots.txt file, and a Core Web Vitals screenshot. <strong>Everything in this report is now measured.</strong> No guessing is left.</p>
+
+<div class="grid2">
+<div class="box pale"><h4>What each issue looks like</h4>
+<p style="margin:0">Every issue has the same five parts: the <strong>evidence</strong> (a number from your own crawl), <strong>why it matters</strong> in plain words, the <strong>fix</strong> as numbered steps, a <strong>check</strong> you can run yourself to prove it worked, and the <strong>hours</strong> it should take.</p></div>
+<div class="box pale"><h4>Who does the work</h4>
+<p style="margin:0">Four issues need a developer. Five can be done by anyone who can log into WordPress. Three are writing jobs for the marketing team. Each card says which.</p></div>
+</div>
+
+<div class="box navy avoid">
+<h3>The one picture that explains everything</h3>
+<p>Think of Google as a visitor with a stopwatch. It gives your website a <strong>fixed amount of time</strong> per visit. In that time it wants to walk into every room and write down what is inside.</p>
+<p>Right now, three things are happening:</p>
+<ul>
+<li><strong>It keeps walking into cupboards.</strong> 74 of your web addresses are doorways that immediately push it back to the front door. It spends its time on those instead of your real pages.</li>
+<li><strong>The rooms take too long to open.</strong> Your pages carry roughly ten times more code than they need, so each one is slow to load.</li>
+<li><strong>Many rooms have no label.</strong> 87 of your pages have no description, 9 have no headline, and 10 different pages are all called "Featured".</li>
+</ul>
+<p style="margin:0">The result is in your Search Console: <strong><span class="yl">131 pages that Google has seen and decided not to put in its index.</span></strong> They are not penalised. They are simply not worth the trouble yet. This report makes them worth the trouble.</p>
+</div>
+
+<h3>The evidence behind this report</h3>
+<table class="mini"><thead><tr><th style="width:190px">Source</th><th>What it told us</th></tr></thead><tbody>
+<tr><td>Screaming Frog crawl, 475 URLs</td><td>147 real pages, 86 redirects, 151 images, 90 stylesheets, every title, headline, description, response time and internal link.</td></tr>
+<tr><td>Search Console: index reasons</td><td>100 "crawled, not indexed" · 31 "discovered, not indexed" · 72 "page with redirect" · 14 "not found (404)" · 5 "alternate page with canonical" · 4 "blocked by robots.txt" · 1 "access forbidden (403)".</td></tr>
+<tr><td>Search Console: Core Web Vitals</td><td>A group of 27 blog URLs with a Largest Contentful Paint of 4.9 seconds, rated Poor.</td></tr>
+<tr><td>Your live robots.txt</td><td>Which sitemap you are advertising to Google, and what you are blocking.</td></tr>
+<tr><td>Canonical and meta-description exports</td><td>Confirmed canonical tags are correct site-wide, and 59% of pages carry no description.</td></tr>
+</tbody></table>
+
+<h3>Contents</h3>
+<table class="toc mini">
+<tr><td>1</td><td>How to read this report</td></tr>
+<tr><td>2</td><td>The diagnosis: three root causes behind 131 unindexed pages</td></tr>
+<tr><td>3</td><td>Priority list and hours</td></tr>
+<tr><td>4</td><td>The 12 critical issues, each with an A-to-Z fix</td></tr>
+<tr><td>5</td><td>Four-week plan</td></tr>
+<tr><td>6</td><td>What is already healthy (do not touch these)</td></tr>
+<tr><td>7</td><td>Glossary</td></tr>
+</tbody></table>
+</div>
+
+<!-- ===== 2. DIAGNOSIS ===== -->
+<div class="section">
+<div class="kicker">Section 2</div>
+<h1>The diagnosis</h1>
+<div class="rule"></div>
+<p>Twelve issues, but only <strong>three root causes</strong>. Fix the roots and most of the twelve disappear together.</p>
+
+<div class="card crit">
+<div class="hdr"><div><div class="id">ROOT 1</div><div class="big">Google's time is being spent on pages that are not pages</div></div></div>
+<p>Out of 475 URLs in your crawl, <strong>86 are redirects</strong> — addresses that exist only to bounce the visitor somewhere else. 74 of those are date archives such as <code>/blog/2026/08/19/</code>, and every single one dumps Google back on your homepage.</p>
+<div class="bar"><span class="lab">Real pages</span><span class="track"><span class="fill navy" style="width:31%"></span></span><span class="val">147</span></div>
+<div class="bar"><span class="lab">Redirect dead-ends</span><span class="track"><span class="fill red" style="width:18%"></span></span><span class="val">86</span></div>
+<div class="bar"><span class="lab">Images</span><span class="track"><span class="fill amber" style="width:32%"></span></span><span class="val">151</span></div>
+<div class="bar"><span class="lab">Stylesheets</span><span class="track"><span class="fill" style="width:19%"></span></span><span class="val">90</span></div>
+<p style="margin-top:6px">Search Console confirms it from Google's side: <strong>72 pages classified "Page with redirect"</strong>. On a site with only 147 real pages, more than a third of everything Google touches is a dead end. That is the single clearest reason 100 genuine pages sit in "Crawled – currently not indexed".</p>
+<p style="margin:0"><strong>Fixed by issues 1, 5, 10 and 11.</strong></p>
+</div>
+
+<div class="card crit">
+<div class="hdr"><div><div class="id">ROOT 2</div><div class="big">Every page carries about ten times the code it needs</div></div></div>
+<p>Your average page sends <strong>343 kilobytes of raw HTML</strong> before a single picture loads. A well-built page of the same content sends 30 to 60. The About page sends 570 KB. On top of that sit <strong>90 separate stylesheet files</strong> and <strong>13.4 MB of images</strong>, 24 of which are over 100 KB each and the largest of which is <strong>1.3 MB</strong>.</p>
+<div class="ev"><b>Why so heavy:</b> the crawl shows four page-building systems loaded at once — The7 theme, Elementor, Elementor Pro, and WPBakery "Ultimate VC Addons" — plus Revolution Slider, a pop-up plugin and a translation plugin. Each one insists on loading its own styles on every page, whether that page uses it or not.</div>
+<p style="margin:0">This is what produces the <strong>4.9-second Largest Contentful Paint</strong> in your Search Console. <strong>Fixed by issues 3 and 4.</strong></p>
+</div>
+
+<div class="card crit">
+<div class="hdr"><div><div class="id">ROOT 3</div><div class="big">Pages are not labelled, so Google cannot tell them apart</div></div></div>
+<div class="bar"><span class="lab">Missing description</span><span class="track"><span class="fill red" style="width:59%"></span></span><span class="val">87/147</span></div>
+<div class="bar"><span class="lab">Title over 60 characters</span><span class="track"><span class="fill amber" style="width:35%"></span></span><span class="val">52/147</span></div>
+<div class="bar"><span class="lab">Pages titled only "Featured"</span><span class="track"><span class="fill red" style="width:7%"></span></span><span class="val">10</span></div>
+<div class="bar"><span class="lab">No headline (H1) at all</span><span class="track"><span class="fill red" style="width:6%"></span></span><span class="val">9</span></div>
+<p>Ten pages share the title "Featured" and the headline "Category Archives: Featured". Four more pages duplicate categories that already exist at another address. When Google meets ten identical labels it keeps one and discards nine. <strong>Fixed by issues 5, 6, 7 and 8.</strong></p>
+</div>
+</div>
+
+<!-- ===== 3. PRIORITY ===== -->
+<div class="section">
+<div class="kicker">Section 3</div>
+<h1>Priority list</h1>
+<div class="rule"></div>
+<p>Do them in this order. The order is deliberate: the first four release the crawl budget and the speed, which is what makes the rest work.</p>
+
+<table><thead><tr><th style="width:26px">#</th><th>Issue</th><th style="width:66px">Severity</th><th style="width:124px">Who</th><th style="width:56px">Hours</th></tr></thead><tbody>
+<tr><td>1</td><td>74 date-archive addresses bouncing Google to the homepage</td><td><span class="pill crit">Critical</span></td><td>Developer</td><td>2–3</td></tr>
+<tr><td>2</td><td>Ten category pages taking 7.5 to 9.1 seconds to answer</td><td><span class="pill crit">Critical</span></td><td>Developer</td><td>3–5</td></tr>
+<tr><td>3</td><td>13.4 MB of uncompressed images causing the 4.9s paint</td><td><span class="pill crit">Critical</span></td><td>Developer</td><td>8–12</td></tr>
+<tr><td>4</td><td>343 KB pages and 90 stylesheets from four page builders</td><td><span class="pill crit">Critical</span></td><td>Developer</td><td>6–10</td></tr>
+<tr><td>5</td><td>Every category exists twice, at two different addresses</td><td><span class="pill high">High</span></td><td>WordPress admin</td><td>2–3</td></tr>
+<tr><td>6</td><td>87 pages with no description under the Google link</td><td><span class="pill high">High</span></td><td>Marketing</td><td>7–10</td></tr>
+<tr><td>7</td><td>Nine pages with no headline, including two service pages</td><td><span class="pill high">High</span></td><td>WordPress admin</td><td>2–3</td></tr>
+<tr><td>8</td><td>52 titles cut off in Google; 10 titles identical</td><td><span class="pill high">High</span></td><td>Marketing</td><td>4–6</td></tr>
+<tr><td>9</td><td>robots.txt points at the wrong sitemap and blocks another</td><td><span class="pill high">High</span></td><td>Developer</td><td>2–3</td></tr>
+<tr><td>10</td><td>13 pages listed in your sitemap that nothing links to</td><td><span class="pill med">Medium</span></td><td>WordPress admin</td><td>2–3</td></tr>
+<tr><td>11</td><td>Three broken internal links and one wrong redirect</td><td><span class="pill med">Medium</span></td><td>Developer</td><td>1–2</td></tr>
+<tr><td>12</td><td>14 "not found" and 1 "forbidden" page in Search Console</td><td><span class="pill med">Medium</span></td><td>Developer</td><td>2–3</td></tr>
+</tbody></table>
+
+<div class="grid3">
+<div class="stat red"><div class="n">19–30 h</div><div class="l">Issues 1–4 · the four that matter most</div></div>
+<div class="stat blue"><div class="n">15–22 h</div><div class="l">Issues 5–9 · labelling and structure</div></div>
+<div class="stat grey"><div class="n">41–63 h</div><div class="l">Everything, including testing</div></div>
+</div>
+
+<div class="judge"><b>My judgement, plainly:</b> if you only ever do four things, do issues 1, 2, 3 and 4. They are roughly 19 to 30 hours of work and they address both root causes that Google actually punishes: wasted crawling and slow pages. Issues 5 to 12 are the difference between a site that works and a site that competes. Nothing here requires a redesign, a new theme, or a new website, and anyone who tells you otherwise is selling one.</div>
+</div>
+
+<!-- ===== 4. THE ISSUES ===== -->
+<div class="section">
+<div class="kicker">Section 4</div>
+<h1>The 12 critical issues</h1>
+<div class="rule"></div>
+
+<!-- ISSUE 1 -->
+<div class="card crit">
+<div class="hdr"><div><div class="id">01</div><div class="big">74 date addresses that throw Google back to the homepage</div>
+<div class="who2">Developer · 2–3 hours · Critical</div></div></div>
+
+<div class="ev"><b>Evidence:</b> the crawl found 74 addresses in the shape <code>/blog/2026/08/19/</code>, <code>/blog/2023/01/12/</code> and so on. Every one answers "301 Moved Permanently" and sends the visitor to <code>https://marketeersresearch.com/</code>. Search Console counts 72 of them under "Page with redirect". They exist because each blog post prints its publication date as a clickable link, and your theme then redirects that date page to the homepage.</div>
+
+<p><strong>Why it matters.</strong> Google arrives to read your articles. Instead it finds 74 doors that open onto the front step. It learns nothing, and it uses up the visit. This is the largest single drain on your site, and it is also the easiest to stop.</p>
+
+<div class="step"><div class="no">1</div><h4>Log in and find the theme settings</h4>
+<p>Go to <code>marketeersresearch.com/wp-admin</code> and sign in. In the black menu on the left, look for <strong>The7</strong>. Click it, then click <strong>Theme Options</strong>.</p></div>
+
+<div class="step"><div class="no">2</div><h4>Turn off the date under blog posts</h4>
+<p>Inside Theme Options, open the <strong>Blog</strong> section, then <strong>Post Meta</strong> (sometimes called "Post details" or "Meta information"). You will see switches for Author, Date, Categories, Comments. <strong>Switch Date off.</strong> Click Save.</p>
+<p>If your posts are built with Elementor instead, edit one post, click the block showing the date, open <strong>Meta Data</strong> in the left panel, and remove <strong>Date</strong> from the list. Repeat on the blog listing template under <em>Templates → Theme Builder</em>.</p></div>
+
+<div class="step"><div class="no">3</div><h4>Prove the links are gone</h4>
+<p>Open any blog post. Right-click the page and choose <strong>View page source</strong>. Press Ctrl+F and search for <code>/blog/2026/</code>. You should now find <strong>zero</strong> results. Before the fix you would find one or two on every post.</p></div>
+
+<div class="step"><div class="no">4</div><h4>Send the leftovers somewhere sensible</h4>
+<p>Google will keep checking those 74 addresses for a few weeks. Right now they point at the homepage, which is the wrong answer to "show me August 2026". Ask your developer to change the redirect target from the homepage to <code>https://marketeersresearch.com/blog/</code>. It is usually one line in the theme's functions file or a rule in the Redirection plugin.</p></div>
+
+<div class="step"><div class="no">5</div><h4>Tell Google to stop looking</h4>
+<p>Open Search Console → <strong>Pages</strong> → <strong>Page with redirect</strong> → click <strong>Validate Fix</strong>. Google will re-check over the next two to four weeks and the count should fall from 72 towards zero.</p></div>
+
+<div class="verify"><b>How you know it worked:</b> the "Page with redirect" number in Search Console drops below 10, and a fresh Screaming Frog crawl shows fewer than 15 redirects in total instead of 86.</div>
+</div>
+
+<!-- ISSUE 2 -->
+<div class="card crit">
+<div class="hdr"><div><div class="id">02</div><div class="big">Ten category pages that take up to 9.1 seconds to answer</div>
+<div class="who2">Developer · 3–5 hours · Critical</div></div></div>
+
+<div class="ev"><b>Evidence:</b> your ten "Featured" listing pages are the slowest URLs on the entire site. Page 7 takes <strong>9.11 seconds</strong>, page 4 takes 8.99s, page 8 takes 8.87s. Every other page on the site answers in about 0.78 seconds. This is server thinking time only, before any image or style has begun to download.</div>
+
+<div class="bar"><span class="lab">Normal page (median)</span><span class="track"><span class="fill green" style="width:9%"></span></span><span class="val">0.78s</span></div>
+<div class="bar"><span class="lab">Featured page 2</span><span class="track"><span class="fill red" style="width:83%"></span></span><span class="val">7.58s</span></div>
+<div class="bar"><span class="lab">Featured page 7</span><span class="track"><span class="fill red" style="width:100%"></span></span><span class="val">9.11s</span></div>
+
+<p><strong>Why it matters.</strong> Google gives up on slow pages. Nine seconds is far past the point where it stops waiting, which is why these ten pages carry no value despite having <strong>420 internal links</strong> pointing at the first one. It is also a warning sign: if one type of page can take nine seconds, your server can be made to struggle by anyone.</p>
+
+<div class="step"><div class="no">1</div><h4>Confirm the cache is not covering these pages</h4>
+<p>You have WP-Optimize installed (the crawl shows its cache folder). In WordPress go to <strong>WP-Optimize → Cache</strong>. Look at the <strong>Advanced settings</strong> and find the list of URLs never to cache. Make sure nothing there matches <code>/blog/category/</code> or <code>page/</code>. If a rule excludes paginated pages, delete that rule.</p></div>
+
+<div class="step"><div class="no">2</div><h4>Turn caching on for these pages and warm it</h4>
+<p>Still in WP-Optimize → Cache: switch <strong>Enable page caching</strong> on, then turn on <strong>Preload</strong> (sometimes "Cache preloading") and set it to run daily. Preload means the server builds the slow page once, in the background, so no real visitor ever waits for it.</p></div>
+
+<div class="step"><div class="no">3</div><h4>Show fewer articles per page</h4>
+<p>Go to <strong>Settings → Reading</strong> and set <strong>Blog pages show at most</strong> to <strong>9</strong> posts. Each of those "Featured" pages is currently building a dozen or more article previews, each with its own image and styling. Fewer previews means less work per page.</p></div>
+
+<div class="step"><div class="no">4</div><h4>Have a developer look at the query</h4>
+<p>Nine seconds usually means the page is asking the database a slow question. Tell your developer exactly this: <em>"The Featured category archive takes 9 seconds server-side. Please install Query Monitor, load <code>/blog/category/blog/featured/page/7/</code> and send me the slowest database queries and the slowest plugin hooks."</em> The usual culprits on this stack are Revolution Slider loading on archive pages and the related-posts logic in The7.</p></div>
+
+<div class="step"><div class="no">5</div><h4>Clear the shield's memory</h4>
+<p>Your site sits behind Sucuri. After any speed change, log into Sucuri and click <strong>Clear cache</strong>, otherwise you will keep seeing the old slow version and think nothing happened.</p></div>
+
+<div class="verify"><b>How you know it worked:</b> open <code>httpstatus.io</code>, paste <code>https://marketeersresearch.com/blog/category/blog/featured/page/7/</code> and check the response time. It should be under 1.5 seconds. Run it twice; the second run should be under 0.5s once caching is on.</div>
+</div>
+
+<!-- ISSUE 3 -->
+<div class="card crit">
+<div class="hdr"><div><div class="id">03</div><div class="big">13.4 MB of images, and the 4.9-second paint they cause</div>
+<div class="who2">Developer · 8–12 hours · Critical</div></div></div>
+
+<div class="ev"><b>Evidence:</b> 151 images totalling <strong>13.4 MB</strong>. 24 of them are over 100 KB. The five heaviest are a 1.30 MB cloud-storage background, a 1.27 MB team artboard, an 823 KB team photo, a 571 KB photograph and a 567 KB stock image. Only <strong>4 of 151</strong> use the modern WebP format; 142 are old-style JPEG and PNG. Search Console reports a Largest Contentful Paint of <strong>4.9 seconds</strong> across a group of 27 blog URLs, rated Poor.</div>
+
+<p><strong>Why it matters.</strong> "Largest Contentful Paint" is simply the moment the biggest thing on the screen finally appears. Google wants that under 2.5 seconds. Yours is 4.9. On a Cairo or Riyadh mobile connection a 1.3 MB background image alone can take four seconds. Visitors leave before they read a word, and Google uses this measurement when choosing between you and a competitor.</p>
+
+<div class="step"><div class="no">1</div><h4>Install one compression plugin</h4>
+<p>In WordPress go to <strong>Plugins → Add New</strong>, search for <strong>ShortPixel Image Optimizer</strong>, install and activate it. In its settings choose <strong>Compression type: Glossy</strong>, and switch on <strong>Also create WebP versions</strong> and <strong>Deliver WebP images</strong>. Glossy is the setting that saves most of the weight without a human being able to see the difference.</p></div>
+
+<div class="step"><div class="no">2</div><h4>Run it over everything you already uploaded</h4>
+<p>Go to <strong>Media → Bulk ShortPixel</strong> and press Start. It will work through all 151 images. This takes an hour or two by itself, but you can close the tab and it keeps going. Expect the 13.4 MB to come down to roughly 3 or 4 MB.</p></div>
+
+<div class="step"><div class="no">3</div><h4>Deal with the five monsters by hand</h4>
+<p>Compression alone will not save a 1.3 MB image that is 4000 pixels wide sitting in a 1200-pixel space. For each of these five, download it, resize it to 1600 pixels wide in any image editor, and re-upload:</p>
+<ul class="small">
+<li><code>cloud-storage-banner-background-remixed-from-public-domain-by-nasa…</code> — 1.30 MB</li>
+<li><code>Artboard-1teams.png</code> — 1.27 MB</li>
+<li><code>team.png</code> — 823 KB</li>
+<li><code>IMG-20221221-WA0183-1.jpg</code> — 571 KB</li>
+<li><code>data-information-report-statistics-strategy-concept-scaled.jpg</code> — 567 KB</li>
+</ul>
+<p class="small" style="margin:0">Note the two PNG files. PNG is for logos and flat graphics. Any photograph saved as PNG is roughly four times bigger than it needs to be. Re-save <code>team.png</code> and <code>Artboard-1teams.png</code> as JPEG.</p></div>
+
+<div class="step"><div class="no">4</div><h4>Tell the browser to hurry up on the main picture</h4>
+<p>This one needs a developer. The big image at the top of each blog post is the thing being measured. Ask for two changes: <em>"Add <code>fetchpriority='high'</code> and remove lazy-loading from the featured image at the top of single posts, and add a <code>&lt;link rel='preload'&gt;</code> for it in the page head."</em> This alone typically removes a full second from the 4.9.</p></div>
+
+<div class="step"><div class="no">5</div><h4>Make every other image wait its turn</h4>
+<p>Also in WP-Optimize, under <strong>Images</strong>, switch on <strong>Lazy load</strong>. This stops images far down the page from competing with the one the visitor is actually looking at. Make sure the very first image on a page is excluded from lazy-loading — that is what step 4 handles.</p></div>
+
+<div class="step"><div class="no">6</div><h4>Measure, do not assume</h4>
+<p>Go to <code>pagespeed.web.dev</code> and test <code>https://marketeersresearch.com/blog/the-role-of-ai-data-analytics-in-fmcg-growth-a-roadmap-for-revenue-optimization/</code> on the Mobile tab. Write down the LCP number before you start and after each step. You are aiming to go from 4.9s to under 2.5s.</p></div>
+
+<div class="verify"><b>How you know it worked:</b> PageSpeed Insights shows LCP under 2.5 seconds on mobile, and Search Console's Core Web Vitals report moves that group of 27 URLs from "Poor" to "Good". Search Console updates on a 28-day rolling window, so give it a month before judging.</div>
+</div>
+
+<!-- ISSUE 4 -->
+<div class="card crit">
+<div class="hdr"><div><div class="id">04</div><div class="big">343 KB pages and 90 stylesheets, from four page builders at once</div>
+<div class="who2">Developer · 6–10 hours · Critical</div></div></div>
+
+<div class="ev"><b>Evidence:</b> median HTML size across your 147 pages is <strong>343 KB</strong>; the About page is 570 KB, the homepage 511 KB, the blog index 499 KB. <strong>Every one of the 147 pages is over 200 KB.</strong> The crawl also found 90 separate stylesheet files, belonging to: Elementor (15), The7 theme (11), Elementor Pro (6), Ultimate VC Addons / WPBakery (4), a pop-up plugin (3), Contact Form 7, Revolution Slider and a Google translation plugin. The site is also being served over <strong>HTTP/1.1</strong>, the older protocol, which only allows a handful of files to download at the same time.</div>
+
+<p><strong>Why it matters.</strong> 343 KB of HTML for a page of text is like posting a letter inside a filing cabinet. The browser must read all of it before it can draw anything. Ninety stylesheets on the old protocol means the browser queues them six at a time. Together these are the reason issue 3's images arrive late.</p>
+
+<div class="step"><div class="no">1</div><h4>Find out which builders are actually in use</h4>
+<p>Before removing anything, measure. Install the free <strong>Plugin Detective</strong> or simply ask your developer to search the database for WPBakery's marker. The practical test: open five or six pages in the editor. If none of them opens in WPBakery, then <strong>Ultimate VC Addons</strong> is loading its styles on every page for nothing.</p>
+<p class="small">Do this on a staging copy, not the live site. If you have no staging copy, install <strong>WP Staging</strong> first and make one. That is one hour well spent and it is what separates a calm fix from a broken website.</p></div>
+
+<div class="step"><div class="no">2</div><h4>Remove what is not used</h4>
+<p>On the staging copy, deactivate in this order, checking the homepage and one blog post after each: Ultimate VC Addons, Revolution Slider, Google Language Translator. If a page breaks, reactivate that one and stop. Each removal typically takes 20 to 40 KB off every page on the site.</p></div>
+
+<div class="step"><div class="no">3</div><h4>Switch on Elementor's modern loading</h4>
+<p>Go to <strong>Elementor → Settings → Features</strong> (older versions call it "Experiments"). Set <strong>Improved CSS Loading</strong> to Active, <strong>Inline Font Icons</strong> to Active, and <strong>Optimized Gutenberg Loading</strong> to Active. These make Elementor load only the styles a page actually uses. Save, then clear both the WP-Optimize cache and the Sucuri cache.</p></div>
+
+<div class="step"><div class="no">4</div><h4>Combine what is left</h4>
+<p>In <strong>WP-Optimize → Minify</strong>, switch on <strong>Enable minify</strong> and <strong>Merge CSS files</strong>. Test the homepage, a service page and a blog post after saving. If anything looks wrong, turn Merge off and keep Minify on — minify alone is safe and still helps.</p></div>
+
+<div class="step"><div class="no">5</div><h4>Turn on the modern protocol</h4>
+<p>Contact Sucuri support (or your host) with this exact sentence: <em>"Please confirm HTTP/2 is enabled on the CloudProxy firewall for marketeersresearch.com."</em> It is normally a switch on their side. You can confirm it yourself afterwards at <code>tools.keycdn.com/http2-test</code>.</p></div>
+
+<div class="step"><div class="no">6</div><h4>Publish the staging changes to the live site</h4>
+<p>Only once every page on staging looks right. Take a full backup with UpdraftPlus first. Then push the changes live, clear both caches, and re-test the five pages.</p></div>
+
+<div class="verify"><b>How you know it worked:</b> re-crawl with Screaming Frog. Median HTML size should drop below 200 KB and the stylesheet count below 40. PageSpeed Insights should no longer list "Reduce unused CSS" as a top opportunity.</div>
+</div>
+
+<!-- ISSUE 5 -->
+<div class="card high">
+<div class="hdr"><div><div class="id">05</div><div class="big">Every category exists twice, at two different addresses</div>
+<div class="who2">WordPress admin · 2–3 hours · High</div></div></div>
+
+<div class="ev"><b>Evidence:</b> four of your topics exist as two separate live pages each, both returning "200 OK" and both open to Google:</div>
+<table class="mini"><thead><tr><th>Topic</th><th>The real category</th><th>The duplicate page</th></tr></thead><tbody>
+<tr><td>Featured</td><td><code>/blog/category/blog/featured/</code> · 420 links in</td><td><code>/blog/featured/</code> · 2 links in</td></tr>
+<tr><td>Consumer Insights</td><td><code>/blog/category/blog/consumer-insights/</code> · 50</td><td><code>/blog/consumer-insights/</code> · 2</td></tr>
+<tr><td>Revenue Growth Mgmt</td><td><code>/blog/category/blog/revenue-growth-management/</code> · 94</td><td><code>/blog/revenue-growth-management/</code> · 2</td></tr>
+<tr><td>Reports</td><td><code>/blog/category/reports/</code> (redirects)</td><td><code>/blog/reports/</code> · 2</td></tr>
+</tbody></table>
+<p class="small" style="margin-top:4px">The duplicate page for Featured also has an invisible character stuck in its title, so it reads <code>Featured&#8203;</code> rather than <code>Featured</code>. That is a copy-paste artefact from a word processor.</p>
+
+<p><strong>Why it matters.</strong> Two doors into the same room. Google has to choose one and it usually chooses badly, because the duplicates have almost no links pointing at them. Meanwhile the ten paginated "Featured" pages all share one title and one headline, so Google sees eleven near-identical pages where you meant to have one section.</p>
+
+<div class="step"><div class="no">1</div><h4>Install the redirect tool</h4>
+<p><strong>Plugins → Add New</strong>, search <strong>Redirection</strong>, install, activate. Follow its three-step setup wizard and accept the defaults.</p></div>
+
+<div class="step"><div class="no">2</div><h4>Point each duplicate at the real one</h4>
+<p>Go to <strong>Tools → Redirection → Add new redirection</strong> and create these four, one at a time. Source on the left, target on the right, type "301 Permanent":</p>
+<table class="mini"><thead><tr><th>Source URL</th><th>Target URL</th></tr></thead><tbody>
+<tr><td>/blog/featured/</td><td>/blog/category/blog/featured/</td></tr>
+<tr><td>/blog/consumer-insights/</td><td>/blog/category/blog/consumer-insights/</td></tr>
+<tr><td>/blog/revenue-growth-management/</td><td>/blog/category/blog/revenue-growth-management/</td></tr>
+<tr><td>/blog/reports/</td><td>/blog/category/blog/reports/</td></tr>
+</tbody></table></div>
+
+<div class="step"><div class="no">3</div><h4>Delete the duplicate pages</h4>
+<p>Go to <strong>Pages</strong>, find those four, and move them to Trash. Do this <em>after</em> the redirects are saved, never before. Then go to <strong>Appearance → Menus</strong> and check that no menu item still points at the old addresses.</p></div>
+
+<div class="step"><div class="no">4</div><h4>Give the ten "Featured" pages real titles</h4>
+<p>Pages 2 to 10 of a list should not be hidden from Google, but they must not all be called "Featured" either. Ask your developer for one line in the theme so the title becomes <code>Featured Insights — Page 3 | Marketeers Research</code>. If your SEO plugin has a template field for archives, the code to paste is usually <code>%%term_title%% %%page%% %%sep%% %%sitename%%</code>.</p></div>
+
+<div class="step"><div class="no">5</div><h4>Consider shortening the category address</h4>
+<p><code>/blog/category/blog/featured/</code> contains the word "blog" twice because there is a parent category called "Blog". It is ugly but it works, and changing it means redirecting every category URL. <strong>My advice: leave it.</strong> Spend the hours on issues 1 to 4 instead. Revisit only if you ever rebuild the blog.</p></div>
+
+<div class="verify"><b>How you know it worked:</b> typing <code>marketeersresearch.com/blog/featured/</code> lands you on the category page with the longer address. In Search Console, "Alternate page with proper canonical tag" should fall from 5 towards 2.</div>
+</div>
+
+<!-- ISSUE 6 -->
+<div class="card high">
+<div class="hdr"><div><div class="id">06</div><div class="big">87 pages with nothing written under the Google link</div>
+<div class="who2">Marketing · 7–10 hours · High</div></div></div>
+
+<div class="ev"><b>Evidence:</b> 87 of 147 pages have no meta description — <strong>59% of the site</strong>. A further 32 pages have descriptions longer than 160 characters, so they get cut off. The longest is 397 characters. The pages that do have one are excellent, which tells us someone started this job and stopped: the homepage, About, Contact, Smart Value, Smart Shopper, Market Assessment and roughly 50 newer blog posts are all done well.</div>
+
+<p><strong>Why it matters.</strong> The meta description is the grey sentence under the blue link in Google. It does not change your ranking. It changes whether anyone clicks. When it is missing, Google grabs a random sentence from your page, and random sentences do not sell market research.</p>
+
+<div class="step"><div class="no">1</div><h4>Get the list</h4>
+<p>Open the file you already have: <code>meta_description_all.csv</code>. Sort by the "Meta Description 1 Length" column, smallest first. Every row showing 0 is a page that needs one. That is your worklist, and it is already prioritised if you also sort by which pages matter to the business.</p></div>
+
+<div class="step"><div class="no">2</div><h4>Do the 20 pages that earn money first</h4>
+<p>Not all 87 are equal. In order: any service page missing one, then the blog posts from the last 18 months, then older posts. The oldest posts from 2022 and 2023 can wait or be left alone entirely.</p></div>
+
+<div class="step"><div class="no">3</div><h4>Use one formula</h4>
+<p>Between <strong>140 and 155 characters</strong>. The shape that works: <em>what the reader gets + where it applies + a reason to click.</em> Copy the tone of the ones you already wrote well:</p>
+<pre>Turn raw data into growth decisions. Marketeers Research provides FMCG
+analytics across pricing, consumer behaviour and market performance in
+Egypt, KSA and Europe.</pre>
+<p class="small" style="margin:0">Avoid what happened on some posts: exclamation marks, "Read now!", and the 397-character one. Google shows about 155 characters and throws away the rest.</p></div>
+
+<div class="step"><div class="no">4</div><h4>Where to type it</h4>
+<p>Edit the page. Scroll below the content area to the box from your SEO plugin (Yoast, Rank Math or SEOPress — whichever you have). There is a field labelled <strong>Meta description</strong> with a coloured bar underneath. Type until the bar turns green, then update the page.</p></div>
+
+<div class="step"><div class="no">5</div><h4>Trim the 32 that are too long</h4>
+<p>Same file, sort the length column largest first. Anything over 160 gets cut down. This is faster than writing new ones — budget two hours for all 32.</p></div>
+
+<div class="verify"><b>How you know it worked:</b> re-crawl with Screaming Frog; the "Missing" count under Meta Description should be under 20 (the old 2022 posts you chose to skip).</div>
+</div>
+
+<!-- ISSUE 7 -->
+<div class="card high">
+<div class="hdr"><div><div class="id">07</div><div class="big">Nine pages with no headline at all, including two service pages</div>
+<div class="who2">WordPress admin · 2–3 hours · High</div></div></div>
+
+<div class="ev"><b>Evidence:</b> nine pages have no H1 — no main headline in the code. Two of them are pages you sell from:</div>
+<table class="mini"><thead><tr><th>Page</th><th>What it should be</th></tr></thead><tbody>
+<tr><td><code>/data-analytics/</code></td><td>Data &amp; Analytics Solutions for FMCG Brands</td></tr>
+<tr><td><code>/partner-with-us/</code></td><td>Partner with Marketeers Research</td></tr>
+<tr><td><code>/clients-advisory-team/</code></td><td>Your Client Advisory Team</td></tr>
+<tr><td><code>/start-your-application/</code></td><td>Start Your Application</td></tr>
+<tr><td><code>/blog/</code></td><td>FMCG Insights &amp; Revenue Growth Blog</td></tr>
+<tr><td>and the four duplicate category pages from issue 5</td><td>(these disappear when you do issue 5)</td></tr>
+</tbody></table>
+<p class="small" style="margin-top:4px">Three other pages have the opposite problem — two H1s on one page: the "Why Every FMCG Growth Strategy…" post, the "Product Taste Test 2026" post, and the "How to Choose the Best Online Panel Provider" post.</p>
+
+<p><strong>Why it matters.</strong> The H1 is the page's name badge. Google reads it before almost anything else. A page with no H1 is a person at a conference with no badge: they might be important, but nobody can tell. This is almost always caused by a page builder where the big text at the top was styled to <em>look</em> like a heading without being marked as one.</p>
+
+<div class="step"><div class="no">1</div><h4>Open the page in Elementor</h4>
+<p>Go to <strong>Pages</strong>, hover the page, click <strong>Edit with Elementor</strong>.</p></div>
+
+<div class="step"><div class="no">2</div><h4>Click the big text at the top</h4>
+<p>Click the largest piece of text on the page — the one a human would call the title. The left-hand panel will show its settings.</p></div>
+
+<div class="step"><div class="no">3</div><h4>Change its HTML Tag to H1</h4>
+<p>In the left panel look for a dropdown labelled <strong>HTML Tag</strong> (it sits under the text box, sometimes inside the "Title" section). It will currently say H2, H3, div or p. <strong>Change it to H1.</strong> The text will not change size or appearance — you are changing its label, not its look. If the size does shift, go to the <strong>Style</strong> tab and set the size back manually.</p></div>
+
+<div class="step"><div class="no">4</div><h4>Publish and check the next one</h4>
+<p>Click Update. Repeat for each page in the table. Budget 10 minutes per page.</p></div>
+
+<div class="step"><div class="no">5</div><h4>Fix the three pages with two headlines</h4>
+<p>On those three posts, find the second H1 — usually a call-to-action box like "Is your product shelf-ready?" — and change its HTML Tag from H1 to <strong>H2</strong>. One page, one H1. Everything else is H2 and H3.</p></div>
+
+<div class="verify"><b>How you know it worked:</b> open the page, right-click, View page source, Ctrl+F for <code>&lt;h1</code>. You should find exactly one, and it should contain your headline text.</div>
+</div>
+
+<!-- ISSUE 8 -->
+<div class="card high">
+<div class="hdr"><div><div class="id">08</div><div class="big">52 titles cut off in Google, and 10 titles that are identical</div>
+<div class="who2">Marketing · 4–6 hours · High</div></div></div>
+
+<div class="ev"><b>Evidence:</b> 52 of 147 titles are over 60 characters and 30 are over 70. The longest is 111 characters. Ten pages share the exact title "Featured". Two pairs of pages share a title exactly. Google shows roughly 60 characters and replaces the rest with "…".</div>
+<table class="mini"><thead><tr><th style="width:36px">Chars</th><th>Title as it stands today</th></tr></thead><tbody>
+<tr><td>111</td><td>The Step-by-Step Playbook : Every FMCG Brand Needs Before Launching an Imported Product in Egypt…</td></tr>
+<tr><td>108</td><td>What a Usage &amp; Attitude Study Actually Tells You About Egyptian Consumers (And Why Demographics…</td></tr>
+<tr><td>101</td><td>Planning Ads for Ramadan Audience: Factors To Consider In Your Pre- &amp; Post-Ad Testing In Ramadan…</td></tr>
+<tr><td>92</td><td>Product Taste Testing 2026: How a Sensory Lab Protects Your Launch Before the Market Decides</td></tr>
+<tr><td>89</td><td>New Product Development Research: How Egyptian FMCG Brands Validate Ideas Before Launch&nbsp;&nbsp;</td></tr>
+</tbody></table>
+
+<p><strong>Why it matters.</strong> The title is the blue link people click. A title that ends in "…" looks unfinished. Ten pages called "Featured" look like a filing error. Note also the trailing spaces on the fifth example — a small sign that titles are being pasted in rather than written in the SEO box.</p>
+
+<div class="step"><div class="no">1</div><h4>Understand the two different titles</h4>
+<p>Every page has two: the <strong>headline on the page</strong> (the H1 from issue 7) and the <strong>title in Google</strong> (the SEO title). They do not have to match. Keep your long, descriptive headline on the page. Write a shorter one for Google.</p></div>
+
+<div class="step"><div class="no">2</div><h4>Use the shape: subject + place + brand</h4>
+<p>Aim for 50 to 60 characters. Here are five you can paste straight in:</p>
+<table class="mini"><thead><tr><th>Page</th><th>New SEO title</th></tr></thead><tbody>
+<tr><td>Imported product playbook</td><td>Launching Imported FMCG Products in Egypt | Marketeers</td></tr>
+<tr><td>Usage &amp; Attitude study</td><td>Usage &amp; Attitude Studies in Egypt | Marketeers Research</td></tr>
+<tr><td>Ramadan ad testing</td><td>Pre &amp; Post Ad Testing for Ramadan 2026 | Marketeers</td></tr>
+<tr><td>Taste testing</td><td>Product Taste Testing 2026: Sensory Lab Guide | Marketeers</td></tr>
+<tr><td>Blog index</td><td>FMCG Insights &amp; RGM Blog | Marketeers Research</td></tr>
+</tbody></table></div>
+
+<div class="step"><div class="no">3</div><h4>Type it in the SEO box, not the page</h4>
+<p>Edit the page, scroll to your SEO plugin's box, find the <strong>SEO title</strong> field. Watch the coloured bar: stop while it is still green. Do not change the headline on the page itself.</p></div>
+
+<div class="step"><div class="no">4</div><h4>Set one house style and stop drifting</h4>
+<p>Your titles currently end four different ways: <code>| Marketeers Research</code>, <code>- Marketeers Research</code>, <code>– Marketeers</code>, and nothing at all. Pick <strong><code>| Marketeers Research</code></strong>. In your SEO plugin open the global title template for Posts and Pages and set it to <code>%%title%% %%sep%% %%sitename%%</code> with the separator set to the vertical bar. Then clear any custom title that fights it.</p></div>
+
+<div class="step"><div class="no">5</div><h4>Work through the list</h4>
+<p>Open <code>internal_all.csv</code>, sort by "Title 1 Length" largest first, and work down until you are under 60. Thirty pages at roughly five minutes each is two and a half hours.</p></div>
+
+<div class="verify"><b>How you know it worked:</b> re-crawl; "Over 60 characters" under Page Titles should be under 10, and no title should appear more than once.</div>
+</div>
+
+<!-- ISSUE 9 -->
+<div class="card high">
+<div class="hdr"><div><div class="id">09</div><div class="big">Your robots.txt points at one sitemap and blocks another</div>
+<div class="who2">Developer · 2–3 hours · High</div></div></div>
+
+<div class="ev"><b>Evidence:</b> your live robots.txt advertises <code>Sitemap: https://marketeersresearch.com/wp-sitemap.xml</code> — the sitemap WordPress generates by itself — while also containing the line <code>Disallow: /sitemap-custom-posts.xml</code>, which forbids Google from reading a second sitemap. It also blocks <code>/wp-json/</code>. Search Console reports <strong>4 pages "Blocked by robots.txt"</strong>.</div>
+
+<p><strong>Why it matters.</strong> A sitemap is the map you hand to Google. You are handing over WordPress's automatic map, which lists everything including pages you never wanted found (see issue 10), while simultaneously padlocking a second map. Blocking a sitemap in robots.txt is never correct: either it should be readable or it should not exist.</p>
+
+<div class="step"><div class="no">1</div><h4>Find out which sitemaps actually exist</h4>
+<p>Open each of these in a browser tab and note which loads: <code>/wp-sitemap.xml</code>, <code>/sitemap_index.xml</code>, <code>/sitemap.xml</code>, <code>/sitemap-custom-posts.xml</code>. If <code>/sitemap_index.xml</code> loads, your SEO plugin is making a better map and you should be advertising that one instead.</p></div>
+
+<div class="step"><div class="no">2</div><h4>Pick one and only one</h4>
+<p>If the SEO plugin's sitemap exists, use it and turn off the WordPress one. If not, keep <code>/wp-sitemap.xml</code> and curate it in issue 10. Never advertise two.</p></div>
+
+<div class="step"><div class="no">3</div><h4>Rewrite the file</h4>
+<p>Your SEO plugin has a robots.txt editor (Yoast: <em>Tools → File editor</em>; Rank Math: <em>General Settings → Edit robots.txt</em>). Replace the contents with this, changing the sitemap line to whichever you chose in step 2:</p>
+<pre>User-agent: *
+Disallow: /wp-admin/
+Allow: /wp-admin/admin-ajax.php
+Disallow: /?s=
+Disallow: /search/
+Disallow: /?trk=
+Disallow: /?clients=
+Disallow: /?post_type=
+Disallow: /?wordfence_logHuman=
+
+Sitemap: https://marketeersresearch.com/wp-sitemap.xml</pre>
+<p class="small" style="margin:0">What changed: the line blocking a sitemap is gone, and the block on <code>/wp-json/</code> is gone. <code>/wp-json/</code> is the door WordPress itself uses; blocking it can break the editor and some plugins, and it protects nothing.</p></div>
+
+<div class="step"><div class="no">4</div><h4>Find the 4 blocked pages before you assume they are fine</h4>
+<p>Search Console → <strong>Pages</strong> → <strong>Blocked by robots.txt</strong>. Click it to see the four addresses. If any is a real page you want found, the rewritten file above probably already unblocks it. If not, say which rule catches it and remove that rule.</p></div>
+
+<div class="step"><div class="no">5</div><h4>Re-submit</h4>
+<p>Search Console → <strong>Sitemaps</strong>. Remove any old entries. Add the one sitemap you chose. It should report "Success" and a page count within a day or two.</p></div>
+
+<div class="verify"><b>How you know it worked:</b> <code>marketeersresearch.com/robots.txt</code> shows the new file, Search Console's Sitemaps page shows one sitemap reading "Success", and "Blocked by robots.txt" falls to 0.</div>
+</div>
+
+<!-- ISSUE 10 -->
+<div class="card med">
+<div class="hdr"><div><div class="id">10</div><div class="big">13 pages in your sitemap that nothing on the site links to</div>
+<div class="who2">WordPress admin · 2–3 hours · Medium</div></div></div>
+
+<div class="ev"><b>Evidence:</b> Search Console lists 31 URLs as "Discovered – currently not indexed". We compared that list against the crawl: <strong>13 of them are not linked from anywhere on your website.</strong> Google only knows about them because your sitemap mentions them. They are: four tag pages, four photo-attachment pages (<code>/media/karim/</code>, <code>/media/samer/</code>, <code>/media/zeina/</code>, <code>/media/4676/</code>), and five form pages (<code>/career-form/</code>, <code>/checklist-sign-up/</code>, <code>/webinar-sign-up/</code>, <code>/search-blog/</code>, <code>/bnpl-study-yes/</code>).</div>
+
+<p><strong>Why it matters.</strong> "Discovered but not indexed" means: <em>we heard this page exists, we looked at the queue, and we decided not to bother.</em> Photo-attachment pages are the worst offenders — WordPress creates a whole web page for every image you upload, containing nothing but that image. Handing Google a map full of these teaches it that your map is not worth following, which slows down the indexing of pages you do care about.</p>
+
+<div class="step"><div class="no">1</div><h4>Switch off attachment pages permanently</h4>
+<p>In your SEO plugin find <strong>Media / Attachment URLs</strong> and set <strong>Redirect attachment URLs to the attachment itself</strong> to ON (Yoast: <em>Settings → Advanced → Media pages</em>. Rank Math: <em>General Settings → Links → Redirect Attachments</em>). This makes <code>/media/karim/</code> hand over the actual photograph instead of a blank page. It fixes all four at once and every future upload.</p></div>
+
+<div class="step"><div class="no">2</div><h4>Hide form pages from Google</h4>
+<p>For <code>/career-form/</code>, <code>/checklist-sign-up/</code>, <code>/webinar-sign-up/</code> and <code>/bnpl-study-yes/</code>: edit each page, open the SEO box, click <strong>Advanced</strong>, and set <strong>Allow search engines to show this page?</strong> to <strong>No</strong>. These are pages people reach after clicking something; they should not be a first impression from Google.</p>
+<p class="small" style="margin:0">Exception: if <code>/bnpl-study-yes/</code> is where a valuable report lives, do the opposite — give it a real page with a description of the study, and keep it indexed.</p></div>
+
+<div class="step"><div class="no">3</div><h4>Decide about tags</h4>
+<p>You have four tag pages with no links pointing at them. Tags are only useful when you have many posts per tag and you link to them. You do not. In the SEO plugin go to <strong>Content types / Taxonomies → Tags</strong> and set <strong>Show in search results: No</strong>. Your categories already do this job properly.</p></div>
+
+<div class="step"><div class="no">4</div><h4>Fix the site search page</h4>
+<p><code>/search-blog/</code> should never be indexed — search result pages are infinite and empty. It is already covered by the <code>Disallow: /search/</code> line in issue 9, but also set it to noindex the same way as step 2.</p></div>
+
+<div class="step"><div class="no">5</div><h4>Clean the map</h4>
+<p>Once steps 1 to 4 are done, reload your sitemap in a browser. Those 13 addresses should be gone. Then in Search Console click <strong>Validate Fix</strong> on the "Discovered – currently not indexed" report.</p></div>
+
+<div class="verify"><b>How you know it worked:</b> "Discovered – currently not indexed" falls from 31 towards the 17 real blog posts, and those posts start getting indexed once issues 1 to 4 free up the crawl budget.</div>
+</div>
+
+<!-- ISSUE 11 -->
+<div class="card med">
+<div class="hdr"><div><div class="id">11</div><div class="big">Three broken internal links and one redirect pointing at the wrong page</div>
+<div class="who2">Developer · 1–2 hours · Medium</div></div></div>
+
+<div class="ev"><b>Evidence, four specific bugs found in the crawl:</b></div>
+<table class="mini"><thead><tr><th style="width:24px">#</th><th>What the crawl found</th><th>What is wrong</th></tr></thead><tbody>
+<tr><td>a</td><td><code>marketeersresearch.com//blog/the-role-of-ai-data-analytics…</code> and <code>//blog/data-driven-growth-strategies…</code> — two slashes after .com. Each has 10 links pointing at it.</td><td>A template or a pasted link has a stray slash. Google treats it as a different page.</td></tr>
+<tr><td>b</td><td><code>…/uploads/2026/05/Olive-Oil-PDF-Case-1.pdf"</code> — with a quotation mark stuck on the end.</td><td>Someone pasted a link into the editor and the quote mark got included. The link is broken.</td></tr>
+<tr><td>c</td><td><code>/data-analyst/</code> (a job advert) redirects to <code>/data-analytics/</code> (a service page).</td><td>Wrong destination. A candidate looking for a job lands on a sales page.</td></tr>
+<tr><td>d</td><td><code>/digital-marketing-specialist/</code> redirects to <code>/careers-job-openings/</code> while <code>/market-analyst/</code> and <code>/client-engagement-specialist/</code> redirect to <code>/careers/</code>.</td><td>Two different careers addresses in use. Pick one.</td></tr>
+</tbody></table>
+
+<div class="step"><div class="no">1</div><h4>Find the double-slash links</h4>
+<p>Those two pages each have 10 links pointing at them, so the mistake is in a template or a repeated block, not in one article. Ask your developer: <em>"Search the theme templates and the Elementor global widgets for a link built as <code>site_url() . '/blog/...'</code> where site_url already ends in a slash."</em> The fix is deleting one character.</p></div>
+
+<div class="step"><div class="no">2</div><h4>Fix the PDF link</h4>
+<p>Find the page linking to the Olive Oil case study. Click the link, choose edit, and delete the stray <code>"</code> at the end of the address. Then click the link on the live page to confirm the PDF opens.</p></div>
+
+<div class="step"><div class="no">3</div><h4>Repoint the job redirect</h4>
+<p>In <strong>Tools → Redirection</strong>, find the rule sending <code>/data-analyst/</code> to <code>/data-analytics/</code> and change its target to <code>/careers/</code>.</p></div>
+
+<div class="step"><div class="no">4</div><h4>Settle on one careers address</h4>
+<p>Choose <code>/careers/</code> — it is shorter and it is the one most links already use. Then redirect <code>/careers-job-openings/</code> to <code>/careers/</code>, and change the <code>/digital-marketing-specialist/</code> rule to target <code>/careers/</code> too. Check <strong>Appearance → Menus</strong> for any menu item still using the long version.</p></div>
+
+<div class="verify"><b>How you know it worked:</b> re-crawl; no address in the list contains a double slash or a quotation mark, and every job address lands on <code>/careers/</code> in one hop.</div>
+</div>
+
+<!-- ISSUE 12 -->
+<div class="card med">
+<div class="hdr"><div><div class="id">12</div><div class="big">14 "not found" pages and 1 "forbidden" page in Search Console</div>
+<div class="who2">Developer · 2–3 hours · Medium</div></div></div>
+
+<div class="ev"><b>Evidence:</b> Search Console reports <strong>14 URLs returning 404 (Not found)</strong> and <strong>1 returning 403 (Access forbidden)</strong>. Your Screaming Frog crawl found none of them, which means nothing on your site links to them any more — they are old addresses that Google still remembers, or links pointing at you from other websites.</div>
+
+<p><strong>Why it matters.</strong> A 404 is not automatically bad; pages do get deleted. It becomes bad when the address used to have value — when other sites link to it, or when it was a post that got renamed. Each of those is a visitor and a recommendation walking into a wall. The single 403 is more unusual and worth ten minutes of attention: it means your firewall is refusing Google specifically.</p>
+
+<div class="step"><div class="no">1</div><h4>Get the actual list</h4>
+<p>Search Console → <strong>Pages</strong> → scroll to "Why pages aren't indexed" → click <strong>Not found (404)</strong>. You will see all 14. Use the export button at the top right to download them.</p></div>
+
+<div class="step"><div class="no">2</div><h4>Sort them into two piles</h4>
+<p>For each address ask one question: <em>does a page with this content still exist somewhere on the site?</em></p>
+<ul>
+<li><strong>Yes</strong> — it was renamed or moved. Redirect it (step 3).</li>
+<li><strong>No</strong> — it was genuinely deleted and has no replacement. Leave it as 404. That is the honest answer and Google is fine with it.</li>
+</ul>
+<p class="small" style="margin:0">Do not do what many agencies do and redirect every 404 to the homepage. Google treats that as a lie and ignores it.</p></div>
+
+<div class="step"><div class="no">3</div><h4>Redirect the ones with a real replacement</h4>
+<p><strong>Tools → Redirection → Add new redirection</strong>, old address in Source, new address in Target, 301 Permanent.</p></div>
+
+<div class="step"><div class="no">4</div><h4>Investigate the 403</h4>
+<p>Search Console → Pages → <strong>Blocked due to access forbidden (403)</strong> gives you the one address. Open it yourself in a browser. If it loads normally for you but Google is refused, your Sucuri firewall is blocking Google's crawler. Send Sucuri support the address and this sentence: <em>"Googlebot receives a 403 on this URL. Please whitelist verified Googlebot."</em></p></div>
+
+<div class="step"><div class="no">5</div><h4>Catch future ones automatically</h4>
+<p>The Redirection plugin has a <strong>404s</strong> tab that logs every missing page a visitor hits. Check it once a month and redirect anything that appears repeatedly. Five minutes a month prevents this list from ever growing again.</p></div>
+
+<div class="verify"><b>How you know it worked:</b> the 403 count is 0, and the 404 list contains only addresses you consciously decided to leave dead.</div>
+</div>
+</div>
+
+<!-- ===== 5. PLAN ===== -->
+<div class="section">
+<div class="kicker">Section 5</div>
+<h1>Four-week plan</h1>
+<div class="rule"></div>
+
+<table><thead><tr><th style="width:86px">When</th><th>Do this</th><th style="width:70px">Issues</th><th style="width:58px">Hours</th></tr></thead><tbody>
+<tr><td><strong>Week 1</strong><br><span class="small">Stop the waste</span></td><td>Remove the date links and repoint the leftovers. Fix the ten slow category pages. Rewrite robots.txt and settle the sitemap. Fix the four small link bugs.</td><td>1, 2, 9, 11</td><td>8–13</td></tr>
+<tr><td><strong>Week 2</strong><br><span class="small">Make it fast</span></td><td>Build a staging copy. Compress every image and handle the five monsters. Preload the main image. Remove unused builders, switch on Elementor's modern loading, merge stylesheets, confirm HTTP/2.</td><td>3, 4</td><td>14–22</td></tr>
+<tr><td><strong>Week 3</strong><br><span class="small">Label everything</span></td><td>Merge the duplicate categories. Add the nine missing headlines. Rewrite the 30 longest titles and set one house style. Clean the sitemap and switch off attachment pages.</td><td>5, 7, 8, 10</td><td>10–15</td></tr>
+<tr><td><strong>Week 4</strong><br><span class="small">Finish and measure</span></td><td>Write the missing descriptions, newest and most valuable pages first. Sort the 14 404s and the one 403. Re-crawl with Screaming Frog and compare against this report. Press Validate Fix on every Search Console report.</td><td>6, 12</td><td>9–13</td></tr>
+</tbody></table>
+
+<h3>Give your developer this brief</h3>
+<div class="box pale">
+<p style="margin:0">"Please work through the attached report in the order given: issues 1, 2, 9 and 11 in week one, then 3 and 4 on a staging copy before pushing live. Take a full UpdraftPlus backup first. Use 301 redirects only, and keep a spreadsheet of every old and new address. Clear both the WP-Optimize cache and the Sucuri cache after every change. For each issue, send me the screenshot from its 'How you know it worked' box. Budget is 41 to 63 hours in total; tell me before you exceed it."</p>
+</div>
+
+<h3>The four numbers to watch</h3>
+<table><thead><tr><th>Measurement</th><th style="width:88px">Today</th><th style="width:110px">Target</th><th style="width:92px">Where to look</th></tr></thead><tbody>
+<tr><td>Pages Google refuses to index</td><td>131</td><td>under 40</td><td>Search Console → Pages</td></tr>
+<tr><td>Largest Contentful Paint, mobile</td><td>4.9s</td><td>under 2.5s</td><td>pagespeed.web.dev</td></tr>
+<tr><td>Redirect addresses in a crawl</td><td>86</td><td>under 15</td><td>Screaming Frog</td></tr>
+<tr><td>Pages with no description</td><td>87</td><td>under 20</td><td>Screaming Frog</td></tr>
+</tbody></table>
+
+<div class="judge"><b>A word on patience.</b> Google re-crawls a site of your size over roughly four to eight weeks. Nothing in this report produces a result on Monday. Do the work, press Validate Fix, and look again after a month. The one exception is speed: the moment issue 3 is finished, every visitor gets a faster page, whatever Google thinks.</div>
+</div>
+
+<!-- ===== 6. HEALTHY ===== -->
+<div class="section">
+<div class="kicker">Section 6</div>
+<h1>What is already healthy</h1>
+<div class="rule"></div>
+<p>An audit that only lists faults is a bad audit, and it also risks someone "fixing" things that are already right. These are correct. Leave them alone.</p>
+
+<div class="grid2">
+<div class="box good"><h4>Canonical tags: perfect</h4>All 147 pages carry a correct self-referencing canonical tag. This is the single most commonly broken thing on WordPress sites and yours is flawless. It is why the two double-slash addresses did no real damage.</div>
+<div class="box good"><h4>No accidental blocking</h4>146 of 147 pages say "index, follow". Only one page is hidden, and deliberately. There is no catastrophic leftover "noindex" from a rebuild, which is the most common way a site disappears from Google overnight.</div>
+<div class="box good"><h4>HTTPS is clean</h4>Every crawled address is https. No mixed-content, no insecure pages surfacing in the crawl. The earlier concern about an http address has not reappeared.</div>
+<div class="box good"><h4>Content depth is genuinely good</h4>Only 2 of 147 pages fall under 300 words. Your median article is substantial and the newer ones are excellent. This is a technical problem, not a content problem.</div>
+<div class="box good"><h4>Site structure is shallow</h4>No page is more than 3 clicks from the homepage. That is exactly right, and it means once the crawl budget is freed, Google will find everything quickly.</div>
+<div class="box good"><h4>Newer pages are done properly</h4>The homepage, About, Contact, Smart Value, Smart Shopper, Market Assessment and about 50 recent posts have strong titles and well-written descriptions. Someone knew what they were doing. The task is to finish that job across the rest of the site.</div>
+</div>
+
+<div class="box navy">
+<h3>One correction to the first report</h3>
+<p style="margin:0">Version 1 flagged <code>onlinepanel.marketeersresearch.com</code> as a dead subdomain, based on it having no DNS record. That finding stands and is worth checking, but it did not appear in your crawl because Screaming Frog was scoped to the main domain. Open it in a browser: if it fails to load, apply the fix from version 1 (restore it, or point it at <code>/blog/audience-panel/</code>). Everything else in version 1 has been superseded by the measured findings in this report.</p>
+</div>
+</div>
+
+<!-- ===== 7. GLOSSARY ===== -->
+<div class="section">
+<div class="kicker">Section 7</div>
+<h1>Glossary</h1>
+<div class="rule"></div>
+<div class="two">
+<div class="box"><h4>Crawl budget</h4>The limited time Google spends on your site per visit. Spend it on dead ends and your real pages never get read.</div>
+<div class="box"><h4>Indexed</h4>Written into Google's notebook. A page that is crawled but not indexed was read and rejected as not worth storing.</div>
+<div class="box"><h4>301 redirect</h4>A permanent "we moved, go here" sign. Passes nearly all credit to the new address. Use these, not 302s.</div>
+<div class="box"><h4>Date archive</h4>A page WordPress creates automatically listing everything published on one day. Almost never useful. Issue 1.</div>
+<div class="box"><h4>Canonical tag</h4>A label inside a page saying "the official address for this is X". Yours are all correct.</div>
+<div class="box"><h4>LCP</h4>Largest Contentful Paint: the moment the biggest thing on screen appears. Google wants under 2.5 seconds. Yours is 4.9.</div>
+<div class="box"><h4>H1</h4>The main headline, marked as such in the code. One per page. Nine of your pages have none.</div>
+<div class="box"><h4>Meta description</h4>The grey sentence under the blue link in Google. Does not affect ranking; strongly affects clicks.</div>
+<div class="box"><h4>robots.txt</h4>A text file of house rules for search engines, and where you name your sitemap.</div>
+<div class="box"><h4>Sitemap</h4>The map you hand Google listing pages worth visiting. It should contain only pages you want found.</div>
+<div class="box"><h4>Attachment page</h4>A page WordPress makes for every uploaded image, containing only that image. Switch them off.</div>
+<div class="box"><h4>Orphan page</h4>A page nothing links to. Google only learns of it from the sitemap, and usually ignores it.</div>
+<div class="box"><h4>Staging copy</h4>A private duplicate of your website where changes can be tested without risk. Never remove plugins on the live site.</div>
+<div class="box"><h4>WebP</h4>A modern image format, roughly 30% smaller than JPEG at the same quality. Only 4 of your 151 images use it.</div>
+<div class="box"><h4>HTTP/2</h4>The modern way browsers talk to servers, downloading many files at once. Your site appears to still use the older HTTP/1.1.</div>
+<div class="box"><h4>Validate Fix</h4>A button in Search Console telling Google to re-check a problem you have solved. Press it after every fix.</div>
+</div>
+
+<div class="box navy" style="margin-top:20px">
+<p style="margin:0"><strong>Last word.</strong> Your website does not have a content problem or a design problem. It has 343 kilobytes of packaging around 30 kilobytes of good writing, and 86 doors that lead nowhere. Both are fixable in a month by one competent developer and one afternoon of your marketing team's time. The 131 pages Google is currently ignoring are not lost — they are queued behind the mess. Clear the mess and the queue moves.</p>
+</div>
+</div>
+
+</body></html>
