@@ -1,0 +1,175 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Week 1 Technical Fixes Tracker</title>
+<link rel="stylesheet" href="fonts-local.css"><link rel="stylesheet" href="shared.css">
+<style>
+@page{size:A4;margin:12mm 12mm 14mm 12mm;
+  @bottom-left{content:"Marketeers Research · Week 1 Technical Fixes · 14–18 September 2026";font-family:'Open Sans',Arial,sans-serif;font-size:7pt;color:#8a857b;vertical-align:top;padding-top:3mm}
+  @bottom-right{content:"Page " counter(page);font-family:'Archivo',Arial,sans-serif;font-size:7pt;font-weight:700;color:#00265E;vertical-align:top;padding-top:3mm}
+}
+body{font-size:9.1pt}
+.top{background:linear-gradient(35deg,#00265E 0%,#0073B4 62%,#3CB9FC 100%);color:#fff;padding:14mm 14mm 10mm;margin:-12mm -12mm 8px;position:relative;overflow:hidden}
+.top .pattern{position:absolute;inset:0;background:repeating-linear-gradient(35deg,rgba(255,255,255,0) 0 30px,rgba(255,255,255,.05) 30px 32px)}
+.top h1{color:#fff;font-size:20pt;margin:10px 0 4px}
+.top .sub{color:#dbeeff;font-size:10pt;max-width:150mm}
+.top .redbar{height:4px;width:110px;background:#CD393B;margin:9px 0 8px}
+.strip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:11px}
+.strip div{background:rgba(0,38,94,.55);border-radius:5px;padding:7px 9px}
+.strip .n{font-family:'Archivo',sans-serif;font-size:15pt;font-weight:900;color:var(--yellow);line-height:1}
+.strip .l{font-size:7pt;text-transform:uppercase;letter-spacing:.06em;color:#cfe8fa;margin-top:3px;line-height:1.3}
+h2{font-size:12pt;margin-top:9px;margin-bottom:3px}
+.rules{background:#fff6f6;border:1px solid #f0c9c9;border-left:5px solid #CD393B;border-radius:5px;padding:8px 11px;margin:8px 0 10px}
+.rules ol{margin:0;padding-left:17px;columns:2;column-gap:16px;font-size:8.8pt}
+.rules li{margin-bottom:3px;break-inside:avoid}
+table.t{font-size:8.3pt;width:100%;border-collapse:collapse}
+table.t th{background:var(--navy);color:#fff;padding:5px 6px;font-family:'Archivo',sans-serif;font-size:8pt;text-align:left}
+table.t td{padding:4px 6px;border-bottom:1px solid #e0e7ee;vertical-align:top}
+table.t tr:nth-child(even) td{background:#f7fafc}
+.tk{width:15px;height:15px;border:1.6px solid var(--navy);border-radius:3px;display:inline-block}
+.day{background:var(--navy);color:#fff;font-family:'Archivo',sans-serif;font-weight:900;font-size:8.5pt;padding:4px 8px;border-radius:3px;display:inline-block;letter-spacing:.05em}
+.hrs{font-family:'Archivo',sans-serif;font-weight:900;color:#CD393B;white-space:nowrap}
+.sec{page-break-before:always}
+.dayblock{page-break-inside:avoid;break-inside:avoid}
+h2{break-after:avoid;page-break-after:avoid}
+h3{break-after:avoid;page-break-after:avoid}
+.note{font-size:8.4pt;color:#5d5850;margin-top:3px}
+.tag{display:inline-block;background:#CD393B;color:#fff;font-family:'Archivo',sans-serif;font-size:6.8pt;font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:1px 6px;border-radius:8px;vertical-align:middle}
+.tag.g{background:var(--green)} .tag.b{background:var(--blue)}
+</style></head><body>
+
+<div class="top"><div class="pattern"></div>
+<div style="position:relative">
+<img src="logo-real.svg" style="width:58mm">
+<div class="redbar"></div>
+<h1>Week 1 Technical Fixes — Task Sheet</h1>
+<div class="sub">Six tasks, Monday to Thursday. Steps are in the email. This sheet is for ticking off and for the proof you send back each day.</div>
+<div class="strip">
+<div><div class="n">6</div><div class="l">Tasks</div></div>
+<div><div class="n">11.5 h</div><div class="l">Total time</div></div>
+<div><div class="n">4</div><div class="l">Days</div></div>
+<div><div class="n">~3 h</div><div class="l">Per day</div></div>
+</div>
+</div></div>
+
+<div class="rules">
+<strong style="font-size:9pt;color:#CD393B">THE SIX RULES — read before starting</strong>
+<ol>
+<li>Do Task 0, the backup, before anything else. Not optional.</li>
+<li>Do only what is written. Do not fix anything else you notice.</li>
+<li>Never deactivate a plugin, edit a code file, or touch Settings &gt; Permalinks.</li>
+<li>If a setting is not where described: screenshot what you see, send it, move on.</li>
+<li>Take the proof screenshot after every task.</li>
+<li>Send one message at the end of each day: one line per task, plus screenshots.</li>
+</ol>
+</div>
+
+<div class="dayblock"><h2><span class="day">DAY 1 — MONDAY</span> &nbsp;<span class="hrs">3 hours</span></h2>
+<table class="t">
+<tr><th style="width:18px"></th><th style="width:150px">Task</th><th style="width:44px">Time</th><th>What you are doing</th><th style="width:150px">Proof to send</th></tr>
+<tr><td><span class="tk"></span></td><td><strong>0. Backup</strong><br><span class="tag">Blocking</span></td><td class="hrs">15 min</td><td>UpdraftPlus → Backup Now. Tick both database and files. Wait for it to finish.</td><td>Screenshot of completed backup with today's date.</td></tr>
+<tr><td><span class="tk"></span></td><td><strong>1. Fix robots.txt</strong></td><td class="hrs">45 min</td><td>Replace the file contents with the block in the email. Two lines are removed on purpose.<div class="note">First tell me which SEO plugin you found: Yoast, Rank Math, or neither.</div></td><td>Screenshot of marketeersresearch.com/robots.txt showing the new text.</td></tr>
+<tr><td><span class="tk"></span></td><td><strong>2. Stop empty pages reaching Google</strong></td><td class="hrs">2 h</td><td>A: switch off photo/media pages. B: hide tag pages. C: set 5 named pages to "do not show in search results".<div class="note">The 5 pages: /career-form/ · /checklist-sign-up/ · /webinar-sign-up/ · /search-blog/ · /bnpl-study-yes/</div></td><td>Three screenshots: setting A, setting B, and the Advanced box on any one of the 5 pages showing "No".</td></tr>
+</table></div>
+
+<div class="dayblock"><h2><span class="day">DAY 2 — TUESDAY</span> &nbsp;<span class="hrs">2.5 hours</span></h2>
+<table class="t">
+<tr><th style="width:18px"></th><th style="width:150px">Task</th><th style="width:44px">Time</th><th>What you are doing</th><th style="width:150px">Proof to send</th></tr>
+<tr><td><span class="tk"></span></td><td><strong>3. Remove the date links from blog posts</strong><br><span class="tag">Most important</span></td><td class="hrs">2.5 h</td><td>The7 → Theme Options → Blog → Post Meta → switch <strong>Date</strong> off. Then clear the WP-Optimize cache <em>and</em> the Sucuri cache.<div class="note">Count matches for <code>/blog/2026/</code> in the page source before and after. Before is usually 1 or 2. After must be 0.</div></td><td>Two screenshots: the match count before, and the match count after.</td></tr>
+</table></div>
+
+<div class="dayblock"><h2><span class="day">DAY 3 — WEDNESDAY</span> &nbsp;<span class="hrs">3 hours</span></h2>
+<table class="t">
+<tr><th style="width:18px"></th><th style="width:150px">Task</th><th style="width:44px">Time</th><th>What you are doing</th><th style="width:150px">Proof to send</th></tr>
+<tr><td><span class="tk"></span></td><td><strong>4. Make the images smaller</strong></td><td class="hrs">3 h</td><td>Install <strong>EWWW Image Optimizer</strong> (free, unlimited — not ShortPixel). Run Media → Bulk Optimize and leave it running. Meanwhile resize the 5 largest files to 1600px wide and convert the two PNG photos to JPG.<div class="note">Do not delete any original file. Upload the new versions and send me the new file names.</div></td><td>Screenshot of the finished Bulk Optimize screen showing images optimized and space saved, plus the 5 new file names.</td></tr>
+</table></div>
+
+<div class="dayblock"><h2><span class="day">DAY 4 — THURSDAY</span> &nbsp;<span class="hrs">3 hours</span></h2>
+<table class="t">
+<tr><th style="width:18px"></th><th style="width:150px">Task</th><th style="width:44px">Time</th><th>What you are doing</th><th style="width:150px">Proof to send</th></tr>
+<tr><td><span class="tk"></span></td><td><strong>5. Fix 3 broken links</strong></td><td class="hrs">1.5 h</td><td>Install the <strong>Redirection</strong> plugin. Point <code>/data-analyst/</code>, <code>/careers-job-openings/</code> and <code>/digital-marketing-specialist/</code> all to <code>/careers/</code> as 301. Then find the Olive Oil PDF link and delete the stray <code>"</code> at the end of its address.<div class="note">Also copy me the two double-slash addresses. Report only — do not try to fix those.</div></td><td>Screenshot of the Redirection list showing all three, and the working PDF link.</td></tr>
+<tr><td><span class="tk"></span></td><td><strong>6. Speed up the slow category pages</strong><br><span class="tag b">Stop when done</span></td><td class="hrs">1.5 h</td><td>Time the page at httpstatus.io first. Then: WP-Optimize caching on, remove any cache exclusion containing "category" or "page", turn Preload on. Settings → Reading → 9 posts. Clear both caches. Time it again, twice.</td><td>The before time and the after time, screenshotted.</td></tr>
+</table></div>
+
+</div>
+<div class="box pale" style="margin-top:8px">
+<strong>End of each day:</strong> one message with one line per task ("Task 3 — done" or "Task 3 — stuck"), the proof screenshots, and a list of anything you could not find. Send it even if a task is unfinished. Saying you are stuck is more useful than silence.
+</div>
+<h2 style="margin-top:12px">When to stop and message instead of continuing</h2>
+<table class="t">
+<tr><th style="width:200px">If this happens</th><th>Do this</th></tr>
+<tr><td>The backup fails or errors</td><td>Stop everything. Message immediately. Do not start Task 1.</td></tr>
+<tr><td>You cannot find Yoast or Rank Math in the menu</td><td>Screenshot the left menu, send it, skip to Task 2.</td></tr>
+<tr><td>You cannot find "The7" or the Date switch</td><td>Screenshot the screen you are on, send it, move to Day 3.</td></tr>
+<tr><td>The date still shows after clearing both caches</td><td>Send both screenshots. Do not try anything else.</td></tr>
+<tr><td>You cannot find the Olive Oil PDF link in 30 minutes</td><td>Stop looking. Say so in the message.</td></tr>
+<tr><td>The category page is still slow after Task 6</td><td>Expected. Send the two times. A developer takes it from here.</td></tr>
+<tr><td>Anything asks you to edit code or delete a plugin</td><td>Stop. That is never part of this week's work.</td></tr>
+</table>
+
+
+<!-- PAGE 2 -->
+<div class="sec">
+<div style="display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid var(--navy);padding-bottom:6px;margin-bottom:10px">
+<img src="logo-real-dark.svg" style="width:46mm">
+<div style="text-align:right"><div class="kicker" style="margin:0">Reference sheet</div><div style="font-family:'Archivo',sans-serif;font-weight:900;font-size:13pt;color:var(--navy)">Copy-paste blocks &amp; exact names</div></div>
+</div>
+
+<h3>1 · The new robots.txt — replace everything with this</h3>
+<pre>User-agent: *
+Disallow: /wp-admin/
+Allow: /wp-admin/admin-ajax.php
+Disallow: /?s=
+Disallow: /search/
+Disallow: /?trk=
+Disallow: /?clients=
+Disallow: /?post_type=
+Disallow: /?wordfence_logHuman=
+
+Sitemap: https://marketeersresearch.com/wp-sitemap.xml</pre>
+<p class="note" style="margin-top:-4px">Removed on purpose: the line blocking <code>/wp-json/</code> and the line blocking <code>/sitemap-custom-posts.xml</code>. Do not put them back. Keep the blank line before Sitemap.</p>
+
+<h3>2 · The 5 pages to hide from Google (Task 2, Part C)</h3>
+<table class="t">
+<tr><th style="width:200px">Page address</th><th>Where the setting lives</th></tr>
+<tr><td><code>/career-form/</code></td><td rowspan="5">Open the page → scroll below the content to the SEO plugin box → <strong>Advanced</strong> tab → "Allow search engines to show this page in search results?" → set to <strong>No</strong> → Update.<br><span class="note">Rank Math wording: set Robots Meta to Custom, then tick <strong>No Index</strong>.</span></td></tr>
+<tr><td><code>/checklist-sign-up/</code></td></tr>
+<tr><td><code>/webinar-sign-up/</code></td></tr>
+<tr><td><code>/search-blog/</code></td></tr>
+<tr><td><code>/bnpl-study-yes/</code></td></tr>
+</table>
+
+<h3>3 · The 5 images to shrink by hand (Task 4, Step 3)</h3>
+<table class="t">
+<tr><th>Search the Media Library for</th><th style="width:52px">Now</th><th style="width:118px">Do this</th></tr>
+<tr><td><code>cloud-storage-banner-background</code></td><td class="hrs">1.30 MB</td><td>Resize to 1600px wide</td></tr>
+<tr><td><code>Artboard-1teams.png</code></td><td class="hrs">1.27 MB</td><td>Resize to 1600px <strong>and convert to .jpg</strong></td></tr>
+<tr><td><code>team.png</code></td><td class="hrs">823 KB</td><td>Resize to 1600px <strong>and convert to .jpg</strong></td></tr>
+<tr><td><code>IMG-20221221-WA0183-1.jpg</code></td><td class="hrs">571 KB</td><td>Resize to 1600px wide</td></tr>
+<tr><td><code>data-information-report-statistics</code></td><td class="hrs">567 KB</td><td>Resize to 1600px wide</td></tr>
+</table>
+<p class="note" style="margin-top:-4px">Free tools, no account needed: resize at <code>iloveimg.com/resize-image</code>, convert at <code>iloveimg.com/convert-to-jpg</code>. Never delete the original — upload the new file and send me its name.</p>
+
+<h3>4 · The 3 redirects to create (Task 5, Part B)</h3>
+<table class="t">
+<tr><th style="width:200px">Source URL</th><th style="width:150px">Target URL</th><th>Type</th></tr>
+<tr><td><code>/data-analyst/</code></td><td><code>/careers/</code></td><td>301 — Moved Permanently<br><span class="note">Currently points to /data-analytics/, which is wrong.</span></td></tr>
+<tr><td><code>/careers-job-openings/</code></td><td><code>/careers/</code></td><td>301 — Moved Permanently</td></tr>
+<tr><td><code>/digital-marketing-specialist/</code></td><td><code>/careers/</code></td><td>301 — Moved Permanently</td></tr>
+</table>
+
+<h3>5 · Report only — do not attempt</h3>
+<div class="box warn" style="margin-top:4px">
+<p style="margin:0 0 4px">Copy these two addresses into Thursday's message. They have two slashes after <code>.com</code> and need a developer.</p>
+<p class="mono" style="margin:0;word-break:break-all">marketeersresearch.com<strong style="color:#CD393B">//</strong>blog/the-role-of-ai-data-analytics-in-fmcg-growth-a-roadmap-for-revenue-optimization/<br>marketeersresearch.com<strong style="color:#CD393B">//</strong>blog/data-driven-growth-strategies-for-businesses-the-role-of-data-analytics-in-fmcg/</p>
+</div>
+
+<h3>6 · Clearing the cache — you must do both, every time</h3>
+<table class="t">
+<tr><th style="width:120px">Where</th><th>How</th></tr>
+<tr><td><strong>WordPress</strong></td><td>Left menu → WP-Optimize → Cache → <strong>Purge cache</strong></td></tr>
+<tr><td><strong>Sucuri firewall</strong></td><td>Log in → <strong>Clear cache</strong></td></tr>
+</table>
+<p class="note" style="margin-top:-4px">If you only clear one, the website keeps showing the old version and you will think the fix failed. This is the single most common reason a task looks like it did not work.</p>
+
+</div>
+
+</body></html>

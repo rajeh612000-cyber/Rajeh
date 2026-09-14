@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 150" width="640" height="150" font-family="Archivo, 'Open Sans', Arial, sans-serif">
+  <!-- Marketeers wordmark: light grey with red inverted triangle in the M -->
+  <g>
+    <!-- red inverted triangle sitting in the valley of the M -->
+    <polygon points="14,0 78,0 46,57" fill="#CD393B"/>
+    <text x="0" y="104" font-size="96" font-weight="500" fill="#E6E6E6" letter-spacing="-1">Marketeers</text>
+  </g>
+  <g font-size="32" font-weight="400" letter-spacing="1">
+    <text x="4" y="141" fill="#E6E6E6">Analytics</text>
+    <text x="158" y="141" fill="#CD393B">•</text>
+    <text x="190" y="141" fill="#E6E6E6">Insights</text>
+    <text x="325" y="141" fill="#CD393B">•</text>
+    <text x="357" y="141" fill="#CD393B" font-weight="600">Impact</text>
+  </g>
+</svg>
