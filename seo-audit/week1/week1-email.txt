@@ -1,20 +1,30 @@
-SUBJECT: Website technical fixes - 6 tasks, Mon to Thu, ~11.5 hours total
+SUBJECT: Website fixes this week - 5 tasks, Mon to Wed, 5 hours (capped at 7)
 
 Hi [NAME],
 
-Below are 6 website tasks for this week. They are already broken into exact
-steps. Please do them in the order written, one day at a time.
+Below are 5 website tasks for this week. They should take about 5 hours in
+total across 3 days, so roughly 1.5 to 2.5 hours a day. I have kept it light
+this week because you also have the content calendar to deliver.
 
-Everything you need is in this email. You do not need to open any attachment
-and you do not need to ask me anything before you start.
+Everything you need is in this email. You do not need to open the attachment
+and you do not need to ask me anything before you start. The attached PDF is
+the same thing in a tick-sheet format if you prefer working from that.
+
+HOURS AND PAYMENT
+Each task below has an estimated time and a hard cap. If you reach the cap on
+a task and it is still not done, STOP that task, tell me, and move to the next
+one. You will be paid for the capped hours either way, so there is no reason
+to push past it and no reason to rush. If a task takes you less, bill less.
+
+On Task 4 the plugin runs on its own for an hour or two. Do not sit and watch
+it - start it, go and do your content calendar work, and check back on it.
+Only bill the time you are actually working.
 
 Access details:
   Website admin: https://marketeersresearch.com/wp-admin
   Username: [FILL IN]
-  Password: [FILL IN - send separately via WhatsApp]
+  Password: [FILL IN - sent separately on WhatsApp]
   Sucuri firewall login: [FILL IN]
-
-Total time: about 11.5 hours across 4 days (roughly 3 hours a day).
 
 
 ========================================================================
@@ -24,29 +34,31 @@ READ THIS FIRST - 6 RULES
 1. Do Task 0 (the backup) before you touch anything else. Not optional.
 
 2. Do ONLY what is written here. Do not fix, tidy, update or improve
-   anything else you notice, even if it looks wrong. I know about it.
+   anything else you notice, even if it looks wrong. I know about it and
+   it is scheduled for later.
 
 3. Never deactivate or delete a plugin. Never edit a code file. Never
    touch Settings > Permalinks. If a task seems to need any of these,
    stop and message me.
 
 4. If a menu, button or setting is NOT where I describe it: stop that
-   task, take a screenshot of what you DO see, send it to me, and move
-   to the next task. Do not go looking for it somewhere else.
+   task, screenshot what you DO see, send it to me, and move to the next
+   task. Do not go looking for it somewhere else.
 
-5. After every task, take the screenshot listed under "PROOF". Send all
-   of that day's screenshots to me in ONE message at the end of the day.
+5. Do not start the next day's tasks early. Finish the day, send the
+   proof, then stop. The order matters.
 
-6. At the end of each day send me one line per task: "Task 3 - done" or
-   "Task 3 - stuck, screenshot attached". That is all I need.
+6. Send me the day's proof screenshots before you start the next day.
+   You do not need to wait for me to reply - as soon as you have sent
+   them you are clear to continue the following day.
 
 
 ========================================================================
-DAY 1 (MONDAY) - about 3 hours
+DAY 1 (MONDAY) - 1.5 hours, capped at 2
 ========================================================================
 
 ------------------------------------------------------------------------
-TASK 0 - BACKUP THE WEBSITE          TIME: 15 minutes
+TASK 0 - BACKUP THE WEBSITE       TIME: 15 min   CAP: 30 min
 ------------------------------------------------------------------------
 1. Log into https://marketeersresearch.com/wp-admin
 2. In the left menu click Plugins > Installed Plugins.
@@ -56,11 +68,11 @@ TASK 0 - BACKUP THE WEBSITE          TIME: 15 minutes
      click Install Now, then Activate. Then go to
      Settings > UpdraftPlus Backups.
 4. Click the big blue "Backup Now" button.
-5. In the popup, make sure BOTH boxes are ticked:
+5. In the popup make sure BOTH boxes are ticked:
    - Include your database in the backup
    - Include your files in the backup
-6. Click "Backup Now" and wait until it says the backup is complete.
-   This can take 10 minutes. Do not close the tab.
+6. Click "Backup Now" and wait until it says complete. This can take 10
+   minutes. Do not close the tab.
 
 PROOF: Screenshot of the completed backup showing today's date.
 
@@ -69,7 +81,7 @@ message me. Do not continue to Task 1.
 
 
 ------------------------------------------------------------------------
-TASK 1 - FIX THE robots.txt FILE          TIME: 45 minutes
+TASK 1 - FIX THE robots.txt FILE       TIME: 45 min   CAP: 1 hour
 ------------------------------------------------------------------------
 WHY: Our current file is telling Google not to read one of our sitemaps.
 That is blocking pages from appearing in Google.
@@ -84,7 +96,7 @@ STEP 2 - Open the robots.txt editor.
      Click Yoast SEO > Tools > File editor.
    - If you found RANK MATH:
      Click Rank Math > General Settings > Edit robots.txt.
-   - If you found NEITHER of those two:
+   - If you found NEITHER:
      STOP. Message me with a screenshot of the left menu. Skip to Task 2.
 
 STEP 3 - Replace the contents.
@@ -111,8 +123,8 @@ STEP 5 - Check it worked.
    Open a NEW browser tab and go to:
    https://marketeersresearch.com/robots.txt
    You should see exactly the text above. If you still see the old
-   version, wait 2 minutes, press Ctrl+Shift+R to hard refresh, and
-   look again.
+   version, wait 2 minutes, press Ctrl+Shift+R to hard refresh, look
+   again.
 
 PROOF: Screenshot of https://marketeersresearch.com/robots.txt showing
 the new text.
@@ -122,13 +134,13 @@ the one blocking /sitemap-custom-posts.xml. Do not put them back.
 
 
 ------------------------------------------------------------------------
-TASK 2 - STOP EMPTY PAGES GOING TO GOOGLE          TIME: 2 hours
+TASK 2 - SWITCH OFF TWO PAGE TYPES     TIME: 30 min   CAP: 45 min
 ------------------------------------------------------------------------
-WHY: Google is being offered 13 pages that are empty or private, such as
-a page for each uploaded photo, and our sign-up forms. This makes Google
-trust our website less.
+WHY: WordPress automatically creates a separate web page for every photo
+we upload, and for every tag. They are empty pages. Google is finding
+them and it makes our whole website look lower quality.
 
-PART A - Switch off the photo pages (10 minutes)
+PART A - Switch off the photo pages (15 minutes)
    - If YOAST SEO:
      Yoast SEO > Settings > Advanced > Media pages.
      Find "Enable media pages" and switch it OFF.
@@ -138,10 +150,10 @@ PART A - Switch off the photo pages (10 minutes)
    Click Save.
 
    CHECK: open https://marketeersresearch.com/media/karim/ in a new tab.
-   It should now show the photo file itself, or a "not found" page.
-   It should NOT show a normal web page with our header and menu.
+   It should now show the photo file itself, or a "not found" page. It
+   should NOT show a normal web page with our header and menu.
 
-PART B - Hide the tag pages (10 minutes)
+PART B - Hide the tag pages (15 minutes)
    - If YOAST SEO:
      Yoast SEO > Settings > Content types > Categories & tags > Tags.
      Set "Show Tags in search results?" to OFF.
@@ -150,47 +162,23 @@ PART B - Hide the tag pages (10 minutes)
      Set "Robots Meta" to Custom, then tick "No Index".
    Click Save.
 
-PART C - Hide 5 specific pages (about 1 hour 30 minutes)
-   Do this for EACH of the 5 pages listed below, one at a time:
-
-   1. Go to Pages in the left menu.
-   2. Find the page in the list and click its name to open the editor.
-   3. Scroll DOWN past the content until you find the box from the SEO
-      plugin (it says Yoast SEO or Rank Math at the top of the box).
-   4. Inside that box click the "Advanced" tab.
-   5. Find the question "Allow search engines to show this page in
-      search results?" and change it to "No".
-      (In Rank Math instead: set Robots Meta to Custom and tick
-      "No Index".)
-   6. Click the blue Update button at the top of the page.
-   7. Move to the next page in the list.
-
-   THE 5 PAGES:
-     /career-form/
-     /checklist-sign-up/
-     /webinar-sign-up/
-     /search-blog/
-     /bnpl-study-yes/
-
-   If you cannot find one of these pages in the Pages list, write it
-   down and tell me. Do not search for it elsewhere.
-
-PROOF: One screenshot of Part A setting, one of Part B setting, and one
-screenshot of the "Advanced" box for any ONE of the 5 pages showing "No".
+PROOF: One screenshot of the Part A setting and one of the Part B
+setting.
 
 
 ========================================================================
-DAY 2 (TUESDAY) - about 2.5 hours
+DAY 2 (TUESDAY) - 2.5 hours, capped at 3.5
 ========================================================================
 
 ------------------------------------------------------------------------
-TASK 3 - REMOVE THE DATE LINKS FROM BLOG POSTS     TIME: 2.5 hours
+TASK 3 - REMOVE THE DATE LINKS FROM BLOG POSTS
+                                     TIME: 2.5 hours   CAP: 3.5 hours
 ------------------------------------------------------------------------
-WHY: This is the most important task of the week. Every blog post shows
-its date as a clickable link. Those links lead to 74 empty pages that
-bounce Google back to the homepage. Google is wasting most of its time
-on our website going in and out of those 74 empty pages instead of
-reading our articles.
+WHY: This is the most important task of the month, so take your time
+with it. Every blog post shows its date as a clickable link. Those links
+lead to 74 empty pages that bounce Google straight back to the homepage.
+Google is spending most of its time on our website walking in and out of
+those 74 empty pages instead of reading our articles.
 
 STEP 1 - Record the "before" state.
    1. Open any blog post, for example:
@@ -203,28 +191,27 @@ STEP 1 - Record the "before" state.
    5. Close that tab.
 
 STEP 2 - Turn the date off in the theme.
-   1. In WordPress left menu, find and click "The7".
+   1. In the WordPress left menu, find and click "The7".
    2. Click "Theme Options".
    3. On the left inside Theme Options, click "Blog".
    4. Look for a sub-section called "Post Meta", "Meta Information" or
       "Post Details".
-   5. You will see on/off switches for things like Author, Date,
-      Categories, Comments.
+   5. You will see on/off switches for Author, Date, Categories,
+      Comments.
    6. Switch DATE to OFF. Leave everything else exactly as it is.
    7. Click "Save Changes" at the top.
 
    IF YOU CANNOT FIND "The7" IN THE MENU, or cannot find a Date switch:
-   STOP. Screenshot the Theme Options screen you are on and send it to
-   me. Do not change any other setting. Go to Step 4 anyway and report
-   what you find.
+   STOP. Screenshot the screen you are on and send it to me. Do not
+   change any other setting. Then go to Step 4 anyway and report what
+   you find.
 
 STEP 3 - Clear the caches. Both of them.
-   1. In WordPress left menu click "WP-Optimize" > "Cache".
-      Click the "Purge cache" button.
-   2. Log into Sucuri (link at the top of this email). Find the option
-      called "Clear cache" and click it.
-   Both are needed. If you only do one, the website will still show the
-   old version and you will think the fix failed.
+   1. WordPress left menu: WP-Optimize > Cache. Click "Purge cache".
+   2. Log into Sucuri. Find "Clear cache" and click it.
+   Both are needed. If you only do one, the website keeps showing the
+   old version and you will think the fix failed. This is the single
+   most common reason a task looks like it did not work.
 
 STEP 4 - Check it worked.
    1. Open the SAME blog post from Step 1.
@@ -232,196 +219,62 @@ STEP 4 - Check it worked.
    3. Right-click > View page source > Ctrl+F > type:  /blog/2026/
    4. It should now say 0 matches.
 
-PROOF: Two screenshots side by side - the "before" match count from
-Step 1 and the "after" match count from Step 4.
+PROOF: Two screenshots - the "before" match count from Step 1 and the
+"after" match count from Step 4.
 
 STOP CONDITION: If after Step 4 it still shows matches, do not try
-anything else. Send me both screenshots and move on to Day 3.
+anything else. Send me both screenshots. We will pick it up next week.
 
 
 ========================================================================
-DAY 3 (WEDNESDAY) - about 3 hours
+DAY 3 (WEDNESDAY) - 1 hour of your time, capped at 1.5
 ========================================================================
 
 ------------------------------------------------------------------------
-TASK 4 - MAKE THE IMAGES SMALLER          TIME: 3 hours
+TASK 4 - START THE IMAGE COMPRESSION    TIME: 1 hour   CAP: 1.5 hours
 ------------------------------------------------------------------------
 WHY: Our website carries 13.4 MB of photos. Google measured our pages
 taking 4.9 seconds to show their main picture. Anything over 2.5 seconds
-is graded "Poor" by Google and people leave before the page loads.
+is graded "Poor" and visitors leave before the page loads.
 
-STEP 1 - Install the compression plugin (10 minutes)
+IMPORTANT ON TIME: the plugin does the work by itself and takes 1 to 2
+hours to run. You only need about 1 hour of actual attention: setting it
+up, starting it, and checking back on it twice. Do not sit watching the
+progress bar and do not bill for that time. Start it, go and work on the
+content calendar, and look in on it every 30 minutes.
+
+STEP 1 - Install the plugin (20 minutes)
    1. Plugins > Add New.
    2. Search for:  EWWW Image Optimizer
    3. Click Install Now, then Activate.
-      (Use EWWW specifically. Do not use ShortPixel or Imagify - their
-      free versions run out after 100 images and we have 151.)
-   4. It will ask some setup questions. Answer them like this:
+      Use EWWW specifically. Do not use ShortPixel or Imagify - their
+      free versions stop after 100 images and we have 151.
+   4. It will ask setup questions. Answer them like this:
       - "Are you hosting images on a CDN?"  -> No / Skip
       - Choose the FREE option, not the paid one.
       - Tick "Enable WebP conversion" if offered.
       - Tick "Lazy load" if offered.
    5. Click Save.
 
-STEP 2 - Compress everything already uploaded (10 minutes of your time,
-then it runs by itself for 1-2 hours)
+STEP 2 - Start it running (10 minutes, then it runs by itself)
    1. Left menu: Media > Bulk Optimize.
    2. Click "Scan for unoptimized media".
-   3. When it shows the number of images found, click
-      "Start optimizing".
-   4. Leave the browser tab OPEN and do not close the laptop. It will
-      work through all the images. Check on it every 30 minutes.
-   5. While it runs, go and do Step 3 in a different browser tab.
+   3. When it shows how many images it found, click "Start optimizing".
+   4. Leave the browser tab OPEN and do not close the laptop. Go and do
+      other work. Check back every 30 minutes.
 
-STEP 3 - Shrink the 5 biggest images by hand (1.5 hours)
-   These 5 files are far too large and compression alone will not be
-   enough. For each one:
+STEP 3 - When it finishes, clear both caches (10 minutes)
+   WP-Optimize > Cache > Purge cache, then Sucuri > Clear cache.
 
-   1. Go to Media > Library and switch to LIST view (the icon at the
-      top left that looks like lines, not squares).
-   2. In the search box at the top right, type part of the file name
-      from the list below.
-   3. Click the file, then click "Download file" to save it to your
-      computer.
-   4. Open it in any image editor. If you have nothing installed, go to
-      https://www.iloveimg.com/resize-image and use that - it is free
-      and needs no account.
-   5. Resize the WIDTH to 1600 pixels. Leave the height to adjust
-      automatically.
-   6. If the file name ends in .png AND the picture is a photograph of
-      people or objects, also convert it to .jpg using
-      https://www.iloveimg.com/convert-to-jpg
-   7. Upload the new smaller version through Media > Add New.
-   8. IMPORTANT: do not delete the original file. Just tell me the new
-      file name. I will swap them over.
+STEP 4 - Check the result (20 minutes)
+   1. Go to https://pagespeed.web.dev
+   2. Paste this address and press Analyse, on the MOBILE tab:
+      https://marketeersresearch.com/blog/the-role-of-ai-data-analytics-in-fmcg-growth-a-roadmap-for-revenue-optimization/
+   3. Find the number called "LCP" or "Largest Contentful Paint".
+      Screenshot it. It was 4.9 seconds before. Any drop is progress.
 
-   THE 5 FILES (current size in brackets):
-     cloud-storage-banner-background-remixed-from-public-domain-by-nasa
-         ... (1.30 MB)
-     Artboard-1teams.png (1.27 MB) - also convert to .jpg
-     team.png (823 KB) - also convert to .jpg
-     IMG-20221221-WA0183-1.jpg (571 KB)
-     data-information-report-statistics-strategy-concept-scaled.jpg
-         (567 KB)
-
-STEP 4 - Clear both caches again (5 minutes)
-   Same as Task 3 Step 3. WP-Optimize purge, then Sucuri clear cache.
-
-PROOF: Screenshot of the Bulk Optimize screen when it finishes, showing
-how many images were optimized and the total space saved. Plus the list
-of the 5 new file names you uploaded.
-
-
-========================================================================
-DAY 4 (THURSDAY) - about 3 hours
-========================================================================
-
-------------------------------------------------------------------------
-TASK 5 - FIX 3 BROKEN LINKS          TIME: 1.5 hours
-------------------------------------------------------------------------
-
-PART A - Install the redirect tool (10 minutes)
-   1. Plugins > Add New. Search "Redirection". Install Now. Activate.
-   2. Go to Tools > Redirection. It runs a 3-step setup wizard.
-      Click Continue / Finish on each step and accept the defaults.
-
-PART B - Fix two wrong redirects (20 minutes)
-   In Tools > Redirection you will see a list of existing redirects.
-   Use the search box to find each one and click "Edit" to change the
-   target. If a redirect does NOT already exist, click "Add new
-   redirection" and create it.
-
-   Redirect 1:
-     Source URL:  /data-analyst/
-     Target URL:  /careers/
-     (It currently points to /data-analytics/ which is wrong - that is
-      a services page, not a jobs page.)
-
-   Redirect 2:
-     Source URL:  /careers-job-openings/
-     Target URL:  /careers/
-
-   Redirect 3:
-     Source URL:  /digital-marketing-specialist/
-     Target URL:  /careers/
-
-   For each one make sure the type is set to "301 - Moved Permanently".
-
-   CHECK: type marketeersresearch.com/data-analyst/ into your browser.
-   It should land on the careers page.
-
-PART C - Fix a broken PDF link (30 minutes)
-   Somewhere on the website there is a link to our Olive Oil case study
-   PDF with an extra quotation mark stuck on the end, which breaks it.
-   1. Go to Pages, and also check Posts.
-   2. Use the search box and search for:  Olive
-   3. Open each result and look for a button or link to the case study
-      PDF.
-   4. Click on the link, choose the edit (pencil) icon, and look at the
-      web address. If it ends with a " character, delete just that
-      character. The address must end in .pdf
-   5. Update the page, then click the link on the live website to make
-      sure the PDF opens.
-
-   If you cannot find it after 30 minutes, stop and tell me. Do not keep
-   looking.
-
-PART D - Just report, do not fix (5 minutes)
-   Copy these two web addresses into your end-of-day message to me:
-     marketeersresearch.com//blog/the-role-of-ai-data-analytics-in-fmcg-growth-a-roadmap-for-revenue-optimization/
-     marketeersresearch.com//blog/data-driven-growth-strategies-for-businesses-the-role-of-data-analytics-in-fmcg/
-   Note the two slashes after .com. This needs a developer. Do not
-   attempt it.
-
-PROOF: Screenshot of the Redirection list showing the 3 redirects, and
-a screenshot of the working PDF link.
-
-
-------------------------------------------------------------------------
-TASK 6 - SPEED UP THE SLOW CATEGORY PAGES     TIME: 1.5 hours
-------------------------------------------------------------------------
-WHY: Ten pages on our blog take between 7.5 and 9 seconds to load. Every
-other page takes under 1 second. Google gives up waiting.
-
-STEP 1 - Check the speed before you change anything (10 minutes)
-   1. Go to https://httpstatus.io
-   2. Paste this address:
-      https://marketeersresearch.com/blog/category/blog/featured/page/7/
-   3. Click Check status. Write down the response time it reports.
-      Screenshot it. This is your "before" number.
-
-STEP 2 - Turn caching on properly (20 minutes)
-   1. WordPress left menu: WP-Optimize > Cache.
-   2. Make sure "Enable page caching" is switched ON.
-   3. Click the "Advanced settings" tab.
-   4. Look for a box listing URLs that should never be cached.
-      If you see anything in that box containing the words "category"
-      or "page", delete just those lines. Leave anything else alone.
-   5. Go back to the main Cache tab and switch ON "Preload" (it may be
-      called "Cache preloading"). Set it to run once a day.
-   6. Click Save.
-
-STEP 3 - Show fewer articles per page (5 minutes)
-   1. Settings > Reading.
-   2. Change "Blog pages show at most" to 9.
-   3. Click Save Changes.
-
-STEP 4 - Clear both caches (5 minutes)
-   WP-Optimize purge, then Sucuri clear cache. Same as before.
-
-STEP 5 - Check the speed again (20 minutes)
-   1. Go back to https://httpstatus.io
-   2. Paste the same address as Step 1 and check it.
-   3. Then check it a SECOND time. The second check should be much
-      faster than the first, because the page is now saved in the cache.
-   4. Screenshot the result.
-
-PROOF: Your "before" screenshot from Step 1 and your "after" screenshot
-from Step 5.
-
-STOP HERE. If the page is still slow after this, that is expected and it
-is not your problem to solve - the rest needs a developer. Just send me
-the two screenshots.
+PROOF: Screenshot of the finished Bulk Optimize screen showing how many
+images were optimised and the space saved, plus the LCP screenshot.
 
 
 ========================================================================
@@ -430,16 +283,28 @@ WHAT TO SEND ME AT THE END OF EACH DAY
 
 One message per day containing:
 
-  1. One line per task: "Task 3 - done" or "Task 3 - stuck" .
-  2. The screenshots listed under PROOF for that day's tasks.
-  3. Anything you could not find, in one list.
+  1. One line per task: "Task 3 - done" or "Task 3 - stuck".
+  2. The screenshots listed under PROOF for that day.
+  3. Hours you actually spent on each task.
+  4. Anything you could not find, in one list.
 
-Please send it before you finish for the day, even if a task is
-incomplete. A short message saying you are stuck is more useful to me
-than silence.
+Send it before you finish for the day even if a task is incomplete. A
+short message saying you are stuck is far more useful to me than
+silence.
 
-If you finish a day's tasks early, stop. Do not start the next day's
-tasks ahead of schedule.
+
+========================================================================
+COMING NEXT WEEK (for your planning only - do NOT start these)
+========================================================================
+
+So you can plan around the content calendar, next week is about 6 hours:
+
+  - Hide 5 sign-up and form pages from Google          1.5 h
+  - Resize the 5 largest images by hand                1.5 h
+  - Fix 3 broken links and redirects                   1.5 h
+  - Speed up the slow blog category pages              1.5 h
+
+I will send the steps for these on Friday. Do not start any of them now.
 
 Thanks,
 [YOUR NAME]

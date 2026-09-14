@@ -1,14 +1,26 @@
-# Week 1 delegation pack (14-18 Sep 2026)
+# Week 1 delegation pack (revised)
 
-- `week1-email.txt` — the full email to paste into the email body. Fill in the
-  [NAME], [FILL IN] access details and [YOUR NAME] placeholders before sending.
-- `Marketeers-Week1-Task-Sheet.pdf` — 4-page tick sheet to attach as backup.
-  Page 1-2: tasks by day, proof required, stop conditions.
-  Page 3-4: copy-paste reference (robots.txt block, page lists, redirects).
+Trimmed from 11.5 h / 6 tasks / 4 days to **5 h / 5 tasks / 3 days**, because the
+same person also owns the content calendar. Each task now carries a hard cap.
 
-Six tasks, ~11.5 hours across 4 days, drawn from Week 1 of the v2 report
-(issues 1, 2, 9, 10, 11 plus the delegatable part of issue 3).
+- `week1-email.txt` — paste into the email body. Fill in [NAME], the [FILL IN]
+  access details and [YOUR NAME] first.
+- `Marketeers-Week1-Task-Sheet.pdf` — 4-page tick sheet to attach.
+  Page 1: tasks by day with estimates and caps. Page 2: stop conditions and
+  next week's preview. Pages 3-4: copy-paste reference and an hours table.
 
-NOTE ON THE LOGO: `source/logo-real.svg` and `logo-real-dark.svg` are redraws of
-the Marketeers lockup, not the official vector file. Replace both with the real
-asset before this goes outside the company.
+## What is in week 1 (5 h)
+Backup 0.25 · robots.txt 0.75 · media+tag pages off 0.5 · date links 2.5 ·
+start image compression 1.0
+
+## Deferred to week 2 (6 h)
+Hide 5 form pages 1.5 · resize 5 images 1.5 · broken links 1.5 · cache slow
+category pages 1.5
+
+## Delivery model
+Send the whole week at once, gated on proof-of-completion rather than on a
+reply. Drip-feeding day by day makes the sender the bottleneck and lets a
+stalled day be blamed on a late email.
+
+NOTE ON THE LOGO: `source/logo-real.svg` and `logo-real-dark.svg` are redraws,
+not the official vector file. Replace before this leaves the company.
