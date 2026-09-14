@@ -1,310 +1,234 @@
-SUBJECT: Website fixes this week - 5 tasks, Mon to Wed, 5 hours (capped at 7)
+SUBJECT: Website tasks this week - Mon to Thu - 5 hours
+
 
 Hi [NAME],
 
-Below are 5 website tasks for this week. They should take about 5 hours in
-total across 3 days, so roughly 1.5 to 2.5 hours a day. I have kept it light
-this week because you also have the content calendar to deliver.
+Website work for this week, split into one block per day. Five hours in
+total. The content calendar is separate and comes to you on its own.
 
-Everything you need is in this email. You do not need to open the attachment
-and you do not need to ask me anything before you start. The attached PDF is
-the same thing in a tick-sheet format if you prefer working from that.
+Login:     https://marketeersresearch.com/wp-admin
+User:      [FILL IN]
+Password:  sent to you on WhatsApp
+Sucuri:    [FILL IN]
 
-HOURS AND PAYMENT
-Each task below has an estimated time and a hard cap. If you reach the cap on
-a task and it is still not done, STOP that task, tell me, and move to the next
-one. You will be paid for the capped hours either way, so there is no reason
-to push past it and no reason to rush. If a task takes you less, bill less.
+Hours
 
-On Task 4 the plugin runs on its own for an hour or two. Do not sit and watch
-it - start it, go and do your content calendar work, and check back on it.
-Only bill the time you are actually working.
-
-Access details:
-  Website admin: https://marketeersresearch.com/wp-admin
-  Username: [FILL IN]
-  Password: [FILL IN - sent separately on WhatsApp]
-  Sucuri firewall login: [FILL IN]
+  Mon    Backup + robots.txt                    1 h
+  Tue    Turn off the date link on blog posts   2.5 h
+  Wed    Turn off photo pages and tag pages     0.5 h
+  Thu    Start the image compression            1 h
+         ------------------------------------------
+         Total                                  5 h
 
 
-========================================================================
-READ THIS FIRST - 6 RULES
-========================================================================
+WHAT NOT TO TOUCH
 
-1. Do Task 0 (the backup) before you touch anything else. Not optional.
-
-2. Do ONLY what is written here. Do not fix, tidy, update or improve
-   anything else you notice, even if it looks wrong. I know about it and
-   it is scheduled for later.
-
-3. Never deactivate or delete a plugin. Never edit a code file. Never
-   touch Settings > Permalinks. If a task seems to need any of these,
-   stop and message me.
-
-4. If a menu, button or setting is NOT where I describe it: stop that
-   task, screenshot what you DO see, send it to me, and move to the next
-   task. Do not go looking for it somewhere else.
-
-5. Do not start the next day's tasks early. Finish the day, send the
-   proof, then stop. The order matters.
-
-6. Send me the day's proof screenshots before you start the next day.
-   You do not need to wait for me to reply - as soon as you have sent
-   them you are clear to continue the following day.
+  - Do not deactivate or delete any plugin.
+  - Do not edit any code, theme or template file.
+  - Do not open Settings > Permalinks.
+  - Do not change anything that is not written below, even if it looks
+    wrong. The rest is already scheduled.
+  - If a setting is not where I describe it, screenshot what you see,
+    send it to me, and move to the next step. Do not go hunting for it.
+  - Do not start a day's tasks before its day.
 
 
-========================================================================
-DAY 1 (MONDAY) - 1.5 hours, capped at 2
-========================================================================
+======================================================================
+MONDAY - 1 hour
+======================================================================
 
-------------------------------------------------------------------------
-TASK 0 - BACKUP THE WEBSITE       TIME: 15 min   CAP: 30 min
-------------------------------------------------------------------------
-1. Log into https://marketeersresearch.com/wp-admin
-2. In the left menu click Plugins > Installed Plugins.
-3. Look for "UpdraftPlus".
-   - If it is there and active, go to Settings > UpdraftPlus Backups.
-   - If it is NOT there: click Plugins > Add New, search "UpdraftPlus",
-     click Install Now, then Activate. Then go to
-     Settings > UpdraftPlus Backups.
-4. Click the big blue "Backup Now" button.
-5. In the popup make sure BOTH boxes are ticked:
-   - Include your database in the backup
-   - Include your files in the backup
-6. Click "Backup Now" and wait until it says complete. This can take 10
-   minutes. Do not close the tab.
+1. BACK UP THE SITE  (15 min)
 
-PROOF: Screenshot of the completed backup showing today's date.
+  - Plugins > Installed Plugins. Check that UpdraftPlus is there and
+    active. If it is not: Plugins > Add New, search UpdraftPlus,
+    Install Now, Activate.
+  - Settings > UpdraftPlus Backups > click Backup Now.
+  - Tick BOTH boxes: include the database, include the files.
+  - Click Backup Now and wait for it to say complete. Around 10 minutes.
+    Keep the tab open.
 
-STOP CONDITION: If the backup fails or errors, stop everything and
-message me. Do not continue to Task 1.
+  If the backup fails, stop and message me. Do not start step 2.
 
 
-------------------------------------------------------------------------
-TASK 1 - FIX THE robots.txt FILE       TIME: 45 min   CAP: 1 hour
-------------------------------------------------------------------------
-WHY: Our current file is telling Google not to read one of our sitemaps.
-That is blocking pages from appearing in Google.
+2. REPLACE THE robots.txt FILE  (45 min)
 
-STEP 1 - Find out which SEO plugin we have.
-   In the left menu of WordPress, look for one of these names:
-   "Yoast SEO", "Rank Math", or "SEO".
-   Tell me in your end-of-day message which one you found.
+  - Look down the left menu for Yoast SEO or Rank Math. Tell me which
+    one you find.
+      Yoast:      Yoast SEO > Tools > File editor
+      Rank Math:  Rank Math > General Settings > Edit robots.txt
+      Neither:    screenshot the left menu, send it, skip to Tuesday.
+  - Delete everything in the box.
+  - Paste the block below exactly as it is, blank line included.
 
-STEP 2 - Open the robots.txt editor.
-   - If you found YOAST SEO:
-     Click Yoast SEO > Tools > File editor.
-   - If you found RANK MATH:
-     Click Rank Math > General Settings > Edit robots.txt.
-   - If you found NEITHER:
-     STOP. Message me with a screenshot of the left menu. Skip to Task 2.
+    ---------------- copy from here ----------------
+    User-agent: *
+    Disallow: /wp-admin/
+    Allow: /wp-admin/admin-ajax.php
+    Disallow: /?s=
+    Disallow: /search/
+    Disallow: /?trk=
+    Disallow: /?clients=
+    Disallow: /?post_type=
+    Disallow: /?wordfence_logHuman=
 
-STEP 3 - Replace the contents.
-   Delete everything currently in the box. Copy the block below EXACTLY
-   as it is, including the blank line, and paste it in:
+    Sitemap: https://marketeersresearch.com/wp-sitemap.xml
+    ----------------- to here ----------------------
 
-------------------- COPY FROM HERE -------------------
-User-agent: *
-Disallow: /wp-admin/
-Allow: /wp-admin/admin-ajax.php
-Disallow: /?s=
-Disallow: /search/
-Disallow: /?trk=
-Disallow: /?clients=
-Disallow: /?post_type=
-Disallow: /?wordfence_logHuman=
+  - Save changes.
+  - Open https://marketeersresearch.com/robots.txt in a new tab to
+    confirm. Press Ctrl+Shift+R if it still shows the old version.
 
-Sitemap: https://marketeersresearch.com/wp-sitemap.xml
--------------------- TO HERE -------------------------
-
-STEP 4 - Click Save changes.
-
-STEP 5 - Check it worked.
-   Open a NEW browser tab and go to:
-   https://marketeersresearch.com/robots.txt
-   You should see exactly the text above. If you still see the old
-   version, wait 2 minutes, press Ctrl+Shift+R to hard refresh, look
-   again.
-
-PROOF: Screenshot of https://marketeersresearch.com/robots.txt showing
-the new text.
-
-NOTE: Two lines were removed on purpose - the one blocking /wp-json/ and
-the one blocking /sitemap-custom-posts.xml. Do not put them back.
+  Two lines are gone on purpose, the one blocking /wp-json/ and the one
+  blocking /sitemap-custom-posts.xml. Do not add them back.
 
 
-------------------------------------------------------------------------
-TASK 2 - SWITCH OFF TWO PAGE TYPES     TIME: 30 min   CAP: 45 min
-------------------------------------------------------------------------
-WHY: WordPress automatically creates a separate web page for every photo
-we upload, and for every tag. They are empty pages. Google is finding
-them and it makes our whole website look lower quality.
-
-PART A - Switch off the photo pages (15 minutes)
-   - If YOAST SEO:
-     Yoast SEO > Settings > Advanced > Media pages.
-     Find "Enable media pages" and switch it OFF.
-   - If RANK MATH:
-     Rank Math > General Settings > Links.
-     Find "Redirect Attachments" and switch it ON.
-   Click Save.
-
-   CHECK: open https://marketeersresearch.com/media/karim/ in a new tab.
-   It should now show the photo file itself, or a "not found" page. It
-   should NOT show a normal web page with our header and menu.
-
-PART B - Hide the tag pages (15 minutes)
-   - If YOAST SEO:
-     Yoast SEO > Settings > Content types > Categories & tags > Tags.
-     Set "Show Tags in search results?" to OFF.
-   - If RANK MATH:
-     Rank Math > Titles & Meta > Tags.
-     Set "Robots Meta" to Custom, then tick "No Index".
-   Click Save.
-
-PROOF: One screenshot of the Part A setting and one of the Part B
-setting.
+SEND ME: the finished backup screen, the new robots.txt page, and which
+SEO plugin we have.
 
 
-========================================================================
-DAY 2 (TUESDAY) - 2.5 hours, capped at 3.5
-========================================================================
+======================================================================
+TUESDAY - 2.5 hours
+======================================================================
 
-------------------------------------------------------------------------
-TASK 3 - REMOVE THE DATE LINKS FROM BLOG POSTS
-                                     TIME: 2.5 hours   CAP: 3.5 hours
-------------------------------------------------------------------------
-WHY: This is the most important task of the month, so take your time
-with it. Every blog post shows its date as a clickable link. Those links
-lead to 74 empty pages that bounce Google straight back to the homepage.
-Google is spending most of its time on our website walking in and out of
-those 74 empty pages instead of reading our articles.
+TURN OFF THE DATE LINK ON BLOG POSTS
 
-STEP 1 - Record the "before" state.
-   1. Open any blog post, for example:
-      https://marketeersresearch.com/blog/the-art-of-revenue-growth-management-for-maximum-impact/
-   2. Right-click anywhere on the page and choose "View page source".
-      A page of code opens.
-   3. Press Ctrl+F and type:  /blog/2026/
-   4. The browser will show a number of matches (probably 1 or 2).
-      Screenshot that number. This is your "before".
-   5. Close that tab.
-
-STEP 2 - Turn the date off in the theme.
-   1. In the WordPress left menu, find and click "The7".
-   2. Click "Theme Options".
-   3. On the left inside Theme Options, click "Blog".
-   4. Look for a sub-section called "Post Meta", "Meta Information" or
-      "Post Details".
-   5. You will see on/off switches for Author, Date, Categories,
-      Comments.
-   6. Switch DATE to OFF. Leave everything else exactly as it is.
-   7. Click "Save Changes" at the top.
-
-   IF YOU CANNOT FIND "The7" IN THE MENU, or cannot find a Date switch:
-   STOP. Screenshot the screen you are on and send it to me. Do not
-   change any other setting. Then go to Step 4 anyway and report what
-   you find.
-
-STEP 3 - Clear the caches. Both of them.
-   1. WordPress left menu: WP-Optimize > Cache. Click "Purge cache".
-   2. Log into Sucuri. Find "Clear cache" and click it.
-   Both are needed. If you only do one, the website keeps showing the
-   old version and you will think the fix failed. This is the single
-   most common reason a task looks like it did not work.
-
-STEP 4 - Check it worked.
-   1. Open the SAME blog post from Step 1.
-   2. Press Ctrl+Shift+R to force a fresh load.
-   3. Right-click > View page source > Ctrl+F > type:  /blog/2026/
-   4. It should now say 0 matches.
-
-PROOF: Two screenshots - the "before" match count from Step 1 and the
-"after" match count from Step 4.
-
-STOP CONDITION: If after Step 4 it still shows matches, do not try
-anything else. Send me both screenshots. We will pick it up next week.
+This is the one that matters most this week, so use the full time on it.
 
 
-========================================================================
-DAY 3 (WEDNESDAY) - 1 hour of your time, capped at 1.5
-========================================================================
+1. Before you change anything, get the starting number.
 
-------------------------------------------------------------------------
-TASK 4 - START THE IMAGE COMPRESSION    TIME: 1 hour   CAP: 1.5 hours
-------------------------------------------------------------------------
-WHY: Our website carries 13.4 MB of photos. Google measured our pages
-taking 4.9 seconds to show their main picture. Anything over 2.5 seconds
-is graded "Poor" and visitors leave before the page loads.
+  - Open this post:
+    https://marketeersresearch.com/blog/the-art-of-revenue-growth-management-for-maximum-impact/
+  - Right-click the page, choose View page source.
+  - Press Ctrl+F and type:   /blog/2026/
+  - Screenshot the match count. It should be 1 or 2.
 
-IMPORTANT ON TIME: the plugin does the work by itself and takes 1 to 2
-hours to run. You only need about 1 hour of actual attention: setting it
-up, starting it, and checking back on it twice. Do not sit watching the
-progress bar and do not bill for that time. Start it, go and work on the
-content calendar, and look in on it every 30 minutes.
+2. Turn the date off.
 
-STEP 1 - Install the plugin (20 minutes)
-   1. Plugins > Add New.
-   2. Search for:  EWWW Image Optimizer
-   3. Click Install Now, then Activate.
-      Use EWWW specifically. Do not use ShortPixel or Imagify - their
-      free versions stop after 100 images and we have 151.
-   4. It will ask setup questions. Answer them like this:
-      - "Are you hosting images on a CDN?"  -> No / Skip
-      - Choose the FREE option, not the paid one.
-      - Tick "Enable WebP conversion" if offered.
-      - Tick "Lazy load" if offered.
-   5. Click Save.
+  - Left menu > The7 > Theme Options.
+  - Open Blog, then Post Meta. It may be called Meta Information or
+    Post Details.
+  - Switch DATE to off. Leave Author, Categories and Comments exactly
+    as they are.
+  - Save Changes.
 
-STEP 2 - Start it running (10 minutes, then it runs by itself)
-   1. Left menu: Media > Bulk Optimize.
-   2. Click "Scan for unoptimized media".
-   3. When it shows how many images it found, click "Start optimizing".
-   4. Leave the browser tab OPEN and do not close the laptop. Go and do
-      other work. Check back every 30 minutes.
+3. Clear both caches. Both of them, not one.
 
-STEP 3 - When it finishes, clear both caches (10 minutes)
-   WP-Optimize > Cache > Purge cache, then Sucuri > Clear cache.
+  - WP-Optimize > Cache > Purge cache.
+  - Log into Sucuri > Clear cache.
 
-STEP 4 - Check the result (20 minutes)
-   1. Go to https://pagespeed.web.dev
-   2. Paste this address and press Analyse, on the MOBILE tab:
-      https://marketeersresearch.com/blog/the-role-of-ai-data-analytics-in-fmcg-growth-a-roadmap-for-revenue-optimization/
-   3. Find the number called "LCP" or "Largest Contentful Paint".
-      Screenshot it. It was 4.9 seconds before. Any drop is progress.
+  If you only clear one, the site keeps serving the old version and it
+  will look like the fix failed.
 
-PROOF: Screenshot of the finished Bulk Optimize screen showing how many
-images were optimised and the space saved, plus the LCP screenshot.
+4. Check the result.
+
+  - Open the same post again, press Ctrl+Shift+R to force a fresh load.
+  - View page source > Ctrl+F > /blog/2026/
+  - It should now say 0 matches.
+
+  If you cannot find The7 in the menu, or there is no Date switch:
+  screenshot it, send it, then do step 4 anyway and tell me the number.
+
+  If it is still not 0 after both caches are cleared, stop there and
+  send me both screenshots. We will pick it up next week.
 
 
-========================================================================
-WHAT TO SEND ME AT THE END OF EACH DAY
-========================================================================
-
-One message per day containing:
-
-  1. One line per task: "Task 3 - done" or "Task 3 - stuck".
-  2. The screenshots listed under PROOF for that day.
-  3. Hours you actually spent on each task.
-  4. Anything you could not find, in one list.
-
-Send it before you finish for the day even if a task is incomplete. A
-short message saying you are stuck is far more useful to me than
-silence.
+SEND ME: the before count and the after count.
 
 
-========================================================================
-COMING NEXT WEEK (for your planning only - do NOT start these)
-========================================================================
+======================================================================
+WEDNESDAY - 30 minutes
+======================================================================
 
-So you can plan around the content calendar, next week is about 6 hours:
+TURN OFF TWO PAGE TYPES
 
-  - Hide 5 sign-up and form pages from Google          1.5 h
-  - Resize the 5 largest images by hand                1.5 h
-  - Fix 3 broken links and redirects                   1.5 h
-  - Speed up the slow blog category pages              1.5 h
 
-I will send the steps for these on Friday. Do not start any of them now.
+A. Photo pages
+
+  - Yoast:      Settings > Advanced > Media pages >
+                set Enable media pages to OFF
+  - Rank Math:  General Settings > Links >
+                set Redirect Attachments to ON
+  - Save.
+  - Check it worked: open
+    https://marketeersresearch.com/media/karim/
+    It should show the photo file itself or a not-found page. It should
+    not show a normal page with our header and menu.
+
+B. Tag pages
+
+  - Yoast:      Settings > Content types > Categories & tags > Tags >
+                set Show Tags in search results to OFF
+  - Rank Math:  Titles & Meta > Tags > Robots Meta > Custom >
+                tick No Index
+  - Save.
+
+
+SEND ME: one screenshot of each setting.
+
+
+======================================================================
+THURSDAY - 1 hour
+======================================================================
+
+START THE IMAGE COMPRESSION
+
+The plugin does the work on its own and takes one to two hours to run.
+Set it going, get on with the content calendar, and look in on it every
+half hour.
+
+
+1. Install the plugin  (20 min)
+
+  - Plugins > Add New. Search:  EWWW Image Optimizer
+  - Install Now, then Activate.
+  - Use EWWW. Not ShortPixel and not Imagify, they stop at 100 images
+    and we have 151.
+  - Setup questions: CDN = No or Skip. Choose the free option. Tick
+    WebP conversion and Lazy load if it offers them.
+  - Save.
+
+2. Set it running  (10 min, then leave it alone)
+
+  - Media > Bulk Optimize.
+  - Click Scan for unoptimized media.
+  - Click Start optimizing.
+  - Leave the tab open and do not close the laptop.
+
+3. Once it finishes  (30 min)
+
+  - WP-Optimize > Cache > Purge cache, then Sucuri > Clear cache.
+  - Go to pagespeed.web.dev, choose the Mobile tab, and test:
+    https://marketeersresearch.com/blog/the-role-of-ai-data-analytics-in-fmcg-growth-a-roadmap-for-revenue-optimization/
+  - Find the figure marked LCP and screenshot it.
+
+
+SEND ME: the Bulk Optimize summary screen and the LCP figure.
+
+
+======================================================================
+AT THE END OF EACH DAY
+======================================================================
+
+One message from you with:
+
+  - A line per task: done, or stuck.
+  - The screenshots listed under SEND ME.
+  - Hours spent.
+  - Anything you could not find.
+
+Send it even if something is unfinished. Telling me you are stuck is
+more use to me than silence.
+
+
+NEXT WEEK, so you can plan around it. Do not start any of this yet,
+steps come on Friday. Around 6 hours:
+
+  - Hide 5 form and sign-up pages from Google
+  - Resize the 5 largest images
+  - Fix 3 broken redirects
+  - Speed up the blog category pages
+
 
 Thanks,
 [YOUR NAME]

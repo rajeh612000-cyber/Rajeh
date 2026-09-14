@@ -1,26 +1,26 @@
-# Week 1 delegation pack (revised)
+# Week 1 delegation pack
 
-Trimmed from 11.5 h / 6 tasks / 4 days to **5 h / 5 tasks / 3 days**, because the
-same person also owns the content calendar. Each task now carries a hard cap.
+Five hours, Monday to Thursday, one block per day. Fixed hours, no caps.
 
-- `week1-email.txt` — paste into the email body. Fill in [NAME], the [FILL IN]
-  access details and [YOUR NAME] first.
-- `Marketeers-Week1-Task-Sheet.pdf` — 4-page tick sheet to attach.
-  Page 1: tasks by day with estimates and caps. Page 2: stop conditions and
-  next week's preview. Pages 3-4: copy-paste reference and an hours table.
+- `week1-email-formatted.html` — open in a browser, Ctrl+A, Ctrl+C, paste into
+  Gmail or Outlook. Bullets and bold survive the paste.
+- `week1-email.txt` — plain-text fallback, same content.
+- `Marketeers-Week1-Task-Sheet.pdf` — optional attachment.
 
-## What is in week 1 (5 h)
-Backup 0.25 · robots.txt 0.75 · media+tag pages off 0.5 · date links 2.5 ·
-start image compression 1.0
+Fill in four placeholders before sending: [NAME], two [FILL IN] logins,
+[YOUR NAME].
 
-## Deferred to week 2 (6 h)
-Hide 5 form pages 1.5 · resize 5 images 1.5 · broken links 1.5 · cache slow
-category pages 1.5
+## Schedule
+| Day | Task | Hours |
+|---|---|---|
+| Mon | Backup and robots.txt | 1 |
+| Tue | Turn off the date link on blog posts | 2.5 |
+| Wed | Turn off photo pages and tag pages | 0.5 |
+| Thu | Start the image compression | 1 |
 
-## Delivery model
-Send the whole week at once, gated on proof-of-completion rather than on a
-reply. Drip-feeding day by day makes the sender the bottleneck and lets a
-stalled day be blamed on a late email.
+## Deferred to next week (~6 h)
+Hide 5 form pages · resize 5 images · fix 3 redirects · speed up category pages
 
-NOTE ON THE LOGO: `source/logo-real.svg` and `logo-real-dark.svg` are redraws,
-not the official vector file. Replace before this leaves the company.
+Note: the task sheet PDF still shows the earlier Mon-Wed split with caps. The
+email is the current version; regenerate the PDF from `source/tracker.html` if
+you want them to match.
