@@ -1,11 +1,13 @@
 # clip	in	out	section	punch	fx	fy	zoom_end
-# in/out = seconds into the source clip. punch = 0 (locked) or 1 (push-in on Mariam).
-# fx/fy  = face centre as a fraction of frame width/height (0.5,0.38 = centred, upper third).
-# zoom_end = final zoom factor of the push (1.0 = none, 1.18 = gentle, 1.35 = strong).
-# Rows are laid down in file order. Fill after the clips land.
+# in/out  = seconds into the source clip. Rows are laid down in file order.
+# punch   = 0 locked / 1 push in. Only ever 1 on the ON CAMERA sections (1_hook, 4_close);
+#           §2 and §3 are voice-over in Mariam's script and carry no move.
+# fx/fy   = her face centre as a fraction of frame w/h. Set once the footage is viewable.
+# zoom_end= final zoom factor. Her script specifies no camera move, so 1.15 is a neutral
+#           placeholder, NOT a creative choice -- set it to whatever Mariam wants.
 PLACEHOLDER_hook_a.mp4	0.0	4.0	1_hook	0	0.50	0.38	1.00
-PLACEHOLDER_hook_b.mp4	0.0	4.0	1_hook	1	0.50	0.38	1.22
+PLACEHOLDER_hook_b.mp4	0.0	4.0	1_hook	1	0.50	0.38	1.15
 PLACEHOLDER_vo_shoppers.mp4	0.0	23.0	2_shoppers	0	0.50	0.38	1.00
 PLACEHOLDER_vo_optimizer.mp4	0.0	18.0	3_optimizer	0	0.50	0.38	1.00
-PLACEHOLDER_close_a.mp4	0.0	5.0	4_close	1	0.50	0.38	1.16
-PLACEHOLDER_close_b.mp4	0.0	4.0	4_close	1	0.50	0.38	1.30
+PLACEHOLDER_close_a.mp4	0.0	5.0	4_close	0	0.50	0.38	1.00
+PLACEHOLDER_close_b.mp4	0.0	4.0	4_close	1	0.50	0.38	1.15

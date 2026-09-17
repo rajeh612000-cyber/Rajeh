@@ -17,6 +17,11 @@ grep -v '^#' manifest.tsv | grep -v '^[[:space:]]*$' > work/rows.tsv
 while IFS=$'\t' read -r clip in out section punch fx fy zend; do
   src="footage/$clip"
   [ -f "$src" ] || { echo "MISSING: $src" >&2; exit 1; }
+  case "$punch" in 0|1) ;; *) echo "manifest: punch must be 0 or 1, got '$punch' ($clip)" >&2; exit 1;; esac
+  for v in "$in" "$out" "$fx" "$fy" "$zend"; do
+    case "$v" in ''|*[!0-9.]*) echo "manifest: non-numeric value '$v' on row $clip" >&2; exit 1;; esac
+  done
+  awk -v z="$zend" 'BEGIN{exit !(z>=1.0 && z<=2.0)}' || { echo "manifest: zoom_end '$zend' outside 1.0-2.0 ($clip)" >&2; exit 1; }
   i=$((i+1)); seg=$(printf "work/seg_%02d.mp4" "$i")
   dur=$(awk -v a="$in" -v b="$out" 'BEGIN{printf "%.3f", b-a}')
 
