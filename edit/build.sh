@@ -6,6 +6,7 @@ cd "$(dirname "$0")"
 ASPECT="${ASPECT:-vertical}"          # vertical | horizontal
 FPS="${FPS:-30}"
 if [ "$ASPECT" = horizontal ]; then W=1920; H=1080; else W=1080; H=1920; fi
+W="${W_OVERRIDE:-$W}"; H="${H_OVERRIDE:-$H}"
 FONT=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf
 
 rm -rf work && mkdir -p work out

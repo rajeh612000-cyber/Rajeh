@@ -1,13 +1,11 @@
 # clip	in	out	section	punch	fx	fy	zoom_end
-# in/out  = seconds into the source clip. Rows are laid down in file order.
-# punch   = 0 locked / 1 push in. Only ever 1 on the ON CAMERA sections (1_hook, 4_close);
-#           §2 and §3 are voice-over in Mariam's script and carry no move.
-# fx/fy   = her face centre as a fraction of frame w/h. Set once the footage is viewable.
-# zoom_end= final zoom factor. Her script specifies no camera move, so 1.15 is a neutral
-#           placeholder, NOT a creative choice -- set it to whatever Mariam wants.
-PLACEHOLDER_hook_a.mp4	0.0	4.0	1_hook	0	0.50	0.38	1.00
-PLACEHOLDER_hook_b.mp4	0.0	4.0	1_hook	1	0.50	0.38	1.15
-PLACEHOLDER_vo_shoppers.mp4	0.0	23.0	2_shoppers	0	0.50	0.38	1.00
-PLACEHOLDER_vo_optimizer.mp4	0.0	18.0	3_optimizer	0	0.50	0.38	1.00
-PLACEHOLDER_close_a.mp4	0.0	5.0	4_close	0	0.50	0.38	1.00
-PLACEHOLDER_close_b.mp4	0.0	4.0	4_close	1	0.50	0.38	1.15
+2.49.55.mp4	0.79	7.33	1_hook	1	0.52	0.22	1.15
+2.49.56.mp4	0.29	3.67	1_hook	1	0.52	0.22	1.15
+2.50.00.mp4	1.54	7.90	2_shoppers	0	0.52	0.22	1.00
+2.50.03.mp4	0.61	8.10	2_shoppers	0	0.52	0.22	1.00
+2.50.06.mp4	0.62	5.73	2_shoppers	0	0.52	0.22	1.00
+2.50.27.mp4	0.62	6.97	3_optimizer	0	0.52	0.22	1.00
+2.50.31.mp4	1.44	7.23	3_optimizer	0	0.52	0.22	1.00
+2.50.36.mp4	2.20	9.60	4_close	1	0.52	0.22	1.15
+2.50.39.mp4	0.79	5.37	4_close	1	0.52	0.22	1.15
+2.50.42.mp4	0.90	5.87	4_close	1	0.52	0.22	1.15
