@@ -1,0 +1,11 @@
+# clip	in	out	section	punch	fx	fy	zoom_end
+# in/out = seconds into the source clip. punch = 0 (locked) or 1 (push-in on Mariam).
+# fx/fy  = face centre as a fraction of frame width/height (0.5,0.38 = centred, upper third).
+# zoom_end = final zoom factor of the push (1.0 = none, 1.18 = gentle, 1.35 = strong).
+# Rows are laid down in file order. Fill after the clips land.
+PLACEHOLDER_hook_a.mp4	0.0	4.0	1_hook	0	0.50	0.38	1.00
+PLACEHOLDER_hook_b.mp4	0.0	4.0	1_hook	1	0.50	0.38	1.22
+PLACEHOLDER_vo_shoppers.mp4	0.0	23.0	2_shoppers	0	0.50	0.38	1.00
+PLACEHOLDER_vo_optimizer.mp4	0.0	18.0	3_optimizer	0	0.50	0.38	1.00
+PLACEHOLDER_close_a.mp4	0.0	5.0	4_close	1	0.50	0.38	1.16
+PLACEHOLDER_close_b.mp4	0.0	4.0	4_close	1	0.50	0.38	1.30
