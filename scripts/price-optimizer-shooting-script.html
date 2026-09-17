@@ -1,0 +1,1000 @@
+<title>Price Optimizer Shooting Script</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&display=swap">
+<style>
+:root{
+  --paper:#F8F7FA; --surface:#FFFFFF; --sunk:#F1EFF5;
+  --ink:#14131A; --ink-2:#403C4D; --muted:#6B6875;
+  --rule:#E2E0E8; --rule-2:#CFCBDA;
+  --accent:#5B3BD4; --accent-soft:#EEE9FF; --accent-ink:#4429B8;
+  --amber:#8A5810; --amber-soft:#FAF0DC;
+  --shadow:0 1px 2px rgba(20,19,26,.05);
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --paper:#121118; --surface:#1B1A23; --sunk:#16151D;
+  --ink:#EDEBF2; --ink-2:#C3BFD0; --muted:#948FA4;
+  --rule:#2C2A36; --rule-2:#3D3A4A;
+  --accent:#A88FFF; --accent-soft:#251E3E; --accent-ink:#C0ADFF;
+  --amber:#E0AC57; --amber-soft:#2A2113;
+  --shadow:0 1px 2px rgba(0,0,0,.4);
+}}
+:root[data-theme="dark"]{
+  --paper:#121118; --surface:#1B1A23; --sunk:#16151D;
+  --ink:#EDEBF2; --ink-2:#C3BFD0; --muted:#948FA4;
+  --rule:#2C2A36; --rule-2:#3D3A4A;
+  --accent:#A88FFF; --accent-soft:#251E3E; --accent-ink:#C0ADFF;
+  --amber:#E0AC57; --amber-soft:#2A2113;
+  --shadow:0 1px 2px rgba(0,0,0,.4);
+}
+
+body{
+  background:var(--paper); color:var(--ink);
+  font-family:"Newsreader",Georgia,"Times New Roman",serif;
+  font-size:17px; line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+  padding-inline:20px; padding-block:0;
+}
+.wrap{max-width:860px; margin:0 auto; padding-block:0 96px;}
+*,*::before,*::after{box-sizing:border-box;}
+p{margin:0;}
+a{color:var(--accent-ink); text-underline-offset:3px;}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:2px;}
+
+.disp{font-family:"Archivo",system-ui,sans-serif; font-stretch:112%; text-wrap:balance;}
+.mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;}
+
+/* ---------- masthead ---------- */
+.mast{padding-block:64px 34px; border-bottom:2px solid var(--ink);}
+.slate{
+  display:inline-flex; align-items:center; gap:9px;
+  font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:600;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--accent-ink);
+  background:var(--accent-soft); padding:6px 11px; border-radius:2px;
+}
+.slate b{width:6px;height:6px;border-radius:50%;background:var(--accent);}
+h1{
+  font-family:"Archivo",system-ui,sans-serif; font-stretch:118%;
+  font-size:clamp(40px,8.4vw,74px); line-height:.96; font-weight:700;
+  letter-spacing:-.025em; margin:20px 0 0; text-wrap:balance;
+}
+h1 em{font-style:normal; color:var(--accent); }
+.standfirst{
+  font-size:clamp(18px,2.4vw,21px); line-height:1.5; color:var(--ink-2);
+  max-width:47ch; margin-top:18px; font-weight:300;
+}
+
+/* ---------- spec strip ---------- */
+.spec{
+  display:grid; gap:1px 26px; margin-top:34px;
+  grid-template-columns:repeat(auto-fit,minmax(168px,1fr));
+}
+.spec div{padding-block:9px; border-top:1px solid var(--rule);}
+.spec dt{
+  font-family:"IBM Plex Mono",monospace; font-size:10px; font-weight:600;
+  letter-spacing:.15em; text-transform:uppercase; color:var(--muted);
+}
+.spec dd{margin:3px 0 0; font-size:15.5px; line-height:1.35; color:var(--ink);}
+.spec dd .num{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums;}
+
+/* ---------- timeline ---------- */
+.tl{margin-top:44px;}
+.tl-bar{display:flex; gap:3px; height:52px;}
+.tl-seg{
+  position:relative; background:var(--sunk); border-radius:2px;
+  border:1px solid var(--rule); padding:7px 9px; min-width:0; overflow:hidden;
+}
+.tl-seg.oc{background:var(--accent-soft); border-color:transparent;}
+.tl-seg .t{
+  font-family:"IBM Plex Mono",monospace; font-size:10.5px; font-weight:600;
+  font-variant-numeric:tabular-nums; color:var(--ink); display:block;
+}
+.tl-seg .l{
+  font-family:"IBM Plex Mono",monospace; font-size:9px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--muted); display:block; margin-top:2px;
+  white-space:nowrap; text-overflow:ellipsis; overflow:hidden;
+}
+.tl-key{
+  display:flex; flex-wrap:wrap; gap:6px 20px; margin-top:12px;
+  font-family:"IBM Plex Mono",monospace; font-size:10.5px;
+  letter-spacing:.06em; text-transform:uppercase; color:var(--muted);
+}
+.tl-key span{display:inline-flex; align-items:center; gap:7px;}
+.sw{width:11px; height:11px; border-radius:2px; flex:none;}
+.sw.a{background:var(--accent-soft); border:1px solid var(--accent);}
+.sw.b{background:var(--sunk); border:1px solid var(--rule-2);}
+
+/* ---------- section furniture ---------- */
+h2{
+  font-family:"Archivo",system-ui,sans-serif; font-stretch:112%;
+  font-size:clamp(25px,4vw,34px); line-height:1.1; font-weight:600;
+  letter-spacing:-.018em; margin:0; text-wrap:balance;
+}
+.sec{margin-top:72px;}
+.sec-head{border-top:2px solid var(--ink); padding-top:16px; margin-bottom:26px;}
+.eyebrow{
+  font-family:"IBM Plex Mono",monospace; font-size:10.5px; font-weight:600;
+  letter-spacing:.17em; text-transform:uppercase; color:var(--muted);
+  margin-bottom:9px;
+}
+h3{
+  font-family:"Archivo",system-ui,sans-serif; font-stretch:106%;
+  font-size:19px; font-weight:600; letter-spacing:-.008em;
+  margin:0 0 7px; text-wrap:balance;
+}
+.body-stack{display:flex; flex-direction:column; gap:15px; max-width:66ch;}
+.body-stack p{font-size:17px;}
+
+/* ---------- script beats ---------- */
+.beat{
+  display:grid; grid-template-columns:104px 1fr; gap:0 28px;
+  border-top:1px solid var(--rule-2); padding-top:22px; margin-top:34px;
+}
+.beat:first-of-type{margin-top:0;}
+.tc{position:sticky; top:calc(env(safe-area-inset-top,0px) + 14px); align-self:start;}
+.tc .range{
+  font-family:"IBM Plex Mono",monospace; font-size:14px; font-weight:600;
+  font-variant-numeric:tabular-nums; line-height:1.35; color:var(--ink);
+}
+.tc .dur{
+  font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--muted); margin-top:4px;
+}
+.tc .mode{
+  display:inline-block; margin-top:10px; padding:3px 7px; border-radius:2px;
+  font-family:"IBM Plex Mono",monospace; font-size:9.5px; font-weight:600;
+  letter-spacing:.1em; text-transform:uppercase;
+}
+.mode.cam{background:var(--accent-soft); color:var(--accent-ink);}
+.mode.vo{background:var(--sunk); color:var(--ink-2); border:1px solid var(--rule);}
+.beat-body{min-width:0;}
+
+.speech{
+  border-left:3px solid var(--accent); padding:2px 0 2px 20px;
+  margin:16px 0 0; display:flex; flex-direction:column; gap:9px;
+}
+.speech p{
+  font-family:"Newsreader",Georgia,serif; font-size:clamp(20px,2.7vw,24px);
+  line-height:1.38; font-weight:400; color:var(--ink); letter-spacing:-.005em;
+}
+.attrib{
+  font-family:"IBM Plex Mono",monospace; font-size:10px; font-weight:600;
+  letter-spacing:.15em; text-transform:uppercase; color:var(--muted);
+  margin-bottom:0;
+}
+
+.dir{margin-top:22px;}
+.dir-label{
+  font-family:"IBM Plex Mono",monospace; font-size:10px; font-weight:600;
+  letter-spacing:.15em; text-transform:uppercase; color:var(--muted);
+  padding-bottom:7px; border-bottom:1px solid var(--rule); margin-bottom:13px;
+}
+.cues{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:11px;}
+.cues li{display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:baseline; font-size:15.5px; line-height:1.5;}
+.cue-k{
+  font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--accent-ink);
+  background:var(--accent-soft); padding:2px 7px; border-radius:2px; white-space:nowrap;
+}
+.plain{display:flex; flex-direction:column; gap:12px; font-size:15.5px; line-height:1.55; color:var(--ink-2);}
+.plain strong{color:var(--ink); font-weight:600;}
+
+.ost{
+  background:var(--sunk); border:1px solid var(--rule); border-left:3px solid var(--ink);
+  border-radius:2px; padding:13px 16px; margin-top:20px;
+}
+.ost .k{
+  font-family:"IBM Plex Mono",monospace; font-size:9.5px; font-weight:600;
+  letter-spacing:.15em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:8px;
+}
+.ost .v{
+  font-family:"Archivo",sans-serif; font-stretch:108%; font-size:17px; font-weight:600;
+  line-height:1.45; color:var(--ink);
+}
+.ost .n{font-size:14px; color:var(--muted); margin-top:7px; line-height:1.45;}
+
+/* ---------- flags ---------- */
+.flag{
+  border:1px solid var(--rule); border-top:3px solid var(--amber);
+  background:var(--surface); border-radius:2px; padding:18px 20px; margin-top:22px;
+  box-shadow:var(--shadow);
+}
+.flag .k{
+  font-family:"IBM Plex Mono",monospace; font-size:10px; font-weight:600;
+  letter-spacing:.15em; text-transform:uppercase; color:var(--amber); display:block; margin-bottom:9px;
+}
+.flag p{font-size:15.5px; line-height:1.55; color:var(--ink-2);}
+.flag p + p{margin-top:11px;}
+.flag strong{color:var(--ink); font-weight:600;}
+
+/* ---------- decisions ---------- */
+.dec{display:flex; flex-direction:column; gap:0;}
+.dec-item{border-top:1px solid var(--rule-2); padding:24px 0;}
+.dec-item:last-child{border-bottom:1px solid var(--rule-2);}
+.dec-top{display:flex; flex-wrap:wrap; align-items:baseline; gap:10px 14px; margin-bottom:11px;}
+.dec-tag{
+  font-family:"IBM Plex Mono",monospace; font-size:9.5px; font-weight:600;
+  letter-spacing:.13em; text-transform:uppercase; padding:3px 8px; border-radius:2px;
+  background:var(--accent-soft); color:var(--accent-ink); white-space:nowrap;
+}
+.dec-item h3{margin:0;}
+.swap{
+  display:grid; grid-template-columns:1fr auto 1fr; gap:14px; align-items:center;
+  margin-top:15px; background:var(--sunk); border:1px solid var(--rule);
+  border-radius:2px; padding:14px 16px;
+}
+.swap .was, .swap .now{min-width:0;}
+.swap .k{
+  font-family:"IBM Plex Mono",monospace; font-size:9px; font-weight:600;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:5px;
+}
+.swap .was .t{font-size:15px; color:var(--muted); text-decoration:line-through; text-decoration-color:var(--rule-2); line-height:1.4;}
+.swap .now .t{font-size:15px; color:var(--ink); font-weight:500; line-height:1.4;}
+.swap .ar{color:var(--accent); font-size:17px; line-height:1;}
+
+/* ---------- figures ---------- */
+figure{margin:28px 0 0;}
+.fig-frame{
+  background:var(--surface); border:1px solid var(--rule); border-radius:3px;
+  padding:20px 18px; overflow-x:auto; box-shadow:var(--shadow);
+}
+.fig-frame svg{display:block; width:100%; min-width:520px; max-width:100%; height:auto; color:var(--ink);}
+figcaption{
+  font-size:14px; line-height:1.5; color:var(--muted); margin-top:11px; max-width:62ch;
+}
+figcaption b{color:var(--ink-2); font-weight:600;}
+
+/* ---------- alternates ---------- */
+.alts{display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); margin-top:22px;}
+.alt{
+  border:1px solid var(--rule); border-radius:3px; background:var(--surface);
+  padding:17px 18px; display:flex; flex-direction:column; gap:11px; box-shadow:var(--shadow);
+}
+.alt.pick{border-color:var(--accent); border-width:1.5px;}
+.alt-h{display:flex; align-items:center; gap:9px; flex-wrap:wrap;}
+.alt-l{
+  font-family:"IBM Plex Mono",monospace; font-size:9.5px; font-weight:600;
+  letter-spacing:.13em; text-transform:uppercase; color:var(--muted);
+}
+.alt.pick .alt-l{color:var(--accent-ink);}
+.alt-p{
+  font-family:"IBM Plex Mono",monospace; font-size:8.5px; font-weight:600;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--accent-ink);
+  background:var(--accent-soft); padding:2px 6px; border-radius:2px;
+}
+.alt q{font-family:"Newsreader",Georgia,serif; font-size:17.5px; line-height:1.4; color:var(--ink); quotes:'"' '"';}
+.alt .why{font-size:14px; line-height:1.5; color:var(--muted); margin-top:auto;}
+
+/* ---------- checklist ---------- */
+.check{list-style:none; margin:20px 0 0; padding:0; display:flex; flex-direction:column;}
+.check li{
+  display:grid; grid-template-columns:28px 1fr; gap:12px; align-items:baseline;
+  padding:11px 0; border-bottom:1px solid var(--rule); font-size:15.5px; line-height:1.5;
+}
+.check li:first-child{border-top:1px solid var(--rule);}
+.check .n{
+  font-family:"IBM Plex Mono",monospace; font-size:11px; font-weight:600;
+  color:var(--accent-ink); font-variant-numeric:tabular-nums;
+}
+
+/* ---------- craft grid ---------- */
+.craft{display:flex; flex-direction:column; gap:0; margin-top:8px;}
+.craft-row{
+  display:grid; grid-template-columns:132px 1fr; gap:10px 26px;
+  padding:20px 0; border-bottom:1px solid var(--rule);
+}
+.craft-row:first-child{border-top:1px solid var(--rule);}
+.craft-k{
+  font-family:"IBM Plex Mono",monospace; font-size:10.5px; font-weight:600;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--accent-ink); padding-top:3px;
+}
+.craft-v{display:flex; flex-direction:column; gap:11px; font-size:15.5px; line-height:1.55; color:var(--ink-2); min-width:0;}
+.craft-v strong{color:var(--ink); font-weight:600;}
+.craft-v .spec-line{
+  font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--ink);
+  white-space:pre-wrap;
+  background:var(--sunk); border:1px solid var(--rule); border-radius:2px;
+  padding:8px 11px; line-height:1.55; overflow-x:auto;
+}
+
+/* ---------- footer ---------- */
+.colophon{
+  margin-top:80px; border-top:2px solid var(--ink); padding-top:20px;
+  display:flex; flex-wrap:wrap; gap:8px 28px; align-items:baseline;
+  font-family:"IBM Plex Mono",monospace; font-size:10.5px;
+  letter-spacing:.11em; text-transform:uppercase; color:var(--muted);
+}
+.colophon .lead{color:var(--ink); font-weight:600;}
+
+@media (max-width:640px){
+  .beat{grid-template-columns:1fr; gap:14px;}
+  .tc{position:static; display:flex; flex-wrap:wrap; align-items:center; gap:10px 14px;}
+  .tc .dur{margin-top:0;}
+  .tc .mode{margin-top:0;}
+  .craft-row{grid-template-columns:1fr;}
+  .swap{grid-template-columns:1fr; gap:12px;}
+  .swap .ar{transform:rotate(90deg); justify-self:start;}
+  .tl-bar{height:64px;}
+  .tl-seg .l{display:none;}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important;}}
+</style>
+
+<div class="wrap">
+
+<header class="mast">
+  <span class="slate"><b></b>Shooting script &middot; v3 &middot; final</span>
+  <h1>What <em>If</em></h1>
+  <p class="standfirst">A 58-second film that asks an FMCG commercial team one question they cannot answer with a spreadsheet, then shows them the tool that can.</p>
+
+  <dl class="spec">
+    <div><dt>Client</dt><dd>Smart Value AI Solutions</dd></div>
+    <div><dt>Product</dt><dd>Price Optimizer</dd></div>
+    <div><dt>On camera</dt><dd>Mariam Ghabrial<br><span style="color:var(--muted);font-size:14px">Marketing &amp; PR Director, Marketeers</span></dd></div>
+    <div><dt>Posting from</dt><dd>Smart Value AI Solutions</dd></div>
+    <div><dt>Runtime</dt><dd><span class="num">0:58</span></dd></div>
+    <div><dt>Spoken words</dt><dd><span class="num">134</span></dd></div>
+    <div><dt>Master ratio</dt><dd><span class="num">1:1</span> &middot; <span class="num">9:16</span> cutdown</dd></div>
+    <div><dt>Primary platform</dt><dd>LinkedIn</dd></div>
+  </dl>
+
+  <div class="tl" role="group" aria-label="Runtime distribution across the four sections">
+    <div class="tl-bar">
+      <div class="tl-seg oc" style="flex:8"><span class="t">0:00</span><span class="l">Hook</span></div>
+      <div class="tl-seg" style="flex:23"><span class="t">0:08</span><span class="l">The four shoppers</span></div>
+      <div class="tl-seg" style="flex:18"><span class="t">0:31</span><span class="l">Price Optimizer</span></div>
+      <div class="tl-seg oc" style="flex:9"><span class="t">0:49</span><span class="l">Close</span></div>
+    </div>
+    <div class="tl-key">
+      <span><i class="sw a"></i>On camera &mdash; 17s</span>
+      <span><i class="sw b"></i>Voice-over &mdash; 41s</span>
+      <span>Segments drawn to actual duration</span>
+    </div>
+  </div>
+</header>
+
+<!-- ============ DECISIONS ============ -->
+<section class="sec">
+  <div class="sec-head">
+    <p class="eyebrow">Before the script</p>
+    <h2>Three calls made against the brief</h2>
+  </div>
+  <div class="body-stack" style="margin-bottom:6px">
+    <p>Each of these changes something the brief specified. Each is reversible, and the reversal is written out so nobody has to reconstruct it.</p>
+  </div>
+
+  <div class="dec">
+
+    <div class="dec-item">
+      <div class="dec-top"><span class="dec-tag">Naming</span><h3>The product is Price Optimizer, not Smart Value</h3></div>
+      <div class="plain">
+        <p>The brief called the subject "Smart Value Pricing Optimization." The company deck is more precise: <strong>Smart Value AI Solutions</strong> is the company, <strong>Price Optimizer</strong> is what clients buy, sitting beside Promotion Planner and AI-Enabled Market Research.</p>
+        <p>A viewer who wants this has to be able to ask for it by name, and "Smart Value Pricing Optimization" is not something they can ask for. The film is about one decision, so naming the one product that makes it is sharper than naming the company and leaving them to find the right door.</p>
+      </div>
+      <div class="swap">
+        <div class="was"><span class="k">Was</span><span class="t">Smart Value runs the question before you commit.</span></div>
+        <span class="ar" aria-hidden="true">&rarr;</span>
+        <div class="now"><span class="k">Now</span><span class="t">Price Optimizer runs the question before you commit.</span></div>
+      </div>
+      <div class="plain" style="margin-top:13px"><p>Eight words either way. If house policy is to lead with the parent brand, revert this line and change nothing else.</p></div>
+    </div>
+
+    <div class="dec-item">
+      <div class="dec-top"><span class="dec-tag">Positioning</span><h3>The end card uses the line you already own</h3></div>
+      <div class="plain">
+        <p>Smart Value already says <strong>"Decision support, powered by AI. Predict before you decide,"</strong> and the deck already says decisions are tested through simulation rather than analysed after the fact. That is the thesis of this film, which is a good sign.</p>
+        <p>So the end card carries the existing brand line. The earlier draft closed on "Before you change the price, simulate the decision," which is a serviceable line that duplicates yours at lower strength. It moves to the post caption. One line on screen, one in Mariam's mouth, same argument.</p>
+      </div>
+    </div>
+
+    <div class="dec-item">
+      <div class="dec-top"><span class="dec-tag">Proof</span><h3>The 92% figure stays off the screen</h3></div>
+      <div class="plain">
+        <p>The deck carries a real proof point: <strong>92% confidence on an actual pricing recommendation</strong>, models validated against real market outcomes. It is the strongest asset available and I have deliberately kept the number off the end card.</p>
+        <p>A specific figure on screen for two seconds invites "92% of what, measured how" from exactly the people this film is aimed at, and there is no room to answer them. Unqualified it reads as marketing. Qualified it needs a sentence. So the end card carries the softer validation line and the number goes in the caption, where there is room and where the people who care enough to ask are already reading.</p>
+      </div>
+      <div class="flag">
+        <span class="k">Sign-off required</span>
+        <p>Confirm the exact wording of the 92% claim with whoever owns it before it appears anywhere, caption included.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ SCRIPT ============ -->
+<section class="sec">
+  <div class="sec-head">
+    <p class="eyebrow">The film</p>
+    <h2>Script and direction</h2>
+  </div>
+
+  <!-- BEAT 1 -->
+  <div class="beat">
+    <div class="tc">
+      <div class="range">0:00<br>0:08</div>
+      <div class="dur">8 sec</div>
+      <span class="mode cam">On camera</span>
+    </div>
+    <div class="beat-body">
+      <h3>Hook</h3>
+      <div class="speech">
+        <p class="attrib">Mariam</p>
+        <p>"What if you put 8% on your best-selling SKU?</p>
+        <p>Someone in the room will say revenue goes up.</p>
+        <p>Will it?"</p>
+      </div>
+      <div class="dir">
+        <p class="dir-label">Direction</p>
+        <div class="plain">
+          <p>Open mid-thought. <strong>No logo, no greeting, no name card.</strong> The first three seconds are the most valuable real estate in the film and a title card spends them on the wrong thing.</p>
+          <p>Cut on "Will it?" to half a second of hard silence before the graphics start. Do not fill it with music. The pause is the question landing.</p>
+        </div>
+      </div>
+      <div class="ost">
+        <span class="k">On-screen text &mdash; frame one</span>
+        <span class="v">+8% on your best seller.</span>
+        <span class="n">Top third, up from the first frame, so the film reads with the sound off.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- BEAT 2 -->
+  <div class="beat">
+    <div class="tc">
+      <div class="range">0:08<br>0:31</div>
+      <div class="dur">23 sec</div>
+      <span class="mode vo">Voice-over</span>
+    </div>
+    <div class="beat-body">
+      <h3>The four shoppers</h3>
+      <div class="speech">
+        <p class="attrib">Voice-over</p>
+        <p>"Depends who's standing in the aisle.</p>
+        <p>Some pay it and never notice.</p>
+        <p>Some drop to the smaller pack. You kept the shopper and lost the value.</p>
+        <p>A few walk one shelf across to the competitor.</p>
+        <p>And a few just stop buying the category.</p>
+        <p>Same decision, four different answers, and your forecast only modelled one."</p>
+      </div>
+
+      <figure>
+        <div class="fig-frame">
+          <svg viewBox="0 0 640 208" role="img" aria-label="Four storyboard panels showing the same shelf after an 8 percent price rise: one shopper pays it, one trades down to a smaller pack, one switches to the competitor block, one leaves the category.">
+            <defs>
+              <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+                <polygon points="0,1 9,5 0,9" fill="currentColor"></polygon>
+              </marker>
+              <marker id="ahv" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+                <polygon points="0,1 9,5 0,9" fill="#5B3BD4"></polygon>
+              </marker>
+            </defs>
+
+            <!-- panel 1 -->
+            <g>
+              <rect x="6" y="8" width="146" height="152" fill="none" stroke="currentColor" stroke-opacity=".22" stroke-width="1"></rect>
+              <line x1="20" y1="118" x2="138" y2="118" stroke="currentColor" stroke-width="1.4"></line>
+              <rect x="34" y="84" width="20" height="34" fill="currentColor" fill-opacity=".14"></rect>
+              <rect x="64" y="84" width="20" height="34" fill="#5B3BD4" fill-opacity=".85"></rect>
+              <rect x="94" y="84" width="20" height="34" fill="currentColor" fill-opacity=".14"></rect>
+              <rect x="61" y="62" width="26" height="15" fill="none" stroke="#5B3BD4" stroke-width="1.2"></rect>
+              <text x="74" y="73" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="#5B3BD4" text-anchor="middle">108</text>
+              <circle cx="79" cy="146" r="4.5" fill="currentColor"></circle>
+              <line x1="79" y1="140" x2="76" y2="124" stroke="#5B3BD4" stroke-width="1.8" marker-end="url(#ahv)"></line>
+              <text x="79" y="180" font-family="IBM Plex Mono, monospace" font-size="9" letter-spacing="1.1" fill="currentColor" text-anchor="middle">PAYS IT</text>
+              <text x="79" y="194" font-family="IBM Plex Mono, monospace" font-size="8.5" fill="currentColor" fill-opacity=".55" text-anchor="middle">value up</text>
+            </g>
+
+            <!-- panel 2 -->
+            <g>
+              <rect x="164" y="8" width="146" height="152" fill="none" stroke="currentColor" stroke-opacity=".22" stroke-width="1"></rect>
+              <line x1="178" y1="118" x2="296" y2="118" stroke="currentColor" stroke-width="1.4"></line>
+              <rect x="192" y="84" width="20" height="34" fill="currentColor" fill-opacity=".14"></rect>
+              <rect x="222" y="84" width="20" height="34" fill="#5B3BD4" fill-opacity=".85"></rect>
+              <rect x="252" y="96" width="17" height="22" fill="#5B3BD4" fill-opacity=".35" stroke="#5B3BD4" stroke-width="1.2"></rect>
+              <rect x="219" y="62" width="26" height="15" fill="none" stroke="#5B3BD4" stroke-width="1.2"></rect>
+              <text x="232" y="73" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="#5B3BD4" text-anchor="middle">108</text>
+              <circle cx="237" cy="146" r="4.5" fill="currentColor"></circle>
+              <path d="M 237 140 C 244 134 252 130 258 122" fill="none" stroke="#5B3BD4" stroke-width="1.8" marker-end="url(#ahv)"></path>
+              <text x="237" y="180" font-family="IBM Plex Mono, monospace" font-size="9" letter-spacing="1.1" fill="currentColor" text-anchor="middle">TRADES DOWN</text>
+              <text x="237" y="194" font-family="IBM Plex Mono, monospace" font-size="8.5" fill="currentColor" fill-opacity=".55" text-anchor="middle">volume held, value lost</text>
+            </g>
+
+            <!-- panel 3 -->
+            <g>
+              <rect x="322" y="8" width="146" height="152" fill="none" stroke="currentColor" stroke-opacity=".22" stroke-width="1"></rect>
+              <line x1="336" y1="118" x2="454" y2="118" stroke="currentColor" stroke-width="1.4"></line>
+              <rect x="344" y="84" width="20" height="34" fill="currentColor" fill-opacity=".45"></rect>
+              <rect x="368" y="84" width="20" height="34" fill="currentColor" fill-opacity=".45"></rect>
+              <line x1="395" y1="78" x2="395" y2="124" stroke="currentColor" stroke-opacity=".35" stroke-width="1" stroke-dasharray="3 3"></line>
+              <rect x="404" y="84" width="20" height="34" fill="#5B3BD4" fill-opacity=".85"></rect>
+              <rect x="401" y="62" width="26" height="15" fill="none" stroke="#5B3BD4" stroke-width="1.2"></rect>
+              <text x="414" y="73" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="#5B3BD4" text-anchor="middle">108</text>
+              <circle cx="414" cy="146" r="4.5" fill="currentColor"></circle>
+              <path d="M 414 140 C 400 136 384 132 376 124" fill="none" stroke="currentColor" stroke-width="1.8" marker-end="url(#ah)"></path>
+              <text x="395" y="180" font-family="IBM Plex Mono, monospace" font-size="9" letter-spacing="1.1" fill="currentColor" text-anchor="middle">SWITCHES BRAND</text>
+              <text x="395" y="194" font-family="IBM Plex Mono, monospace" font-size="8.5" fill="currentColor" fill-opacity=".55" text-anchor="middle">you funded their quarter</text>
+            </g>
+
+            <!-- panel 4 -->
+            <g>
+              <rect x="480" y="8" width="146" height="152" fill="none" stroke="currentColor" stroke-opacity=".22" stroke-width="1"></rect>
+              <line x1="494" y1="118" x2="612" y2="118" stroke="currentColor" stroke-width="1.4"></line>
+              <rect x="508" y="84" width="20" height="34" fill="currentColor" fill-opacity=".14"></rect>
+              <rect x="538" y="84" width="20" height="34" fill="#5B3BD4" fill-opacity=".85"></rect>
+              <rect x="568" y="84" width="20" height="34" fill="currentColor" fill-opacity=".14"></rect>
+              <rect x="535" y="62" width="26" height="15" fill="none" stroke="#5B3BD4" stroke-width="1.2"></rect>
+              <text x="548" y="73" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="#5B3BD4" text-anchor="middle">108</text>
+              <circle cx="546" cy="140" r="4.5" fill="currentColor" fill-opacity=".8"></circle>
+              <path d="M 552 143 L 600 154" fill="none" stroke="currentColor" stroke-opacity=".45" stroke-width="1.8" stroke-dasharray="4 4" marker-end="url(#ah)"></path>
+              <text x="553" y="180" font-family="IBM Plex Mono, monospace" font-size="9" letter-spacing="1.1" fill="currentColor" text-anchor="middle">LEAVES CATEGORY</text>
+              <text x="553" y="194" font-family="IBM Plex Mono, monospace" font-size="8.5" fill="currentColor" fill-opacity=".55" text-anchor="middle">gone from the base</text>
+            </g>
+          </svg>
+        </div>
+        <figcaption><b>Storyboard, 0:08&ndash;0:29.</b> One shelf, held for the whole section, with the price tag flipped from 100 to 108. Each shopper path draws on its line and stays on screen, so by "four different answers" all four are visible at once over the same shelf.</figcaption>
+      </figure>
+
+      <div class="dir">
+        <p class="dir-label">Beat by beat</p>
+        <ul class="cues">
+          <li><span class="cue-k">aisle</span><span>The shelf draws in. One price tag flips 100 to 108.</span></li>
+          <li><span class="cue-k">pay it</span><span>A path runs straight to the SKU, stays green, volume bar barely moves.</span></li>
+          <li><span class="cue-k">smaller pack</span><span>The path bends down the shelf to a smaller pack of the same brand. Volume holds, value drops. Label the drop.</span></li>
+          <li><span class="cue-k">one shelf across</span><span>The path leaves the brand block and takes the competitor's colour. <strong>Let this beat land hardest.</strong> It is the expensive one.</span></li>
+          <li><span class="cue-k">stop buying</span><span>The path fades out of frame. Brief drop in the mix.</span></li>
+          <li><span class="cue-k">four answers</span><span>All four replay at once, fast, over the same shelf. Four tiles resolve together: volume, revenue, margin, share.</span></li>
+          <li><span class="cue-k">modelled one</span><span>Three tiles grey out. One stays lit.</span></li>
+        </ul>
+      </div>
+
+      <div class="ost">
+        <span class="k">On-screen text</span>
+        <span class="v">Pays it &middot; Trades down &middot; Switches brand &middot; Leaves the category</span>
+        <span class="n">Then, on the four-tile resolve: <strong style="color:var(--ink)">One price change. Four P&amp;Ls.</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- BEAT 3 -->
+  <div class="beat">
+    <div class="tc">
+      <div class="range">0:31<br>0:49</div>
+      <div class="dur">18 sec</div>
+      <span class="mode vo">Voice-over</span>
+    </div>
+    <div class="beat-body">
+      <h3>Price Optimizer</h3>
+      <div class="speech">
+        <p class="attrib">Voice-over</p>
+        <p>"Price Optimizer runs the question before you commit.</p>
+        <p>Move the price. Watch volume, margin and the portfolio move with it.</p>
+        <p>See where the switching goes. See where the shopper stops paying.</p>
+        <p>Test it on screen, not in the market."</p>
+      </div>
+      <div class="dir">
+        <p class="dir-label">Direction</p>
+        <div class="plain">
+          <p>Hand off from the illustrated shelf to real UI <strong>in the same colour language</strong>, so it reads as the same argument rather than a new chapter.</p>
+        </div>
+        <ul class="cues" style="margin-top:14px">
+          <li><span class="cue-k">runs the question</span><span>The +8% from the hook appears as a scenario row. Same number, loop closed.</span></li>
+          <li><span class="cue-k">move the price</span><span>A slider moves, outputs recalculate live. <strong>Do not cut during the recalculation.</strong> The whole point is that the numbers move together.</span></li>
+          <li><span class="cue-k">the portfolio</span><span>Pull back to the full SKU list. Two or three neighbouring SKUs move the other way. That shows cannibalisation without narrating it.</span></li>
+          <li><span class="cue-k">switching goes</span><span>Switching flows between brands.</span></li>
+          <li><span class="cue-k">stops paying</span><span>Willingness to pay curve, threshold marked. Land on the cliff edge.</span></li>
+          <li><span class="cue-k">not in the market</span><span>+4%, +8% and +12% stack side by side with different winners. Hold two seconds. <strong>This is the money frame.</strong></span></li>
+        </ul>
+      </div>
+
+      <div class="ost">
+        <span class="k">On-screen text</span>
+        <span class="v">Simulate. Then decide.</span>
+      </div>
+
+      <h3 style="margin-top:30px">Screens to source for the edit</h3>
+      <ol class="check">
+        <li><span class="n">01</span><span>Scenario row set to +8% on a single SKU</span></li>
+        <li><span class="n">02</span><span>Price slider mid-move with outputs recalculating</span></li>
+        <li><span class="n">03</span><span>Full portfolio view with neighbouring SKUs reacting</span></li>
+        <li><span class="n">04</span><span>Switching or source-of-volume view between brands</span></li>
+        <li><span class="n">05</span><span>Willingness to pay curve with the threshold visible</span></li>
+        <li><span class="n">06</span><span>Three scenarios compared side by side</span></li>
+      </ol>
+      <div class="flag">
+        <span class="k">Capture note</span>
+        <p>Record at the highest resolution available with <strong>real cursor movement</strong>, not static screenshots. A still screen pretending to be a live one is obvious on a 2&times; timeline, and this audience watches software demos for a living.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BEAT 4 -->
+  <div class="beat">
+    <div class="tc">
+      <div class="range">0:49<br>0:58</div>
+      <div class="dur">9 sec</div>
+      <span class="mode cam">On camera</span>
+    </div>
+    <div class="beat-body">
+      <h3>Close</h3>
+      <div class="speech">
+        <p class="attrib">Mariam</p>
+        <p>"So the question was never 'can we raise the price.'</p>
+        <p>It's 'what happens when we do.'</p>
+        <p>Simulate it first."</p>
+      </div>
+      <div class="dir">
+        <p class="dir-label">Direction</p>
+        <div class="plain">
+          <p>Back to the opening setup, same lighting, <strong>framed wider than the hook</strong>. Calmer than the hook. Pulling back signals resolution; going tighter would read as escalation, which is the wrong note for a line about thinking before acting.</p>
+          <p>Hold a full beat on her face after the last word. Do not cut on the word.</p>
+        </div>
+      </div>
+      <div class="ost">
+        <span class="k">End card &mdash; 0:56 to 0:58</span>
+        <span class="v">Smart Value AI Solutions<br>Price Optimizer<br>Predict before you decide.</span>
+        <span class="n">Small, beneath the line: <strong style="color:var(--ink)">Models validated against real market outcomes.</strong></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SHOT LIST ============ -->
+<section class="sec">
+  <div class="sec-head">
+    <p class="eyebrow">Camera</p>
+    <h2>Shot list and angles</h2>
+  </div>
+  <div class="body-stack">
+    <p>Only two on-camera setups in this film, so both have to work hard. The two-camera plan below is the single highest-value production decision on the day, because it is what makes the punch-in possible.</p>
+  </div>
+
+  <figure>
+    <div class="fig-frame">
+      <svg viewBox="0 0 640 392" role="img" aria-label="Overhead floor plan: Mariam faces A-cam on axis at 50 millimetres; B-cam sits 25 degrees off that axis at 85 millimetres; a soft key is 45 degrees to the short side; the background sits two stops under.">
+        <defs>
+          <marker id="pa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <polygon points="0,1 9,5 0,9" fill="currentColor"></polygon>
+          </marker>
+        </defs>
+
+        <!-- background wall -->
+        <line x1="128" y1="60" x2="520" y2="60" stroke="currentColor" stroke-width="3" stroke-opacity=".3"></line>
+        <text x="128" y="46" font-family="IBM Plex Mono, monospace" font-size="10.5" letter-spacing="1.2" fill="currentColor" fill-opacity=".6">BACKGROUND &mdash; 2 STOPS UNDER, DEFOCUSED</text>
+
+        <!-- subject -->
+        <circle cx="320" cy="150" r="17" fill="#5B3BD4"></circle>
+        <path d="M 320 167 L 314 180 L 326 180 Z" fill="#5B3BD4"></path>
+        <text x="320" y="132" font-family="IBM Plex Mono, monospace" font-size="10.5" font-weight="600" letter-spacing="1.2" fill="currentColor" text-anchor="middle">MARIAM</text>
+
+        <!-- angle arc -->
+        <path d="M 320 216 A 66 66 0 0 1 350 208" fill="none" stroke="currentColor" stroke-opacity=".5" stroke-width="1.2"></path>
+        <text x="360" y="218" font-family="IBM Plex Mono, monospace" font-size="10" fill="currentColor" fill-opacity=".7">25&deg;</text>
+
+        <!-- A cam -->
+        <rect x="296" y="292" width="48" height="30" fill="none" stroke="currentColor" stroke-width="2"></rect>
+        <rect x="344" y="300" width="13" height="14" fill="currentColor" fill-opacity=".45"></rect>
+        <line x1="320" y1="290" x2="320" y2="176" stroke="currentColor" stroke-width="1.4" stroke-dasharray="5 4" marker-end="url(#pa)"></line>
+        <text x="320" y="342" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" letter-spacing="1" fill="currentColor" text-anchor="middle">A-CAM</text>
+        <text x="320" y="358" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="currentColor" fill-opacity=".6" text-anchor="middle">MCU &middot; 50mm &middot; f/2.8</text>
+        <text x="320" y="372" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="currentColor" fill-opacity=".6" text-anchor="middle">eye height &middot; direct to lens</text>
+
+        <!-- B cam -->
+        <g transform="rotate(-25 424 300)">
+          <rect x="400" y="286" width="48" height="30" fill="none" stroke="#5B3BD4" stroke-width="2"></rect>
+          <rect x="448" y="294" width="13" height="14" fill="#5B3BD4" fill-opacity=".5"></rect>
+        </g>
+        <line x1="414" y1="288" x2="336" y2="172" stroke="#5B3BD4" stroke-width="1.4" stroke-dasharray="5 4"></line>
+        <polygon points="333,167 342,176 330,177" fill="#5B3BD4"></polygon>
+        <text x="470" y="342" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" letter-spacing="1" fill="#5B3BD4" text-anchor="middle">B-CAM</text>
+        <text x="470" y="358" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="#5B3BD4" fill-opacity=".8" text-anchor="middle">CU &middot; 85mm &middot; 25&deg; off axis</text>
+        <text x="470" y="372" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="#5B3BD4" fill-opacity=".8" text-anchor="middle">matched height</text>
+
+        <!-- key light -->
+        <g transform="rotate(45 168 268)">
+          <rect x="140" y="248" width="56" height="40" fill="none" stroke="currentColor" stroke-width="2"></rect>
+          <line x1="140" y1="258" x2="196" y2="258" stroke="currentColor" stroke-opacity=".4" stroke-width="1"></line>
+          <line x1="140" y1="268" x2="196" y2="268" stroke="currentColor" stroke-opacity=".4" stroke-width="1"></line>
+          <line x1="140" y1="278" x2="196" y2="278" stroke="currentColor" stroke-opacity=".4" stroke-width="1"></line>
+        </g>
+        <line x1="192" y1="244" x2="300" y2="162" stroke="currentColor" stroke-opacity=".55" stroke-width="1.4" marker-end="url(#pa)"></line>
+        <text x="124" y="316" font-family="IBM Plex Mono, monospace" font-size="11" font-weight="600" letter-spacing="1" fill="currentColor">KEY</text>
+        <text x="124" y="332" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="currentColor" fill-opacity=".6">large soft source</text>
+        <text x="124" y="346" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="currentColor" fill-opacity=".6">45&deg; &middot; short side</text>
+
+        <!-- practical -->
+        <circle cx="226" cy="84" r="7" fill="none" stroke="currentColor" stroke-width="1.4" stroke-opacity=".5"></circle>
+        <text x="242" y="88" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="currentColor" fill-opacity=".55">practical for separation</text>
+      </svg>
+    </div>
+    <figcaption><b>Overhead plan, both setups.</b> The same floor plan serves the hook and the close; only the A-cam framing changes between them. B-cam sits 25&deg; off the A-cam axis so a cut between them never reads as a jump.</figcaption>
+  </figure>
+
+  <figure>
+    <div class="fig-frame">
+      <svg viewBox="0 0 640 420" role="img" aria-label="Framing guide: a 16:9 capture area with the 1:1 delivery square marked inside it, the subject composed on the left third, the on-screen text occupying the right, and generous headroom marked at the top of the square.">
+        <!-- 16:9 capture -->
+        <rect x="40" y="46" width="560" height="315" fill="none" stroke="currentColor" stroke-opacity=".35" stroke-width="1.4" stroke-dasharray="6 5"></rect>
+        <text x="40" y="36" font-family="IBM Plex Mono, monospace" font-size="10.5" letter-spacing="1.2" fill="currentColor" fill-opacity=".6">16:9 CAPTURE &mdash; PROTECTION ONLY</text>
+
+        <!-- 1:1 delivery -->
+        <rect x="163" y="46" width="315" height="315" fill="none" stroke="#5B3BD4" stroke-width="2.2"></rect>
+
+        <!-- thirds -->
+        <line x1="268" y1="46" x2="268" y2="361" stroke="#5B3BD4" stroke-opacity=".3" stroke-width="1"></line>
+        <line x1="373" y1="46" x2="373" y2="361" stroke="#5B3BD4" stroke-opacity=".3" stroke-width="1"></line>
+        <line x1="163" y1="151" x2="478" y2="151" stroke="#5B3BD4" stroke-opacity=".3" stroke-width="1"></line>
+        <line x1="163" y1="256" x2="478" y2="256" stroke="#5B3BD4" stroke-opacity=".3" stroke-width="1"></line>
+
+        <!-- subject -->
+        <path d="M 200 361 C 200 300 224 282 252 282 C 280 282 304 300 304 361 Z" fill="currentColor" fill-opacity=".16"></path>
+        <circle cx="252" cy="248" r="34" fill="currentColor" fill-opacity=".28"></circle>
+        <line x1="163" y1="228" x2="478" y2="228" stroke="currentColor" stroke-opacity=".3" stroke-width="1" stroke-dasharray="3 4"></line>
+        <text x="484" y="232" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="currentColor" fill-opacity=".6">eyeline</text>
+
+        <!-- headroom bracket -->
+        <line x1="196" y1="50" x2="196" y2="210" stroke="currentColor" stroke-opacity=".55" stroke-width="1"></line>
+        <line x1="190" y1="50" x2="202" y2="50" stroke="currentColor" stroke-opacity=".55" stroke-width="1.4"></line>
+        <line x1="190" y1="210" x2="202" y2="210" stroke="currentColor" stroke-opacity=".55" stroke-width="1.4"></line>
+        <text x="182" y="134" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="currentColor" fill-opacity=".65" text-anchor="end">headroom</text>
+
+        <!-- text zone -->
+        <rect x="292" y="70" width="170" height="52" fill="#5B3BD4" fill-opacity=".1" stroke="#5B3BD4" stroke-width="1.2" stroke-dasharray="4 4"></rect>
+        <text x="303" y="94" font-family="Archivo, sans-serif" font-size="15" font-weight="600" fill="#5B3BD4">+8% on your</text>
+        <text x="303" y="112" font-family="Archivo, sans-serif" font-size="15" font-weight="600" fill="#5B3BD4">best seller.</text>
+
+        <text x="163" y="382" font-family="IBM Plex Mono, monospace" font-size="10.5" font-weight="600" letter-spacing="1.2" fill="#5B3BD4">1:1 DELIVERY &mdash; FRAME TO THIS</text>
+        <text x="163" y="398" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="currentColor" fill-opacity=".6">subject on the left third &middot; text zone right &middot; generous headroom</text>
+      </svg>
+    </div>
+    <figcaption><b>Framing for square.</b> Compose to the violet square, not the dashed 16:9. Centred framing collides with the text overlay, which is why she sits on the left third. Square punishes tight headroom faster than widescreen, so give more than instinct suggests.</figcaption>
+  </figure>
+
+  <div class="craft">
+    <div class="craft-row">
+      <span class="craft-k">Two cameras</span>
+      <div class="craft-v">
+        <span class="spec-line">A-CAM &nbsp;MCU, chest up &nbsp;&middot;&nbsp; ~50mm equiv &nbsp;&middot;&nbsp; f/2.8&ndash;f/4 &nbsp;&middot;&nbsp; eye height or 1&ndash;2&deg; below &nbsp;&middot;&nbsp; direct to lens
+B-CAM &nbsp;CU, shoulders up &nbsp;&middot;&nbsp; ~85mm equiv &nbsp;&middot;&nbsp; 25&deg; off A-cam axis &nbsp;&middot;&nbsp; matched height</span>
+        <p>This gives the editor a clean cut anywhere without a jump cut. <strong>If only one camera is available</strong>, shoot every line twice at both sizes and match the performance.</p>
+      </div>
+    </div>
+
+    <div class="craft-row">
+      <span class="craft-k">Hook &mdash; 0:00</span>
+      <div class="craft-v">
+        <p>Start on A-cam, direct address. She is asking the viewer a question, so any off-axis eyeline turns it into an interview and the question stops being aimed at anyone.</p>
+        <p>Camera locked off, or a <strong>2 to 3% push across the eight seconds</strong>. Imperceptible, but it adds forward pressure. No handheld. Handheld reads as vlog, and this film is asking for commercial authority.</p>
+      </div>
+    </div>
+
+    <div class="craft-row">
+      <span class="craft-k">The punch-in</span>
+      <div class="craft-v">
+        <p>Cut to B-cam on <strong>"Will it?"</strong>. This is the most valuable two seconds of coverage in the film.</p>
+        <p>Drop-off concentrates around the five-second mark, and a hard size change right at that point resets attention without spending a word. Cut <strong>on</strong> the question, not after it.</p>
+      </div>
+    </div>
+
+    <div class="craft-row">
+      <span class="craft-k">Close &mdash; 0:49</span>
+      <div class="craft-v">
+        <p>A-cam, medium shot, waist up, direct to lens. Wider than the hook, same lighting, same background.</p>
+        <p>Consider one cut to B-cam on "Simulate it first," but only if the take supports it. If her delivery is strong, stay wide and let it play. A cut there can look like you did not trust the line.</p>
+      </div>
+    </div>
+
+    <div class="craft-row">
+      <span class="craft-k">Lighting</span>
+      <div class="craft-v">
+        <p>Soft key at about 45&deg;, large source, <strong>short side</strong>. Keying the far side of her face from camera gives shape and reads more serious than flat frontal light. Background one and a half to two stops under.</p>
+        <p>Avoid a white cyc. This audience recognises white-cyc corporate video as an ad within a second and scrolls past it.</p>
+      </div>
+    </div>
+
+    <div class="craft-row">
+      <span class="craft-k">Background<br>&amp; wardrobe</span>
+      <div class="craft-v">
+        <p>Real environment, defocused. Office or meeting room, not a branded backdrop. Nothing readable behind her head, and <strong>check this in the square crop rather than the 16:9</strong>, because square pulls the background much closer to her face.</p>
+        <p>Solid mid-tone wardrobe. No fine patterns, which will moir&eacute;. No white, which will blow out against a soft key. Nothing in the Smart Value violet family, or she will blend into the graphics on the cut at 0:08.</p>
+      </div>
+    </div>
+
+    <div class="craft-row">
+      <span class="craft-k">Audio</span>
+      <div class="craft-v">
+        <p>Lav plus a boom if you have both. <strong>Record the voice-over in the same room on the same chain as the on-camera audio.</strong></p>
+        <p>If the V/O is recorded later on a different mic, the cut back to her face at 0:49 will sound like a different film, and the viewer will feel it even if they cannot name it.</p>
+      </div>
+    </div>
+
+    <div class="craft-row">
+      <span class="craft-k">Square<br>framing</span>
+      <div class="craft-v">
+        <p>Shoot 4K 16:9 or open gate and crop to 1:1 in post, with <strong>1:1 guides on while framing</strong>. Compose so the square is the hero and the 16:9 is protection, not the other way round.</p>
+      </div>
+    </div>
+
+    <div class="craft-row">
+      <span class="craft-k">Extra<br>coverage</span>
+      <div class="craft-v">
+        <p>Cheap to capture on the day, expensive to go back for.</p>
+        <p>All three hook variants, three takes each, which is what lets you A/B the opening where the reach is decided. All three closer variants. Both sections at both sizes even with two cameras running. Ten seconds of her holding a neutral look with no dialogue, at both sizes. Thirty seconds of room tone.</p>
+        <p><strong>Half a day covers all of it comfortably.</strong></p>
+      </div>
+    </div>
+
+    <div class="craft-row">
+      <span class="craft-k">Cut rhythm</span>
+      <div class="craft-v">
+        <p>Something on screen should change every two to three seconds across the whole film. The animation beats already do this in the middle sections. In the on-camera sections the punch-in cuts are the only thing providing it, <strong>which is why they are not optional</strong>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ALTERNATES ============ -->
+<section class="sec">
+  <div class="sec-head">
+    <p class="eyebrow">Options</p>
+    <h2>Alternative hooks</h2>
+  </div>
+  <div class="body-stack">
+    <p>Shoot all three. The opening is where reach is decided and the marginal cost on the day is about ten minutes.</p>
+  </div>
+  <div class="alts">
+    <div class="alt pick">
+      <div class="alt-h"><span class="alt-l">Hook A</span><span class="alt-p">Scripted</span></div>
+      <q>What if you put 8% on your best-selling SKU? Someone in the room will say revenue goes up. Will it?</q>
+      <p class="why">Keeps the what-if framing and turns it into a challenge rather than a riddle.</p>
+    </div>
+    <div class="alt">
+      <div class="alt-h"><span class="alt-l">Hook B &mdash; the meeting</span></div>
+      <q>Someone has already asked for 8% on your biggest SKU. You have a week to answer.</q>
+      <p class="why">Drops the viewer into a deadline instead of a hypothetical. Strongest for Finance and Commercial, who live in that meeting.</p>
+    </div>
+    <div class="alt">
+      <div class="alt-h"><span class="alt-l">Hook C &mdash; the cost of being right</span></div>
+      <q>Eight percent on your best seller. The model says yes. The model has never met your shopper.</q>
+      <p class="why">Sharpest scroll-stopper, more confrontational. Test this one if reach is the priority.</p>
+    </div>
+  </div>
+
+  <h2 style="margin-top:44px; font-size:clamp(21px,3vw,26px)">Alternative closers</h2>
+  <div class="alts">
+    <div class="alt pick">
+      <div class="alt-h"><span class="alt-l">Closer A</span><span class="alt-p">Scripted</span></div>
+      <q>So the question was never 'can we raise the price.' It's 'what happens when we do.' Simulate it first.</q>
+      <p class="why">The pause carries the construction. Works spoken, would not work written.</p>
+    </div>
+    <div class="alt">
+      <div class="alt-h"><span class="alt-l">Closer B &mdash; plainer</span></div>
+      <q>Everyone can raise a price. The job is knowing what it costs you.</q>
+      <p class="why">Drops the isn't/it's construction if the delivery feels too written on the day.</p>
+    </div>
+    <div class="alt">
+      <div class="alt-h"><span class="alt-l">Closer C &mdash; shortest</span></div>
+      <q>Any of us can change a price. Knowing what it costs you is the job.</q>
+      <p class="why">Least room to fumble. Useful safety take.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CASTING ============ -->
+<section class="sec">
+  <div class="sec-head">
+    <p class="eyebrow">Talent</p>
+    <h2>What Mariam can and cannot say</h2>
+  </div>
+  <div class="body-stack">
+    <p>Mariam Ghabrial is Marketing &amp; PR Director at Marketeers, the sister company to Smart Value AI Solutions. She is not an RGM practitioner and the script must not imply otherwise. Senior commercial people can tell the difference inside one sentence.</p>
+  </div>
+
+  <div class="craft" style="margin-top:26px">
+    <div class="craft-row">
+      <span class="craft-k">The rule</span>
+      <div class="craft-v">
+        <p><strong>She poses, the film proves.</strong> Both on-camera moments are questions. Everything that asserts anything about volume, switching or margin sits in the voice-over over graphics, where the evidence is on screen doing the arguing.</p>
+        <p>Keep that split in any rewrite and she has nothing to defend that is not hers.</p>
+      </div>
+    </div>
+    <div class="craft-row">
+      <span class="craft-k">Watch<br>one line</span>
+      <div class="craft-v">
+        <p>"Someone in the room will say revenue goes up" is observational, so it works from her. If the takes start to sound like she is claiming a seat in that room, change it to <strong>"You'll hear someone say revenue goes up."</strong> Decide on the day from the takes.</p>
+      </div>
+    </div>
+    <div class="craft-row">
+      <span class="craft-k">Voice-over</span>
+      <div class="craft-v">
+        <p><strong>Recommend Mariam carries it herself.</strong> A second voice would make the hybrid structure more obvious, but across 58 seconds with only two on-camera moments it fragments the film into three people's opinions.</p>
+        <p>The cut from her face to the shelf graphic already supplies the rhythm change. One voice keeps it one argument. If a second voice is preferred, make it noticeably lower and steadier so the hand-off reads as deliberate.</p>
+      </div>
+    </div>
+    <div class="craft-row">
+      <span class="craft-k">Attribution</span>
+      <div class="craft-v">
+        <p><strong>No lower third on the hook.</strong> The first three seconds are the most valuable real estate in the film, and a Marketeers title over a Smart Value film invites exactly the sister-company confusion worth avoiding.</p>
+        <p>The film posts from the Smart Value AI Solutions account, so credit her in the caption instead.</p>
+      </div>
+    </div>
+    <div class="craft-row">
+      <span class="craft-k">Delivery</span>
+      <div class="craft-v">
+        <p>Script the on-camera lines for structure, then give her <strong>keyword bullets rather than a teleprompter</strong>. The hook and the closer should sound argued, not recited. Record three takes of the hook at different energy levels.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCENARIO ============ -->
+<section class="sec">
+  <div class="sec-head">
+    <p class="eyebrow">Rationale</p>
+    <h2>Why a straight 8% increase</h2>
+  </div>
+  <div class="body-stack">
+    <p>Three other scenarios were on the table: pulling a promo, changing pack price architecture, and reacting to a competitor-led cut. The straight price increase wins mainly on comprehension speed.</p>
+    <p>A scrolling viewer gives you one to two seconds. <strong>"+8% on your best seller" is legible in that window with no decoding.</strong> "Pull the 25% promo" needs a beat of setup, and a pack architecture change needs several. In a film whose job is curiosity before product, the scenario that lands fastest wins even if it is not the most sophisticated question in the category.</p>
+    <p>It also maps cleanly onto the four outcomes. Pay it, trade down, switch brand, leave the category are the natural responses to a price going <em>up</em>. On a promo withdrawal or a competitor-led move those branches shift and the animation gets muddier.</p>
+  </div>
+  <div class="flag">
+    <span class="k">Recommendation &mdash; shoot two films</span>
+    <p><strong>The promo question is the better second film, and it sells a different product.</strong> "What if you pulled the 25% promo on your biggest SKU?" maps onto Promotion Planner rather than Price Optimizer.</p>
+    <p>It is the more painful question for most commercial teams and closer to what they are arguing about this quarter. Once the shelf animation exists, film two is largely a re-voice and a re-label. Shoot both on the same day.</p>
+  </div>
+</section>
+
+<!-- ============ PRODUCTION ============ -->
+<section class="sec">
+  <div class="sec-head">
+    <p class="eyebrow">Post</p>
+    <h2>Production notes</h2>
+  </div>
+
+  <div class="craft" style="margin-top:8px">
+    <div class="craft-row">
+      <span class="craft-k">Sound off<br>is default</span>
+      <div class="craft-v">
+        <p>LinkedIn's own research puts only about <strong>37% of mobile B2B viewers</strong> listening with sound, and captioned video holds viewers roughly a third longer.</p>
+        <p>Burn in captions rather than relying on auto-captions. Every number in the middle two sections needs an on-screen label that carries the argument alone.</p>
+      </div>
+    </div>
+    <div class="craft-row">
+      <span class="craft-k">Aspect<br>ratio</span>
+      <div class="craft-v">
+        <p><strong>1:1 square master for LinkedIn.</strong> Desktop is still a large share of LinkedIn impressions and crops 4:5 badly. Produce 9:16 only for the Instagram and TikTok cutdowns.</p>
+      </div>
+    </div>
+    <div class="craft-row">
+      <span class="craft-k">Pace</span>
+      <div class="craft-v">
+        <p>134 words across 58 seconds is deliberately unhurried. <strong>The pauses are part of the argument.</strong></p>
+      </div>
+    </div>
+    <div class="craft-row">
+      <span class="craft-k">On-screen<br>numbers</span>
+      <div class="craft-v">
+        <p>No client result is cleared, so nothing on screen should be <em>styled</em> to look sourced. Moving bars, bending curves and resolving tiles, not precise figures with decimal points.</p>
+        <p>A number that looks like a claim and is not one is the fastest way to lose senior commercial people. The one validated claim available belongs in the caption, where it can be qualified.</p>
+      </div>
+    </div>
+    <div class="craft-row">
+      <span class="craft-k">Cutdowns</span>
+      <div class="craft-v">
+        <p><strong>15s paid</strong> &mdash; hook, the competitor switch beat, end card.</p>
+        <p><strong>30s</strong> &mdash; hook, the four shoppers, end card.</p>
+        <p><strong>Static carousel</strong> &mdash; the four shopper outcomes, one per card.</p>
+        <p><strong>Second film</strong> &mdash; the Promotion Planner version described above.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="colophon">
+  <span class="lead">What If &mdash; shooting script v3</span>
+  <span>Price Optimizer</span>
+  <span>Smart Value AI Solutions</span>
+  <span>0:58 &middot; 134 words &middot; 1:1</span>
+</footer>
+
+</div>
