@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "davinci-resolve": {
+      "command": "${DVR_MCP_PYTHON:-tools/davinci-resolve-mcp/venv/bin/python}",
+      "args": ["tools/davinci-resolve-mcp/src/server.py"]
+    },
+    "davinci-resolve-advanced": {
+      "command": "node",
+      "args": ["tools/davinci-resolve-mcp/bin/davinci-resolve-advanced-mcp.mjs"]
+    }
+  }
+}
