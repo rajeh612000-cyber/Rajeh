@@ -23,6 +23,11 @@ Resolve is installed on *your computer*. So this only works when you run Claude
 cannot work from a phone or a cloud session — there's no Resolve there to
 control.
 
+> So if you're using Claude on the web or in a cloud session and it reports
+> `davinci-resolve` failed to connect, that is **expected, not a broken
+> setup** — there is simply no Resolve in the cloud to talk to. Only the
+> offline `davinci-resolve-advanced` server works there.
+
 ## 3. Setting it up — four steps
 
 Do these once, on the computer that has Resolve.
@@ -36,20 +41,24 @@ cd rajeh
 
 (If you already have it, just `cd` into it and `git pull`.)
 
-### Step 2 — run the installer
+You need **Node.js 18+**, **Python 3.10+**, and **Resolve 18.5 or newer**.
+
+### Step 2 — run the two setup commands
 
 ```bash
-python3 tools/davinci-resolve-mcp/install.py
+node tools/davinci-resolve-mcp/bin/davinci-resolve-mcp.mjs setup
+npm install --omit=dev --omit=optional --prefix tools/davinci-resolve-mcp/resolve-advanced
 ```
 
-On Windows use `python` instead of `python3`.
+The first builds a private Python sandbox and finds where Resolve is installed.
+The second installs the bits the offline file-reading server needs.
 
-This does the boring plumbing for you: it builds a little private Python
-sandbox, finds where Resolve is installed, and offers to wire itself into
-Claude Desktop, Claude Code, Cursor, VS Code and others. When it asks which
-clients to configure, pick the ones you actually use.
+Run these **before** you start Claude — they take a minute, and Claude won't
+wait that long when it's starting up.
 
-You need **Python 3.10 or newer** and **Resolve 18.5 or newer**.
+If the first command ends with *"Setup incomplete — the scripting API did not
+load"*, that just means it couldn't find a running Resolve. Do Step 3 and run
+it again.
 
 ### Step 3 — tell Resolve it's allowed to be remote-controlled
 
@@ -72,13 +81,22 @@ Then restart Resolve.
 > edition stopped listing these scripts at all. If you're on free 21.1+, the
 > only options are to use Resolve Studio or stay on 21.0.x.
 
-### Step 4 — start Claude and check
+### Step 4 — start Claude from this folder and check
 
-Close and reopen Claude Desktop (or start `claude` in this folder). Then ask:
+```bash
+cd rajeh
+claude
+```
+
+Or just open Claude Desktop, if the setup command configured it. Then ask:
 
 > *What DaVinci Resolve tools do you have?*
 
 If Claude lists Resolve tools, you're done. 🎉
+
+> **Why "from this folder"?** The `.mcp.json` file that wires this up sits in
+> the root of this repo and uses paths relative to it. Start Claude somewhere
+> else and it won't find the servers.
 
 ## 4. What can you actually ask for?
 
@@ -112,6 +130,8 @@ before letting anyone else sit at your edit bay.
 
 The second one is genuinely useful even with Resolve closed.
 
+Both are launched through Node, so Node.js has to be installed either way.
+
 ## 7. When it doesn't work
 
 | What you see | What to do |
@@ -120,7 +140,9 @@ The second one is genuinely useful even with Resolve closed.
 | "Could not connect to Resolve" | Is Resolve actually open, with a project loaded? Did you do Step 3 and restart? |
 | Free edition, nothing connects | Re-check the bridge box in Step 3 — the `resolve_bridge` script has to be *running* from the Workspace menu. |
 | macOS: the script isn't in the Workspace → Scripts menu | Resolve only looks for Python in two places. Run `launchctl setenv PYTHON3HOME "$(python3 -c 'import sys; print(sys.prefix)')"` then restart Resolve. (This resets on reboot.) |
-| Wrong Python is being used | Set `DVR_MCP_PYTHON` to the full path of `tools/davinci-resolve-mcp/venv/bin/python` (on Windows: `venv\Scripts\python.exe`). |
+| `ModuleNotFoundError: No module named 'anyio'` (or `mcp`) | The Step 2 setup command hasn't been run, or didn't finish. Run it again. |
+| Advanced server: `cannot start: dependencies: ...` | Run the second Step 2 command (the `npm install` one). |
+| Wrong Python is being used | Set `DAVINCI_RESOLVE_MCP_PYTHON` to the interpreter you want, e.g. `export DAVINCI_RESOLVE_MCP_PYTHON=python3.12`, then re-run Step 2. |
 
 Deeper documentation, including every tool and every platform quirk, is in
 `tools/davinci-resolve-mcp/README.md` and `tools/davinci-resolve-mcp/docs/`.

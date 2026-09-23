@@ -40,4 +40,12 @@ rm -rf tools/davinci-resolve-mcp/.git \
 Local install output (`venv/`, `node_modules/`, `.mcp.json` inside this folder)
 is ignored by this folder's own `.gitignore`, so it never gets committed.
 
+Because `node_modules/` is not committed, the optional Node server in
+`resolve-advanced/` cannot start on a fresh clone until its dependencies are
+installed:
+
+```bash
+npm install --omit=dev --omit=optional --prefix tools/davinci-resolve-mcp/resolve-advanced
+```
+
 Setup instructions for this repository live in `../../DAVINCI-RESOLVE-MCP.md`.
