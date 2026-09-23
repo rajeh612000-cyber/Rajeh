@@ -2,8 +2,15 @@
 <html lang="en">
 <!--
   Human in the Loop, Episode 1: featured image and video thumbnail.
-  One source, two sizes. Open with ?size=featured (1200x630) or ?size=vimeo
-  (1920x1080). Add &draft=1 to outline the logo slot while the logo is missing.
+  One source, two sizes: ?size=featured (1200x630) or ?size=vimeo (1920x1080).
+  Add &draft=1 to outline the logo slot while the logo file is missing.
+
+  Right side: Mariam in conversation with Susan, the two of them sitting on
+  the Human in the Loop ring. The ring is live three.js: bars are two voices
+  taking turns, one quiet arc at the front with an amber light in it, between
+  the two of them. Portrait positions are projected from the ring in code, so
+  they line up at both sizes.
+
   Rendered by render.py with Playwright; do not edit the JPGs by hand.
 -->
 <head>
@@ -13,22 +20,9 @@
 <style>
   :root {
     --navy: #1A1A4E; --purple: #7751FF; --amber: #F19526; --white: #FFFFFF;
-    /* Featured 1200x630 is the base; every text size multiplies by --k. */
-    --k: 1;
-    --W: 1200px; --H: 630px; --margin: 60px;
-    /* Susan's frame: 320px wide is a 0.88x downscale of the 365px source. */
-    --frame-w: 320px; --frame-h: 440px;
-    --frame-right: 100px;
+    --k: 1; --W: 1200px; --H: 630px; --margin: 60px;
   }
-  /* Vimeo 1920x1080. Text scales 1.6x with the width. Susan's frame is
-     capped at 460px wide, 1.26x the source, under the 1.3x limit, so the
-     extra room goes to navy and a larger glow instead of a blurrier face. */
-  .vimeo {
-    --k: 1.6;
-    --W: 1920px; --H: 1080px; --margin: 96px;
-    --frame-w: 460px; --frame-h: 632px;
-    --frame-right: 190px;
-  }
+  .vimeo { --k: 1.6; --W: 1920px; --H: 1080px; --margin: 96px; }
 
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { background: var(--navy); }
@@ -38,22 +32,20 @@
     position: relative; overflow: hidden;
     font-family: 'Sora', sans-serif; color: var(--white);
     background:
-      radial-gradient(ellipse 55% 75% at 72% 48%, rgba(119,81,255,.30) 0%, rgba(119,81,255,0) 70%),
+      radial-gradient(ellipse 50% 70% at 74% 50%, rgba(119,81,255,.28) 0%, rgba(119,81,255,0) 70%),
       radial-gradient(ellipse 60% 60% at 8% 100%, rgba(58,74,190,.22) 0%, rgba(58,74,190,0) 70%),
       var(--navy);
   }
-
-  /* Faint thin-line hexagon field, strongest behind the photo and fading
-     out toward the text so it never competes with the headline. */
   .hex {
-    position: absolute; inset: 0; opacity: .09;
-    -webkit-mask-image: radial-gradient(ellipse 70% 90% at 75% 50%, #000 0%, rgba(0,0,0,.35) 55%, transparent 85%);
-            mask-image: radial-gradient(ellipse 70% 90% at 75% 50%, #000 0%, rgba(0,0,0,.35) 55%, transparent 85%);
+    position: absolute; inset: 0; opacity: .08;
+    -webkit-mask-image: radial-gradient(ellipse 65% 90% at 76% 50%, #000 0%, rgba(0,0,0,.35) 55%, transparent 85%);
+            mask-image: radial-gradient(ellipse 65% 90% at 76% 50%, #000 0%, rgba(0,0,0,.35) 55%, transparent 85%);
   }
+  #gl { position: absolute; inset: 0; }
 
   /* ---------- Left column: 55% ---------- */
   .left {
-    position: absolute;
+    position: absolute; z-index: 3;
     left: var(--margin); top: var(--margin); bottom: var(--margin);
     width: calc(var(--W) * .55 - var(--margin));
     display: flex; flex-direction: column;
@@ -68,51 +60,37 @@
     text-transform: uppercase; color: var(--purple);
   }
   .accent {
-    width: calc(60px * var(--k)); height: calc(4px * var(--k));
-    border-radius: calc(2px * var(--k));
+    width: calc(60px * var(--k)); height: calc(4px * var(--k)); border-radius: calc(2px * var(--k));
     background: linear-gradient(90deg, var(--purple), var(--amber));
     margin: calc(18px * var(--k)) 0 calc(22px * var(--k));
   }
   h1 {
     font-size: calc(54px * var(--k)); font-weight: 700;
-    line-height: 1.12; letter-spacing: -0.02em;
-    max-width: calc(560px * var(--k));
+    line-height: 1.12; letter-spacing: -0.02em; max-width: calc(560px * var(--k));
   }
-  .guest { margin-top: calc(30px * var(--k)); font-size: calc(22px * var(--k)); font-weight: 600; }
-  .creds { margin-top: calc(6px * var(--k)); font-size: calc(16px * var(--k)); font-weight: 400; color: rgba(255,255,255,.70); }
-  .host  { margin-top: calc(18px * var(--k)); font-size: calc(15px * var(--k)); font-weight: 400; color: rgba(255,255,255,.60); }
+  .who { margin-top: calc(28px * var(--k)); }
+  .who .name { font-size: calc(22px * var(--k)); font-weight: 600; line-height: 1.3; }
+  .who .role { margin-top: calc(3px * var(--k)); font-size: calc(15px * var(--k)); font-weight: 400; color: rgba(255,255,255,.70); }
+  .who .joiner { margin: calc(12px * var(--k)) 0 calc(10px * var(--k)); font-size: calc(14px * var(--k));
+                 font-weight: 400; color: rgba(255,255,255,.55); letter-spacing: calc(.5px * var(--k)); }
 
-  /* ---------- Right column: 45% ---------- */
-  .frame-wrap {
-    position: absolute;
-    right: var(--frame-right);
-    top: calc((var(--H) - var(--frame-h)) / 2);
-    width: var(--frame-w); height: var(--frame-h);
+  /* ---------- Right: two portraits on the loop ---------- */
+  .person {
+    position: absolute; z-index: 2;
+    width: var(--d); transform: translate(-50%, -50%);
+    text-align: center;
   }
-  .glow {
-    position: absolute; inset: -30%;
-    background: radial-gradient(closest-side, rgba(119,81,255,.55), rgba(119,81,255,.18) 55%, rgba(119,81,255,0));
-    filter: blur(calc(18px * var(--k)));
+  .photo {
+    width: var(--d); height: var(--d); border-radius: 50%;
+    background-size: cover; background-position: center;
+    box-shadow: 0 0 0 calc(4px * var(--k)) var(--navy),
+                0 0 0 calc(7px * var(--k)) var(--ring),
+                0 calc(14px * var(--k)) calc(36px * var(--k)) rgba(8,8,40,.6);
   }
-  .susan {
-    position: absolute; inset: 0;
-    border: 3px solid var(--purple);
-    border-radius: 24px; overflow: hidden;
-    background: #1b2f86 url('assets/susan-fader.png') center 30% / cover no-repeat;
-    box-shadow: 0 calc(18px * var(--k)) calc(50px * var(--k)) rgba(8,8,40,.55);
-  }
-  /* Mariam: ~30% of Susan's frame width, over the bottom-left corner.
-     4px navy ring separates it from the frame; 2px amber ring outside that. */
-  .mariam {
-    --d: calc(var(--frame-w) * .30);
-    position: absolute;
-    width: var(--d); height: var(--d);
-    left: calc(var(--d) * -0.42);
-    bottom: calc(var(--d) * -0.30);
-    border-radius: 50%;
-    background: #fff url('assets/mariam-headshoulders.jpg') center center / cover no-repeat;
-    box-shadow: 0 0 0 4px var(--navy), 0 0 0 6px var(--amber), 0 calc(10px * var(--k)) calc(24px * var(--k)) rgba(8,8,40,.5);
-  }
+  .mariam { --ring: var(--amber); }
+  .mariam .photo { background-image: url('assets/mariam-circle.jpg'); background-color: #fff; }
+  .susan  { --ring: var(--purple); }
+  .susan  .photo { background-image: url('assets/susan-circle.jpg'); background-color: #1b2f86; }
 </style>
 </head>
 <body>
@@ -126,31 +104,142 @@
     <rect width="100%" height="100%" fill="url(#hexp)"/>
   </svg>
 
+  <canvas id="gl"></canvas>
+
   <div class="left">
     <div class="logo-slot" id="logo-slot"><!-- LOGO: <img src="assets/smart-value-logo.png" alt="Smart Value AI Solutions"> --></div>
     <div class="text">
       <div class="eyebrow">HUMAN IN THE LOOP · EPISODE 1</div>
       <div class="accent"></div>
       <h1>What Two AI Reports Missed</h1>
-      <div class="guest">Susan Fader</div>
-      <div class="creds">Founder, Fader Focus · MRS Research Hero</div>
-      <div class="host">with Mariam Ghabrial, Marketing &amp; PR Director</div>
+      <div class="who">
+        <div class="name">Mariam Ghabrial</div>
+        <div class="role">Marketing &amp; PR Director, Smart Value&trade;</div>
+        <div class="joiner">in conversation with</div>
+        <div class="name">Susan Fader</div>
+        <div class="role">Founder, Fader Focus · MRS Research Hero</div>
+      </div>
     </div>
   </div>
 
-  <div class="frame-wrap">
-    <div class="glow"></div>
-    <div class="susan" role="img" aria-label="Susan Fader"></div>
-    <div class="mariam" role="img" aria-label="Mariam Ghabrial"></div>
+  <div class="person mariam" id="p-mariam">
+    <div class="photo" role="img" aria-label="Mariam Ghabrial"></div>
+  </div>
+  <div class="person susan" id="p-susan">
+    <div class="photo" role="img" aria-label="Susan Fader"></div>
   </div>
 </div>
-<script>
-  const q = new URLSearchParams(location.search);
-  if (q.get('size') === 'vimeo') {
-    document.getElementById('canvas').classList.add('vimeo');
-    document.getElementById('hexp').setAttribute('patternTransform', 'scale(1.6)');
+
+<script type="module">
+import * as THREE from './vendor/three.module.min.js';
+
+const q = new URLSearchParams(location.search);
+const VIMEO = q.get('size') === 'vimeo';
+const cv = document.getElementById('canvas');
+if (VIMEO) { cv.classList.add('vimeo'); document.getElementById('hexp').setAttribute('patternTransform', 'scale(1.6)'); }
+if (q.get('draft')) cv.classList.add('draft');
+
+const W = VIMEO ? 1920 : 1200, H = VIMEO ? 1080 : 630;
+const NAVY = 0x1A1A4E, PURPLE = 0x7751FF, LAVENDER = 0xB3A6FF, AMBER = 0xF19526;
+
+// Seeded, so every render is identical.
+let seed = 20260923;
+const rnd = () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+  let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+  t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+  return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+
+const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('gl'), antialias: true, alpha: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(1);
+renderer.setSize(W, H);
+renderer.setClearColor(0x000000, 0);
+
+const scene = new THREE.Scene();
+scene.fog = new THREE.Fog(NAVY, 12, 19);
+
+// The ring sits at the world origin; setViewOffset slides the frame so the
+// ring's centre lands about 73% across the image. Budget: the two circles
+// plus the ring must fit between the text column and the right margin.
+const camera = new THREE.PerspectiveCamera(30, W / H, 0.1, 100);
+camera.position.set(0, 6.4, 11.6);
+camera.lookAt(0, 0.25, 0);
+const CX = 0.748, CY = 0.56;
+camera.setViewOffset(W, H, -(CX - 0.5) * W, -(CY - 0.5) * H, W, H);
+camera.updateMatrixWorld();
+
+const N = 220, R = 2.0;
+const ring = new THREE.Group(); scene.add(ring);
+
+// Silence at the front (angle 90deg faces +z, the camera), centred between the two.
+const SILENT_LEN = 20, SILENT_START = Math.round(N / 4) - SILENT_LEN / 2;
+const isSilent = i => i >= SILENT_START && i < SILENT_START + SILENT_LEN;
+
+// Two voices taking turns, purple and lavender, in uneven stretches the way a
+// real conversation runs.
+const heights = new Array(N).fill(0), voice = new Array(N).fill(0);
+let i = 0, speaker = 0;
+while (i < N) {
+  const len = 9 + Math.floor(rnd() * 18), peak = 0.40 + rnd() * 0.55;
+  for (let k = 0; k < len && i < N; k++, i++) {
+    const taper = Math.sin(Math.PI * (k + 0.5) / len);
+    const rough = 0.35 + 0.65 * Math.abs(Math.sin(k * 1.7 + rnd() * 3.1)) * (0.6 + 0.4 * rnd());
+    heights[i] = Math.max(0.05, peak * taper * rough); voice[i] = speaker;
   }
-  if (q.get('draft')) document.getElementById('canvas').classList.add('draft');
+  if (rnd() > 0.2) speaker ^= 1;
+}
+
+const geo = new THREE.BoxGeometry(0.05, 1, 0.05); geo.translate(0, 0.5, 0);
+const bars = new THREE.InstancedMesh(geo, new THREE.MeshBasicMaterial({ transparent: true, opacity: 0.8 }), N);
+const m = new THREE.Matrix4(), c = new THREE.Color();
+for (let j = 0; j < N; j++) {
+  const a = (j / N) * Math.PI * 2;
+  m.makeScale(1, isSilent(j) ? 0.018 : heights[j], 1).setPosition(Math.cos(a) * R, 0, Math.sin(a) * R);
+  bars.setMatrixAt(j, m);
+  bars.setColorAt(j, c.setHex(isSilent(j) ? 0x3A3A82 : (voice[j] ? LAVENDER : PURPLE)));
+}
+ring.add(bars);
+
+const trace = new THREE.Mesh(new THREE.RingGeometry(R - 0.012, R + 0.012, 256),
+  new THREE.MeshBasicMaterial({ color: PURPLE, transparent: true, opacity: 0.3, side: THREE.DoubleSide }));
+trace.rotation.x = -Math.PI / 2; ring.add(trace);
+
+const a0 = SILENT_START / N * Math.PI * 2, a1 = (SILENT_START + SILENT_LEN) / N * Math.PI * 2;
+const arc = new THREE.Mesh(new THREE.RingGeometry(R - 0.03, R + 0.03, 64, 1, a0, a1 - a0),
+  new THREE.MeshBasicMaterial({ color: AMBER, transparent: true, opacity: 0.9, side: THREE.DoubleSide }));
+arc.rotation.x = -Math.PI / 2; arc.scale.set(1, -1, 1); ring.add(arc);
+
+// Amber light in the gap. Normal blending (not additive) so it composites
+// correctly over the page through the transparent canvas.
+function glowTex(inner, outer) {
+  const s = 256, g = document.createElement('canvas'); g.width = g.height = s;
+  const x = g.getContext('2d'), gr = x.createRadialGradient(s/2, s/2, 0, s/2, s/2, s/2);
+  gr.addColorStop(0, inner); gr.addColorStop(0.14, outer); gr.addColorStop(0.5, 'rgba(241,149,38,0)'); gr.addColorStop(1, 'rgba(241,149,38,0)');
+  x.fillStyle = gr; x.fillRect(0, 0, s, s); return new THREE.CanvasTexture(g);
+}
+const mid = (a0 + a1) / 2, gx = Math.cos(mid) * R, gz = Math.sin(mid) * R;
+for (const [tex, sc] of [[glowTex('rgba(255,214,150,0.55)', 'rgba(241,149,38,0.22)'), 2.0],
+                         [glowTex('rgba(255,240,215,1)', 'rgba(241,149,38,0.95)'), 0.38]]) {
+  const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, depthWrite: false, depthTest: false, fog: false, transparent: true }));
+  sp.scale.set(sc, sc, 1); sp.position.set(gx, 0.46, gz); ring.add(sp);
+}
+
+renderer.render(scene, camera);
+
+// Seat each portrait on the back of the ring, Mariam back-left and Susan
+// back-right, so the front arc with the quiet gap sweeps in front of both.
+// Positions are projected from the ring, so they track it at both sizes.
+const D = Math.round(0.16 * W);
+function place(id, deg) {
+  const a = deg * Math.PI / 180;
+  const p = new THREE.Vector3(Math.cos(a) * R, 0.95, Math.sin(a) * R).project(camera);
+  const el = document.getElementById(id);
+  el.style.setProperty('--d', D + 'px');
+  el.style.left = ((p.x + 1) / 2 * W) + 'px';
+  el.style.top  = ((1 - p.y) / 2 * H) + 'px';
+}
+place('p-mariam', 218);
+place('p-susan',  322);
+window.__ready = true;
 </script>
 </body>
 </html>

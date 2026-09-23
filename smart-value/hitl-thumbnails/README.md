@@ -23,7 +23,13 @@ The logo file has not been supplied yet.
 - Sora is bundled in `fonts/` (Google Fonts, SIL Open Font License). Headless
   Chromium here cannot fetch Google Fonts, and file:// paths block web fonts,
   so render.py serves this folder on localhost.
-- Susan's photo is 365x547. Her frame is 320px wide in the featured image
-  (0.88x) and 460px in the Vimeo image (1.26x), under the 1.3x limit.
-- Mariam is cropped to head and shoulders from the 1600px original and
-  converted from its embedded profile to sRGB.
+- Layout: Mariam in conversation with Susan. The two sit as equal circles on
+  the back of the Human in the Loop ring (three.js, rendered live in the page);
+  the front arc, with the quiet gap and amber light, sweeps between them.
+  Portrait positions are projected from the ring in code, so both sizes line up.
+- Susan: 330px square crop of the 365x547 source, shown at 192px (featured)
+  and 307px (Vimeo), never enlarged. Mariam: head-and-shoulders crop of the
+  1600px original, converted from its embedded profile to sRGB.
+- Names and credentials live in the left column, Mariam first, so no text sits
+  over the ring or near the cropped edges. Every mention of Smart Value carries TM.
+- The centre of the 16:9 frame stays empty navy, where Vimeo draws its play button.

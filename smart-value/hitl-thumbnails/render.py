@@ -25,11 +25,12 @@ SRGB = ImageCms.ImageCmsProfile(ImageCms.createProfile("sRGB")).tobytes()
 
 with sync_playwright() as p:
     browser = p.chromium.launch(executable_path="/opt/pw-browsers/chromium-1194/chrome-linux/chrome",
-                                args=["--no-sandbox"])
+                                args=["--no-sandbox", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"])
     for key, (w, h, out) in SIZES.items():
         page = browser.new_page(viewport={"width": w, "height": h}, device_scale_factor=1)
         url = BASE + f"thumbnail.html?size={key}" + ("&draft=1" if DRAFT else "")
         page.goto(url, wait_until="networkidle")
+        page.wait_for_function("window.__ready === true")
         page.evaluate("document.fonts.ready")
         loaded = page.evaluate("""[...document.fonts]
             .filter(f => f.family.replace(/["']/g,'') === 'Sora' && f.status === 'loaded')
