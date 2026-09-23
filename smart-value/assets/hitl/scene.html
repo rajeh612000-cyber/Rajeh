@@ -39,7 +39,15 @@
 <script type="module">
 import * as THREE from './node_modules/three/build/three.module.min.js';
 
-const W = 1200, H = 660;
+// '#banner' renders a standalone band with the loop centred, for use as a real
+// <img> above the headline. Default renders the text-overlay hero.
+const BANNER = location.hash === '#banner';
+const W = 1200, H = BANNER ? 500 : 660;
+if (BANNER) {
+  document.getElementById('stage').style.height = H + 'px';
+  document.getElementById('scrim').style.display = 'none';
+  document.getElementById("sink").style.height = "56px";
+}
 const NAVY = 0x1A1A4E, PURPLE = 0x7751FF, LAVENDER = 0xB3A6FF, AMBER = 0xF19526;
 
 if (location.hash === '#preview') document.getElementById('preview').style.display = 'block';
@@ -61,13 +69,13 @@ const scene = new THREE.Scene();
 scene.fog = new THREE.Fog(NAVY, 7.5, 15);
 
 const camera = new THREE.PerspectiveCamera(30, W / H, 0.1, 100);
-camera.position.set(-1.2, 3.4, 9.2);
-camera.lookAt(-0.9, 0.45, 0);
+if (BANNER) { camera.position.set(0, 2.55, 6.6); camera.lookAt(0, 0.3, 0); }
+else { camera.position.set(-1.2, 3.4, 9.2); camera.lookAt(-0.9, 0.45, 0); }
 
 // ---- The loop: a ring of bars, two voices taking turns ------------------
 const ring = new THREE.Group();
-ring.position.set(1.72, 0, 0.3);
-ring.rotation.y = -0.35;
+if (BANNER) { ring.position.set(0, 0, 0); ring.rotation.y = 0; }
+else { ring.position.set(1.72, 0, 0.3); ring.rotation.y = -0.35; }
 scene.add(ring);
 
 const N = 200, R = 1.92;
@@ -135,7 +143,8 @@ ring.add(arc);
 function glowTexture(inner, outer) {
   const s = 256, cv = document.createElement('canvas'); cv.width = cv.height = s;
   const g = cv.getContext('2d'), gr = g.createRadialGradient(s/2, s/2, 0, s/2, s/2, s/2);
-  gr.addColorStop(0, inner); gr.addColorStop(0.25, outer); gr.addColorStop(1, 'rgba(241,149,38,0)');
+  // Fade to nothing by half the radius, so the sprite's square edge can never show.
+  gr.addColorStop(0, inner); gr.addColorStop(0.12, outer); gr.addColorStop(0.5, 'rgba(241,149,38,0)'); gr.addColorStop(1, 'rgba(241,149,38,0)');
   g.fillStyle = gr; g.fillRect(0, 0, s, s);
   return new THREE.CanvasTexture(cv);
 }
@@ -144,14 +153,14 @@ const gx = Math.cos(mid) * R, gz = Math.sin(mid) * R;
 
 const halo = new THREE.Sprite(new THREE.SpriteMaterial({
   map: glowTexture('rgba(255,214,150,0.42)', 'rgba(241,149,38,0.16)'),
-  blending: THREE.AdditiveBlending, depthWrite: false, fog: false }));
-halo.scale.set(1.5, 1.5, 1); halo.position.set(gx, 0.34, gz);
+  blending: THREE.AdditiveBlending, depthWrite: false, depthTest: false, fog: false }));
+halo.scale.set(1.9, 1.9, 1); halo.position.set(gx, 0.46, gz);
 ring.add(halo);
 
 const core = new THREE.Sprite(new THREE.SpriteMaterial({
   map: glowTexture('rgba(255,236,205,1)', 'rgba(241,149,38,0.9)'),
-  blending: THREE.AdditiveBlending, depthWrite: false, fog: false }));
-core.scale.set(0.2, 0.2, 1); core.position.set(gx, 0.34, gz);
+  blending: THREE.AdditiveBlending, depthWrite: false, depthTest: false, fog: false }));
+core.scale.set(0.36, 0.36, 1); core.position.set(gx, 0.46, gz);
 ring.add(core);
 
 // ---- Dust: a few motes drifting through the room ------------------------
