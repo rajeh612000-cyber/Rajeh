@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+  Human in the Loop, Episode 1: featured image and video thumbnail.
+  One source, two sizes. Open with ?size=featured (1200x630) or ?size=vimeo
+  (1920x1080). Add &draft=1 to outline the logo slot while the logo is missing.
+  Rendered by render.py with Playwright; do not edit the JPGs by hand.
+-->
+<head>
+<meta charset="UTF-8">
+<!-- Sora (Google Fonts, OFL) bundled locally so renders never fall back. -->
+<link href="fonts/sora.css" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1A1A4E; --purple: #7751FF; --amber: #F19526; --white: #FFFFFF;
+    /* Featured 1200x630 is the base; every text size multiplies by --k. */
+    --k: 1;
+    --W: 1200px; --H: 630px; --margin: 60px;
+    /* Susan's frame: 320px wide is a 0.88x downscale of the 365px source. */
+    --frame-w: 320px; --frame-h: 440px;
+    --frame-right: 100px;
+  }
+  /* Vimeo 1920x1080. Text scales 1.6x with the width. Susan's frame is
+     capped at 460px wide, 1.26x the source, under the 1.3x limit, so the
+     extra room goes to navy and a larger glow instead of a blurrier face. */
+  .vimeo {
+    --k: 1.6;
+    --W: 1920px; --H: 1080px; --margin: 96px;
+    --frame-w: 460px; --frame-h: 632px;
+    --frame-right: 190px;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { background: var(--navy); }
+
+  .canvas {
+    width: var(--W); height: var(--H);
+    position: relative; overflow: hidden;
+    font-family: 'Sora', sans-serif; color: var(--white);
+    background:
+      radial-gradient(ellipse 55% 75% at 72% 48%, rgba(119,81,255,.30) 0%, rgba(119,81,255,0) 70%),
+      radial-gradient(ellipse 60% 60% at 8% 100%, rgba(58,74,190,.22) 0%, rgba(58,74,190,0) 70%),
+      var(--navy);
+  }
+
+  /* Faint thin-line hexagon field, strongest behind the photo and fading
+     out toward the text so it never competes with the headline. */
+  .hex {
+    position: absolute; inset: 0; opacity: .09;
+    -webkit-mask-image: radial-gradient(ellipse 70% 90% at 75% 50%, #000 0%, rgba(0,0,0,.35) 55%, transparent 85%);
+            mask-image: radial-gradient(ellipse 70% 90% at 75% 50%, #000 0%, rgba(0,0,0,.35) 55%, transparent 85%);
+  }
+
+  /* ---------- Left column: 55% ---------- */
+  .left {
+    position: absolute;
+    left: var(--margin); top: var(--margin); bottom: var(--margin);
+    width: calc(var(--W) * .55 - var(--margin));
+    display: flex; flex-direction: column;
+  }
+  .logo-slot { height: calc(40px * var(--k)); display: flex; align-items: center; }
+  .logo-slot img { height: 100%; width: auto; display: block; }
+  .draft .logo-slot { width: calc(150px * var(--k)); outline: 1px dashed rgba(255,255,255,.5); }
+
+  .text { margin-top: auto; margin-bottom: auto; }
+  .eyebrow {
+    font-size: calc(15px * var(--k)); font-weight: 600; letter-spacing: calc(2px * var(--k));
+    text-transform: uppercase; color: var(--purple);
+  }
+  .accent {
+    width: calc(60px * var(--k)); height: calc(4px * var(--k));
+    border-radius: calc(2px * var(--k));
+    background: linear-gradient(90deg, var(--purple), var(--amber));
+    margin: calc(18px * var(--k)) 0 calc(22px * var(--k));
+  }
+  h1 {
+    font-size: calc(54px * var(--k)); font-weight: 700;
+    line-height: 1.12; letter-spacing: -0.02em;
+    max-width: calc(560px * var(--k));
+  }
+  .guest { margin-top: calc(30px * var(--k)); font-size: calc(22px * var(--k)); font-weight: 600; }
+  .creds { margin-top: calc(6px * var(--k)); font-size: calc(16px * var(--k)); font-weight: 400; color: rgba(255,255,255,.70); }
+  .host  { margin-top: calc(18px * var(--k)); font-size: calc(15px * var(--k)); font-weight: 400; color: rgba(255,255,255,.60); }
+
+  /* ---------- Right column: 45% ---------- */
+  .frame-wrap {
+    position: absolute;
+    right: var(--frame-right);
+    top: calc((var(--H) - var(--frame-h)) / 2);
+    width: var(--frame-w); height: var(--frame-h);
+  }
+  .glow {
+    position: absolute; inset: -30%;
+    background: radial-gradient(closest-side, rgba(119,81,255,.55), rgba(119,81,255,.18) 55%, rgba(119,81,255,0));
+    filter: blur(calc(18px * var(--k)));
+  }
+  .susan {
+    position: absolute; inset: 0;
+    border: 3px solid var(--purple);
+    border-radius: 24px; overflow: hidden;
+    background: #1b2f86 url('assets/susan-fader.png') center 30% / cover no-repeat;
+    box-shadow: 0 calc(18px * var(--k)) calc(50px * var(--k)) rgba(8,8,40,.55);
+  }
+  /* Mariam: ~30% of Susan's frame width, over the bottom-left corner.
+     4px navy ring separates it from the frame; 2px amber ring outside that. */
+  .mariam {
+    --d: calc(var(--frame-w) * .30);
+    position: absolute;
+    width: var(--d); height: var(--d);
+    left: calc(var(--d) * -0.42);
+    bottom: calc(var(--d) * -0.30);
+    border-radius: 50%;
+    background: #fff url('assets/mariam-headshoulders.jpg') center center / cover no-repeat;
+    box-shadow: 0 0 0 4px var(--navy), 0 0 0 6px var(--amber), 0 calc(10px * var(--k)) calc(24px * var(--k)) rgba(8,8,40,.5);
+  }
+</style>
+</head>
+<body>
+<div class="canvas" id="canvas">
+  <svg class="hex" width="100%" height="100%" aria-hidden="true">
+    <defs>
+      <pattern id="hexp" width="56" height="97" patternUnits="userSpaceOnUse">
+        <path d="M28 0 L56 16.2 L56 48.5 L28 64.7 L0 48.5 L0 16.2 Z M28 64.7 L28 97 M0 48.5 L0 16.2" fill="none" stroke="#B8A9FF" stroke-width="1"/>
+      </pattern>
+    </defs>
+    <rect width="100%" height="100%" fill="url(#hexp)"/>
+  </svg>
+
+  <div class="left">
+    <div class="logo-slot" id="logo-slot"><!-- LOGO: <img src="assets/smart-value-logo.png" alt="Smart Value AI Solutions"> --></div>
+    <div class="text">
+      <div class="eyebrow">HUMAN IN THE LOOP · EPISODE 1</div>
+      <div class="accent"></div>
+      <h1>What Two AI Reports Missed</h1>
+      <div class="guest">Susan Fader</div>
+      <div class="creds">Founder, Fader Focus · MRS Research Hero</div>
+      <div class="host">with Mariam Ghabrial, Marketing &amp; PR Director</div>
+    </div>
+  </div>
+
+  <div class="frame-wrap">
+    <div class="glow"></div>
+    <div class="susan" role="img" aria-label="Susan Fader"></div>
+    <div class="mariam" role="img" aria-label="Mariam Ghabrial"></div>
+  </div>
+</div>
+<script>
+  const q = new URLSearchParams(location.search);
+  if (q.get('size') === 'vimeo') {
+    document.getElementById('canvas').classList.add('vimeo');
+    document.getElementById('hexp').setAttribute('patternTransform', 'scale(1.6)');
+  }
+  if (q.get('draft')) document.getElementById('canvas').classList.add('draft');
+</script>
+</body>
+</html>
