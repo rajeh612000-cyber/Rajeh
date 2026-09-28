@@ -1,0 +1,23 @@
+{
+  "name": "dog-cake-video",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A dog eating a birthday cake, animated with Remotion and finished with ffmpeg.",
+  "scripts": {
+    "studio": "remotion studio",
+    "audio": "node scripts/make-audio.mjs",
+    "render": "remotion render DogEatsCake out/dog-eats-cake-raw.mp4",
+    "finish": "bash scripts/finish.sh",
+    "build": "npm run audio && npm run render && npm run finish"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.529",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "remotion": "4.0.529"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.2",
+    "typescript": "5.9.3"
+  }
+}

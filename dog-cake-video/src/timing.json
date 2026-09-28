@@ -1,0 +1,87 @@
+{
+  "fps": 30,
+  "durationInFrames": 420,
+  "width": 1920,
+  "height": 1080,
+  "bites": [
+    {
+      "chomp": 84,
+      "antStart": 58,
+      "antPeak": 70,
+      "center": [
+        1112,
+        648
+      ],
+      "radius": 62,
+      "rot": 30,
+      "lean": 30,
+      "open": [
+        -0.5,
+        -0.87
+      ]
+    },
+    {
+      "chomp": 174,
+      "antStart": 158,
+      "antPeak": 164,
+      "center": [
+        1104,
+        736
+      ],
+      "radius": 66,
+      "rot": 44,
+      "lean": 44,
+      "open": [
+        -1,
+        -0.15
+      ]
+    },
+    {
+      "chomp": 264,
+      "antStart": 236,
+      "antPeak": 250,
+      "center": [
+        1172,
+        654
+      ],
+      "radius": 84,
+      "rot": 34,
+      "lean": 56,
+      "open": [
+        -0.42,
+        -0.9
+      ]
+    }
+  ],
+  "chews": [
+    {
+      "start": 100,
+      "end": 134,
+      "period": 11
+    },
+    {
+      "start": 190,
+      "end": 232,
+      "period": 11
+    },
+    {
+      "start": 280,
+      "end": 338,
+      "period": 11
+    }
+  ],
+  "lick": {
+    "start": 136,
+    "end": 156
+  },
+  "blinks": [
+    30,
+    122,
+    220,
+    318,
+    396
+  ],
+  "pantStart": 344,
+  "musicStart": 24,
+  "bpm": 120
+}
