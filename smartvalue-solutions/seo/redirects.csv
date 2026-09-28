@@ -1,4 +1,2 @@
 source,target,regex,code
-/VERIFY-commercial-analytics/,/solutions/price-optimizer/,0,301
-/VERIFY-strategic-acceleration/,/solutions/promotion-planner/,0,301
-/VERIFY-ai-decision-support/,/solutions/category-management/,0,301
+/strategic-acceleration/,/solutions/price-optimizer/,0,301

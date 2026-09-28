@@ -2,370 +2,427 @@
 <style>/* ==========================================================================
    Smart Value – Solution pages (Price Optimizer, Promotion Planner,
    Category Management).
-   Everything is scoped under .sv-page so it cannot leak into the theme.
-   Brand tokens below were sampled from the live homepage screenshots:
-   replace them with the exact values from Elementor → Site Settings →
-   Global Colors if they differ.
+   Everything is scoped under .svp-page (prefix "svp-") so it cannot clash
+   with the homepage's own unscoped "sv-" classes (.sv-card, .sv-section …).
+   Tokens are the live Elementor kit values (Site Settings → Global Colors,
+   kit #13) and the homepage card system, read from the site on 2026-09-28.
    ========================================================================== */
 
-.sv-page {
-  --sv-ink: #1e1b4b;          /* headings, nav text            */
-  --sv-text: #55597a;         /* body copy                     */
-  --sv-primary: #6d4aff;      /* "See How It Works" button     */
-  --sv-deep: #4f3cc9;         /* pill gradient start, links    */
-  --sv-light: #8b5cf6;        /* pill gradient end             */
-  --sv-lilac: #efebfe;        /* icon tiles, soft fills        */
-  --sv-border: #e4defa;       /* card borders                  */
-  --sv-num: #a79ce0;          /* "01 / 02" card numbers        */
-  --sv-accent: #f5a524;       /* orange dot in pills           */
-  --sv-bg: #ffffff;
-  --sv-bg-soft: #f8f7fe;
-  --sv-radius: 18px;
-  --sv-shadow: 0 10px 30px -12px rgba(79, 60, 201, .28);
-  --sv-font: var(--e-global-typography-primary-font-family, "Sora"), system-ui, -apple-system, "Segoe UI", sans-serif;
-  --sv-font-body: var(--e-global-typography-text-font-family, "Lexend"), system-ui, -apple-system, "Segoe UI", sans-serif;
-  --sv-max: 1180px;
+.svp-page {
+  --svp-ink: #1a1a4e;          /* Global: Secondary – headings, nav   */
+  --svp-text: #555555;         /* Global: Text – body copy            */
+  --svp-primary: #7751ff;      /* header "See How It Works" button    */
+  --svp-deep: #534ab7;         /* Global: Primary – links, highlights */
+  --svp-light: #8c5fd6;        /* homepage pill gradient end          */
+  --svp-lilac: #eeedfe;        /* Global: Accent – icon tiles, corner */
+  --svp-border: #e0dff8;       /* homepage card border                */
+  --svp-num: #a09de8;          /* card numbers, eyebrow border, hover */
+  --svp-accent: #f19526;       /* orange dot                          */
+  --svp-bg: #ffffff;
+  --svp-bg-soft: #f8f6ff;      /* Global: soft background             */
+  --svp-radius: 14px 14px 14px 4px;   /* homepage card corners        */
+  --svp-shadow: 0 10px 28px rgba(83, 74, 183, .12);
+  --svp-shadow-strong: 0 4px 12px rgba(83, 74, 183, .28);
+  --svp-font: "Sora", sans-serif;
+  --svp-font-body: "Sora", sans-serif;
+  --svp-max: 1180px;
 
-  color: var(--sv-text);
-  background: var(--sv-bg);
-  font-family: var(--sv-font-body);
+  color: var(--svp-text);
+  background: var(--svp-bg);
+  font-family: var(--svp-font-body);
   font-size: 16px;
-  line-height: 1.65;
+  font-weight: 300;
+  line-height: 1.7;
   overflow-x: clip;
 }
-.sv-page *, .sv-page *::before, .sv-page *::after { box-sizing: border-box; }
-.sv-page h1, .sv-page h2, .sv-page h3 {
-  font-family: var(--sv-font);
-  color: var(--sv-ink);
+.svp-page *, .svp-page *::before, .svp-page *::after { box-sizing: border-box; }
+.svp-page h1, .svp-page h2, .svp-page h3 {
+  font-family: var(--svp-font);
+  color: var(--svp-ink);
   line-height: 1.2;
   margin: 0 0 .5em;
   letter-spacing: -.01em;
 }
-.sv-page h1 { font-size: clamp(2rem, 4.2vw, 3.25rem); font-weight: 700; }
-.sv-page h2 { font-size: clamp(1.6rem, 3vw, 2.35rem); font-weight: 700; }
-.sv-page h3 { font-size: 1.125rem; font-weight: 700; }
-.sv-page p { margin: 0 0 1em; }
-.sv-page a { color: var(--sv-deep); }
-.sv-page .sv-hl { color: var(--sv-deep); }
+.svp-page h1 { font-size: clamp(2rem, 4.4vw, 3.5rem); font-weight: 700; }
+.svp-page h2 { font-size: clamp(1.625rem, 2.8vw, 2.125rem); font-weight: 800; line-height: 1.3; }
+.svp-page h3 { font-size: 1rem; font-weight: 700; line-height: 1.35; }
+.svp-page strong { font-weight: 600; }
+.svp-page p { margin: 0 0 1em; }
+.svp-page a { color: var(--svp-deep); }
+.svp-page .svp-hl { color: var(--svp-deep); }
 
-.sv-wrap { max-width: var(--sv-max); margin: 0 auto; padding: 0 24px; }
-.sv-section { padding: clamp(56px, 8vw, 104px) 0; }
-.sv-section--soft { background: var(--sv-bg-soft); }
-.sv-section__head { max-width: 720px; margin: 0 auto clamp(32px, 5vw, 56px); text-align: center; }
-.sv-section__head p { font-size: 1.0625rem; }
+.svp-wrap { max-width: var(--svp-max); margin: 0 auto; padding: 0 24px; }
+.svp-section { padding: clamp(56px, 8vw, 104px) 0; }
+.svp-section--soft { background: var(--svp-bg-soft); }
+.svp-section__head { max-width: 720px; margin: 0 auto clamp(32px, 5vw, 56px); text-align: center; }
+.svp-section__head p { font-size: 1.0625rem; }
 
 /* ---------- Breadcrumb ---------- */
-.sv-crumbs { font-size: .875rem; margin-bottom: 22px; }
-.sv-crumbs ol { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; }
-.sv-crumbs li + li::before { content: "/"; margin-right: 6px; color: var(--sv-num); }
-.sv-crumbs a { color: var(--sv-text); text-decoration: none; }
-.sv-crumbs a:hover { color: var(--sv-deep); }
-.sv-crumbs [aria-current] { color: var(--sv-ink); font-weight: 600; }
+.svp-crumbs { font-size: .875rem; margin-bottom: 22px; }
+.svp-crumbs ol { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; }
+.svp-crumbs li + li::before { content: "/"; margin-right: 6px; color: var(--svp-num); }
+.svp-crumbs a { color: var(--svp-text); text-decoration: none; }
+.svp-crumbs a:hover { color: var(--svp-deep); }
+.svp-crumbs [aria-current] { color: var(--svp-ink); font-weight: 600; }
 
 /* ---------- Eyebrow / pills / buttons ---------- */
-.sv-eyebrow {
+.svp-page .svp-eyebrow {
   display: inline-flex; align-items: center; gap: 8px;
-  font-family: var(--sv-font); font-size: .8125rem; font-weight: 600;
-  letter-spacing: .08em; text-transform: uppercase; color: var(--sv-deep);
-  background: var(--sv-lilac); border-radius: 999px; padding: 6px 14px; margin-bottom: 18px;
+  font-family: var(--svp-font); font-size: 11px; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--svp-deep);
+  border: 1px solid var(--svp-num); border-radius: 999px; padding: 5px 18px; margin: 0 0 1.2rem;
 }
-.sv-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--sv-accent); flex: none; }
+.svp-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--svp-accent); flex: none; }
 
-.sv-btns { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
-.sv-btn {
+.svp-btns { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.svp-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  font-family: var(--sv-font); font-weight: 600; font-size: 1rem; line-height: 1.2;
+  font-family: var(--svp-font); font-weight: 600; font-size: 1rem; line-height: 1.2;
   padding: 15px 28px; border-radius: 999px; text-decoration: none;
   transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
 }
-.sv-page .sv-btn--primary { color: #fff; background: var(--sv-primary); box-shadow: var(--sv-shadow); }
-.sv-page .sv-btn--primary:hover { transform: translateY(-2px); background: var(--sv-deep); }
-.sv-page .sv-btn--ghost { color: var(--sv-ink); background: #fff; border: 1.5px solid var(--sv-border); }
-.sv-page .sv-btn--ghost:hover { border-color: var(--sv-light); color: var(--sv-deep); }
-.sv-btn:focus-visible, .sv-page a:focus-visible, .sv-faq summary:focus-visible {
-  outline: 3px solid var(--sv-accent); outline-offset: 3px;
+.svp-page .svp-btn--primary { color: #fff; background: var(--svp-primary); box-shadow: var(--svp-shadow-strong); }
+.svp-page .svp-btn--primary:hover { transform: translateY(-2px); background: var(--svp-deep); color: #fff; }
+.svp-page .svp-btn--ghost { color: var(--svp-ink); background: #fff; border: 1.5px solid var(--svp-border); }
+.svp-page .svp-btn--ghost:hover { border-color: var(--svp-light); color: var(--svp-deep); }
+.svp-btn:focus-visible, .svp-page a:focus-visible, .svp-faq summary:focus-visible {
+  outline: 3px solid var(--svp-accent); outline-offset: 3px;
 }
 
-.sv-pill {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-family: var(--sv-font); font-size: .8125rem; font-weight: 700; color: #fff;
-  background: linear-gradient(90deg, var(--sv-deep), var(--sv-light));
-  border-radius: 999px; padding: 7px 16px; box-shadow: var(--sv-shadow);
+.svp-pill {
+  display: inline-flex; align-items: center; gap: .4rem;
+  font-family: var(--svp-font); font-size: 11px; font-weight: 700; letter-spacing: .04em; color: #fff;
+  background: linear-gradient(90deg, var(--svp-deep) 0%, var(--svp-light) 100%);
+  border-radius: 999px; padding: .35rem .85rem; box-shadow: var(--svp-shadow-strong);
 }
 
 /* ---------- Hero ---------- */
-.sv-hero {
+.svp-hero {
   position: relative; padding: clamp(40px, 6vw, 80px) 0 clamp(56px, 7vw, 96px);
   background:
     radial-gradient(60% 70% at 85% 30%, rgba(139, 92, 246, .14), transparent 70%),
     radial-gradient(40% 50% at 10% 90%, rgba(245, 165, 36, .08), transparent 70%),
-    var(--sv-bg);
+    var(--svp-bg);
 }
-.sv-hero__grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: clamp(24px, 4vw, 56px); align-items: center; }
-.sv-hero__lede { font-size: 1.1875rem; max-width: 560px; }
-.sv-hero__note { display: flex; align-items: center; gap: 8px; margin-top: 26px; font-size: .9375rem; }
-.sv-hero__visual {
-  position: relative; aspect-ratio: 1 / .86; border-radius: 28px;
+.svp-hero__grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: clamp(24px, 4vw, 56px); align-items: center; }
+.svp-hero__lede { font-size: 1.1875rem; max-width: 560px; }
+.svp-page .svp-hero__note { display: flex; align-items: center; gap: 8px; margin-top: 26px; font-size: .9375rem; }
+.svp-hero__visual {
+  position: relative; aspect-ratio: 1 / .86; border-radius: 22px 22px 22px 6px;
   background:
     radial-gradient(70% 60% at 50% 45%, rgba(139, 92, 246, .16), transparent 70%),
-    linear-gradient(160deg, #fff 0%, var(--sv-bg-soft) 100%);
-  border: 1px solid var(--sv-border);
+    linear-gradient(160deg, #fff 0%, var(--svp-bg-soft) 100%);
+  border: 1px solid var(--svp-border);
   overflow: hidden;
 }
 /* Decorative corner, same motif as the homepage cards */
-.sv-hero__visual::before, .sv-card::before {
-  content: ""; position: absolute; top: 0; left: 0; width: 64px; height: 64px;
-  background: linear-gradient(135deg, var(--sv-lilac) 50%, transparent 50%);
-  border-top-left-radius: inherit; pointer-events: none;
+.svp-hero__visual::before, .svp-card::before {
+  content: ""; position: absolute; top: 0; left: 0; width: 56px; height: 56px;
+  background: linear-gradient(135deg, var(--svp-lilac) 0%, rgba(238, 237, 254, 0) 100%);
+  clip-path: polygon(0 0, 100% 0, 0 100%); pointer-events: none;
 }
-.sv-hero__canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-.sv-hero__legend {
+.svp-hero__visual::before { width: 72px; height: 72px; z-index: 1; }
+.svp-hero__canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.svp-hero__legend {
   position: absolute; left: 18px; bottom: 16px; right: 18px;
-  display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: .8125rem; color: var(--sv-ink);
+  display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: .8125rem; color: var(--svp-ink);
 }
-.sv-hero__legend span { display: inline-flex; align-items: center; gap: 6px;
-  background: rgba(255, 255, 255, .85); border: 1px solid var(--sv-border); border-radius: 999px; padding: 4px 10px; }
-.sv-sw { width: 10px; height: 10px; border-radius: 3px; flex: none; }
-.sv-sw--lilac { background: #cbbcff; }
-.sv-sw--primary { background: var(--sv-primary); }
-.sv-sw--pale { background: #e6e3f1; box-shadow: inset 0 0 0 1px #cfcadf; }
-.sv-sw--accent { background: var(--sv-accent); border-radius: 50%; }
+.svp-hero__legend span { display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255, 255, 255, .85); border: 1px solid var(--svp-border); border-radius: 999px; padding: 4px 10px; }
+.svp-sw { width: 10px; height: 10px; border-radius: 3px; flex: none; }
+.svp-sw--lilac { background: #c6bbea; }
+.svp-sw--primary { background: var(--svp-primary); }
+.svp-sw--pale { background: #e0dff8; box-shadow: inset 0 0 0 1px #c6bbea; }
+.svp-sw--accent { background: var(--svp-accent); border-radius: 50%; }
 
 /* ---------- Cards (mirror the homepage solution cards) ---------- */
-.sv-grid { display: grid; gap: 22px; }
-.sv-grid--3 { grid-template-columns: repeat(3, 1fr); }
-.sv-grid--4 { grid-template-columns: repeat(4, 1fr); }
-.sv-grid--2 { grid-template-columns: repeat(2, 1fr); }
-.sv-card {
-  position: relative; background: #fff; border: 1px solid var(--sv-border);
-  border-radius: var(--sv-radius); padding: 28px 24px 26px;
-  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+.svp-grid { display: grid; gap: 22px; }
+.svp-grid--3 { grid-template-columns: repeat(3, 1fr); }
+.svp-grid--4 { grid-template-columns: repeat(4, 1fr); }
+.svp-grid--2 { grid-template-columns: repeat(2, 1fr); }
+.svp-card {
+  position: relative; overflow: hidden; background: #fff; border: 1px solid var(--svp-border);
+  border-radius: var(--svp-radius); padding: 1.6rem 1.3rem 1.4rem;
+  transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
 }
-.sv-card:hover { transform: translateY(-4px); box-shadow: var(--sv-shadow); border-color: #d6cbff; }
-.sv-card__num { position: absolute; top: 18px; right: 20px; font-family: var(--sv-font); font-size: .8125rem; font-weight: 700; color: var(--sv-num); letter-spacing: .06em; }
-.sv-card p { font-size: .9375rem; margin: 0; }
-.sv-icon {
-  width: 48px; height: 48px; border-radius: 12px; background: var(--sv-lilac); color: var(--sv-deep);
-  display: grid; place-items: center; margin-bottom: 20px; position: relative;
+/* Homepage hover: violet border, soft shadow, gradient bar sweeping along the bottom */
+.svp-card::after {
+  content: ""; position: absolute; left: 0; bottom: 0; height: 3px; width: 0;
+  background: linear-gradient(90deg, var(--svp-deep) 0%, var(--svp-num) 100%); transition: width .45s ease;
 }
-.sv-icon svg { width: 24px; height: 24px; }
+.svp-card:hover { transform: translateY(-3px); box-shadow: var(--svp-shadow); border-color: var(--svp-num); }
+.svp-card:hover::after { width: 100%; }
+.svp-card__num { position: absolute; top: 14px; right: 16px; font-family: var(--svp-font); font-size: 11px; font-weight: 700; color: var(--svp-num); letter-spacing: .1em; }
+.svp-card p { font-size: .875rem; margin: 0; }
+.svp-icon {
+  width: 48px; height: 48px; border-radius: 14px 4px 14px 4px; background: var(--svp-lilac); color: var(--svp-deep);
+  display: grid; place-items: center; margin-bottom: 1.1rem; position: relative;
+}
+.svp-icon svg { width: 23px; height: 23px; stroke-width: 1.7; }
 
 /* Question cards: "What it answers" */
-.sv-q h3 { display: flex; gap: 10px; align-items: flex-start; }
-.sv-q h3::before { content: "?"; flex: none; width: 26px; height: 26px; border-radius: 8px; display: grid; place-items: center;
-  font-size: .875rem; color: #fff; background: linear-gradient(135deg, var(--sv-deep), var(--sv-light)); margin-top: 1px; }
+.svp-q h3 { display: flex; gap: 10px; align-items: flex-start; }
+.svp-q h3::before { content: "?"; flex: none; width: 26px; height: 26px; border-radius: 8px 3px 8px 3px; display: grid; place-items: center;
+  font-size: .875rem; color: #fff; background: linear-gradient(135deg, var(--svp-deep), var(--svp-light)); margin-top: 1px; }
 
 /* ---------- Steps ---------- */
-.sv-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; counter-reset: step; position: relative; }
-.sv-steps::before { content: ""; position: absolute; top: 23px; left: 12%; right: 12%; height: 2px;
-  background: linear-gradient(90deg, var(--sv-border), var(--sv-light), var(--sv-border)); }
-.sv-steps li { position: relative; text-align: center; padding: 0 6px; counter-increment: step; }
-.sv-steps li::before {
+.svp-steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; counter-reset: step; position: relative; }
+.svp-steps::before { content: ""; position: absolute; top: 23px; left: 12%; right: 12%; height: 2px;
+  background: linear-gradient(90deg, var(--svp-border), var(--svp-light), var(--svp-border)); }
+.svp-steps li { position: relative; text-align: center; padding: 0 6px; counter-increment: step; }
+.svp-steps li::before {
   content: counter(step, decimal-leading-zero); display: grid; place-items: center; margin: 0 auto 18px;
   width: 48px; height: 48px; border-radius: 50%; position: relative;
-  font-family: var(--sv-font); font-weight: 700; font-size: .9375rem; color: var(--sv-deep);
-  background: #fff; border: 2px solid var(--sv-light); box-shadow: 0 0 0 6px var(--sv-bg-soft);
+  font-family: var(--svp-font); font-weight: 700; font-size: .9375rem; color: var(--svp-deep);
+  background: #fff; border: 2px solid var(--svp-light); box-shadow: 0 0 0 6px var(--svp-bg-soft);
 }
-.sv-steps p { font-size: .9375rem; margin: 0; }
+.svp-steps p { font-size: .9375rem; margin: 0; }
 
 /* ---------- Who it's for ---------- */
-.sv-split { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 72px); align-items: center; }
-.sv-checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
-.sv-checks li { display: flex; gap: 12px; align-items: flex-start; color: var(--sv-ink); }
-.sv-checks li::before { content: ""; flex: none; margin-top: 4px; width: 20px; height: 20px; border-radius: 6px;
-  background: var(--sv-lilac) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234f3cc9' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E") center / 13px no-repeat; }
-.sv-checks strong { display: block; font-family: var(--sv-font); }
-.sv-checks span { color: var(--sv-text); font-size: .9375rem; }
-.sv-quote {
-  border-radius: 24px; padding: clamp(28px, 4vw, 44px); color: #fff; position: relative; overflow: hidden;
-  background: linear-gradient(140deg, var(--sv-ink) 0%, var(--sv-deep) 60%, var(--sv-light) 120%);
+.svp-split { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 72px); align-items: center; }
+.svp-split > * { min-width: 0; } /* let wide children (the scenario table) scroll instead of stretching the grid */
+.svp-checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
+.svp-checks li { display: flex; gap: 12px; align-items: flex-start; color: var(--svp-ink); }
+.svp-checks li::before { content: ""; flex: none; margin-top: 4px; width: 20px; height: 20px; border-radius: 6px;
+  background: var(--svp-lilac) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234f3cc9' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E") center / 13px no-repeat; }
+.svp-checks strong { display: block; font-family: var(--svp-font); }
+.svp-checks span { color: var(--svp-text); font-size: .9375rem; }
+.svp-quote {
+  border-radius: 22px 22px 22px 6px; padding: clamp(28px, 4vw, 44px); color: #fff; position: relative; overflow: hidden;
+  background: linear-gradient(140deg, var(--svp-ink) 0%, var(--svp-deep) 60%, var(--svp-light) 120%);
 }
-.sv-quote h3 { color: #fff; font-size: 1.375rem; }
-.sv-quote p { color: rgba(255, 255, 255, .82); }
-.sv-quote .sv-pill { background: rgba(255, 255, 255, .14); box-shadow: none; }
+.svp-quote h3 { color: #fff; font-size: 1.375rem; }
+.svp-quote p { color: rgba(255, 255, 255, .82); }
+.svp-quote .svp-pill { background: rgba(255, 255, 255, .14); box-shadow: none; }
 
 /* ---------- FAQ ---------- */
-.sv-faq { max-width: 820px; margin: 0 auto; display: grid; gap: 12px; }
-.sv-faq details { background: #fff; border: 1px solid var(--sv-border); border-radius: 14px; padding: 0 22px; transition: border-color .2s; }
-.sv-faq details[open] { border-color: #d6cbff; box-shadow: var(--sv-shadow); }
-.sv-faq summary { cursor: pointer; list-style: none; padding: 18px 0; font-family: var(--sv-font); font-weight: 600; color: var(--sv-ink);
+.svp-faq { max-width: 820px; margin: 0 auto; display: grid; gap: 12px; }
+.svp-faq details { background: #fff; border: 1px solid var(--svp-border); border-radius: var(--svp-radius); padding: 0 22px; transition: border-color .2s; }
+.svp-faq details[open] { border-color: var(--svp-num); box-shadow: var(--svp-shadow); }
+.svp-faq summary { cursor: pointer; list-style: none; padding: 18px 0; font-family: var(--svp-font); font-weight: 600; font-size: .9375rem; color: var(--svp-ink);
   display: flex; justify-content: space-between; gap: 16px; }
-.sv-faq summary::-webkit-details-marker { display: none; }
-.sv-faq summary::after { content: "+"; flex: none; width: 26px; height: 26px; border-radius: 8px; background: var(--sv-lilac); color: var(--sv-deep);
+.svp-faq summary::-webkit-details-marker { display: none; }
+.svp-faq summary::after { content: "+"; flex: none; width: 26px; height: 26px; border-radius: 8px; background: var(--svp-lilac); color: var(--svp-deep);
   display: grid; place-items: center; font-size: 1.125rem; transition: transform .2s; }
-.sv-faq details[open] summary::after { transform: rotate(45deg); }
-.sv-faq details > div { padding: 0 0 20px; }
-.sv-faq details > div p:last-child { margin: 0; }
+.svp-faq details[open] summary::after { transform: rotate(45deg); }
+.svp-faq details > div { padding: 0 0 20px; }
+.svp-faq details > div p:last-child { margin: 0; }
 
 /* ---------- Related solutions ---------- */
-.sv-related a.sv-card { display: block; text-decoration: none; color: inherit; }
-.sv-related .sv-more { display: inline-block; margin-top: 16px; font-family: var(--sv-font); font-weight: 600; font-size: .9375rem; color: var(--sv-deep); }
-.sv-related a.sv-card:hover .sv-more { text-decoration: underline; }
+.svp-related a.svp-card { display: block; text-decoration: none; color: inherit; }
+.svp-related .svp-more { display: inline-block; margin-top: 16px; font-family: var(--svp-font); font-weight: 600; font-size: .8125rem; color: var(--svp-deep); transition: color .25s ease, transform .25s ease; }
+.svp-related a.svp-card:hover .svp-more { color: var(--svp-ink); transform: translateX(3px); }
 
 /* ---------- Final CTA ---------- */
-.sv-cta {
-  position: relative; overflow: hidden; text-align: center; border-radius: 28px;
+.svp-cta {
+  position: relative; overflow: hidden; text-align: center; border-radius: 24px 24px 24px 6px;
   padding: clamp(40px, 6vw, 72px) 24px; color: #fff;
   background:
     radial-gradient(50% 80% at 90% 0%, rgba(245, 165, 36, .22), transparent 70%),
-    linear-gradient(135deg, var(--sv-ink) 0%, var(--sv-deep) 55%, var(--sv-light) 110%);
+    linear-gradient(135deg, var(--svp-ink) 0%, var(--svp-deep) 55%, var(--svp-light) 110%);
 }
-.sv-cta h2 { color: #fff; max-width: 720px; margin-left: auto; margin-right: auto; }
-.sv-cta p { color: rgba(255, 255, 255, .84); max-width: 600px; margin: 0 auto; }
-.sv-cta .sv-btns { justify-content: center; }
-.sv-page .sv-cta .sv-btn--primary { background: #fff; color: var(--sv-deep); }
-.sv-page .sv-cta .sv-btn--primary:hover { background: var(--sv-lilac); }
-.sv-page .sv-cta .sv-btn--ghost { background: transparent; color: #fff; border-color: rgba(255, 255, 255, .4); }
+.svp-cta h2 { color: #fff; max-width: 720px; margin-left: auto; margin-right: auto; }
+.svp-cta p { color: rgba(255, 255, 255, .84); max-width: 600px; margin: 0 auto; }
+.svp-cta .svp-btns { justify-content: center; }
+.svp-page .svp-cta .svp-btn--primary { background: #fff; color: var(--svp-deep); }
+.svp-page .svp-cta .svp-btn--primary:hover { background: var(--svp-lilac); }
+.svp-page .svp-cta .svp-btn--ghost { background: transparent; color: #fff; border-color: rgba(255, 255, 255, .4); }
+
+/* ---------- Platform note: in-content links to the pages kept under "Platform" ---------- */
+.svp-page .svp-platform-note {
+  max-width: 760px; margin: clamp(36px, 5vw, 56px) auto 0; text-align: center; font-size: .9375rem;
+  background: #fff; border: 1px dashed var(--svp-num); border-radius: var(--svp-radius); padding: 12px 24px;
+}
+.svp-page .svp-platform-note a { font-weight: 600; text-decoration: none; }
+.svp-page .svp-platform-note a:hover { text-decoration: underline; }
+
+/* ---------- Scenario comparison (Price Optimizer) ---------- */
+.svp-scenarios { margin: 0; background: #fff; border: 1px solid var(--svp-border); border-radius: var(--svp-radius); padding: 6px 6px 14px; box-shadow: var(--svp-shadow); }
+.svp-scenarios__scroll { overflow-x: auto; }
+.svp-scenarios table { width: 100%; min-width: 460px; border-collapse: collapse; font-size: .875rem; }
+.svp-scenarios caption { text-align: left; padding: 12px 14px 8px; font-family: var(--svp-font); font-weight: 600; font-size: .8125rem; color: var(--svp-ink); }
+.svp-scenarios th, .svp-scenarios td { padding: 14px; text-align: right; border-top: 1px solid var(--svp-border); vertical-align: middle; }
+.svp-scenarios thead th { border-top: 0; font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--svp-num); }
+.svp-scenarios thead th:first-child, .svp-scenarios th[scope="row"] { text-align: left; }
+.svp-scenarios th[scope="row"] { font-weight: 400; color: var(--svp-ink); }
+.svp-scn { display: inline-grid; place-items: center; width: 28px; height: 22px; margin-right: 10px; border-radius: 6px 2px 6px 2px;
+  background: var(--svp-lilac); color: var(--svp-deep); font-family: var(--svp-font); font-weight: 700; font-size: 11px; }
+.svp-scenarios td { font-family: var(--svp-font); font-weight: 600; white-space: nowrap; }
+.svp-scenarios .is-up { color: var(--svp-deep); }
+.svp-scenarios .is-down { color: #9b3d5a; }
+.svp-scenarios tr.is-best { background: linear-gradient(90deg, rgba(241, 149, 38, .10), rgba(238, 237, 254, .7)); }
+.svp-scenarios tr.is-best th[scope="row"] { box-shadow: inset 3px 0 0 var(--svp-accent); font-weight: 600; }
+.svp-scenarios tr.is-best .svp-pill { margin-left: 8px; font-size: 10px; padding: .2rem .6rem; box-shadow: none; vertical-align: middle; }
+.svp-scenarios figcaption { padding: 6px 14px 0; font-size: .75rem; }
+
+/* ---------- Hub: "Which one first?" guide + platform tags ---------- */
+.svp-guide { list-style: none; margin: 0 auto; padding: 0; max-width: 880px; display: grid; gap: 12px; }
+.svp-guide li { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px 24px;
+  background: #fff; border: 1px solid var(--svp-border); border-radius: var(--svp-radius); padding: 18px 22px;
+  transition: border-color .3s ease, box-shadow .3s ease; }
+.svp-guide li:hover { border-color: var(--svp-num); box-shadow: var(--svp-shadow); }
+.svp-guide h3 { margin: 0; font-weight: 600; font-size: 1rem; }
+.svp-page .svp-guide__to { display: inline-block; font-family: var(--svp-font); font-weight: 600; font-size: .875rem; text-decoration: none;
+  white-space: nowrap; color: var(--svp-deep); transition: transform .25s ease, color .25s ease; }
+.svp-page .svp-guide__to:hover { color: var(--svp-ink); transform: translateX(3px); }
+.svp-card .svp-tag { margin: 0 0 6px; font-family: var(--svp-font); font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--svp-deep); }
 
 /* ---------- Scroll reveal (progressive: content is visible without JS) ---------- */
-.sv-js .sv-reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s cubic-bezier(.2, .7, .2, 1); }
-.sv-js .sv-reveal.is-in { opacity: 1; transform: none; }
-.sv-js .sv-grid > .sv-reveal:nth-child(2), .sv-js .sv-steps > .sv-reveal:nth-child(2) { transition-delay: .08s; }
-.sv-js .sv-grid > .sv-reveal:nth-child(3), .sv-js .sv-steps > .sv-reveal:nth-child(3) { transition-delay: .16s; }
-.sv-js .sv-grid > .sv-reveal:nth-child(4), .sv-js .sv-steps > .sv-reveal:nth-child(4) { transition-delay: .24s; }
+.svp-js .svp-reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s cubic-bezier(.2, .7, .2, 1); }
+.svp-js .svp-reveal.is-in { opacity: 1; transform: none; }
+.svp-js .svp-grid > .svp-reveal:nth-child(2), .svp-js .svp-steps > .svp-reveal:nth-child(2) { transition-delay: .08s; }
+.svp-js .svp-grid > .svp-reveal:nth-child(3), .svp-js .svp-steps > .svp-reveal:nth-child(3) { transition-delay: .16s; }
+.svp-js .svp-grid > .svp-reveal:nth-child(4), .svp-js .svp-steps > .svp-reveal:nth-child(4) { transition-delay: .24s; }
 
 @media (prefers-reduced-motion: reduce) {
-  .sv-page *, .sv-page *::before, .sv-page *::after { transition: none !important; animation: none !important; }
-  .sv-js .sv-reveal { opacity: 1; transform: none; }
+  .svp-page *, .svp-page *::before, .svp-page *::after { transition: none !important; animation: none !important; }
+  .svp-js .svp-reveal { opacity: 1; transform: none; }
 }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 1024px) {
-  .sv-grid--4 { grid-template-columns: repeat(2, 1fr); }
-  .sv-steps { grid-template-columns: repeat(2, 1fr); row-gap: 36px; }
-  .sv-steps::before { display: none; }
+  .svp-grid--4 { grid-template-columns: repeat(2, 1fr); }
+  .svp-steps { grid-template-columns: repeat(2, 1fr); row-gap: 36px; }
+  .svp-steps::before { display: none; }
 }
 @media (max-width: 860px) {
-  .sv-hero__grid, .sv-split { grid-template-columns: 1fr; }
-  .sv-hero__visual { aspect-ratio: 1 / .8; }
-  .sv-grid--3, .sv-grid--2 { grid-template-columns: 1fr; }
+  .svp-hero__grid, .svp-split { grid-template-columns: 1fr; }
+  .svp-hero__visual { aspect-ratio: 1 / .8; }
+  .svp-grid--3, .svp-grid--2 { grid-template-columns: 1fr; }
 }
 @media (max-width: 560px) {
-  .sv-wrap { padding: 0 16px; }
-  .sv-grid--4, .sv-steps { grid-template-columns: 1fr; }
-  .sv-btn { width: 100%; }
+  .svp-wrap { padding: 0 16px; }
+  .svp-grid--4, .svp-steps { grid-template-columns: 1fr; }
+  .svp-btn { width: 100%; }
+}
+@media (max-width: 560px) {
+  .svp-scenarios table { min-width: 0; font-size: .8125rem; }
+  .svp-scenarios th, .svp-scenarios td { padding: 10px 6px; }
+  .svp-scenarios thead th { font-size: 10px; letter-spacing: .06em; }
+  .svp-scn { width: 24px; margin-right: 6px; }
 }
 </style>
 
-<div class="sv-page" data-sv-solution="promotion-planner">
-  <section class="sv-hero" aria-labelledby="sv-h1">
-    <div class="sv-wrap">
-      <nav class="sv-crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/solutions/">Solutions</a></li><li><span aria-current="page">Promotion Planner</span></li></ol></nav>
-      <div class="sv-hero__grid">
+<div class="svp-page" data-svp-solution="promotion-planner">
+  <section class="svp-hero" aria-labelledby="svp-h1">
+    <div class="svp-wrap">
+      <nav class="svp-crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/solutions/">Solutions</a></li><li><span aria-current="page">Promotion Planner</span></li></ol></nav>
+      <div class="svp-hero__grid">
         <div>
-          <p class="sv-eyebrow"><span class="sv-dot"></span>Promotion Planner</p>
-          <h1 id="sv-h1">Know which promotions <span class="sv-hl">actually pay back</span></h1>
-          <p class="sv-hero__lede">Promotion Planner separates incremental sales from what you would have sold anyway, so you can see the real ROI of every mechanic, depth and retailer, and build the next calendar on evidence.</p>
-          <div class="sv-btns">
-            <a class="sv-btn sv-btn--primary" href="/contact/">Book a Promotion Planner walkthrough</a>
-            <a class="sv-btn sv-btn--ghost" href="#how-it-works">See how it works</a>
+          <p class="svp-eyebrow">Promotion Planner</p>
+          <h1 id="svp-h1">Know which promotions <span class="svp-hl">actually pay back</span></h1>
+          <p class="svp-hero__lede">Promotion Planner separates incremental sales from what you would have sold anyway, so FMCG teams can see the real ROI of every mechanic, depth and retailer, and build the next calendar on evidence.</p>
+          <div class="svp-btns">
+            <a class="svp-btn svp-btn--primary" href="/contact-us/">Book a Promotion Planner walkthrough</a>
+            <a class="svp-btn svp-btn--ghost" href="#how-it-works">See how it works</a>
           </div>
-          <p class="sv-hero__note"><span class="sv-dot"></span>Standalone module. No bundle, no full-suite commitment.</p>
+          <p class="svp-hero__note"><span class="svp-dot"></span>Standalone solution. No bundle, no full-suite commitment.</p>
         </div>
-        <div class="sv-hero__visual">
-          <canvas class="sv-hero__canvas" data-sv-scene="promo" role="img" aria-label="Animated 3D bar chart of weekly sales across promotions, separating baseline from incremental uplift"></canvas>
-          <div class="sv-hero__legend"><span><i class="sv-sw sv-sw--lilac"></i>Baseline sales</span><span><i class="sv-sw sv-sw--primary"></i>Incremental uplift</span><span><i class="sv-sw sv-sw--accent"></i>Best-ROI promotion</span></div>
+        <div class="svp-hero__visual">
+          <canvas class="svp-hero__canvas" data-svp-scene="promo" role="img" aria-label="Animated 3D bar chart of weekly sales across promotions, separating baseline from incremental uplift"></canvas>
+          <div class="svp-hero__legend"><span><i class="svp-sw svp-sw--lilac"></i>Baseline sales</span><span><i class="svp-sw svp-sw--primary"></i>Incremental uplift</span><span><i class="svp-sw svp-sw--accent"></i>Best-ROI promotion</span></div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="sv-section" aria-labelledby="sv-problem-h">
-    <div class="sv-wrap">
-      <div class="sv-section__head sv-reveal"><h2 id="sv-problem-h">A volume spike is not the same as growth</h2><p>Promotions look good on a weekly sales chart. The question is how much of that volume you paid for twice.</p></div>
-      <div class="sv-grid sv-grid--3">
-        <article class="sv-card sv-reveal"><div class="sv-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 2l3 3-3 3"/><path d="M4 11V9a4 4 0 0 1 4-4h12"/><path d="M7 22l-3-3 3-3"/><path d="M20 13v2a4 4 0 0 1-4 4H4"/></svg></div><h3>Subsidised baseline</h3><p>Part of every promo spike would have sold at full price. Without a baseline, you can’t see how much.</p></article>
-        <article class="sv-card sv-reveal"><div class="sv-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div><h3>Calendars on repeat</h3><p>Next year’s plan is often last year’s plan, because no one can show which events earned their place.</p></article>
-        <article class="sv-card sv-reveal"><div class="sv-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9.5 17h-19L12 3z"/><path d="M12 10v4.5M12 17.5h0"/></svg></div><h3>Hidden after-effects</h3><p>Shoppers stock up during the deal and buy less afterwards. The dip rarely makes it into the ROI.</p></article>
+  <section class="svp-section" aria-labelledby="svp-problem-h">
+    <div class="svp-wrap">
+      <div class="svp-section__head svp-reveal"><h2 id="svp-problem-h">A volume spike is not the same as growth</h2><p>Promotions look good on a weekly sales chart. The question is how much of that volume you paid for twice.</p></div>
+      <div class="svp-grid svp-grid--3">
+        <article class="svp-card svp-reveal"><div class="svp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 2l3 3-3 3"/><path d="M4 11V9a4 4 0 0 1 4-4h12"/><path d="M7 22l-3-3 3-3"/><path d="M20 13v2a4 4 0 0 1-4 4H4"/></svg></div><h3>Subsidised baseline</h3><p>Part of every promo spike would have sold at full price. Without a baseline, you can’t see how much.</p></article>
+        <article class="svp-card svp-reveal"><div class="svp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div><h3>Calendars on repeat</h3><p>Next year’s plan is often last year’s plan, because no one can show which events earned their place.</p></article>
+        <article class="svp-card svp-reveal"><div class="svp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9.5 17h-19L12 3z"/><path d="M12 10v4.5M12 17.5h0"/></svg></div><h3>Hidden after-effects</h3><p>Shoppers stock up during the deal and buy less afterwards. The dip rarely makes it into the ROI.</p></article>
       </div>
     </div>
   </section>
 
-  <section class="sv-section sv-section--soft" aria-labelledby="sv-answers-h">
-    <div class="sv-wrap">
-      <div class="sv-section__head sv-reveal"><h2 id="sv-answers-h">The promotion questions it answers</h2><p>Scored event by event, so you can keep what works and cut what doesn’t.</p></div>
-      <div class="sv-grid sv-grid--2">
-        <article class="sv-card sv-q sv-reveal"><span class="sv-card__num">01</span><h3>Which promotions created incremental volume?</h3><p>Baseline and uplift are separated for every event, so you see growth, not just volume.</p></article>
-        <article class="sv-card sv-q sv-reveal"><span class="sv-card__num">02</span><h3>What is the ROI of each mechanic and depth?</h3><p>Compare price cuts, multibuys and features on incremental margin per unit of trade spend.</p></article>
-        <article class="sv-card sv-q sv-reveal"><span class="sv-card__num">03</span><h3>What happens after the promotion ends?</h3><p>Post-promotion dips and pull-forward are measured and netted off the result.</p></article>
-        <article class="sv-card sv-q sv-reveal"><span class="sv-card__num">04</span><h3>What should next quarter’s calendar look like?</h3><p>Simulate a calendar before committing budget and see the expected return by retailer.</p></article>
+  <section class="svp-section svp-section--soft" aria-labelledby="svp-answers-h">
+    <div class="svp-wrap">
+      <div class="svp-section__head svp-reveal"><h2 id="svp-answers-h">The promotion questions it answers</h2><p>Scored event by event, so you can keep what works and cut what doesn’t.</p></div>
+      <div class="svp-grid svp-grid--2">
+        <article class="svp-card svp-q svp-reveal"><span class="svp-card__num">01</span><h3>Which promotions created incremental volume?</h3><p>Baseline and uplift are separated for every event, so you see growth, not just volume.</p></article>
+        <article class="svp-card svp-q svp-reveal"><span class="svp-card__num">02</span><h3>What is the ROI of each mechanic and depth?</h3><p>Compare price cuts, multibuys and features on incremental margin per unit of trade spend.</p></article>
+        <article class="svp-card svp-q svp-reveal"><span class="svp-card__num">03</span><h3>What happens after the promotion ends?</h3><p>Post-promotion dips and pull-forward are measured and netted off the result.</p></article>
+        <article class="svp-card svp-q svp-reveal"><span class="svp-card__num">04</span><h3>What should next quarter’s calendar look like?</h3><p>Simulate a calendar before committing budget and see the expected return by retailer.</p></article>
       </div>
     </div>
   </section>
 
-  <section class="sv-section" id="how-it-works" aria-labelledby="sv-how-h">
-    <div class="sv-wrap">
-      <div class="sv-section__head sv-reveal"><h2 id="sv-how-h">How Promotion Planner works</h2><p>From your data to a decision in four steps.</p></div>
-      <ol class="sv-steps">
-        <li class="sv-reveal"><h3>Connect promo history</h3><p>Past events, mechanics, depths, timings and the trade spend behind them.</p></li>
-        <li class="sv-reveal"><h3>Measure the baseline</h3><p>Estimate what each SKU would have sold without the promotion.</p></li>
-        <li class="sv-reveal"><h3>Score every event</h3><p>Incremental volume, margin and ROI for each promotion, net of after-effects.</p></li>
-        <li class="sv-reveal"><h3>Plan the calendar</h3><p>Keep the winners, fix or drop the rest, and test the new plan before it runs.</p></li>
+  <section class="svp-section" id="how-it-works" aria-labelledby="svp-how-h">
+    <div class="svp-wrap">
+      <div class="svp-section__head svp-reveal"><h2 id="svp-how-h">How Promotion Planner works</h2><p>From your data to a decision in four steps.</p></div>
+      <ol class="svp-steps">
+        <li class="svp-reveal"><h3>Connect promo history</h3><p>Past events, mechanics, depths, timings and the trade spend behind them.</p></li>
+        <li class="svp-reveal"><h3>Measure the baseline</h3><p>Estimate what each SKU would have sold without the promotion.</p></li>
+        <li class="svp-reveal"><h3>Score every event</h3><p>Incremental volume, margin and ROI for each promotion, net of after-effects.</p></li>
+        <li class="svp-reveal"><h3>Plan the calendar</h3><p>Keep the winners, fix or drop the rest, and test the new plan before it runs.</p></li>
       </ol>
+      <p class="svp-platform-note svp-reveal">Runs on the Smart Value™ platform: start from your data with <a href="/commercial-analytics/">Commercial Analytics</a>, and ask questions in plain language with <a href="/ai-decision-support-smart-bot/">SmartBot</a>.</p>
     </div>
   </section>
 
-  <section class="sv-section sv-section--soft" aria-labelledby="sv-who-h">
-    <div class="sv-wrap sv-split">
-      <div class="sv-reveal">
-        <h2 id="sv-who-h">Built for the teams who spend the trade budget</h2>
-        <ul class="sv-checks">
+  <section class="svp-section svp-section--soft" aria-labelledby="svp-who-h">
+    <div class="svp-wrap svp-split">
+      <div class="svp-reveal">
+        <h2 id="svp-who-h">Built for the teams who spend the trade budget</h2>
+        <ul class="svp-checks">
           <li><div><strong>Trade marketing and RGM</strong><span>Event-level evidence of what grew the business and what only moved volume.</span></div></li>
           <li><div><strong>Key account managers</strong><span>A stronger case in joint business planning with each retailer.</span></div></li>
           <li><div><strong>Commercial finance</strong><span>Trade spend measured on return, not only on volume.</span></div></li>
         </ul>
       </div>
-      <aside class="sv-quote sv-reveal">
-        <span class="sv-pill"><span class="sv-dot"></span>Promotion Planner</span>
+      <aside class="svp-quote svp-reveal">
+        <span class="svp-pill"><span class="svp-dot"></span>Promotion Planner</span>
         <h3 style="margin-top:20px">Use it on its own</h3>
-        <p>Promotion Planner works as a standalone module. No bundle, no full-suite commitment. Pair it with Price Optimizer later so everyday price and promo price are set together.</p>
+        <p>Promotion Planner works as a standalone solution. No bundle, no full-suite commitment. Pair it with Price Optimizer later so everyday price and promo price are set together.</p>
       </aside>
     </div>
   </section>
 
-  <section class="sv-section" aria-labelledby="sv-faq-h">
-    <div class="sv-wrap">
-      <div class="sv-section__head sv-reveal"><h2 id="sv-faq-h">Questions about Promotion Planner</h2></div>
-      <div class="sv-faq">
-        <details class="sv-reveal"><summary>What does &quot;incremental&quot; mean in Promotion Planner?</summary><div><p>Incremental sales are the extra units a promotion created on top of the baseline, which is what the SKU would have sold at that time without the promotion. Promotion Planner reports ROI on incremental sales only.</p></div></details>
-        <details class="sv-reveal"><summary>What data do we need to get started?</summary><div><p>Weekly sales by SKU and retailer, a history of past promotions (mechanic, depth, dates) and the trade spend attached to them.</p></div></details>
-        <details class="sv-reveal"><summary>Can we use Promotion Planner without the other Smart Value modules?</summary><div><p>Yes. Each Smart Value module is bought and used on its own. There is no bundle and no full-suite commitment.</p></div></details>
-        <details class="sv-reveal"><summary>Does it account for the dip after a promotion?</summary><div><p>Yes. Shoppers often stock up during a deal and buy less afterwards. That post-promotion dip is measured and deducted before ROI is calculated.</p></div></details>
-        <details class="sv-reveal"><summary>Can it help with retailer negotiations?</summary><div><p>Yes. Event-level results by retailer give key account teams evidence to agree which promotions to repeat, change or stop in joint business plans.</p></div></details>
+  <section class="svp-section" aria-labelledby="svp-faq-h">
+    <div class="svp-wrap">
+      <div class="svp-section__head svp-reveal"><h2 id="svp-faq-h">Questions about Promotion Planner</h2></div>
+      <div class="svp-faq">
+        <details class="svp-reveal"><summary>What does &quot;incremental&quot; mean in Promotion Planner?</summary><div><p>Incremental sales are the extra units a promotion created on top of the baseline, which is what the SKU would have sold at that time without the promotion. Promotion Planner reports ROI on incremental sales only.</p></div></details>
+        <details class="svp-reveal"><summary>What data do we need to get started?</summary><div><p>Weekly sales by SKU and retailer, a history of past promotions (mechanic, depth, dates) and the trade spend attached to them.</p></div></details>
+        <details class="svp-reveal"><summary>Can we use Promotion Planner without the other Smart Value™ solutions?</summary><div><p>Yes. Each Smart Value™ solution is built, sold and used on its own. There is no bundle and no full-suite commitment.</p></div></details>
+        <details class="svp-reveal"><summary>Does it account for the dip after a promotion?</summary><div><p>Yes. Shoppers often stock up during a deal and buy less afterwards. That post-promotion dip is measured and deducted before ROI is calculated.</p></div></details>
+        <details class="svp-reveal"><summary>Can it help with retailer negotiations?</summary><div><p>Yes. Event-level results by retailer give key account teams evidence to agree which promotions to repeat, change or stop in joint business plans.</p></div></details>
       </div>
     </div>
   </section>
 
-  <section class="sv-section sv-section--soft sv-related" aria-labelledby="sv-related-h">
-    <div class="sv-wrap">
-      <div class="sv-section__head sv-reveal"><h2 id="sv-related-h">Pair it with another module</h2><p>Every Smart Value module works on its own. Take one, or take all four.</p></div>
-      <div class="sv-grid sv-grid--2">
-        <a class="sv-card sv-reveal" href="/solutions/price-optimizer/"><span class="sv-card__num">01</span><div class="sv-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v20M17 6.5C17 4.6 14.8 3.5 12 3.5S7 4.6 7 6.5 9 9.4 12 10s5 1.7 5 3.8-2.2 3.4-5 3.4-5-1.2-5-3.2"/></svg></div><h3>Price Optimizer</h3><p>Find the price that improves revenue and margin while protecting volume.</p><span class="sv-more">Explore Price Optimizer →</span></a>
-        <a class="sv-card sv-reveal" href="/solutions/category-management/"><span class="sv-card__num">03</span><div class="sv-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 9v11M13 13h5M13 16.5h5"/></svg></div><h3>Category Management</h3><p>Build the range by retailer and channel, and know which SKUs earn their space.</p><span class="sv-more">Explore Category Management →</span></a>
+  <section class="svp-section svp-section--soft svp-related" aria-labelledby="svp-related-h">
+    <div class="svp-wrap">
+      <div class="svp-section__head svp-reveal"><h2 id="svp-related-h">Pair it with another solution</h2><p>Each Smart Value™ solution is built, sold and used on its own. Take one, or take all four.</p></div>
+      <div class="svp-grid svp-grid--2">
+        <a class="svp-card svp-reveal" href="/solutions/price-optimizer/"><span class="svp-card__num">01</span><div class="svp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><h3>Price Optimizer</h3><p>Find the price that improves revenue and margin while protecting volume.</p><span class="svp-more">Explore Price Optimizer →</span></a>
+        <a class="svp-card svp-reveal" href="/solutions/category-management/"><span class="svp-card__num">03</span><div class="svp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="3" width="19" height="18" rx="2"/><path d="M2.5 9h19"/><path d="M9 9v12"/><path d="M5.5 12h1.5M5.5 15h1.5M12 12h6M12 15h4"/></svg></div><h3>Category Management</h3><p>Build the range by retailer and channel, and know which SKUs earn their space.</p><span class="svp-more">Explore Category Management →</span></a>
       </div>
     </div>
   </section>
 
-  <section class="sv-section">
-    <div class="sv-wrap">
-      <div class="sv-cta sv-reveal">
+  <section class="svp-section">
+    <div class="svp-wrap">
+      <div class="svp-cta svp-reveal">
         <h2>See Promotion Planner on your own data</h2>
         <p>Bring your categories, your retailers and your questions. We will show you what the answers look like.</p>
-        <div class="sv-btns">
-          <a class="sv-btn sv-btn--primary" href="/contact/">Book a Promotion Planner walkthrough</a>
-          <a class="sv-btn sv-btn--ghost" href="/solutions/">See all solutions</a>
+        <div class="svp-btns">
+          <a class="svp-btn svp-btn--primary" href="/contact-us/">Book a Promotion Planner walkthrough</a>
+          <a class="svp-btn svp-btn--ghost" href="/solutions/">See all solutions</a>
         </div>
       </div>
     </div>
   </section>
 </div>
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Service","@id":"https://smartvalueaisolutions.com/solutions/promotion-planner/#service","name":"Promotion Planner","description":"See which promotions drive incremental growth and better ROI. Promotion Planner separates true uplift from baseline sales and shows what to repeat or cut.","url":"https://smartvalueaisolutions.com/solutions/promotion-planner/","provider":{"@type":"Organization","@id":"https://smartvalueaisolutions.com/#organization","name":"Smart Value AI Solutions","url":"https://smartvalueaisolutions.com"}},{"@type":"FAQPage","@id":"https://smartvalueaisolutions.com/solutions/promotion-planner/#faq","mainEntity":[{"@type":"Question","name":"What does \"incremental\" mean in Promotion Planner?","acceptedAnswer":{"@type":"Answer","text":"Incremental sales are the extra units a promotion created on top of the baseline, which is what the SKU would have sold at that time without the promotion. Promotion Planner reports ROI on incremental sales only."}},{"@type":"Question","name":"What data do we need to get started?","acceptedAnswer":{"@type":"Answer","text":"Weekly sales by SKU and retailer, a history of past promotions (mechanic, depth, dates) and the trade spend attached to them."}},{"@type":"Question","name":"Can we use Promotion Planner without the other Smart Value modules?","acceptedAnswer":{"@type":"Answer","text":"Yes. Each Smart Value module is bought and used on its own. There is no bundle and no full-suite commitment."}},{"@type":"Question","name":"Does it account for the dip after a promotion?","acceptedAnswer":{"@type":"Answer","text":"Yes. Shoppers often stock up during a deal and buy less afterwards. That post-promotion dip is measured and deducted before ROI is calculated."}},{"@type":"Question","name":"Can it help with retailer negotiations?","acceptedAnswer":{"@type":"Answer","text":"Yes. Event-level results by retailer give key account teams evidence to agree which promotions to repeat, change or stop in joint business plans."}}]}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Service","@id":"https://smartvalueaisolutions.com/solutions/promotion-planner/#service","name":"Promotion Planner","description":"See which FMCG promotions drive incremental growth and better ROI. Promotion Planner separates true uplift from baseline sales, event by event.","url":"https://smartvalueaisolutions.com/solutions/promotion-planner/","provider":{"@type":"Organization","@id":"https://smartvalueaisolutions.com/#organization","name":"Smart Value AI Solutions","url":"https://smartvalueaisolutions.com"}},{"@type":"FAQPage","@id":"https://smartvalueaisolutions.com/solutions/promotion-planner/#faq","mainEntity":[{"@type":"Question","name":"What does \"incremental\" mean in Promotion Planner?","acceptedAnswer":{"@type":"Answer","text":"Incremental sales are the extra units a promotion created on top of the baseline, which is what the SKU would have sold at that time without the promotion. Promotion Planner reports ROI on incremental sales only."}},{"@type":"Question","name":"What data do we need to get started?","acceptedAnswer":{"@type":"Answer","text":"Weekly sales by SKU and retailer, a history of past promotions (mechanic, depth, dates) and the trade spend attached to them."}},{"@type":"Question","name":"Can we use Promotion Planner without the other Smart Value™ solutions?","acceptedAnswer":{"@type":"Answer","text":"Yes. Each Smart Value™ solution is built, sold and used on its own. There is no bundle and no full-suite commitment."}},{"@type":"Question","name":"Does it account for the dip after a promotion?","acceptedAnswer":{"@type":"Answer","text":"Yes. Shoppers often stock up during a deal and buy less afterwards. That post-promotion dip is measured and deducted before ROI is calculated."}},{"@type":"Question","name":"Can it help with retailer negotiations?","acceptedAnswer":{"@type":"Answer","text":"Yes. Event-level results by retailer give key account teams evidence to agree which promotions to repeat, change or stop in joint business plans."}}]}]}</script>
 <script type="module">/* ==========================================================================
    Smart Value – solution-page motion
-   1) Scroll reveal for .sv-reveal blocks (progressive: content is visible
+   1) Scroll reveal for .svp-reveal blocks (progressive: content is visible
       without JS, so crawlers and no-JS users always see it).
    2) Three.js hero scenes, one per page:
-        <canvas data-sv-scene="price|promo|category"></canvas>
+        <canvas data-svp-scene="price|promo|category"></canvas>
       Three.js is imported only after window.load + idle, so it never
       competes with the page's LCP element (the H1), and the canvas sits in
       a fixed aspect-ratio box, so there is zero layout shift.
@@ -376,9 +433,9 @@ const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ---------- 1. Scroll reveal ---------- */
 (() => {
-  const els = document.querySelectorAll('.sv-page .sv-reveal');
+  const els = document.querySelectorAll('.svp-page .svp-reveal');
   if (!els.length || !('IntersectionObserver' in window) || REDUCED) return;
-  document.querySelectorAll('.sv-page').forEach((p) => p.classList.add('sv-js'));
+  document.querySelectorAll('.svp-page').forEach((p) => p.classList.add('svp-js'));
   const io = new IntersectionObserver((entries) => {
     for (const e of entries) {
       if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
@@ -388,7 +445,7 @@ const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
 })();
 
 /* ---------- 2. Hero scenes ---------- */
-const canvases = document.querySelectorAll('canvas[data-sv-scene]');
+const canvases = document.querySelectorAll('canvas[data-svp-scene]');
 if (canvases.length) {
   const start = () => (window.requestIdleCallback
     ? requestIdleCallback(boot, { timeout: 2500 })
@@ -426,7 +483,7 @@ function dotTexture(THREE) {
 }
 
 function mount(THREE, canvas) {
-  const build = SCENES[canvas.dataset.svScene];
+  const build = SCENES[canvas.dataset.svpScene];
   if (!build) return;
 
   let renderer;
@@ -439,14 +496,14 @@ function mount(THREE, canvas) {
   const css = getComputedStyle(canvas);
   const col = (name, fallback) => new THREE.Color((css.getPropertyValue(name) || '').trim() || fallback);
   const pal = {
-    ink: col('--sv-ink', '#1e1b4b'),
-    primary: col('--sv-primary', '#6d4aff'),
-    deep: col('--sv-deep', '#4f3cc9'),
-    light: col('--sv-light', '#8b5cf6'),
-    lilac: col('--sv-lilac', '#efebfe'),
-    accent: col('--sv-accent', '#f5a524'),
-    soft: new THREE.Color('#cdbfff'),
-    pale: new THREE.Color('#e6e3f1'),
+    ink: col('--svp-ink', '#1a1a4e'),
+    primary: col('--svp-primary', '#7751ff'),
+    deep: col('--svp-deep', '#534ab7'),
+    light: col('--svp-light', '#8c5fd6'),
+    lilac: col('--svp-lilac', '#eeedfe'),
+    accent: col('--svp-accent', '#f19526'),
+    soft: new THREE.Color('#c6bbea'),   // kit global lilac
+    pale: new THREE.Color('#e0dff8'),   // kit card-border lilac
   };
 
   const scene = new THREE.Scene();
@@ -785,6 +842,93 @@ const SCENES = {
         sku.instanceMatrix.needsUpdate = true;
         sku.instanceColor.needsUpdate = true;
         group.rotation.y = -0.16 + 0.14 * Math.sin(t * 0.14);
+      },
+    };
+  },
+  /* Solutions hub: one shared data core feeding four standalone solutions.
+     Data pulses flow out to every solution; the one in focus turns orange. */
+  hub(THREE, scene, pal) {
+    const group = new THREE.Group();
+    scene.add(group);
+
+    const core = new THREE.Mesh(new THREE.IcosahedronGeometry(0.6, 1),
+      new THREE.MeshStandardMaterial({ color: pal.soft, emissive: pal.lilac, emissiveIntensity: 0.45, roughness: 0.5, flatShading: true }));
+    const shell = new THREE.LineSegments(new THREE.WireframeGeometry(new THREE.IcosahedronGeometry(0.68, 1)),
+      new THREE.LineBasicMaterial({ color: pal.deep, transparent: true, opacity: 0.5 }));
+    group.add(core, shell);
+
+    const R = 1.95;
+    const ringPts = new THREE.EllipseCurve(0, 0, R, R).getPoints(160).map((p) => new THREE.Vector3(p.x, 0, p.y));
+    group.add(new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(ringPts),
+      new THREE.LineBasicMaterial({ color: pal.soft, transparent: true, opacity: 0.9 })));
+
+    const dot = dotTexture(THREE);
+    const nodes = [];
+    for (let i = 0; i < 4; i++) {
+      const a = (i / 4) * Math.PI * 2 + Math.PI / 4;
+      const mesh = new THREE.Mesh(new THREE.SphereGeometry(0.24, 32, 16),
+        new THREE.MeshStandardMaterial({ color: pal.primary.clone(), roughness: 0.35 }));
+      const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: dot, color: pal.soft.clone(), transparent: true, opacity: 0.45, depthWrite: false }));
+      halo.scale.setScalar(1.1);
+      mesh.add(halo);
+      const lineGeo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]);
+      const line = new THREE.Line(lineGeo, new THREE.LineBasicMaterial({ color: pal.light.clone(), transparent: true, opacity: 0.45 }));
+      group.add(mesh, line);
+      nodes.push({ a, mesh, halo, line, lineGeo, focus: 0 });
+    }
+
+    const PER = 4, pulseGeo = new THREE.BufferGeometry();
+    const pulsePos = new Float32Array(nodes.length * PER * 3), pulseCol = new Float32Array(nodes.length * PER * 3);
+    pulseGeo.setAttribute('position', new THREE.BufferAttribute(pulsePos, 3));
+    pulseGeo.setAttribute('color', new THREE.BufferAttribute(pulseCol, 3));
+    group.add(new THREE.Points(pulseGeo, new THREE.PointsMaterial({ size: 0.13, map: dot, vertexColors: true, transparent: true, depthWrite: false })));
+
+    const r = rng(42), DUST = 140, dust = new Float32Array(DUST * 3);
+    for (let i = 0; i < DUST; i++) {
+      const u = r() * Math.PI * 2, v = Math.acos(2 * r() - 1), d = 1.2 + r() * 2.8;
+      dust.set([d * Math.sin(v) * Math.cos(u), d * Math.cos(v) * 0.6, d * Math.sin(v) * Math.sin(u)], i * 3);
+    }
+    const dustGeo = new THREE.BufferGeometry();
+    dustGeo.setAttribute('position', new THREE.BufferAttribute(dust, 3));
+    const dustPts = new THREE.Points(dustGeo, new THREE.PointsMaterial({ size: 0.05, map: dot, color: pal.soft, transparent: true, opacity: 0.8, depthWrite: false }));
+    scene.add(dustPts);
+
+    const c = new THREE.Color();
+    return {
+      cam: new THREE.Vector3(0, 2.6, 7.2),
+      target: new THREE.Vector3(0, 0.25, 0),
+      update(t, dt) {
+        const active = Math.floor(t / 2.6) % nodes.length;
+        const a = damp(dt, 4);
+        nodes.forEach((n, i) => {
+          n.focus += ((i === active ? 1 : 0) - n.focus) * a;
+          n.mesh.position.set(Math.cos(n.a) * R, 0.14 * Math.sin(t * 1.3 + i * 1.7), Math.sin(n.a) * R);
+          n.mesh.scale.setScalar(1 + 0.22 * n.focus);
+          n.mesh.material.color.copy(pal.primary).lerp(pal.accent, n.focus);
+          n.halo.material.color.copy(pal.soft).lerp(pal.accent, n.focus);
+          n.halo.scale.setScalar(1.1 + 0.35 * n.focus + 0.06 * Math.sin(t * 3));
+          const lp = n.lineGeo.attributes.position;
+          lp.setXYZ(1, n.mesh.position.x, n.mesh.position.y, n.mesh.position.z);
+          lp.needsUpdate = true;
+          n.line.material.color.copy(pal.light).lerp(pal.accent, n.focus);
+          n.line.material.opacity = 0.35 + 0.4 * n.focus;
+          c.copy(pal.primary).lerp(pal.accent, n.focus);
+          for (let k = 0; k < PER; k++) {
+            const f = (t * (0.35 + 0.25 * n.focus) + k / PER) % 1;           // travels core → solution
+            const j = (i * PER + k) * 3;
+            pulsePos[j] = n.mesh.position.x * f;
+            pulsePos[j + 1] = n.mesh.position.y * f;
+            pulsePos[j + 2] = n.mesh.position.z * f;
+            pulseCol[j] = c.r; pulseCol[j + 1] = c.g; pulseCol[j + 2] = c.b;
+          }
+        });
+        pulseGeo.attributes.position.needsUpdate = true;
+        pulseGeo.attributes.color.needsUpdate = true;
+        core.rotation.y = t * 0.25;
+        shell.rotation.y = -t * 0.18;
+        shell.rotation.x = t * 0.07;
+        group.rotation.y = t * 0.12;
+        dustPts.rotation.y = -t * 0.03;
       },
     };
   },

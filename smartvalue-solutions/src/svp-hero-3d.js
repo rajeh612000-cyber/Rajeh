@@ -1,9 +1,9 @@
 /* ==========================================================================
    Smart Value – solution-page motion
-   1) Scroll reveal for .sv-reveal blocks (progressive: content is visible
+   1) Scroll reveal for .svp-reveal blocks (progressive: content is visible
       without JS, so crawlers and no-JS users always see it).
    2) Three.js hero scenes, one per page:
-        <canvas data-sv-scene="price|promo|category"></canvas>
+        <canvas data-svp-scene="price|promo|category"></canvas>
       Three.js is imported only after window.load + idle, so it never
       competes with the page's LCP element (the H1), and the canvas sits in
       a fixed aspect-ratio box, so there is zero layout shift.
@@ -14,9 +14,9 @@ const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ---------- 1. Scroll reveal ---------- */
 (() => {
-  const els = document.querySelectorAll('.sv-page .sv-reveal');
+  const els = document.querySelectorAll('.svp-page .svp-reveal');
   if (!els.length || !('IntersectionObserver' in window) || REDUCED) return;
-  document.querySelectorAll('.sv-page').forEach((p) => p.classList.add('sv-js'));
+  document.querySelectorAll('.svp-page').forEach((p) => p.classList.add('svp-js'));
   const io = new IntersectionObserver((entries) => {
     for (const e of entries) {
       if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
@@ -26,7 +26,7 @@ const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
 })();
 
 /* ---------- 2. Hero scenes ---------- */
-const canvases = document.querySelectorAll('canvas[data-sv-scene]');
+const canvases = document.querySelectorAll('canvas[data-svp-scene]');
 if (canvases.length) {
   const start = () => (window.requestIdleCallback
     ? requestIdleCallback(boot, { timeout: 2500 })
@@ -64,7 +64,7 @@ function dotTexture(THREE) {
 }
 
 function mount(THREE, canvas) {
-  const build = SCENES[canvas.dataset.svScene];
+  const build = SCENES[canvas.dataset.svpScene];
   if (!build) return;
 
   let renderer;
@@ -77,14 +77,14 @@ function mount(THREE, canvas) {
   const css = getComputedStyle(canvas);
   const col = (name, fallback) => new THREE.Color((css.getPropertyValue(name) || '').trim() || fallback);
   const pal = {
-    ink: col('--sv-ink', '#1e1b4b'),
-    primary: col('--sv-primary', '#6d4aff'),
-    deep: col('--sv-deep', '#4f3cc9'),
-    light: col('--sv-light', '#8b5cf6'),
-    lilac: col('--sv-lilac', '#efebfe'),
-    accent: col('--sv-accent', '#f5a524'),
-    soft: new THREE.Color('#cdbfff'),
-    pale: new THREE.Color('#e6e3f1'),
+    ink: col('--svp-ink', '#1a1a4e'),
+    primary: col('--svp-primary', '#7751ff'),
+    deep: col('--svp-deep', '#534ab7'),
+    light: col('--svp-light', '#8c5fd6'),
+    lilac: col('--svp-lilac', '#eeedfe'),
+    accent: col('--svp-accent', '#f19526'),
+    soft: new THREE.Color('#c6bbea'),   // kit global lilac
+    pale: new THREE.Color('#e0dff8'),   // kit card-border lilac
   };
 
   const scene = new THREE.Scene();
@@ -423,6 +423,93 @@ const SCENES = {
         sku.instanceMatrix.needsUpdate = true;
         sku.instanceColor.needsUpdate = true;
         group.rotation.y = -0.16 + 0.14 * Math.sin(t * 0.14);
+      },
+    };
+  },
+  /* Solutions hub: one shared data core feeding four standalone solutions.
+     Data pulses flow out to every solution; the one in focus turns orange. */
+  hub(THREE, scene, pal) {
+    const group = new THREE.Group();
+    scene.add(group);
+
+    const core = new THREE.Mesh(new THREE.IcosahedronGeometry(0.6, 1),
+      new THREE.MeshStandardMaterial({ color: pal.soft, emissive: pal.lilac, emissiveIntensity: 0.45, roughness: 0.5, flatShading: true }));
+    const shell = new THREE.LineSegments(new THREE.WireframeGeometry(new THREE.IcosahedronGeometry(0.68, 1)),
+      new THREE.LineBasicMaterial({ color: pal.deep, transparent: true, opacity: 0.5 }));
+    group.add(core, shell);
+
+    const R = 1.95;
+    const ringPts = new THREE.EllipseCurve(0, 0, R, R).getPoints(160).map((p) => new THREE.Vector3(p.x, 0, p.y));
+    group.add(new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(ringPts),
+      new THREE.LineBasicMaterial({ color: pal.soft, transparent: true, opacity: 0.9 })));
+
+    const dot = dotTexture(THREE);
+    const nodes = [];
+    for (let i = 0; i < 4; i++) {
+      const a = (i / 4) * Math.PI * 2 + Math.PI / 4;
+      const mesh = new THREE.Mesh(new THREE.SphereGeometry(0.24, 32, 16),
+        new THREE.MeshStandardMaterial({ color: pal.primary.clone(), roughness: 0.35 }));
+      const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: dot, color: pal.soft.clone(), transparent: true, opacity: 0.45, depthWrite: false }));
+      halo.scale.setScalar(1.1);
+      mesh.add(halo);
+      const lineGeo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]);
+      const line = new THREE.Line(lineGeo, new THREE.LineBasicMaterial({ color: pal.light.clone(), transparent: true, opacity: 0.45 }));
+      group.add(mesh, line);
+      nodes.push({ a, mesh, halo, line, lineGeo, focus: 0 });
+    }
+
+    const PER = 4, pulseGeo = new THREE.BufferGeometry();
+    const pulsePos = new Float32Array(nodes.length * PER * 3), pulseCol = new Float32Array(nodes.length * PER * 3);
+    pulseGeo.setAttribute('position', new THREE.BufferAttribute(pulsePos, 3));
+    pulseGeo.setAttribute('color', new THREE.BufferAttribute(pulseCol, 3));
+    group.add(new THREE.Points(pulseGeo, new THREE.PointsMaterial({ size: 0.13, map: dot, vertexColors: true, transparent: true, depthWrite: false })));
+
+    const r = rng(42), DUST = 140, dust = new Float32Array(DUST * 3);
+    for (let i = 0; i < DUST; i++) {
+      const u = r() * Math.PI * 2, v = Math.acos(2 * r() - 1), d = 1.2 + r() * 2.8;
+      dust.set([d * Math.sin(v) * Math.cos(u), d * Math.cos(v) * 0.6, d * Math.sin(v) * Math.sin(u)], i * 3);
+    }
+    const dustGeo = new THREE.BufferGeometry();
+    dustGeo.setAttribute('position', new THREE.BufferAttribute(dust, 3));
+    const dustPts = new THREE.Points(dustGeo, new THREE.PointsMaterial({ size: 0.05, map: dot, color: pal.soft, transparent: true, opacity: 0.8, depthWrite: false }));
+    scene.add(dustPts);
+
+    const c = new THREE.Color();
+    return {
+      cam: new THREE.Vector3(0, 2.6, 7.2),
+      target: new THREE.Vector3(0, 0.25, 0),
+      update(t, dt) {
+        const active = Math.floor(t / 2.6) % nodes.length;
+        const a = damp(dt, 4);
+        nodes.forEach((n, i) => {
+          n.focus += ((i === active ? 1 : 0) - n.focus) * a;
+          n.mesh.position.set(Math.cos(n.a) * R, 0.14 * Math.sin(t * 1.3 + i * 1.7), Math.sin(n.a) * R);
+          n.mesh.scale.setScalar(1 + 0.22 * n.focus);
+          n.mesh.material.color.copy(pal.primary).lerp(pal.accent, n.focus);
+          n.halo.material.color.copy(pal.soft).lerp(pal.accent, n.focus);
+          n.halo.scale.setScalar(1.1 + 0.35 * n.focus + 0.06 * Math.sin(t * 3));
+          const lp = n.lineGeo.attributes.position;
+          lp.setXYZ(1, n.mesh.position.x, n.mesh.position.y, n.mesh.position.z);
+          lp.needsUpdate = true;
+          n.line.material.color.copy(pal.light).lerp(pal.accent, n.focus);
+          n.line.material.opacity = 0.35 + 0.4 * n.focus;
+          c.copy(pal.primary).lerp(pal.accent, n.focus);
+          for (let k = 0; k < PER; k++) {
+            const f = (t * (0.35 + 0.25 * n.focus) + k / PER) % 1;           // travels core → solution
+            const j = (i * PER + k) * 3;
+            pulsePos[j] = n.mesh.position.x * f;
+            pulsePos[j + 1] = n.mesh.position.y * f;
+            pulsePos[j + 2] = n.mesh.position.z * f;
+            pulseCol[j] = c.r; pulseCol[j + 1] = c.g; pulseCol[j + 2] = c.b;
+          }
+        });
+        pulseGeo.attributes.position.needsUpdate = true;
+        pulseGeo.attributes.color.needsUpdate = true;
+        core.rotation.y = t * 0.25;
+        shell.rotation.y = -t * 0.18;
+        shell.rotation.x = t * 0.07;
+        group.rotation.y = t * 0.12;
+        dustPts.rotation.y = -t * 0.03;
       },
     };
   },
