@@ -11,7 +11,7 @@ Every "find" string below was copied from the live HTML on 2026-09-28. Make thes
 | `<a class="sv-cardlink" href="#promo-planner-demo">Preview the concept →</a>` | `<a class="sv-cardlink" href="/solutions/promotion-planner/">Explore Promotion Planner →</a>` |
 | `<span class="sv-cardnote">Stronger Category</span>` | `<a class="sv-cardlink" href="/solutions/category-management/">Explore Category Management →</a>` |
 
-Leave Innovation Launch's `Smarter Launches` pill as it is: it has no page yet.
+Leave the Innovation Launch card and its `Smarter Launches` pill exactly as they are. It stays on the homepage but doesn't get an internal page.
 Descriptive anchor text ("Explore Price Optimizer") tells Google what the target page is about. "Preview the concept" doesn't.
 
 ## Homepage: price demo ("What happens if you change the price?")

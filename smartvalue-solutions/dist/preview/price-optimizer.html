@@ -452,7 +452,7 @@
 
   <section class="svp-section svp-related" aria-labelledby="svp-related-h">
     <div class="svp-wrap">
-      <div class="svp-section__head svp-reveal"><h2 id="svp-related-h">Pair it with another solution</h2><p>Each Smart Value™ solution is built, sold and used on its own. Take one, or take all four.</p></div>
+      <div class="svp-section__head svp-reveal"><h2 id="svp-related-h">Pair it with another solution</h2><p>Each Smart Value™ solution is built, sold and used on its own. Take one, or take all three.</p></div>
       <div class="svp-grid svp-grid--2">
         <a class="svp-card svp-reveal" href="/solutions/promotion-planner/"><span class="svp-card__num">02</span><div class="svp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12V8H6a2 2 0 0 1 0-4h12v4"/><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/></svg></div><h3>Promotion Planner</h3><p>Identify which promotions drive incremental growth and better ROI.</p><span class="svp-more">Explore Promotion Planner →</span></a>
         <a class="svp-card svp-reveal" href="/solutions/category-management/"><span class="svp-card__num">03</span><div class="svp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="3" width="19" height="18" rx="2"/><path d="M2.5 9h19"/><path d="M9 9v12"/><path d="M5.5 12h1.5M5.5 15h1.5M12 12h6M12 15h4"/></svg></div><h3>Category Management</h3><p>Build the range by retailer and channel, and know which SKUs earn their space.</p><span class="svp-more">Explore Category Management →</span></a>
@@ -902,7 +902,7 @@ const SCENES = {
       },
     };
   },
-  /* Solutions hub: one shared data core feeding four standalone solutions.
+  /* Solutions hub: one shared data core feeding three standalone solutions.
      Data pulses flow out to every solution; the one in focus turns orange. */
   hub(THREE, scene, pal) {
     const group = new THREE.Group();
@@ -921,8 +921,9 @@ const SCENES = {
 
     const dot = dotTexture(THREE);
     const nodes = [];
-    for (let i = 0; i < 4; i++) {
-      const a = (i / 4) * Math.PI * 2 + Math.PI / 4;
+    const COUNT = 3;
+    for (let i = 0; i < COUNT; i++) {
+      const a = (i / COUNT) * Math.PI * 2 + Math.PI / 2;
       const mesh = new THREE.Mesh(new THREE.SphereGeometry(0.24, 32, 16),
         new THREE.MeshStandardMaterial({ color: pal.primary.clone(), roughness: 0.35 }));
       const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: dot, color: pal.soft.clone(), transparent: true, opacity: 0.45, depthWrite: false }));

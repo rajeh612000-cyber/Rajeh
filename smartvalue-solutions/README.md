@@ -7,7 +7,7 @@ an animated Three.js hero.
 
 | Page | URL | Hero scene |
 |---|---|---|
-| Solutions hub | `/solutions/` | One shared data core feeding four solution nodes. Data pulses flow out, and the solution in focus turns orange. |
+| Solutions hub | `/solutions/` | One shared data core feeding three solution nodes. Data pulses flow out, and the solution in focus turns orange. |
 | Price Optimizer | `/solutions/price-optimizer/` | Revenue landscape across price points. An orange marker keeps finding the peak. Includes the `#scenario-testing` section that replaces Strategic Acceleration. |
 | Promotion Planner | `/solutions/promotion-planner/` | Weeks × promotions: baseline, incremental uplift, and the best-ROI promotion in orange. |
 | Category Management | `/solutions/category-management/` | Three-shelf fixture. SKUs are scored, low performers step out, and a new listing takes the slot. |

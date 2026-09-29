@@ -426,7 +426,7 @@ const SCENES = {
       },
     };
   },
-  /* Solutions hub: one shared data core feeding four standalone solutions.
+  /* Solutions hub: one shared data core feeding three standalone solutions.
      Data pulses flow out to every solution; the one in focus turns orange. */
   hub(THREE, scene, pal) {
     const group = new THREE.Group();
@@ -445,8 +445,9 @@ const SCENES = {
 
     const dot = dotTexture(THREE);
     const nodes = [];
-    for (let i = 0; i < 4; i++) {
-      const a = (i / 4) * Math.PI * 2 + Math.PI / 4;
+    const COUNT = 3;
+    for (let i = 0; i < COUNT; i++) {
+      const a = (i / COUNT) * Math.PI * 2 + Math.PI / 2;
       const mesh = new THREE.Mesh(new THREE.SphereGeometry(0.24, 32, 16),
         new THREE.MeshStandardMaterial({ color: pal.primary.clone(), roughness: 0.35 }));
       const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: dot, color: pal.soft.clone(), transparent: true, opacity: 0.45, depthWrite: false }));

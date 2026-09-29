@@ -181,7 +181,7 @@ ${faqSection(p.name, p.faq, !!p.scenario)}
 
   <section class="svp-section${p.scenario ? '' : ' svp-section--soft'} svp-related" aria-labelledby="svp-related-h">
     <div class="svp-wrap">
-      <div class="svp-section__head svp-reveal"><h2 id="svp-related-h">Pair it with another solution</h2><p>Each Smart Value™ solution is built, sold and used on its own. Take one, or take all four.</p></div>
+      <div class="svp-section__head svp-reveal"><h2 id="svp-related-h">Pair it with another solution</h2><p>Each Smart Value™ solution is built, sold and used on its own. Take one, or take all three.</p></div>
       <div class="svp-grid svp-grid--2">
         ${others.map(solutionCard).join('\n        ')}
       </div>
@@ -204,24 +204,20 @@ function hubSchema() {
 }
 
 function hubBody() {
-  const h = HUB, l = h.launch;
+  const h = HUB;
   const crumbs = `<li><a href="/">Home</a></li><li><span aria-current="page">${esc(h.name)}</span></li>`;
   const guideRow = ([q, target]) => {
     const p = bySlug[target];
-    const link = p
-      ? `<a class="svp-guide__to" href="${pathOf(p)}">${esc(p.name)} →</a>`
-      : `<a class="svp-guide__to" href="${SITE.contact}">${esc(l.name)}: talk to us →</a>`;
-    return `<li class="svp-reveal"><h3>“${esc(q)}”</h3>${link}</li>`;
+    return `<li class="svp-reveal"><h3>“${esc(q)}”</h3><a class="svp-guide__to" href="${pathOf(p)}">${esc(p.name)} →</a></li>`;
   };
   return `
 <div class="svp-page" data-svp-solution="${h.key}">${hero(h, crumbs, ['#which-first', 'Which one first?'], 'Standalone solutions. No bundle, no full-suite commitment.')}
 
   <section class="svp-section svp-related" id="all-solutions" aria-labelledby="svp-all-h">
     <div class="svp-wrap">
-      <div class="svp-section__head svp-reveal"><h2 id="svp-all-h">Four solutions, one decision each</h2><p>Not one answer, but <strong class="svp-hl">the right decision</strong> for each product, channel, and customer.</p></div>
-      <div class="svp-grid svp-grid--4">
+      <div class="svp-section__head svp-reveal"><h2 id="svp-all-h">Three solutions, one decision each</h2><p>Not one answer, but <strong class="svp-hl">the right decision</strong> for each product, channel, and customer.</p></div>
+      <div class="svp-grid svp-grid--3">
         ${PAGES.map(solutionCard).join('\n        ')}
-        <article class="svp-card svp-reveal"><span class="svp-card__num">${l.num}</span><div class="svp-icon">${icon(l.icon)}</div><h3>${esc(l.name)}</h3><p>${esc(l.card)}</p><span class="svp-pill" style="margin-top:16px"><span class="svp-dot"></span>${esc(l.pill)}</span></article>
       </div>
     </div>
   </section>

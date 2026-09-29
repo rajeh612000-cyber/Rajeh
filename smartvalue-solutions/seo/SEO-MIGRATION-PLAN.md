@@ -17,7 +17,7 @@ The three current Solutions pages aren't older versions of the new products. The
 New URLs (all currently return 404, so they're free):
 
 ```
-/solutions/                       hub: all four solutions + the platform, replaces the "#" menu link
+/solutions/                       hub: the three solutions + the platform, replaces the "#" menu link
 /solutions/price-optimizer/
 /solutions/promotion-planner/
 /solutions/category-management/

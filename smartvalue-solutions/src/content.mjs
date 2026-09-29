@@ -23,11 +23,10 @@ export const SITE = {
 };
 
 export const ICONS = {
-  // dollar, wallet, layout and bulb are the homepage card icons
+  // dollar, wallet and layout are the homepage card icons
   dollar: '<path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>',
   wallet: '<path d="M20 12V8H6a2 2 0 0 1 0-4h12v4"/><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/>',
   layout: '<rect x="2.5" y="3" width="19" height="18" rx="2"/><path d="M2.5 9h19"/><path d="M9 9v12"/><path d="M5.5 12h1.5M5.5 15h1.5M12 12h6M12 15h4"/>',
-  bulb: '<path d="M9 18h6"/><path d="M10 21.5h4"/><path d="M12 2a6.5 6.5 0 0 0-3.7 11.8c.5.4.8 1 .8 1.6v.6h5.8v-.6c0-.6.3-1.2.8-1.6A6.5 6.5 0 0 0 12 2z"/>',
   chart: '<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/>',
   chat: '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 11h7M8.5 14h4"/>',
   trend: '<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/>',
@@ -239,7 +238,7 @@ export const PAGES = [
       ['Can the range differ by retailer and channel?', 'Yes. Recommendations are made for each retailer and channel, because shoppers and their needs differ between them.'],
       ['Can we use Category Management without the other Smart Value™ solutions?', 'Yes. Each Smart Value™ solution is built, sold and used on its own. There is no bundle and no full-suite commitment.'],
       ['What data do we need?', 'SKU-level sales and margin by retailer and channel, plus distribution data. Shopper or panel data improves the analysis when available.'],
-      ['Does it help with new product listings?', 'Yes. It estimates how much a new SKU would add to the category versus take from existing ones, which helps decide what deserves a slot. For launch decisions, see Innovation Launch.'],
+      ['Does it help with new product listings?', 'Yes. It estimates how much a new SKU would add to the category versus take from existing ones, which helps decide what deserves a slot.'],
     ],
   },
 ];
@@ -251,15 +250,14 @@ export const HUB = {
   scene: 'hub',
   name: 'Solutions',
   seoTitle: 'Solutions for FMCG Pricing, Promotions & Range | Smart Value',
-  metaDescription: 'Four standalone solutions for FMCG commercial teams: Price Optimizer, Promotion Planner, Category Management and Innovation Launch. Take one, or all four.',
+  metaDescription: 'Three standalone solutions for FMCG commercial teams: Price Optimizer, Promotion Planner and Category Management. Take one, or take all three.',
   focusKeyword: 'FMCG revenue growth management solutions',
-  eyebrow: 'Four standalone solutions',
+  eyebrow: 'Three standalone solutions',
   h1: 'Start with the decision your brand <span class="svp-hl">needs most</span>',
-  lede: 'Each Smart Value™ solution is built, sold and used on its own, no bundle, no full-suite commitment. Start with the commercial decision that matters most right now: price, promotions, range or launch.',
+  lede: 'Each Smart Value™ solution is built, sold and used on its own, no bundle, no full-suite commitment. Start with the commercial decision that matters most right now: price, promotions or range.',
   primaryCta: 'Find my starting point',
-  legend: [['primary', 'Four standalone solutions'], ['accent', 'The decision in focus'], ['lilac', 'One shared data foundation']],
-  visualLabel: 'Animated 3D diagram of four solutions connected to one shared data core',
-  launch: { name: 'Innovation Launch', num: '04', icon: 'bulb', card: 'Test what to launch, at what price, and in which format, before you invest.', pill: 'Smarter Launches' },
+  legend: [['primary', 'Three standalone solutions'], ['accent', 'The decision in focus'], ['lilac', 'One shared data foundation']],
+  visualLabel: 'Animated 3D diagram of three solutions connected to one shared data core',
   guide: {
     h2: 'Which solution should you start with?',
     intro: 'Start from the question your team is asking this quarter.',
@@ -267,14 +265,13 @@ export const HUB = {
       ['What price should each SKU be at?', 'price-optimizer'],
       ['Which promotions are worth running again?', 'promotion-planner'],
       ['Which SKUs deserve the shelf, retailer by retailer?', 'category-management'],
-      ['What should we launch next, and at what price?', 'launch'],
     ],
   },
-  platform: { h2: 'One platform behind every solution', intro: 'The same data foundation and AI layer sit under all four solutions.' },
+  platform: { h2: 'One platform behind every solution', intro: 'The same data foundation and AI layer sit under all three solutions.' },
   faq: [
-    ['Do we need to buy all four solutions?', 'No. Each Smart Value™ solution is built, sold and used on its own. You can start with the decision that matters most this quarter and add others later.'],
+    ['Do we need to buy all three solutions?', 'No. Each Smart Value™ solution is built, sold and used on its own. You can start with the decision that matters most this quarter and add others later.'],
     ['What data do the solutions need?', 'SKU-level sales data by retailer and channel is the starting point, usually E-POS or sales audit data. Each solution adds what it needs on top, such as prices for Price Optimizer or promotion history for Promotion Planner.'],
-    ['Who are the solutions built for?', 'FMCG commercial, revenue growth management (RGM), category and key account teams who make pricing, promotion, range and launch decisions.'],
+    ['Who are the solutions built for?', 'FMCG commercial, revenue growth management (RGM), category and key account teams who make pricing, promotion and range decisions.'],
     ['How does SmartBot fit in?', 'SmartBot is the AI decision support layer of the Smart Value™ platform. It answers commercial questions in plain language, grounded in the same data the solutions use.'],
   ],
 };
