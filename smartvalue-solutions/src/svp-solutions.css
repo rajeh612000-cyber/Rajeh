@@ -35,6 +35,11 @@
   overflow-x: clip;
 }
 .svp-page *, .svp-page *::before, .svp-page *::after { box-sizing: border-box; }
+/* Elementor wrapper reset: whichever container the HTML widget is dropped into
+   (a classic boxed/full-width container or an Elementor 4 div block, which adds
+   10px padding), let the page run edge to edge. Only matches containers that
+   hold this page, so the header, footer and other pages are untouched. */
+.e-con:has(.svp-page), .e-con-inner:has(.svp-page) { padding: 0 !important; max-width: none !important; }
 .svp-page h1, .svp-page h2, .svp-page h3 {
   font-family: var(--svp-font);
   color: var(--svp-ink);
