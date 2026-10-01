@@ -8,7 +8,7 @@ Every "find" string below was copied from the live HTML on 2026-10-01. Make thes
 ```
 Solutions  (stays "#")
   Commercial Analytics   /commercial-analytics/      (keep)
-  Price Optimizer        /price-optimizer/           (add)
+  Price Optimizer        /pricing-optimizer/           (add)
   Promotion Planner      /promotion-planner/         (add)
 ```
 
@@ -21,8 +21,8 @@ It's your original widget with only these changes:
 
 - Eyebrow: "FOUR STANDALONE SOLUTIONS" → "THREE STANDALONE SOLUTIONS".
 - Intro: "Take one, or take all four." → "Take one, or take all three."
-- Cards are now 01 Commercial Analytics, 02 Price Optimizer and 03 Promotion Planner. Each one links to its page with
-  descriptive anchor text ("Explore Price Optimizer →").
+- Cards are now 01 Commercial Analytics ("See what's happening →"), 02 Price Optimizer ("Run the scenario →") and
+  03 Promotion Planner ("Test the mechanic →"). Each one links to its live page.
 - Category Management and Innovation Launch are removed.
 
 Your styles, the reveal script and the `id="modules"` anchor are unchanged.
@@ -31,7 +31,7 @@ Your styles, the reveal script and the `id="modules"` anchor are unchanged.
 
 | Find | Replace with |
 |---|---|
-| `<a class="po-link" href="https://smartvalueaisolutions.com/strategic-acceleration/">See how scenario testing works &rarr;</a>` | `<a class="po-link" href="/price-optimizer/#scenario-testing">See how scenario testing works &rarr;</a>` |
+| `<a class="po-link" href="https://smartvalueaisolutions.com/strategic-acceleration/">See how scenario testing works &rarr;</a>` | `<a class="po-link" href="/pricing-optimizer/#scenario-testing">See how scenario testing works &rarr;</a>` |
 
 This points straight at the new page, so no internal link goes through the redirect.
 
@@ -49,7 +49,7 @@ Open the post in the block editor, click each linked phrase, and change its URL:
 
 | Linked text | Currently | Change to | Why |
 |---|---|---|---|
-| "commercial move" | `/commercial-analytics/` | `/price-optimizer/#scenario-testing` | The sentence is about modelling outcomes before committing, which is scenario testing. |
+| "commercial move" | `/commercial-analytics/` | `/pricing-optimizer/#scenario-testing` | The sentence is about modelling outcomes before committing, which is scenario testing. |
 | "Contact us" | `/commercial-analytics/` | `/contact-us/` | This is a bug: the contact link points at a product page. |
 
 ## Optional: remove redirect hops

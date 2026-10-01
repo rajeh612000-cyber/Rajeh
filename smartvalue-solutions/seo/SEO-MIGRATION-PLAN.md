@@ -8,15 +8,15 @@ Updated 2026-10-01 for the final plan.
 | URL | What happens | Why |
 |---|---|---|
 | `/commercial-analytics/` | **Stays**, first in the Solutions menu and the homepage grid | Unchanged page, so there's no risk. |
-| `/price-optimizer/` | **New page** | Short URL, same pattern as `/commercial-analytics/`. |
+| `/pricing-optimizer/` | **New page** | Short URL, same pattern as `/commercial-analytics/`. |
 | `/promotion-planner/` | **New page** | As above. |
-| `/strategic-acceleration/` | **301 → `/price-optimizer/`**, then the page goes to Draft | Your homepage price demo already links to it as "See how scenario testing works", and Price Optimizer's `#scenario-testing` section answers the same intent. |
+| `/strategic-acceleration/` | **301 → `/pricing-optimizer/`**, then the page goes to Draft | Your homepage price demo already links to it as "See how scenario testing works", and Price Optimizer's `#scenario-testing` section answers the same intent. |
 | `/ai-decision-support-smart-bot/` | **Stays live**, out of the menu | Linked from the homepage SmartBot section and from both new pages, so it isn't orphaned. |
 | `/solutions/` (hub built on 2026-09-29) | **Back to Draft** | Not needed with short URLs. It was live and unlinked for two days, so a 404 is fine. |
 | Category Management, Innovation Launch | **No pages**, and removed from the homepage grid | Final scope. |
 
 **Check before adding the redirect:** go to Search Console → Performance → Pages → `/strategic-acceleration/` → Queries.
-- **Mostly price or scenario queries:** keep the target `/price-optimizer/`.
+- **Mostly price or scenario queries:** keep the target `/pricing-optimizer/`.
 - **Mostly promotion or trade-spend queries:** use `/promotion-planner/` instead.
 
 ## 2. Why this keeps the equity
@@ -34,9 +34,9 @@ Updated 2026-10-01 for the final plan.
 
 **Phase B: Build the two pages (they can go live before the menu changes)**
 
-2. **Pages → Add New Page.** Leave **Parent** empty and use slug `price-optimizer`.
+2. **Pages → Add New Page.** Leave **Parent** empty and use slug `pricing-optimizer`.
    - Hide Title on, layout Default.
-   - Add one HTML widget containing `dist/elementor/price-optimizer.html`.
+   - Add one HTML widget containing `dist/elementor/pricing-optimizer.html`.
    - Enter the Rank Math fields from `README.md`, then Publish.
 3. Repeat for **Promotion Planner** (slug `promotion-planner`).
 4. Check each page while logged out:
@@ -50,18 +50,18 @@ Updated 2026-10-01 for the final plan.
 6. **Homepage:** replace the solutions-grid widget code, change the price demo link, and add the SmartBot link (`SITE-EDITS.md`).
 7. **Redirect:** Rank Math → Redirections → Add New.
    - Source `strategic-acceleration/`, match type Exact.
-   - Destination `https://smartvalueaisolutions.com/price-optimizer/`.
+   - Destination `https://smartvalueaisolutions.com/pricing-optimizer/`.
    - Type **301 Permanent**.
 8. Set the **Strategic Acceleration** page to **Draft**. Don't trash it.
 9. **Blog post link fixes** (`SITE-EDITS.md`).
 10. **Elementor → Tools → Regenerate CSS & Data**, then purge caches.
-11. Test with `curl -I https://smartvalueaisolutions.com/strategic-acceleration/`. Expect one `301` to `/price-optimizer/`.
+11. Test with `curl -I https://smartvalueaisolutions.com/strategic-acceleration/`. Expect one `301` to `/pricing-optimizer/`.
 
 **Phase D: Search Console, same day**
 
 12. Open `sitemap_index.xml`. Check that `page-sitemap.xml` lists the two new URLs and no longer lists `/solutions/` or
     `/strategic-acceleration/`. Resubmit the sitemap under GSC → Sitemaps.
-13. **URL Inspection → Test live URL → Request indexing** for `/price-optimizer/`, `/promotion-planner/` and the homepage.
+13. **URL Inspection → Test live URL → Request indexing** for `/pricing-optimizer/`, `/promotion-planner/` and the homepage.
 14. **URL Inspection** on `/strategic-acceleration/`: the live test should report the redirect.
 15. Don't use the Removals tool, and don't use Change of Address (it's only for domain moves).
 
@@ -70,7 +70,7 @@ Updated 2026-10-01 for the final plan.
 | When | Check |
 |---|---|
 | Days 1–3 | Pages report: both new URLs move to Indexed. `/strategic-acceleration/` shows as "Page with redirect", which is expected. No new 404s apart from `/solutions/`. |
-| Weeks 1–2 | Performance → compare `/strategic-acceleration/` (before) with `/price-optimizer/` (after). |
+| Weeks 1–2 | Performance → compare `/strategic-acceleration/` (before) with `/pricing-optimizer/` (after). |
 | Weeks 2–6 | Its old queries should now show Price Optimizer. If one drops to nothing, add a paragraph to the page that answers it. |
 | Month 3 | Links report: backlinks credited to the new URL. Ask the owners of any real backlinks to update them. |
 

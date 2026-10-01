@@ -7,7 +7,7 @@ interactive Three.js hero.
 
 | Page | URL | Hero |
 |---|---|---|
-| Price Optimizer | `/price-optimizer/` | A value landscape across price changes. Drag the price slider and the "your price" marker moves, while revenue, margin and volume update. "Show recommended" jumps to the best margin inside a −2% volume guardrail. Includes the `#scenario-testing` section that replaces Strategic Acceleration. |
+| Price Optimizer | `/pricing-optimizer/` | A value landscape across price changes. Drag the price slider and the "your price" marker moves, while revenue, margin and volume update. "Show recommended" jumps to the best margin inside a −2% volume guardrail. Includes the `#scenario-testing` section that replaces Strategic Acceleration. |
 | Promotion Planner | `/promotion-planner/` | Weeks × four promotions. Pick a promotion and its row turns orange, while incremental volume, the dip afterwards and return on spend update. |
 
 The numbers in both controls come from an illustrative model (`src/svp-models.mjs`), and the pages say so.

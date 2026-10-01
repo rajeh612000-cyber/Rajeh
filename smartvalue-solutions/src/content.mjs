@@ -1,4 +1,4 @@
-// Copy + SEO metadata for the two solution pages (/price-optimizer/, /promotion-planner/).
+// Copy + SEO metadata for the two solution pages (/pricing-optimizer/, /promotion-planner/).
 // Capability claims are drafted from the live site (homepage cards, the
 // Strategic Acceleration page this replaces): have the product team confirm
 // each one before publishing. No results, statistics or testimonials are
@@ -9,7 +9,7 @@ export const SITE = {
   brand: 'Smart Value',
   legalName: 'Smart Value AI Solutions',
   contact: '/contact-us/',
-  // Flat URLs, matching /commercial-analytics/: /price-optimizer/, /promotion-planner/.
+  // Flat URLs, matching /commercial-analytics/: /pricing-optimizer/, /promotion-planner/.
   base: '/',
   allSolutions: '/#modules',           // the homepage solutions grid
   // The third Solutions-menu item: an existing page, shown in the "Pair it with" cards.
@@ -39,7 +39,7 @@ export const ICONS = {
 export const PAGES = [
   {
     key: 'price-optimizer',
-    slug: 'price-optimizer',
+    slug: 'pricing-optimizer',
     scene: 'price',
     sim: 'price',
     name: 'Price Optimizer',
