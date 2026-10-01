@@ -1,12 +1,16 @@
 /* ==========================================================================
-   Smart Value – solution-page motion
+   Smart Value – solution-page motion and hands-on controls
    1) Scroll reveal for .svp-reveal blocks (progressive: content is visible
       without JS, so crawlers and no-JS users always see it).
-   2) Three.js hero scenes, one per page:
-        <canvas data-svp-scene="price|promo|category"></canvas>
+   2) Hands-on controls (.svp-sim): a price slider and a promotion picker.
+      They update the readouts in the HTML at once, then tell the 3D scene.
+   3) Three.js hero scenes, one per page:
+        <canvas data-svp-scene="price|promo"></canvas>
       Three.js is imported only after window.load + idle, so it never
       competes with the page's LCP element (the H1), and the canvas sits in
       a fixed aspect-ratio box, so there is zero layout shift.
+   PRICE_MODEL, PROMO_MODEL and fmtPct come from svp-models.mjs, which
+   build.mjs inlines ahead of this file.
    ========================================================================== */
 
 const THREE_URL = 'https://cdn.jsdelivr.net/npm/three@0.181.0/build/three.module.min.js';
@@ -25,7 +29,59 @@ const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
   els.forEach((el) => io.observe(el));
 })();
 
-/* ---------- 2. Hero scenes ---------- */
+/* ---------- 2. Hands-on controls ---------- */
+document.querySelectorAll('.svp-sim').forEach((sim) => {
+  const canvas = sim.closest('.svp-hero__side')?.querySelector('canvas[data-svp-scene]');
+  const send = (v) => {                       // the scene may mount later, so keep the latest value on the canvas
+    if (!canvas) return;
+    canvas.dataset.svpValue = String(v);
+    canvas.dispatchEvent(new CustomEvent('svp:value', { detail: v }));
+  };
+  const set = (k, text, cls) => {
+    const el = sim.querySelector(`[data-k="${k}"]`);
+    if (!el) return;
+    el.textContent = text;
+    if (cls !== undefined) el.className = cls;
+  };
+  const tone = (x) => (x > 0.05 ? 'is-up' : x < -0.05 ? 'is-down' : '');
+
+  if (sim.dataset.svpSim === 'price') {
+    const input = sim.querySelector('input[type="range"]');
+    const update = () => {
+      const r = PRICE_MODEL.at(parseFloat(input.value));
+      set('p', fmtPct(r.p));
+      set('rev', fmtPct(r.rev), tone(r.rev));
+      set('mar', fmtPct(r.mar), tone(r.mar));
+      set('vol', fmtPct(r.vol), tone(r.vol));
+      set('verdict', PRICE_MODEL.verdict(r));
+      input.setAttribute('aria-valuetext', `${fmtPct(r.p)} price change`);
+      send(r.p);
+    };
+    input.addEventListener('input', update);
+    sim.querySelector('[data-svp-best]')?.addEventListener('click', () => {
+      input.value = String(PRICE_MODEL.best().p);
+      update();
+    });
+    update();
+  }
+
+  if (sim.dataset.svpSim === 'promo') {
+    const radios = [...sim.querySelectorAll('input[type="radio"]')];
+    const update = () => {
+      const i = Number((radios.find((r) => r.checked) || {}).value ?? PROMO_MODEL.bestIndex());
+      const pr = PROMO_MODEL.promos[i];
+      set('inc', fmtPct(pr.uplift, 0), 'is-up');
+      set('dip', fmtPct(-pr.dip, 0), 'is-down');
+      set('roi', `${pr.roi.toFixed(1)}×`, pr.roi >= 1 ? 'is-up' : 'is-down');
+      set('verdict', pr.note);
+      send(i);
+    };
+    radios.forEach((r) => r.addEventListener('change', update));
+    update();
+  }
+});
+
+/* ---------- 3. Hero scenes ---------- */
 const canvases = document.querySelectorAll('canvas[data-svp-scene]');
 if (canvases.length) {
   const start = () => (window.requestIdleCallback
@@ -43,10 +99,6 @@ async function boot() {
 
 const clamp01 = (v) => Math.min(1, Math.max(0, v));
 const damp = (dt, rate) => 1 - Math.exp(-dt * rate);
-
-function rng(seed) { // small deterministic PRNG so each cycle is varied but stable
-  return () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296);
-}
 
 function dotTexture(THREE) {
   const c = document.createElement('canvas');
@@ -85,6 +137,7 @@ function mount(THREE, canvas) {
     accent: col('--svp-accent', '#f19526'),
     soft: new THREE.Color('#c6bbea'),   // kit global lilac
     pale: new THREE.Color('#e0dff8'),   // kit card-border lilac
+    rose: new THREE.Color('#e8c3d3'),   // "beyond the guardrail" tint
   };
 
   const scene = new THREE.Scene();
@@ -96,7 +149,7 @@ function mount(THREE, canvas) {
 
   const s = build(THREE, scene, pal);
   const camDir = s.cam.clone().sub(s.target);
-  let fit = 1;
+  let fit = 1, running = false, visible = false, last = 0, t = 0;
 
   const pointer = { x: 0, y: 0, sx: 0, sy: 0 };
   canvas.parentElement.addEventListener('pointermove', (e) => {
@@ -114,6 +167,18 @@ function mount(THREE, canvas) {
     camera.position.y -= pointer.sy * 0.3;
     camera.lookAt(s.target);
   };
+  const settle = () => {                     // one still frame, for reduced motion or an off-screen change
+    for (let i = 0; i < 60; i++) s.update((t += 1 / 30), 1 / 30);
+    place(1);
+    renderer.render(scene, camera);
+  };
+
+  // Hands-on controls: pick up the current value now, then follow every change.
+  if (canvas.dataset.svpValue !== undefined) s.setValue(Number(canvas.dataset.svpValue));
+  canvas.addEventListener('svp:value', (e) => {
+    s.setValue(Number(e.detail));
+    if (!running) settle();
+  });
 
   const resize = () => {
     const w = canvas.clientWidth, h = canvas.clientHeight;
@@ -122,10 +187,8 @@ function mount(THREE, canvas) {
     camera.aspect = w / h;
     fit = camera.aspect < 1.15 ? 1.15 / camera.aspect : 1; // step back on narrow screens
     camera.updateProjectionMatrix();
-    if (!running) { place(0); renderer.render(scene, camera); }
+    if (!running) { place(1); renderer.render(scene, camera); }
   };
-
-  let running = false, visible = false, last = 0, t = 0;
 
   if (REDUCED) { // settle into one representative frame, no animation
     for (let i = 0; i < 120; i++) s.update((t += 1 / 30), 1 / 30);
@@ -157,106 +220,138 @@ function mount(THREE, canvas) {
 }
 
 /* ==========================================================================
-   Scenes. Each returns { cam, target, update(t, dt) }.
+   Scenes. Each returns { cam, target, setValue(v), update(t, dt) }.
    ========================================================================== */
 const SCENES = {
 
-  /* Price Optimizer: a revenue-response landscape across price points.
-     The orange marker keeps finding the peak as demand conditions shift. */
+  /* Price Optimizer: a value landscape across price changes (−10% … +15%).
+     Orange = the recommended price, ink = the visitor's price from the slider,
+     rose = beyond the volume guardrail, marked by a dashed line on the floor. */
   price(THREE, scene, pal) {
+    const M = PRICE_MODEL, best = M.best(), guard = M.guardrailPrice();
     const group = new THREE.Group();
     scene.add(group);
 
-    const W = 6, D = 4, SX = 60, SZ = 40;
+    const W = 6, D = 4, SX = 60, SZ = 40, A = 1.45, FLOOR = -0.35;
+    const xOf = (p) => ((p - M.min) / (M.max - M.min)) * W - W / 2;
+    const pOf = (x) => M.min + ((x + W / 2) / W) * (M.max - M.min);
+    const ridge = (p) => { const s = p < best.p ? 7 : 4; return A * Math.exp(-((p - best.p) ** 2) / (2 * s * s)); };
+    const height = (x, z, t) => ridge(pOf(x)) * Math.exp(-(z * z) / 5)
+      + 0.035 * Math.sin(1.7 * x + t * 0.9) * Math.cos(1.3 * z + t * 0.6);
+
     const geo = new THREE.PlaneGeometry(W, D, SX, SZ);
     geo.rotateX(-Math.PI / 2);
     const pos = geo.attributes.position;
     const colors = new Float32Array(pos.count * 3);
     geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    const dot = dotTexture(THREE);
 
     group.add(new THREE.Mesh(geo, new THREE.MeshBasicMaterial({
-      vertexColors: true, transparent: true, opacity: 0.2, side: THREE.DoubleSide, depthWrite: false,
+      vertexColors: true, transparent: true, opacity: 0.22, side: THREE.DoubleSide, depthWrite: false,
     })));
     group.add(new THREE.Mesh(geo, new THREE.MeshBasicMaterial({
-      color: pal.light, wireframe: true, transparent: true, opacity: 0.14, depthWrite: false,
+      color: pal.light, wireframe: true, transparent: true, opacity: 0.13, depthWrite: false,
     })));
     group.add(new THREE.Points(geo, new THREE.PointsMaterial({
-      size: 0.075, map: dotTexture(THREE), vertexColors: true, transparent: true, depthWrite: false,
+      size: 0.075, map: dot, vertexColors: true, transparent: true, depthWrite: false,
     })));
 
-    const FLOOR = -0.35;
     const grid = new THREE.GridHelper(W, 12, pal.soft, pal.soft);
     grid.position.y = FLOOR;
     grid.material.transparent = true;
     grid.material.opacity = 0.45;
     group.add(grid);
 
-    const marker = new THREE.Mesh(new THREE.SphereGeometry(0.1, 32, 16), new THREE.MeshBasicMaterial({ color: pal.accent }));
-    const halo = new THREE.Sprite(new THREE.SpriteMaterial({
-      map: dotTexture(THREE), color: pal.accent, transparent: true, opacity: 0.35, depthWrite: false,
-    }));
-    halo.scale.setScalar(0.6);
-    marker.add(halo);
-    group.add(marker);
+    // Volume guardrail: dashed line across the floor
+    const xg = xOf(guard);
+    const guardLine = new THREE.Line(
+      new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(xg, FLOOR + 0.01, -D / 2), new THREE.Vector3(xg, FLOOR + 0.01, D / 2)]),
+      new THREE.LineDashedMaterial({ color: new THREE.Color('#c97a95'), dashSize: 0.12, gapSize: 0.08, transparent: true, opacity: 0.9 }));
+    guardLine.computeLineDistances();
+    group.add(guardLine);
+    const zone = new THREE.Mesh(new THREE.PlaneGeometry(W / 2 - xg, D),   // rose band beyond the guardrail
+      new THREE.MeshBasicMaterial({ color: pal.rose, transparent: true, opacity: 0.4, depthWrite: false }));
+    zone.rotation.x = -Math.PI / 2;
+    zone.position.set((xg + W / 2) / 2, FLOOR + 0.004, 0);
+    group.add(zone);
 
-    const dropGeo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]);
-    const drop = new THREE.Line(dropGeo, new THREE.LineBasicMaterial({ color: pal.accent, transparent: true, opacity: 0.7 }));
-    group.add(drop);
-    const ring = new THREE.Mesh(new THREE.RingGeometry(0.12, 0.16, 48), new THREE.MeshBasicMaterial({
-      color: pal.accent, transparent: true, opacity: 0.8, side: THREE.DoubleSide, depthWrite: false,
-    }));
-    ring.rotation.x = -Math.PI / 2;
-    group.add(ring);
+    // A marker = sphere + halo + drop line + floor ring
+    const marker = (color, radius, haloOpacity) => {
+      const m = new THREE.Mesh(new THREE.SphereGeometry(radius, 32, 16), new THREE.MeshBasicMaterial({ color }));
+      const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: dot, color, transparent: true, opacity: haloOpacity, depthWrite: false }));
+      halo.scale.setScalar(radius * 6);
+      m.add(halo);
+      const dropGeo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]);
+      const drop = new THREE.Line(dropGeo, new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.6 }));
+      const ring = new THREE.Mesh(new THREE.RingGeometry(radius * 1.2, radius * 1.6, 48),
+        new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.8, side: THREE.DoubleSide, depthWrite: false }));
+      ring.rotation.x = -Math.PI / 2;
+      group.add(m, drop, ring);
+      return {
+        m, halo, ring,
+        at(x, y, z) {
+          m.position.set(x, y, z);
+          const p = dropGeo.attributes.position;
+          p.setXYZ(0, x, y, z);
+          p.setXYZ(1, x, FLOOR, z);
+          p.needsUpdate = true;
+          ring.position.set(x, FLOOR + 0.005, z);
+        },
+      };
+    };
+    const rec = marker(pal.accent, 0.1, 0.35);
+    const you = marker(pal.ink, 0.075, 0.18);
 
-    const A = 1.45, tmp = new THREE.Color(), peak = new THREE.Vector3(0.5, A, 0);
-    marker.position.copy(peak);
+    const tmp = new THREE.Color();
+    let target = 0, cur = 0;
 
     return {
       cam: new THREE.Vector3(0.4, 3.3, 7.3),
       target: new THREE.Vector3(0, 0.35, 0),
+      setValue(p) { if (Number.isFinite(p)) target = Math.min(M.max, Math.max(M.min, p)); },
       update(t, dt) {
-        const px = 0.4 + 0.95 * Math.sin(t * 0.23);         // where the optimum sits this "season"
-        const pz = 0.55 * Math.sin(t * 0.17 + 1.3);
-        let best = -Infinity;
         for (let i = 0; i < pos.count; i++) {
-          const x = pos.getX(i), z = pos.getZ(i);
-          const sx = x < px ? 1.3 : 0.75;                  // revenue falls faster above the optimum
-          const h = A * Math.exp(-((x - px) ** 2) / (2 * sx * sx)) * Math.exp(-((z - pz) ** 2) / 5)
-            + 0.05 * Math.sin(1.7 * x + t * 0.9) * Math.cos(1.3 * z + t * 0.6);
+          const x = pos.getX(i), z = pos.getZ(i), h = height(x, z, t);
           pos.setY(i, h);
           tmp.copy(pal.soft).lerp(pal.primary, clamp01(h / A));
           if (h > A * 0.9) tmp.lerp(pal.deep, (h / A - 0.9) * 6);
+          if (pOf(x) > guard) tmp.lerp(pal.rose, 0.75);
           colors[i * 3] = tmp.r; colors[i * 3 + 1] = tmp.g; colors[i * 3 + 2] = tmp.b;
-          if (h > best) { best = h; peak.set(x, h, z); }
         }
         pos.needsUpdate = true;
         geo.attributes.color.needsUpdate = true;
 
-        marker.position.lerp(peak.setY(peak.y + 0.12), damp(dt, 4));
-        halo.scale.setScalar(0.55 + 0.12 * Math.sin(t * 3));
-        const p = dropGeo.attributes.position;
-        p.setXYZ(0, marker.position.x, marker.position.y, marker.position.z);
-        p.setXYZ(1, marker.position.x, FLOOR, marker.position.z);
-        p.needsUpdate = true;
-        ring.position.set(marker.position.x, FLOOR + 0.005, marker.position.z);
-        ring.scale.setScalar(1 + 0.25 * Math.sin(t * 3));
-        group.rotation.y = -0.18 + 0.2 * Math.sin(t * 0.12);
+        const xr = xOf(best.p);
+        rec.at(xr, height(xr, 0, t) + 0.12, 0);
+        const pulse = Math.sin(t * 3);
+        rec.halo.scale.setScalar(0.55 + 0.12 * pulse);
+        rec.ring.scale.setScalar(1 + 0.25 * pulse);
+
+        cur += (target - cur) * damp(dt, 6);
+        const xu = xOf(cur);
+        you.at(xu, height(xu, 0, t) + 0.1, 0);
+
+        group.rotation.y = -0.18 + 0.12 * Math.sin(t * 0.12);
       },
     };
   },
 
-  /* Promotion Planner: weeks × promotions. Lilac = baseline, purple =
-     incremental uplift, orange = the best-ROI promotion this cycle. */
+  /* Promotion Planner: weeks × four promotions. Lilac = baseline, violet =
+     incremental uplift, orange = the promotion picked in the controls.
+     The week after each promotion shows its dip. */
   promo(THREE, scene, pal) {
+    const P = PROMO_MODEL.promos;
     const group = new THREE.Group();
     scene.add(group);
-    const ROWS = 5, COLS = 12, GAP = 0.46, N = ROWS * COLS;
+    const ROWS = P.length, COLS = 12, GAP = 0.46, N = ROWS * COLS;
     const box = new THREE.BoxGeometry(0.3, 1, 0.3).translate(0, 0.5, 0);
     const mat = new THREE.MeshStandardMaterial({ roughness: 0.55, metalness: 0 });
     const base = new THREE.InstancedMesh(box, mat, N);
     const lift = new THREE.InstancedMesh(box, mat.clone(), N);
     group.add(base, lift);
 
+    const xAt = (col) => (col - (COLS - 1) / 2) * GAP;
+    const zAt = (row) => (row - (ROWS - 1) / 2) * GAP * 1.6;
     const floor = new THREE.Mesh(new THREE.PlaneGeometry(COLS * GAP + 0.6, ROWS * GAP * 1.6 + 0.6),
       new THREE.MeshBasicMaterial({ color: pal.lilac, transparent: true, opacity: 0.9 }));
     floor.rotation.x = -Math.PI / 2;
@@ -268,249 +363,55 @@ const SCENES = {
     strip.position.y = 0.002;
     group.add(strip);
 
-    const cur = Array.from({ length: N }, () => ({ b: 0, u: 0 }));
-    const tgt = Array.from({ length: N }, () => ({ b: 0, u: 0 }));
-    const liftCol = Array.from({ length: ROWS }, () => pal.soft.clone());
-    const liftTgt = Array.from({ length: ROWS }, () => pal.soft.clone());
-    const baseCol = pal.soft.clone().lerp(new THREE.Color('#ffffff'), 0.35);
-    let cycle = -1, bestRow = 0;
-    const m = new THREE.Matrix4(), c = new THREE.Color();
-    const xAt = (col) => (col - (COLS - 1) / 2) * GAP;
-    const zAt = (row) => (row - (ROWS - 1) / 2) * GAP * 1.6;
+    // Fixed bar heights from the model: baseline every week, uplift during the
+    // promotion, and a shorter baseline the week after (the dip, exaggerated to read).
+    const maxUp = Math.max(...P.map((p) => p.uplift));
+    const tgt = [];
+    P.forEach((pr, row) => {
+      for (let col = 0; col < COLS; col++) {
+        const on = col >= pr.start && col < pr.start + pr.len;
+        const dip = col === pr.start + pr.len;
+        const b = (0.55 + 0.08 * Math.sin(col * 0.7 + row)) * (dip ? 1 - (pr.dip / 100) * 2.2 : 1);
+        tgt.push({ b, u: on ? (pr.uplift / maxUp) * 1.15 * (0.88 + 0.12 * Math.sin(col + row)) : 0 });
+      }
+    });
+    const cur = tgt.map(() => ({ b: 0, u: 0 }));
 
-    const plan = (k) => {
-      const r = rng(7 + k * 97);
-      const roi = [];
-      for (let row = 0; row < ROWS; row++) {
-        const start = 1 + Math.floor(r() * 7), len = 2 + Math.floor(r() * 2);
-        const depth = 0.35 + r() * 1.1, cost = 0.6 + r() * 0.9;
-        let inc = 0;
-        for (let col = 0; col < COLS; col++) {
-          const i = row * COLS + col;
-          const on = col >= start && col < start + len;
-          const dip = col === start + len;                 // post-promo dip (pantry loading)
-          tgt[i].b = (0.55 + 0.12 * Math.sin(col * 0.7 + row)) * (dip ? 0.72 : 1);
-          tgt[i].u = on ? depth * (0.75 + r() * 0.5) : 0;
-          inc += tgt[i].u - (dip ? tgt[i].b * 0.39 : 0);
-        }
-        roi.push(inc / cost);
-      }
-      bestRow = roi.indexOf(Math.max(...roi));
-      const sorted = [...roi].sort((a, b) => b - a);
-      for (let row = 0; row < ROWS; row++) {
-        liftTgt[row].copy(row === bestRow ? pal.accent : roi[row] >= sorted[2] ? pal.primary : pal.soft);
-      }
-    };
+    const baseCol = pal.soft.clone().lerp(new THREE.Color('#ffffff'), 0.35);
+    const other = pal.primary.clone().lerp(pal.soft, 0.35);
+    const rowCol = P.map(() => other.clone());
+    const m = new THREE.Matrix4();
+    let sel = PROMO_MODEL.bestIndex();
+    strip.position.z = zAt(sel);
 
     return {
       cam: new THREE.Vector3(5.0, 5.2, 8.0),
       target: new THREE.Vector3(0, 0.75, 0),
+      setValue(i) { if (Number.isInteger(i) && i >= 0 && i < ROWS) sel = i; },
       update(t, dt) {
-        const k = Math.floor(t / 6);
-        if (k !== cycle) { cycle = k; plan(k); }
         const a = damp(dt, 3.2);
         for (let row = 0; row < ROWS; row++) {
-          liftCol[row].lerp(liftTgt[row], a);
+          rowCol[row].lerp(row === sel ? pal.accent : other, a);
+          const boost = row === sel ? 1.06 : 1;
           for (let col = 0; col < COLS; col++) {
             const i = row * COLS + col;
-            const stagger = clamp01(t * 1.6 - col * 0.08 - row * 0.05); // grow-in on load
-            cur[i].b += (tgt[i].b * stagger - cur[i].b) * a;
-            cur[i].u += (tgt[i].u * stagger - cur[i].u) * a;
+            const grow = clamp01(t * 1.6 - col * 0.08 - row * 0.05); // grow-in on load
+            cur[i].b += (tgt[i].b * grow - cur[i].b) * a;
+            cur[i].u += (tgt[i].u * grow * boost - cur[i].u) * a;
             m.makeScale(1, Math.max(cur[i].b, 0.001), 1).setPosition(xAt(col), 0, zAt(row));
             base.setMatrixAt(i, m);
             base.setColorAt(i, baseCol);
-            const u = cur[i].u > 0.02 ? 0.94 : 0;                  // hide empty uplift caps
-            m.makeScale(u, Math.max(cur[i].u, 0.001), u).setPosition(xAt(col), cur[i].b, zAt(row));
+            const w = cur[i].u > 0.02 ? 0.94 : 0;              // hide empty uplift caps
+            m.makeScale(w, Math.max(cur[i].u, 0.001), w).setPosition(xAt(col), cur[i].b, zAt(row));
             lift.setMatrixAt(i, m);
-            lift.setColorAt(i, c.copy(liftCol[row]));
+            lift.setColorAt(i, rowCol[row]);
           }
         }
         base.instanceMatrix.needsUpdate = lift.instanceMatrix.needsUpdate = true;
         base.instanceColor.needsUpdate = lift.instanceColor.needsUpdate = true;
-        strip.position.z += (zAt(bestRow) - strip.position.z) * a;
+        strip.position.z += (zAt(sel) - strip.position.z) * a;
         strip.material.opacity = 0.12 + 0.06 * Math.sin(t * 2.5);
         group.rotation.y = -0.1 + 0.12 * Math.sin(t * 0.15);
-      },
-    };
-  },
-
-  /* Category Management: a three-shelf fixture. SKUs are scored, low
-     performers step out, and a new listing (orange) earns the space. */
-  category(THREE, scene, pal) {
-    const group = new THREE.Group();
-    scene.add(group);
-    const SHELVES = 3, SLOTS = 8, SW = 5.4, SH = 1.05, DEPTH = 0.9;
-    const white = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.8 });
-    const lil = new THREE.MeshStandardMaterial({ color: pal.lilac, roughness: 0.9 });
-
-    const back = new THREE.Mesh(new THREE.BoxGeometry(SW + 0.2, SHELVES * SH + 0.3, 0.06), lil);
-    back.position.set(0, (SHELVES * SH) / 2, -DEPTH / 2);
-    group.add(back);
-    for (let s = 0; s <= SHELVES; s++) {
-      const board = new THREE.Mesh(new THREE.BoxGeometry(SW + 0.2, 0.07, DEPTH), white);
-      board.position.set(0, s * SH, 0);
-      group.add(board);
-      const edge = new THREE.Mesh(new THREE.BoxGeometry(SW + 0.2, 0.09, 0.03), new THREE.MeshBasicMaterial({ color: pal.soft }));
-      edge.position.set(0, s * SH, DEPTH / 2);
-      group.add(edge);
-    }
-    for (const x of [-(SW / 2 + 0.1), SW / 2 + 0.1]) {
-      const post = new THREE.Mesh(new THREE.BoxGeometry(0.08, SHELVES * SH + 0.3, DEPTH), white);
-      post.position.set(x, (SHELVES * SH) / 2, 0);
-      group.add(post);
-    }
-
-    const N = SHELVES * SLOTS;
-    const sku = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1).translate(0, 0.5, 0),
-      new THREE.MeshStandardMaterial({ roughness: 0.45 }), N);
-    group.add(sku);
-    const neutral = pal.soft.clone().lerp(new THREE.Color('#ffffff'), 0.25);
-    const items = Array.from({ length: N }, (_, i) => ({
-      shelf: Math.floor(i / SLOTS), slot: i % SLOTS,
-      w: 0.5, h: 0.7, tw: 0.5, th: 0.7, score: 0.5, out: false,
-      s: 0, z: 0, col: neutral.clone(),
-    }));
-    const m = new THREE.Matrix4(), tgtCol = new THREE.Color();
-    const slotW = SW / SLOTS;
-    let cycle = -1;
-
-    const shuffle = (k) => {
-      const r = rng(11 + k * 131);
-      items.forEach((it) => {
-        it.score = r();
-        it.th = 0.45 + r() * 0.42;
-        it.tw = slotW * (0.62 + r() * 0.2);
-      });
-      const order = [...items].sort((a, b) => a.score - b.score);
-      items.forEach((it) => { it.out = false; it.rank = order.indexOf(it) / (N - 1); });
-      order.slice(0, 4).forEach((it) => { it.out = true; });
-    };
-
-    return {
-      cam: new THREE.Vector3(1.3, 2.5, 8.9),
-      target: new THREE.Vector3(0, 1.45, 0),
-      update(t, dt) {
-        const k = Math.floor(t / 8), p = t % 8;
-        if (k !== cycle) { cycle = k; shuffle(k); }
-        const a = damp(dt, 4);
-        items.forEach((it, i) => {
-          let s = 1, z = 0;
-          tgtCol.copy(neutral);
-          if (p > 1.2) { // scored
-            if (it.rank > 0.66) tgtCol.copy(pal.primary).lerp(pal.deep, (it.rank - 0.66) * 2);
-            else if (it.out) tgtCol.copy(pal.pale);
-            else tgtCol.copy(pal.soft);
-          }
-          if (it.out && p > 3.2 && p <= 4.8) { s = 0; z = 0.9; }      // delist
-          if (it.out && p > 4.8) {                                    // new listing earns the slot
-            if (it.s < 0.02 && it.z > 0.5) it.z = -0.6;
-            tgtCol.copy(pal.accent);
-          }
-          if (p > 7.4) tgtCol.copy(neutral);
-          it.s += (s - it.s) * a;
-          it.h += (it.th - it.h) * a;
-          it.w += (it.tw - it.w) * a;
-          it.z += (z - it.z) * a;
-          it.col.lerp(tgtCol, a);
-          const boost = !it.out && it.rank > 0.66 && p > 1.2 && p < 7.4 ? 1.08 : 1;
-          const x = (it.slot - (SLOTS - 1) / 2) * slotW;
-          const y = it.shelf * SH + 0.035;
-          m.makeScale(it.w * it.s, it.h * boost * Math.max(it.s, 0.001), 0.5 * it.s)
-            .setPosition(x, y, it.z);
-          sku.setMatrixAt(i, m);
-          sku.setColorAt(i, it.col);
-        });
-        sku.instanceMatrix.needsUpdate = true;
-        sku.instanceColor.needsUpdate = true;
-        group.rotation.y = -0.16 + 0.14 * Math.sin(t * 0.14);
-      },
-    };
-  },
-  /* Solutions hub: one shared data core feeding three standalone solutions.
-     Data pulses flow out to every solution; the one in focus turns orange. */
-  hub(THREE, scene, pal) {
-    const group = new THREE.Group();
-    scene.add(group);
-
-    const core = new THREE.Mesh(new THREE.IcosahedronGeometry(0.6, 1),
-      new THREE.MeshStandardMaterial({ color: pal.soft, emissive: pal.lilac, emissiveIntensity: 0.45, roughness: 0.5, flatShading: true }));
-    const shell = new THREE.LineSegments(new THREE.WireframeGeometry(new THREE.IcosahedronGeometry(0.68, 1)),
-      new THREE.LineBasicMaterial({ color: pal.deep, transparent: true, opacity: 0.5 }));
-    group.add(core, shell);
-
-    const R = 1.95;
-    const ringPts = new THREE.EllipseCurve(0, 0, R, R).getPoints(160).map((p) => new THREE.Vector3(p.x, 0, p.y));
-    group.add(new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(ringPts),
-      new THREE.LineBasicMaterial({ color: pal.soft, transparent: true, opacity: 0.9 })));
-
-    const dot = dotTexture(THREE);
-    const nodes = [];
-    const COUNT = 3;
-    for (let i = 0; i < COUNT; i++) {
-      const a = (i / COUNT) * Math.PI * 2 + Math.PI / 2;
-      const mesh = new THREE.Mesh(new THREE.SphereGeometry(0.24, 32, 16),
-        new THREE.MeshStandardMaterial({ color: pal.primary.clone(), roughness: 0.35 }));
-      const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: dot, color: pal.soft.clone(), transparent: true, opacity: 0.45, depthWrite: false }));
-      halo.scale.setScalar(1.1);
-      mesh.add(halo);
-      const lineGeo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]);
-      const line = new THREE.Line(lineGeo, new THREE.LineBasicMaterial({ color: pal.light.clone(), transparent: true, opacity: 0.45 }));
-      group.add(mesh, line);
-      nodes.push({ a, mesh, halo, line, lineGeo, focus: 0 });
-    }
-
-    const PER = 4, pulseGeo = new THREE.BufferGeometry();
-    const pulsePos = new Float32Array(nodes.length * PER * 3), pulseCol = new Float32Array(nodes.length * PER * 3);
-    pulseGeo.setAttribute('position', new THREE.BufferAttribute(pulsePos, 3));
-    pulseGeo.setAttribute('color', new THREE.BufferAttribute(pulseCol, 3));
-    group.add(new THREE.Points(pulseGeo, new THREE.PointsMaterial({ size: 0.13, map: dot, vertexColors: true, transparent: true, depthWrite: false })));
-
-    const r = rng(42), DUST = 140, dust = new Float32Array(DUST * 3);
-    for (let i = 0; i < DUST; i++) {
-      const u = r() * Math.PI * 2, v = Math.acos(2 * r() - 1), d = 1.2 + r() * 2.8;
-      dust.set([d * Math.sin(v) * Math.cos(u), d * Math.cos(v) * 0.6, d * Math.sin(v) * Math.sin(u)], i * 3);
-    }
-    const dustGeo = new THREE.BufferGeometry();
-    dustGeo.setAttribute('position', new THREE.BufferAttribute(dust, 3));
-    const dustPts = new THREE.Points(dustGeo, new THREE.PointsMaterial({ size: 0.05, map: dot, color: pal.soft, transparent: true, opacity: 0.8, depthWrite: false }));
-    scene.add(dustPts);
-
-    const c = new THREE.Color();
-    return {
-      cam: new THREE.Vector3(0, 2.6, 7.2),
-      target: new THREE.Vector3(0, 0.25, 0),
-      update(t, dt) {
-        const active = Math.floor(t / 2.6) % nodes.length;
-        const a = damp(dt, 4);
-        nodes.forEach((n, i) => {
-          n.focus += ((i === active ? 1 : 0) - n.focus) * a;
-          n.mesh.position.set(Math.cos(n.a) * R, 0.14 * Math.sin(t * 1.3 + i * 1.7), Math.sin(n.a) * R);
-          n.mesh.scale.setScalar(1 + 0.22 * n.focus);
-          n.mesh.material.color.copy(pal.primary).lerp(pal.accent, n.focus);
-          n.halo.material.color.copy(pal.soft).lerp(pal.accent, n.focus);
-          n.halo.scale.setScalar(1.1 + 0.35 * n.focus + 0.06 * Math.sin(t * 3));
-          const lp = n.lineGeo.attributes.position;
-          lp.setXYZ(1, n.mesh.position.x, n.mesh.position.y, n.mesh.position.z);
-          lp.needsUpdate = true;
-          n.line.material.color.copy(pal.light).lerp(pal.accent, n.focus);
-          n.line.material.opacity = 0.35 + 0.4 * n.focus;
-          c.copy(pal.primary).lerp(pal.accent, n.focus);
-          for (let k = 0; k < PER; k++) {
-            const f = (t * (0.35 + 0.25 * n.focus) + k / PER) % 1;           // travels core → solution
-            const j = (i * PER + k) * 3;
-            pulsePos[j] = n.mesh.position.x * f;
-            pulsePos[j + 1] = n.mesh.position.y * f;
-            pulsePos[j + 2] = n.mesh.position.z * f;
-            pulseCol[j] = c.r; pulseCol[j + 1] = c.g; pulseCol[j + 2] = c.b;
-          }
-        });
-        pulseGeo.attributes.position.needsUpdate = true;
-        pulseGeo.attributes.color.needsUpdate = true;
-        core.rotation.y = t * 0.25;
-        shell.rotation.y = -t * 0.18;
-        shell.rotation.x = t * 0.07;
-        group.rotation.y = t * 0.12;
-        dustPts.rotation.y = -t * 0.03;
       },
     };
   },

@@ -127,10 +127,8 @@
 }
 .svp-hero__visual::before { width: 72px; height: 72px; z-index: 1; }
 .svp-hero__canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-.svp-hero__legend {
-  position: absolute; left: 18px; bottom: 16px; right: 18px;
-  display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: .8125rem; color: var(--svp-ink);
-}
+/* Legend sits under the scene (not over it), so the markers stay visible at every size */
+.svp-hero__legend { display: flex; flex-wrap: wrap; gap: 6px 8px; margin-top: -4px; font-size: .75rem; color: var(--svp-ink); }
 .svp-hero__legend span { display: inline-flex; align-items: center; gap: 6px;
   background: rgba(255, 255, 255, .85); border: 1px solid var(--svp-border); border-radius: 999px; padding: 4px 10px; }
 .svp-sw { width: 10px; height: 10px; border-radius: 3px; flex: none; }
@@ -138,6 +136,8 @@
 .svp-sw--primary { background: var(--svp-primary); }
 .svp-sw--pale { background: #e0dff8; box-shadow: inset 0 0 0 1px #c6bbea; }
 .svp-sw--accent { background: var(--svp-accent); border-radius: 50%; }
+.svp-sw--ink { background: var(--svp-ink); border-radius: 50%; }
+.svp-sw--rose { background: #e8c3d3; box-shadow: inset 0 0 0 1px #c97a95; }
 
 /* ---------- Cards (mirror the homepage solution cards) ---------- */
 .svp-grid { display: grid; gap: 22px; }
@@ -271,6 +271,45 @@
 .svp-page .svp-guide__to:hover { color: var(--svp-ink); transform: translateX(3px); }
 .svp-card .svp-tag { margin: 0 0 6px; font-family: var(--svp-font); font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--svp-deep); }
 
+/* ---------- Hands-on controls under the hero scene ---------- */
+.svp-hero__side { display: grid; gap: 14px; min-width: 0; }
+.svp-sim { margin: 0; min-width: 0; background: #fff; border: 1px solid var(--svp-border); border-radius: var(--svp-radius);
+  padding: 16px 18px 14px; box-shadow: var(--svp-shadow); }
+.svp-sim__head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.svp-sim label, .svp-sim legend { font-family: var(--svp-font); font-weight: 600; font-size: .875rem; color: var(--svp-ink); }
+.svp-sim legend { float: left; width: 100%; padding: 0; margin-bottom: 2px; } /* keeps the legend inside the card, not on its border */
+.svp-seg { clear: both; }
+.svp-sim output { font-family: var(--svp-font); font-weight: 700; font-size: 1.125rem; color: var(--svp-deep); }
+.svp-range { display: block; width: 100%; margin: 10px 0 2px; accent-color: var(--svp-deep); cursor: pointer; }
+.svp-sim__scale { position: relative; height: 16px; font-size: 11px; color: var(--svp-num); }
+.svp-sim__scale span { position: absolute; top: 0; }
+.svp-sim__scale span:first-child { left: 0; }
+.svp-sim__scale span:nth-child(2) { transform: translateX(-50%); }
+.svp-sim__scale span:last-child { right: 0; }
+.svp-sim__stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 12px 0 0; }
+.svp-sim__stats div { background: var(--svp-bg-soft); border-radius: 10px 10px 10px 3px; padding: 8px 10px; }
+.svp-sim__stats dt { font-size: 10.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--svp-num); line-height: 1.3; }
+.svp-sim__stats dd { margin: 2px 0 0; font-family: var(--svp-font); font-weight: 700; font-size: 1.0625rem; color: var(--svp-ink); }
+.svp-sim__stats dd.is-up { color: var(--svp-deep); }
+.svp-sim__stats dd.is-down { color: #9b3d5a; }
+.svp-page .svp-sim__verdict { margin: 12px 0 0; min-height: 3.2em; font-size: .875rem; font-weight: 400; color: var(--svp-ink); }
+.svp-sim__foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 8px; }
+.svp-page .svp-sim__note { margin: 6px 0 0; font-size: .75rem; color: var(--svp-text); }
+.svp-sim__foot .svp-sim__note { margin: 0; }
+.svp-sim__best { flex: none; cursor: pointer; font-family: var(--svp-font); font-weight: 600; font-size: .75rem; color: #fff;
+  background: linear-gradient(90deg, var(--svp-deep), var(--svp-light)); border: 0; border-radius: 999px; padding: 7px 12px;
+  box-shadow: var(--svp-shadow-strong); }
+.svp-sim__best:hover { filter: brightness(1.08); }
+.svp-sim__best:focus-visible, .svp-range:focus-visible { outline: 3px solid var(--svp-accent); outline-offset: 3px; }
+/* promotion picker: native radios, styled as pills */
+.svp-seg { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.svp-seg input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+.svp-page .svp-seg label { cursor: pointer; padding: 7px 12px; border: 1px solid var(--svp-border); border-radius: 999px; background: #fff;
+  font-size: .8125rem; font-weight: 600; color: var(--svp-ink); transition: background .2s, color .2s, border-color .2s, box-shadow .2s; }
+.svp-page .svp-seg label:hover { border-color: var(--svp-num); }
+.svp-page .svp-seg input:checked + label { color: #fff; border-color: transparent; background: linear-gradient(90deg, var(--svp-deep), var(--svp-light)); box-shadow: var(--svp-shadow-strong); }
+.svp-page .svp-seg input:focus-visible + label { outline: 3px solid var(--svp-accent); outline-offset: 2px; }
+
 /* ---------- Scroll reveal (progressive: content is visible without JS) ---------- */
 .svp-js .svp-reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s cubic-bezier(.2, .7, .2, 1); }
 .svp-js .svp-reveal.is-in { opacity: 1; transform: none; }
@@ -300,6 +339,8 @@
   .svp-btn { width: 100%; }
 }
 @media (max-width: 560px) {
+  .svp-sim__stats dd { font-size: .9375rem; }
+  .svp-sim__foot { flex-direction: column; align-items: flex-start; }
   .svp-scenarios table { min-width: 0; font-size: .8125rem; }
   .svp-scenarios th, .svp-scenarios td { padding: 10px 6px; }
   .svp-scenarios thead th { font-size: 10px; letter-spacing: .06em; }

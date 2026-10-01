@@ -1,50 +1,46 @@
 # Smart Value: solution pages
 
-A `/solutions/` hub plus three product pages that replace the Solutions dropdown items. They're styled with the live
-Elementor kit (kit #13 global colours, Sora) and your homepage's own card system: asymmetric 14/4 px corners, the
-lilac corner fade, the numbered cards, the violet gradient pills with the orange dot, and the hover bar. Each page has
-an animated Three.js hero.
+Two product pages in the Solutions menu, next to the existing Commercial Analytics page. They're styled with the live
+Elementor kit (kit #13 global colours, Sora) and your homepage's own card system: asymmetric 14/4 px corners, the lilac
+corner fade, the numbered cards, the violet gradient pills with the orange dot, and the hover bar. Each page has an
+interactive Three.js hero.
 
-| Page | URL | Hero scene |
+| Page | URL | Hero |
 |---|---|---|
-| Solutions hub | `/solutions/` | One shared data core feeding three solution nodes. Data pulses flow out, and the solution in focus turns orange. |
-| Price Optimizer | `/solutions/price-optimizer/` | Revenue landscape across price points. An orange marker keeps finding the peak. Includes the `#scenario-testing` section that replaces Strategic Acceleration. |
-| Promotion Planner | `/solutions/promotion-planner/` | Weeks × promotions: baseline, incremental uplift, and the best-ROI promotion in orange. |
-| Category Management | `/solutions/category-management/` | Three-shelf fixture. SKUs are scored, low performers step out, and a new listing takes the slot. |
+| Price Optimizer | `/price-optimizer/` | A value landscape across price changes. Drag the price slider and the "your price" marker moves, while revenue, margin and volume update. "Show recommended" jumps to the best margin inside a −2% volume guardrail. Includes the `#scenario-testing` section that replaces Strategic Acceleration. |
+| Promotion Planner | `/promotion-planner/` | Weeks × four promotions. Pick a promotion and its row turns orange, while incremental volume, the dip afterwards and return on spend update. |
+
+The numbers in both controls come from an illustrative model (`src/svp-models.mjs`), and the pages say so.
 
 ## Files
 
 ```
-src/content.mjs          copy, SEO titles/descriptions, FAQ, hub, platform links (single source of truth)
-src/svp-solutions.css    kit tokens + components, all classes prefixed "svp-" (no clash with the homepage's "sv-")
-src/svp-hero-3d.js       Three.js scenes + scroll reveal
-build.mjs                node build.mjs → dist/
-dist/elementor/*.html    paste each into ONE Elementor HTML widget on its page
-dist/preview/*.html      open in a browser to review (start with solutions.html)
-seo/SEO-MIGRATION-PLAN.md   decisions, launch runbook, Search Console steps, site issues found
-seo/SITE-EDITS.md        exact find/replace edits for the homepage, header, menu and blog post
-seo/redirects.csv        the one redirect, in Redirection-plugin CSV format (Rank Math users add it by hand)
+src/content.mjs                 copy, SEO titles/descriptions, FAQ, related cards (single source of truth)
+src/svp-models.mjs              the illustrative price and promotion models behind the controls
+src/svp-solutions.css           kit tokens + components, all classes prefixed "svp-" (no clash with the homepage's "sv-")
+src/svp-hero-3d.js              Three.js scenes, controls and scroll reveal
+src/homepage-solutions-grid.html  your homepage grid widget, updated to the three solutions
+build.mjs                       node build.mjs → dist/
+dist/elementor/*.html           paste each into ONE Elementor HTML widget on its page
+dist/homepage/solutions-grid.html  replaces the code of the homepage solutions-grid widget
+dist/preview/*.html             open in a browser to review
+seo/SEO-MIGRATION-PLAN.md       decisions, launch runbook, Search Console steps, site issues found
+seo/SITE-EDITS.md               menu, homepage, blog and header edits, with exact find/replace strings
+seo/redirects.csv               the one redirect, in Redirection-plugin CSV format (Rank Math users add it by hand)
 ```
 
 ## Rank Math fields
 
-| Page | SEO title | Focus keyword |
-|---|---|---|
-| Solutions | Solutions for FMCG Pricing, Promotions & Range \| Smart Value | FMCG revenue growth management solutions |
-| Price Optimizer | Price Optimizer: Price Elasticity Analytics \| Smart Value | price optimization software |
-| Promotion Planner | Promotion Planner: Trade Promotion ROI \| Smart Value | trade promotion optimization |
-| Category Management | Category Management: SKU & Range Analytics \| Smart Value | assortment optimization |
-
-Meta descriptions are the `metaDescription` fields in `src/content.mjs` (136–156 characters). Each preview file's `<head>` shows them too.
+| Page | SEO title | Description | Focus keyword |
+|---|---|---|---|
+| Price Optimizer | Price Optimizer: Price Elasticity Analytics \| Smart Value | Price Optimizer helps FMCG brands find the price that improves revenue and margin while protecting volume, by SKU, retailer and channel. | price optimization software |
+| Promotion Planner | Promotion Planner: Trade Promotion ROI \| Smart Value | See which FMCG promotions drive incremental growth and better ROI. Promotion Planner separates true uplift from baseline sales, event by event. | trade promotion optimization |
 
 ## Before publishing
 
 1. **Copy review.** Capability claims were drafted from your homepage and the Strategic Acceleration page. No results or
-   testimonials were invented. The scenario table on Price Optimizer is labelled "Illustrative example, not client
-   data". Its R1 row reuses your homepage demo's numbers (+4.2% / +6.8% / −0.6%). Have the product team confirm
-   each claim, especially the pack-price and retailer/channel scenario points.
-2. **Proof points.** A real client result or logo row is the biggest conversion lever these pages still lack. Add one when you have it.
-3. **Search Console check.** Before adding the Strategic Acceleration redirect, run the check in section 1 of the plan.
+   testimonials were invented. The scenario table and both controls are labelled illustrative. Have the product team confirm each claim.
+2. **Proof points.** A real client result or logo row is the biggest conversion lever these pages still lack.
 
 ## Adding a North Noir clip later
 
