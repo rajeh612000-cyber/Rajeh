@@ -1,0 +1,1076 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>Smart Value™ — Price Optimizer &amp; Promotion Planner</title>
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Sora"; font-weight: 400; src: url("assets/fonts/sora-latin-400-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Sora"; font-weight: 600; src: url("assets/fonts/sora-latin-600-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Sora"; font-weight: 700; src: url("assets/fonts/sora-latin-700-normal.woff2") format("woff2"); }
+      @font-face { font-family: "Sora"; font-weight: 800; src: url("assets/fonts/sora-latin-800-normal.woff2") format("woff2"); }
+
+      :root {
+        --navy: #1a1a4e;
+        --grey: #555555;
+        --violet: #534ab7;
+        --bright: #7751ff;
+        --lilac: #eeedfe;
+        --lilac2: #f8f6ff;
+        --orange: #f19526;
+        --rose: #e0607a;
+      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; overflow: hidden; background: #ffffff; }
+      body { font-family: "Sora", sans-serif; color: var(--navy); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #ffffff; }
+
+      #bg { position: absolute; inset: 0; z-index: 0;
+        background:
+          radial-gradient(900px 700px at 1850px -80px, rgba(119, 81, 255, 0.10), rgba(119, 81, 255, 0) 70%),
+          radial-gradient(800px 600px at -60px 1120px, rgba(241, 149, 38, 0.08), rgba(241, 149, 38, 0) 70%),
+          #ffffff; }
+
+      #gl { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; z-index: 5; display: block; }
+      #gl-labels { position: absolute; inset: 0; z-index: 12; pointer-events: none; }
+      .gl-label { position: absolute; left: 0; top: 0; opacity: 0; white-space: nowrap; font-weight: 700;
+        font-size: 22px; padding: 8px 14px; border-radius: 999px; background: #ffffff;
+        box-shadow: 0 6px 20px rgba(26, 26, 78, 0.12); color: var(--navy); }
+      .gl-label.orange { background: var(--orange); color: #ffffff; }
+      .gl-label.navy { background: var(--navy); color: #ffffff; }
+      .gl-label.rose { color: #b4415a; }
+      .gl-label.row { background: rgba(255,255,255,0.92); color: var(--violet); font-size: 20px; }
+
+      #minilogo { position: absolute; right: 56px; top: 36px; height: 58px; z-index: 20; }
+      #minilogo img { height: 58px; display: block; }
+
+      .scene { position: absolute; inset: 0; }
+      .scene > * { position: absolute; z-index: 10; }
+      .scene > .under { z-index: 1; }
+
+      .chip { display: flex; align-items: center; gap: 14px; font-weight: 700; font-size: 22px;
+        letter-spacing: 0.32em; color: var(--violet); text-transform: uppercase; }
+      .chip .dot { width: 16px; height: 16px; border-radius: 50%; background: var(--orange);
+        box-shadow: 0 0 0 7px rgba(241, 149, 38, 0.18); }
+      .hl { font-weight: 800; letter-spacing: -0.035em; line-height: 1.04; color: var(--navy); }
+      .hl span { display: block; }
+      .violet { color: var(--violet) !important; }
+      .sub { font-weight: 400; color: var(--grey); letter-spacing: -0.01em; }
+      .sub b { color: var(--navy); font-weight: 700; }
+      .note { font-size: 20px; color: #6b6b7b; }
+      .tag { font-size: 18px; font-weight: 600; color: var(--violet); background: var(--lilac);
+        padding: 6px 14px; border-radius: 999px; letter-spacing: 0.02em; }
+
+      .bullets { width: 560px; }
+      .bullet { display: flex; gap: 20px; align-items: flex-start; margin-bottom: 34px; }
+      .bullet .ic { flex: 0 0 auto; width: 44px; height: 44px; border-radius: 14px; background: var(--lilac);
+        display: grid; place-items: center; color: var(--bright); font-weight: 800; font-size: 22px; }
+      .bullet .tx { font-size: 30px; font-weight: 600; line-height: 1.28; color: var(--navy); }
+      .bullet .tx small { display: block; font-size: 23px; font-weight: 400; color: var(--grey); margin-top: 4px; }
+
+      .card { background: var(--lilac2); border: 2px solid var(--lilac); border-radius: 32px; }
+
+      /* S1 */
+      #s1-chart text { font-family: "Sora", sans-serif; }
+      /* S2 */
+      #s2-field { left: 0; top: 0; width: 1920px; height: 1080px; }
+      .ndot { position: absolute; left: 0; top: 0; border-radius: 50%; }
+      /* S3 */
+      .pill { display: inline-flex; align-items: center; height: 72px; padding: 0 34px; border-radius: 999px;
+        font-size: 28px; font-weight: 700; }
+      .pill.on { background: var(--violet); color: #fff; }
+      .pill.off { background: #ffffff; color: #8b8aa8; border: 2px solid #dedcf3; }
+      /* S5b */
+      .kpi { width: 300px; height: 150px; border-radius: 22px; background: #ffffff; border: 2px solid var(--lilac);
+        padding: 20px 24px; }
+      .kpi .k { font-size: 20px; font-weight: 600; color: var(--grey); letter-spacing: 0.04em; }
+      .kpi .v { font-size: 52px; font-weight: 800; letter-spacing: -0.03em; margin-top: 6px; color: var(--navy); }
+      .kpi .s { font-size: 18px; color: #6b6b7b; margin-top: 2px; }
+      .btn { height: 64px; padding: 0 30px; border-radius: 999px; background: var(--bright); color: #fff;
+        font-weight: 700; font-size: 24px; display: flex; align-items: center; gap: 12px; }
+      .cursor { width: 40px; height: 40px; }
+      /* S6b */
+      .mpill { height: 58px; padding: 0 24px; border-radius: 999px; background: #fff; border: 2px solid #dedcf3;
+        font-size: 20px; font-weight: 700; color: var(--violet); display: flex; align-items: center; justify-content: center; width: 230px; white-space: nowrap; padding: 0 8px; }
+      /* S8 */
+      .role { width: 520px; height: 470px; padding: 44px 44px; }
+      .role h3 { font-size: 38px; font-weight: 800; letter-spacing: -0.02em; margin-top: 34px; color: var(--navy); }
+      .role p { font-size: 28px; line-height: 1.4; color: var(--grey); margin-top: 18px; }
+      .role .icon { width: 96px; height: 96px; border-radius: 28px; background: #fff; display: grid; place-items: center;
+        box-shadow: 0 8px 24px rgba(83, 74, 183, 0.14); }
+      .url { height: 84px; padding: 0 44px; border-radius: 999px; background: var(--bright); color: #fff;
+        font-size: 36px; font-weight: 700; display: flex; align-items: center; letter-spacing: -0.01em; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="81.8" data-width="1920" data-height="1080">
+      <div id="bg"></div>
+      <canvas id="gl" width="1920" height="1080"></canvas>
+      <div id="gl-labels">
+        <div id="lbl-your" class="gl-label navy">Your price</div>
+        <div id="lbl-rec" class="gl-label orange">Recommended price</div>
+        <div id="lbl-guard" class="gl-label rose">Volume drop &gt; 2%</div>
+        <div id="lbl-axis-p" class="gl-label row">Price →</div>
+        <div id="lbl-r0" class="gl-label row">Price cut −20%</div>
+        <div id="lbl-r1" class="gl-label row">Multibuy 3 for 2</div>
+        <div id="lbl-r2" class="gl-label row">Feature + display</div>
+        <div id="lbl-r3" class="gl-label row">Price cut −10%</div>
+        <div id="lbl-best" class="gl-label orange">Best return on spend</div>
+        <div id="lbl-weeks" class="gl-label row">Weeks →</div>
+      </div>
+
+      <!-- ===================== S1 — the habit ===================== -->
+      <section id="s1" class="scene clip" data-start="0" data-duration="8.243" data-track-index="1">
+        <div id="s1-chip" class="chip ex" style="left:120px;top:110px"><span class="dot"></span>How it’s done today</div>
+        <h1 id="s1-h" class="hl ex" style="left:120px;top:160px;font-size:104px">
+          <span id="s1-l1">Next year’s prices.</span>
+          <span id="s1-l2" class="violet">Next year’s promotions.</span>
+        </h1>
+        <p id="s1-cap" class="sub ex" style="left:122px;top:410px;font-size:44px">…still set from <b>last year’s numbers.</b></p>
+        <svg id="s1-chart" class="ex" style="left:120px;top:520px" width="1680" height="470" viewBox="0 0 1680 470">
+          <line x1="0" y1="420" x2="1680" y2="420" stroke="#d9d6ef" stroke-width="2" />
+          <line id="s1-div" x1="840" y1="20" x2="840" y2="420" stroke="#c9c4ef" stroke-width="2" stroke-dasharray="8 10" />
+          <text id="s1-ly" x="0" y="462" font-size="22" font-weight="700" fill="#534ab7" letter-spacing="5">LAST YEAR</text>
+          <text id="s1-ny" x="860" y="462" font-size="22" font-weight="700" fill="#9a94d6" letter-spacing="5">NEXT YEAR</text>
+          <path id="s1-area" d="" fill="rgba(83,74,183,0.08)" />
+          <path id="s1-line" d="" fill="none" stroke="#1a1a4e" stroke-width="5" stroke-linejoin="round" stroke-linecap="round" pathLength="1" stroke-dasharray="1 1" stroke-dashoffset="1" />
+          <g id="s1-copy">
+            <path id="s1-copyline" d="" fill="none" stroke="#7751ff" stroke-width="5" stroke-dasharray="14 12" stroke-linejoin="round" />
+            <g id="s1-copytag">
+              <rect x="300" y="-6" width="260" height="52" rx="26" fill="#7751ff" />
+              <text x="430" y="28" font-size="22" font-weight="700" fill="#ffffff" text-anchor="middle">Copy · Paste</text>
+            </g>
+          </g>
+        </svg>
+      </section>
+
+      <!-- ===================== S2 — noise & black box ===================== -->
+      <section id="s2" class="scene clip" data-start="8.243" data-duration="8.174" data-track-index="1">
+        <div id="s2-field" class="under ex"></div>
+        <div id="s2-chip" class="chip ex" style="left:120px;top:110px"><span class="dot"></span>The problem</div>
+        <h1 id="s2-h" class="hl ex" style="left:120px;top:160px;font-size:96px">AI should help.</h1>
+        <p id="s2-a" class="sub ex" style="left:122px;top:290px;font-size:44px">But what’s <b>signal</b>, and what’s <b>noise?</b></p>
+        <p id="s2-b" class="sub ex" style="left:122px;top:290px;font-size:44px">And nobody bets the promotion budget on a <b>black box.</b></p>
+        <svg id="s2-cube" class="ex" style="left:760px;top:500px" width="400" height="400" viewBox="-200 -200 400 400">
+          <g id="s2-cube-g">
+            <polygon class="cf" id="cf-top" points="0,-170 147,-85 0,0 -147,-85" fill="#262670" stroke="#7751ff" stroke-opacity="0" stroke-width="4" stroke-linejoin="round" />
+            <polygon class="cf" id="cf-left" points="-147,-85 0,0 0,170 -147,85" fill="#1a1a4e" stroke="#7751ff" stroke-opacity="0" stroke-width="4" stroke-linejoin="round" />
+            <polygon class="cf" id="cf-right" points="147,-85 147,85 0,170 0,0" fill="#12123a" stroke="#7751ff" stroke-opacity="0" stroke-width="4" stroke-linejoin="round" />
+            <text id="s2-q" x="0" y="44" font-size="130" font-weight="800" fill="#ffffff" text-anchor="middle" font-family="Sora">?</text>
+            <g id="s2-nodes" opacity="0">
+              <circle cx="0" cy="-170" r="13" fill="#3b82f6" /><circle cx="-147" cy="-85" r="13" fill="#3b82f6" />
+              <circle cx="0" cy="0" r="16" fill="#ffffff" stroke="#3b82f6" stroke-width="8" />
+              <circle cx="147" cy="85" r="13" fill="#3b82f6" /><circle cx="0" cy="170" r="10" fill="#8ab4ff" />
+            </g>
+          </g>
+        </svg>
+      </section>
+
+      <!-- ===================== S3 — brand promise ===================== -->
+      <section id="s3" class="scene clip" data-start="16.417" data-duration="8.173" data-track-index="1">
+        <div id="s3-logo-wrap" class="ex" style="left:510px;top:240px;width:900px;height:329px">
+          <img id="s3-logo" src="assets/logo.png" alt="Smart Value AI Solutions" style="width:900px;display:block" />
+        </div>
+        <div id="s3-chip" class="chip ex" style="left:0;width:1920px;top:620px;justify-content:center"><span class="dot"></span>Predict before you decide</div>
+        <div id="s3-lines" class="ex" style="left:0;width:1920px;top:420px;text-align:center">
+          <div id="s3-l1" class="hl" style="font-size:64px">Test every move on <span class="violet" style="display:inline">your own sales data,</span></div>
+          <div id="s3-l2" class="hl" style="font-size:64px;margin-top:6px">before anything changes on shelf.</div>
+        </div>
+        <div id="s3-pills-h" class="sub ex" style="left:0;width:1920px;top:700px;text-align:center;font-size:30px">Three standalone solutions. <b>One engine.</b></div>
+        <div id="s3-pills" class="ex" style="left:0;width:1920px;top:770px;display:flex;justify-content:center;gap:26px">
+          <div id="s3-p0" class="pill off">Commercial Analytics</div>
+          <div id="s3-p1" class="pill on">Price Optimizer</div>
+          <div id="s3-p2" class="pill on">Promotion Planner</div>
+        </div>
+        <div id="s3-today" class="note ex" style="left:0;width:1920px;top:872px;text-align:center;font-size:24px">Each one sold and used on its own. This video: the last two.</div>
+      </section>
+
+      <!-- ===================== S4 — which price? which promotion? ===================== -->
+      <section id="s4" class="scene clip" data-start="24.59" data-duration="4.087" data-track-index="1">
+        <h1 id="s4-h" class="hl ex" style="left:120px;top:60px;font-size:100px">
+          <span id="s4-l1">Which price?</span>
+          <span id="s4-l2" class="violet">Which promotion?</span>
+        </h1>
+        <p id="s4-sub" class="sub ex" style="left:1110px;top:236px;width:700px;font-size:34px;text-align:right">Test both on <b>your own data</b>, before you commit.</p>
+        <div id="s4-pl" class="card under" style="left:120px;top:360px;width:825px;height:660px"></div>
+        <div id="s4-pr" class="card under exr" style="left:975px;top:360px;width:825px;height:660px"></div>
+        <div id="s4-tl" class="ex" style="left:170px;top:840px">
+          <div class="chip" style="font-size:20px">Price Optimizer</div>
+          <div class="hl" style="font-size:34px;margin-top:14px">Sets your everyday price, SKU by SKU.</div>
+        </div>
+        <div id="s4-tr" class="ex" style="left:1025px;top:840px">
+          <div class="chip" style="font-size:20px">Promotion Planner</div>
+          <div class="hl" style="font-size:34px;margin-top:14px">Tests every deal before the budget is spent.</div>
+        </div>
+        <div id="s4-vs" class="ex" style="left:900px;top:545px;width:120px;height:120px;border-radius:50%;background:#f19526;border:8px solid #ffffff;box-shadow:0 10px 30px rgba(241,149,38,0.35);display:grid;place-items:center;color:#fff;font-weight:800;font-size:38px">vs</div>
+      </section>
+
+      <!-- ===================== S5a — Price Optimizer 3D ===================== -->
+      <section id="s5a" class="scene clip" data-start="28.677" data-duration="8.173" data-track-index="1">
+        <div id="s5a-chip" class="chip ex" style="left:120px;top:150px"><span class="dot"></span>Price Optimizer</div>
+        <h1 id="s5a-h" class="hl ex" style="left:120px;top:200px;font-size:66px">
+          <span>Sets your everyday</span><span>price, SKU by SKU.</span>
+        </h1>
+        <div class="bullets ex" style="left:120px;top:420px">
+          <div id="s5a-b1" class="bullet"><div class="ic">1</div><div class="tx">Measures how shoppers respond to price<small>for each SKU, retailer and channel</small></div></div>
+          <div id="s5a-b2" class="bullet"><div class="ic">2</div><div class="tx">Shows where the price ceiling is<small>the guardrail on volume loss</small></div></div>
+          <div id="s5a-b3" class="bullet"><div class="ic">3</div><div class="tx">Finds the price that grows revenue and margin<small>without losing volume</small></div></div>
+        </div>
+        <div id="s5a-tag" class="tag ex" style="left:120px;top:960px">Illustrative data</div>
+      </section>
+
+      <!-- ===================== S5b — price slider + 92% ===================== -->
+      <section id="s5b" class="scene clip" data-start="36.85" data-duration="8.174" data-track-index="1">
+        <div id="s5b-card" class="card under ex" style="left:120px;top:140px;width:1080px;height:880px"></div>
+        <div id="s5b-head" class="ex" style="left:170px;top:184px;width:980px;display:flex;justify-content:space-between;align-items:center">
+          <div class="chip" style="font-size:20px">Price scenario</div>
+          <div id="s5b-btn" class="btn">Show recommended</div>
+        </div>
+        <svg id="s5b-chart" class="ex" style="left:170px;top:280px" width="980" height="330" viewBox="0 0 980 330">
+          <rect id="s5b-guard" x="0" y="0" width="0" height="290" fill="rgba(224,96,122,0.10)" />
+          <line id="s5b-guardline" x1="0" y1="0" x2="0" y2="290" stroke="#e0607a" stroke-width="3" stroke-dasharray="10 8" />
+          <text id="s5b-guardtx" x="0" y="30" font-size="19" font-weight="700" fill="#b4415a" font-family="Sora">Volume drop &gt; 2%</text>
+          <line x1="0" y1="290" x2="980" y2="290" stroke="#d9d6ef" stroke-width="2" />
+          <path id="s5b-margin" d="" fill="none" stroke="#7751ff" stroke-width="5" stroke-linecap="round" />
+          <path id="s5b-volume" d="" fill="none" stroke="#1a1a4e" stroke-width="5" stroke-linecap="round" />
+          <text id="s5b-mlab" x="0" y="0" font-size="20" font-weight="700" fill="#7751ff" font-family="Sora">Margin</text>
+          <text id="s5b-vlab" x="0" y="0" font-size="20" font-weight="700" fill="#1a1a4e" font-family="Sora">Volume</text>
+          <line id="s5b-play" x1="0" y1="0" x2="0" y2="290" stroke="#1a1a4e" stroke-width="3" />
+          <circle id="s5b-pm" cx="0" cy="0" r="10" fill="#7751ff" stroke="#fff" stroke-width="4" />
+          <circle id="s5b-pv" cx="0" cy="0" r="10" fill="#1a1a4e" stroke="#fff" stroke-width="4" />
+          <text x="0" y="322" font-size="18" fill="#6b6b7b" font-family="Sora">€2.19</text>
+          <text x="980" y="322" font-size="18" fill="#6b6b7b" font-family="Sora" text-anchor="end">€2.99</text>
+        </svg>
+        <svg id="s5b-slider" class="ex" style="left:170px;top:640px" width="980" height="110" viewBox="0 0 980 110">
+          <rect x="0" y="62" width="980" height="12" rx="6" fill="#e3e0fa" />
+          <rect id="s5b-fill" x="0" y="62" width="0" height="12" rx="6" fill="#7751ff" />
+          <line id="s5b-cur" x1="0" y1="50" x2="0" y2="86" stroke="#1a1a4e" stroke-width="3" />
+          <text id="s5b-curtx" x="0" y="106" font-size="17" font-weight="600" fill="#6b6b7b" text-anchor="middle" font-family="Sora">current</text>
+          <g id="s5b-thumb">
+            <rect id="s5b-bub" x="-62" y="-4" width="124" height="44" rx="22" fill="#1a1a4e" />
+            <text id="s5b-price" x="0" y="26" font-size="22" font-weight="800" fill="#ffffff" text-anchor="middle" font-family="Sora">€2.49</text>
+            <circle id="s5b-knob" cx="0" cy="68" r="20" fill="#ffffff" stroke="#1a1a4e" stroke-width="7" />
+          </g>
+        </svg>
+        <div id="s5b-kpis" class="ex" style="left:170px;top:790px;display:flex;gap:40px">
+          <div class="kpi"><div class="k">REVENUE</div><div id="kpi-rev" class="v">+0.0%</div><div class="s">vs current price</div></div>
+          <div class="kpi" id="kpi-m-card"><div class="k">MARGIN</div><div id="kpi-mar" class="v">+0.0%</div><div class="s">vs current price</div></div>
+          <div class="kpi" id="kpi-v-card"><div class="k">VOLUME</div><div id="kpi-vol" class="v">0.0%</div><div id="kpi-vol-s" class="s">within 2% guardrail</div></div>
+        </div>
+        <svg id="s5b-cursor" class="cursor" style="left:0;top:0" viewBox="0 0 40 40">
+          <path d="M6 3 L6 33 L14 25 L20 37 L25 35 L19 23 L30 23 Z" fill="#1a1a4e" stroke="#ffffff" stroke-width="2.5" stroke-linejoin="round" />
+        </svg>
+        <div id="s5b-right" class="ex" style="left:1270px;top:180px;width:540px">
+          <div class="chip" style="font-size:20px"><span class="dot"></span>Proof</div>
+        </div>
+        <svg id="s5b-ring" class="ex" style="left:1310px;top:250px" width="460" height="460" viewBox="0 0 460 460">
+          <circle cx="230" cy="230" r="190" fill="none" stroke="#eeedfe" stroke-width="34" />
+          <circle id="s5b-arc" cx="230" cy="230" r="190" fill="none" stroke="#534ab7" stroke-width="34" stroke-linecap="round" pathLength="100" stroke-dasharray="0 100" transform="rotate(-90 230 230)" />
+          <text id="s5b-num" x="230" y="262" font-size="112" font-weight="800" fill="#534ab7" text-anchor="middle" font-family="Sora" letter-spacing="-4">0%</text>
+        </svg>
+        <div id="s5b-lab" class="ex" style="left:1270px;top:740px;width:540px;text-align:center">
+          <div class="hl" style="font-size:44px">model confidence*</div>
+          <div class="note" style="margin-top:22px;line-height:1.45">*Validated against real market outcomes on an actual pricing recommendation.</div>
+        </div>
+        <div id="s5b-tag" class="tag ex" style="left:1000px;top:970px">Illustrative figures</div>
+      </section>
+
+      <!-- ===================== S6a — Promotion Planner 3D ===================== -->
+      <section id="s6a" class="scene clip" data-start="45.024" data-duration="8.173" data-track-index="1">
+        <div id="s6a-chip" class="chip ex" style="left:120px;top:150px"><span class="dot"></span>Promotion Planner</div>
+        <h1 id="s6a-h" class="hl ex" style="left:120px;top:200px;font-size:66px">
+          <span>Tests every deal before</span><span>the budget is spent.</span>
+        </h1>
+        <div class="bullets ex" style="left:120px;top:420px">
+          <div id="s6a-b1" class="bullet"><div class="ic">1</div><div class="tx">Separates the extra volume a deal creates<small>from what you’d have sold anyway</small></div></div>
+          <div id="s6a-b2" class="bullet"><div class="ic">2</div><div class="tx">Counts the dip after the deal<small>so the uplift isn’t overstated</small></div></div>
+          <div id="s6a-b3" class="bullet"><div class="ic">3</div><div class="tx">Scores the return of every event<small>by mechanic and retailer</small></div></div>
+        </div>
+        <div id="s6a-tag" class="tag ex" style="left:120px;top:960px">Illustrative data</div>
+      </section>
+
+      <!-- ===================== S6b — uplift / dip / ROI ===================== -->
+      <section id="s6b" class="scene clip" data-start="53.197" data-duration="8.173" data-track-index="1">
+        <div id="s6b-card" class="card under ex" style="left:120px;top:140px;width:1080px;height:880px"></div>
+        <div id="s6b-head" class="chip ex" style="left:170px;top:190px;font-size:20px">Promotion picker</div>
+        <div id="s6b-pills" class="ex" style="left:170px;top:244px;display:flex;gap:14px">
+          <div id="mp0" class="mpill">Price cut −20%</div>
+          <div id="mp1" class="mpill">Multibuy 3 for 2</div>
+          <div id="mp2" class="mpill">Feature + display</div>
+          <div id="mp3" class="mpill">Price cut −10%</div>
+        </div>
+        <svg id="s6b-chart" class="ex" style="left:170px;top:340px" width="980" height="420" viewBox="0 0 980 420">
+          <g id="s6b-bars"></g>
+          <line id="s6b-base" x1="0" y1="0" x2="980" y2="0" stroke="#1a1a4e" stroke-width="2.5" stroke-dasharray="10 8" />
+          <text id="s6b-basetx" x="0" y="0" font-size="18" font-weight="700" fill="#1a1a4e" font-family="Sora">What you’d sell anyway</text>
+          <text id="s6b-uptx" x="0" y="0" font-size="20" font-weight="800" fill="#7751ff" font-family="Sora" text-anchor="middle">Uplift</text>
+          <text id="s6b-diptx" x="0" y="0" font-size="20" font-weight="800" fill="#1a1a4e" font-family="Sora" text-anchor="middle">Dip after</text>
+          <line x1="0" y1="380" x2="980" y2="380" stroke="#d9d6ef" stroke-width="2" />
+          <text x="0" y="412" font-size="17" fill="#6b6b7b" font-family="Sora">Weekly volume, 16 weeks</text>
+        </svg>
+        <div id="s6b-kpis" class="ex" style="left:170px;top:790px;display:flex;gap:40px">
+          <div class="kpi"><div class="k">UPLIFT</div><div id="kpi-up" class="v">+0%</div><div class="s">extra volume in deal weeks</div></div>
+          <div class="kpi"><div class="k">DIP AFTER</div><div id="kpi-dip" class="v">0%</div><div class="s">weeks after the deal</div></div>
+          <div class="kpi" id="kpi-roi-card"><div class="k">RETURN ON SPEND</div><div id="kpi-roi" class="v">0.0×</div><div class="s">per € of promo spend</div></div>
+        </div>
+        <svg id="s6b-cursor" class="cursor" style="left:0;top:0" viewBox="0 0 40 40">
+          <path d="M6 3 L6 33 L14 25 L20 37 L25 35 L19 23 L30 23 Z" fill="#1a1a4e" stroke="#ffffff" stroke-width="2.5" stroke-linejoin="round" />
+        </svg>
+        <div id="s6b-right" class="ex" style="left:1270px;top:180px;width:540px">
+          <div class="chip" style="font-size:20px"><span class="dot"></span>Simulation</div>
+          <div id="s6b-num" class="hl" style="font-size:210px;color:#534ab7;margin-top:30px;letter-spacing:-0.05em">0.0×</div>
+          <div class="hl" style="font-size:40px;margin-top:6px">blended ROI <span class="violet" style="display:inline">(simulated)</span></div>
+        </div>
+        <svg id="s6b-rank" class="ex" style="left:1270px;top:620px" width="540" height="330" viewBox="0 0 540 330">
+          <text x="0" y="20" font-size="20" font-weight="700" fill="#555555" font-family="Sora">Return on spend by mechanic</text>
+          <g id="s6b-rankbars"></g>
+          <line id="s6b-be" x1="0" y1="44" x2="0" y2="318" stroke="#1a1a4e" stroke-width="2" stroke-dasharray="6 6" />
+          <text id="s6b-betx" x="0" y="330" font-size="15" font-weight="600" fill="#1a1a4e" font-family="Sora" text-anchor="middle">break-even</text>
+        </svg>
+        <div id="s6b-tag" class="tag ex" style="left:1000px;top:970px">Illustrative figures</div>
+      </section>
+
+      <!-- ===================== S7 — the difference ===================== -->
+      <section id="s7" class="scene clip" data-start="61.37" data-duration="6.131" data-track-index="1">
+        <div id="s7-chip" class="chip ex" style="left:120px;top:110px"><span class="dot"></span>The difference in one line</div>
+        <div id="s7-a" class="ex" style="left:120px;top:190px;width:1680px">
+          <div class="hl" style="font-size:52px"><span style="display:inline">Price Optimizer</span> <span class="sub" style="display:inline;font-weight:400;color:#555">sets the price you charge most weeks.</span></div>
+        </div>
+        <svg id="s7-strip" class="ex" style="left:120px;top:330px" width="1680" height="360" viewBox="0 0 1680 360"><g id="s7-cells"></g>
+          <text x="0" y="350" font-size="20" font-weight="700" fill="#9a94d6" letter-spacing="4" font-family="Sora">WEEK 1</text>
+          <text x="1680" y="350" font-size="20" font-weight="700" fill="#9a94d6" letter-spacing="4" font-family="Sora" text-anchor="end">WEEK 52</text>
+        </svg>
+        <div id="s7-b" class="ex" style="left:120px;top:730px;width:1680px">
+          <div class="hl violet" style="font-size:52px"><span style="display:inline">Promotion Planner</span> <span class="sub" style="display:inline;font-weight:400;color:#555">tells you which deals are worth paying for.</span></div>
+        </div>
+        <div id="s7-legend" class="ex" style="left:120px;top:880px;display:flex;gap:40px;font-size:24px;color:#555;align-items:center">
+          <span style="display:flex;align-items:center;gap:12px"><i style="width:22px;height:22px;border-radius:6px;background:#1a1a4e;display:inline-block"></i>Everyday price weeks</span>
+          <span style="display:flex;align-items:center;gap:12px"><i style="width:22px;height:22px;border-radius:6px;background:#f19526;display:inline-block"></i>Deals worth paying for</span>
+          <span style="display:flex;align-items:center;gap:12px"><i style="width:22px;height:22px;border-radius:6px;background:#d6d3ee;display:inline-block"></i>Deals that don’t pay back</span>
+        </div>
+      </section>
+
+      <!-- ===================== S8 — who it's for ===================== -->
+      <section id="s8" class="scene clip" data-start="67.501" data-duration="6.13" data-track-index="1">
+        <div id="s8-chip" class="chip ex" style="left:120px;top:110px"><span class="dot"></span>Who it’s for</div>
+        <h1 id="s8-h" class="hl ex" style="left:120px;top:160px;font-size:80px">Built for FMCG commercial teams.</h1>
+        <div id="s8-c1" class="card role ex" style="left:120px;top:400px">
+          <div class="icon"><svg width="56" height="56" viewBox="0 0 56 56"><rect x="6" y="30" width="10" height="20" rx="3" fill="#534ab7"/><rect x="23" y="20" width="10" height="30" rx="3" fill="#7751ff"/><rect x="40" y="8" width="10" height="42" rx="3" fill="#f19526"/></svg></div>
+          <h3>Commercial &amp; Sales</h3>
+          <p>A price you can defend in the next retailer meeting.</p>
+        </div>
+        <div id="s8-c2" class="card role ex" style="left:700px;top:400px">
+          <div class="icon"><svg width="56" height="56" viewBox="0 0 56 56"><circle cx="28" cy="28" r="22" fill="none" stroke="#534ab7" stroke-width="5"/><text x="28" y="38" font-size="28" font-weight="800" fill="#534ab7" text-anchor="middle" font-family="Sora">€</text></svg></div>
+          <h3>Finance</h3>
+          <p>The margin effect of a price or promo move, before it hits the P&amp;L.</p>
+        </div>
+        <div id="s8-c3" class="card role ex" style="left:1280px;top:400px">
+          <div class="icon"><svg width="56" height="56" viewBox="0 0 56 56"><path d="M8 22 L32 10 L32 46 L8 34 Z" fill="#534ab7"/><rect x="34" y="18" width="6" height="20" rx="3" fill="#7751ff"/><path d="M14 34 L18 48 L25 48 L22 36 Z" fill="#7751ff"/><circle cx="46" cy="28" r="4" fill="#f19526"/></svg></div>
+          <h3>Marketing</h3>
+          <p>Proof of which promotions earned their budget.</p>
+        </div>
+      </section>
+
+      <!-- ===================== S9 — CTA ===================== -->
+      <section id="s9" class="scene clip" data-start="73.631" data-duration="8.169" data-track-index="1">
+        <h1 id="s9-l1" class="hl" style="left:0;width:1920px;top:120px;text-align:center;font-size:96px">You don’t need both.</h1>
+        <p id="s9-l2" class="hl violet" style="left:0;width:1920px;top:240px;text-align:center;font-size:56px">Start with whichever decision comes first.</p>
+        <div id="s9-logo" style="left:660px;top:390px;width:600px;height:220px"><img src="assets/logo.png" alt="Smart Value AI Solutions" style="width:600px;display:block" /></div>
+        <div id="s9-chip" class="chip" style="left:0;width:1920px;top:660px;justify-content:center"><span class="dot"></span>Predict before you decide</div>
+        <div id="s9-url-wrap" style="left:0;width:1920px;top:730px;display:flex;justify-content:center">
+          <div id="s9-url" class="url">smartvalueaisolutions.com</div>
+        </div>
+        <div id="s9-foot" class="note" style="left:0;width:1920px;top:950px;text-align:center;font-size:18px;line-height:1.6">
+          <div>*92% model confidence: validated against real market outcomes on an actual pricing recommendation. 2.7× ROI from simulation. Demo figures are illustrative, not client data.</div>
+          <div>Music: “Digital Lemonade” by Kevin MacLeod (incompetech.com), licensed under CC BY 4.0.</div>
+        </div>
+      </section>
+
+      <div id="minilogo" class="clip" data-start="24.59" data-duration="49.041" data-track-index="2"><img id="minilogo-img" src="assets/logo.png" alt="Smart Value" /></div>
+
+      <audio id="music" src="assets/music.mp3" data-start="0" data-duration="81.8" data-track-index="9" data-volume="0.9"
+        data-automation='{"version":1,"lanes":[{"target":"volume","points":[{"t":0,"v":1},{"t":79.3,"v":1},{"t":81.8,"v":0}]}]}'></audio>
+    </div>
+
+    <script>
+      // ---------- shared timing (music beat grid: ~117.5 BPM, bar = 2.04335s, first downbeat 0.07s) ----------
+      const BAR = 2.04335, BEAT = BAR / 4;
+      const S = { s1: 0, s2: 8.243, s3: 16.417, s4: 24.59, s5a: 28.677, s5b: 36.85, s6a: 45.024, s6b: 53.197, s7: 61.37, s8: 67.501, s9: 73.631, end: 81.8 };
+      const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+      const seg = (t, a, b) => clamp((t - a) / (b - a));
+      const eOut = (x) => 1 - Math.pow(1 - x, 3);
+      const eInOut = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+      const eBack = (x) => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2); };
+      const lerp = (a, b, k) => a + (b - a) * k;
+      function rng(seed) { let s = seed >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
+      window.SV = { BAR, BEAT, S, clamp, seg, eOut, eInOut, eBack, lerp, rng };
+      const $ = (id) => document.getElementById(id);
+
+      const tl = gsap.timeline({ paused: true });
+
+      // =========================== S1 ===========================
+      (function () {
+        const t0 = S.s1;
+        // weekly sales, last year (52 weeks) — deterministic shape with promo spikes and post-promo dips
+        const promo = [6, 7, 18, 19, 30, 31, 44, 45];
+        const vals = [];
+        for (let w = 0; w < 52; w++) {
+          let v = 120 + 28 * Math.sin((2 * Math.PI * (w - 8)) / 52) + 8 * Math.sin(w * 1.7);
+          if (promo.includes(w)) v += 95 + (w % 2 ? -18 : 0);
+          if (promo.includes(w - 2) && !promo.includes(w)) v -= 26;
+          vals.push(v);
+        }
+        const X = (w) => (w / 51) * 820, Y = (v) => 420 - (v - 20) * 1.7;
+        let d = "";
+        vals.forEach((v, w) => (d += (w ? "L" : "M") + X(w).toFixed(1) + " " + Y(v).toFixed(1) + " "));
+        $("s1-line").setAttribute("d", d);
+        $("s1-copyline").setAttribute("d", d);
+        $("s1-area").setAttribute("d", d + "L820 420 L0 420 Z");
+
+        tl.fromTo("#s1-chip", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, t0 + 0.15);
+        tl.fromTo("#s1-l1", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.6, ease: "power4.out" }, t0 + 0.07 + BEAT);
+        tl.fromTo("#s1-l2", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.6, ease: "power4.out" }, t0 + 0.07 + BEAT * 3);
+        tl.fromTo("#s1-chart", { opacity: 0 }, { opacity: 1, duration: 0.4 }, t0 + 0.3);
+        tl.fromTo("#s1-line", { attr: { "stroke-dashoffset": 1 } }, { attr: { "stroke-dashoffset": 0 }, duration: 2.6, ease: "power2.inOut" }, t0 + 0.5);
+        tl.fromTo("#s1-area", { opacity: 0 }, { opacity: 1, duration: 0.8 }, t0 + 2.4);
+        tl.fromTo("#s1-cap", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, t0 + 0.07 + BAR * 2);
+        // copy-paste of last year into next year
+        tl.fromTo("#s1-copy", { opacity: 0, x: 0 }, { opacity: 1, x: 0, duration: 0.25 }, t0 + 0.07 + BAR * 2 + BEAT);
+        tl.to("#s1-copy", { x: 840, duration: 1.2, ease: "power2.inOut" }, t0 + 0.07 + BAR * 2 + BEAT * 2);
+        tl.fromTo("#s1-copytag", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3 }, t0 + 0.07 + BAR * 2 + BEAT * 2);
+        tl.to("#s1-copytag", { opacity: 0, duration: 0.3 }, t0 + 0.07 + BAR * 3 + BEAT * 2);
+        tl.fromTo("#s1-ny", { attr: { fill: "#9a94d6" } }, { attr: { fill: "#7751ff" }, duration: 0.3 }, t0 + 6.1);
+      })();
+
+      // =========================== S2 ===========================
+      (function () {
+        const t0 = S.s2;
+        const field = $("s2-field");
+        const R = rng(42), dots = [];
+        const cols = ["#c9c6e8", "#c9c6e8", "#b8b3e6", "#dedcf3", "#7751ff", "#534ab7", "#1a1a4e", "#9fb7ff"];
+        for (let i = 0; i < 170; i++) {
+          let x, y;
+          do { x = 140 + R() * 1640; y = 400 + R() * 600; } while (Math.abs(x - 960) < 230 && Math.abs(y - 700) < 230);
+          const el = document.createElement("div");
+          el.className = "ndot";
+          const s = 8 + R() * 14;
+          el.style.width = el.style.height = s + "px";
+          el.style.background = cols[Math.floor(R() * cols.length)];
+          field.appendChild(el);
+          dots.push({ el, x, y, s, f1: 1.2 + R() * 2.5, f2: 1.0 + R() * 2.2, ph: R() * 6.28, amp: 8 + R() * 16, delay: R() * 0.9 });
+        }
+        const drv = { t: 0 };
+        function draw() {
+          const t = drv.t;
+          for (const d of dots) {
+            const jx = Math.sin(t * d.f1 + d.ph) * d.amp, jy = Math.cos(t * d.f2 + d.ph * 1.3) * d.amp;
+            const k = eInOut(seg(t, 3.5 + d.delay, 4.4 + d.delay));
+            const x = lerp(d.x + jx, 960, k), y = lerp(d.y + jy, 700, k);
+            const appear = eOut(seg(t, 0.1 + d.delay * 0.6, 0.6 + d.delay * 0.6));
+            const sc = appear * (1 - k * 0.7);
+            d.el.style.transform = `translate(${(x - d.s / 2).toFixed(1)}px, ${(y - d.s / 2).toFixed(1)}px) scale(${sc.toFixed(3)})`;
+            d.el.style.opacity = (k > 0.96 ? 0 : 1).toString();
+          }
+        }
+        draw();
+        tl.to(drv, { t: S.s3 - S.s2, duration: S.s3 - S.s2, ease: "none", onUpdate: draw }, t0);
+
+        tl.fromTo("#s2-chip", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, t0 + 0.07);
+        tl.fromTo("#s2-h", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.6, ease: "power4.out" }, t0 + 0.07 + BEAT);
+        tl.fromTo("#s2-a", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, t0 + 0.07 + BAR);
+        tl.to("#s2-a", { opacity: 0, y: -20, duration: 0.3 }, t0 + 0.07 + BAR * 2 - 0.3);
+        tl.fromTo("#s2-b", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, t0 + 0.07 + BAR * 2);
+        tl.fromTo("#s2-cube-g", { scale: 0, rotation: -30, transformOrigin: "50% 50%" }, { scale: 1, rotation: 0, duration: 0.7, ease: "back.out(1.6)" }, t0 + 3.6);
+        tl.fromTo("#s2-q", { opacity: 0, scale: 0.4, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, t0 + 4.4);
+        // open the black box: faces go transparent, edges light up, nodes appear (the Smart Value™ mark)
+        tl.to("#s2-q", { opacity: 0, scale: 0.6, duration: 0.3 }, t0 + 0.07 + BAR * 3);
+        tl.to(".cf", { attr: { "fill-opacity": 0.1, "stroke-opacity": 1 }, duration: 0.6, ease: "power2.out" }, t0 + 0.07 + BAR * 3);
+        tl.to("#cf-top", { attr: { fill: "#c4b5fd" } }, t0 + 0.07 + BAR * 3);
+        tl.to("#cf-left", { attr: { fill: "#a5b4fc" } }, t0 + 0.07 + BAR * 3);
+        tl.to("#cf-right", { attr: { fill: "#bfdbfe" } }, t0 + 0.07 + BAR * 3);
+        tl.fromTo("#s2-nodes", { opacity: 0 }, { opacity: 1, duration: 0.4 }, t0 + 0.07 + BAR * 3 + BEAT);
+      })();
+
+      // =========================== S3 ===========================
+      (function () {
+        const t0 = S.s3;
+        tl.fromTo("#s3-logo-wrap", { opacity: 0, scale: 0.86 }, { opacity: 1, scale: 1, duration: 0.8, ease: "power3.out" }, t0 + 0.02);
+        tl.fromTo("#s3-chip", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }, t0 + 0.07 + BEAT * 2);
+        tl.to("#s3-chip", { opacity: 0, duration: 0.3 }, t0 + 0.07 + BAR - 0.3);
+        tl.to("#s3-logo-wrap", { y: -150, scale: 0.6, duration: 0.7, ease: "power3.inOut" }, t0 + 0.07 + BAR - 0.2);
+        tl.fromTo("#s3-l1", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.6, ease: "power4.out" }, t0 + 0.07 + BAR + BEAT);
+        tl.fromTo("#s3-l2", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.6, ease: "power4.out" }, t0 + 0.07 + BAR + BEAT * 3);
+        tl.fromTo("#s3-pills-h", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5 }, t0 + 0.07 + BAR * 2 + BEAT);
+        ["#s3-p0", "#s3-p1", "#s3-p2"].forEach((p, i) =>
+          tl.fromTo(p, { opacity: 0, y: 30, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(1.8)" }, t0 + 0.07 + BAR * 2 + BEAT * (2 + i)));
+        tl.to("#s3-p0", { opacity: 0.45, scale: 0.94, duration: 0.4 }, t0 + 0.07 + BAR * 3);
+        tl.to(["#s3-p1", "#s3-p2"], { scale: 1.08, duration: 0.35, ease: "back.out(2)" }, t0 + 0.07 + BAR * 3);
+        tl.fromTo("#s3-today", { opacity: 0 }, { opacity: 1, duration: 0.4 }, t0 + 0.07 + BAR * 3 + BEAT);
+      })();
+
+      // =========================== S4 ===========================
+      (function () {
+        const t0 = S.s4;
+        tl.fromTo("#s4-l1", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.55, ease: "power4.out" }, t0 + 0.02);
+        tl.fromTo("#s4-l2", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.55, ease: "power4.out" }, t0 + 0.07 + BEAT * 2);
+        tl.fromTo("#s4-sub", { opacity: 0 }, { opacity: 1, duration: 0.5 }, t0 + 0.07 + BAR);
+        tl.fromTo(["#s4-pl", "#s4-pr"], { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out", stagger: 0.12 }, t0 + 0.15);
+        tl.fromTo(["#s4-tl", "#s4-tr"], { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.12 }, t0 + 0.5);
+        tl.fromTo("#s4-vs", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2.2)" }, t0 + 0.07 + BEAT * 3);
+        // hand-off: everything but the left panel's 3D clears; the landscape grows into the next scene
+        tl.to(["#s4-h", "#s4-sub", "#s4-tl", "#s4-tr", "#s4-vs", "#s4-pr"], { opacity: 0, duration: 0.3 }, S.s5a - 0.4);
+        tl.to("#s4-pl", { opacity: 0, scale: 1.05, duration: 0.4 }, S.s5a - 0.35);
+      })();
+
+      // =========================== S5a ===========================
+      (function () {
+        const t0 = S.s5a;
+        tl.fromTo("#s5a-chip", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.5 }, t0 + 0.3);
+        tl.fromTo("#s5a-h", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.6, ease: "power4.out" }, t0 + 0.07 + BEAT);
+        ["#s5a-b1", "#s5a-b2", "#s5a-b3"].forEach((b, i) =>
+          tl.fromTo(b, { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, t0 + 0.07 + BAR * (0.5 + i * 0.75)));
+        tl.fromTo("#s5a-tag", { opacity: 0 }, { opacity: 1, duration: 0.4 }, t0 + 1.2);
+      })();
+
+      // =========================== S5b ===========================
+      (function () {
+        const t0 = S.s5b;
+        const P0 = 2.19, P1 = 2.99, BASE = 2.49, COST = 1.4, EL = 0.45;
+        const vol = (p) => Math.pow(p / BASE, -EL);
+        const mar = (p) => vol(p) * (p - COST);
+        const rev = (p) => vol(p) * p;
+        const GUARD = BASE * Math.pow(0.98, -1 / EL); // price where volume drop hits 2%
+        const W = 980, H = 290, xp = (p) => ((p - P0) / (P1 - P0)) * W;
+        const yIdx = (i) => H - ((i - 70) / (140 - 70)) * (H - 20);
+        let dm = "", dv = "";
+        for (let k = 0; k <= 80; k++) {
+          const p = P0 + ((P1 - P0) * k) / 80;
+          dm += (k ? "L" : "M") + xp(p).toFixed(1) + " " + yIdx((mar(p) / mar(BASE)) * 100).toFixed(1) + " ";
+          dv += (k ? "L" : "M") + xp(p).toFixed(1) + " " + yIdx(vol(p) * 100).toFixed(1) + " ";
+        }
+        $("s5b-margin").setAttribute("d", dm);
+        $("s5b-volume").setAttribute("d", dv);
+        $("s5b-mlab").setAttribute("x", W - 86); $("s5b-mlab").setAttribute("y", yIdx((mar(P1) / mar(BASE)) * 100) + 34);
+        $("s5b-vlab").setAttribute("x", W - 92); $("s5b-vlab").setAttribute("y", yIdx(vol(P1) * 100) + 34);
+        $("s5b-guard").setAttribute("x", xp(GUARD)); $("s5b-guard").setAttribute("width", W - xp(GUARD));
+        $("s5b-guardline").setAttribute("x1", xp(GUARD)); $("s5b-guardline").setAttribute("x2", xp(GUARD));
+        $("s5b-guardtx").setAttribute("x", xp(GUARD) + 14);
+        $("s5b-cur").setAttribute("x1", xp(BASE)); $("s5b-cur").setAttribute("x2", xp(BASE)); $("s5b-curtx").setAttribute("x", xp(BASE));
+
+        const REC = 2.59;
+        const drv = { t: 0 };
+        const fmt = (v, d = 1) => (v > 0.0005 ? "+" : v < -0.0005 ? "−" : "") + Math.abs(v * 100).toFixed(d) + "%";
+        function draw() {
+          const t = drv.t;
+          const up = eInOut(seg(t, 1.0, 2.4)), snap = eOut(seg(t, 3.6, 4.2));
+          let p = lerp(BASE, 2.79, up);
+          p = lerp(p, REC, snap);
+          const rec = snap > 0.5;
+          const x = xp(p);
+          $("s5b-thumb").setAttribute("transform", `translate(${x.toFixed(1)} 0)`);
+          $("s5b-fill").setAttribute("width", x.toFixed(1));
+          $("s5b-price").textContent = "€" + p.toFixed(2);
+          const col = rec ? "#f19526" : "#1a1a4e";
+          $("s5b-bub").setAttribute("fill", col);
+          $("s5b-knob").setAttribute("stroke", col);
+          $("s5b-play").setAttribute("x1", x); $("s5b-play").setAttribute("x2", x); $("s5b-play").setAttribute("stroke", col);
+          $("s5b-pm").setAttribute("cx", x); $("s5b-pm").setAttribute("cy", yIdx((mar(p) / mar(BASE)) * 100));
+          $("s5b-pv").setAttribute("cx", x); $("s5b-pv").setAttribute("cy", yIdx(vol(p) * 100));
+          const dv = vol(p) - 1;
+          $("kpi-rev").textContent = fmt(rev(p) / rev(BASE) - 1);
+          $("kpi-mar").textContent = fmt(mar(p) / mar(BASE) - 1);
+          $("kpi-vol").textContent = fmt(dv);
+          const over = dv < -0.02;
+          $("kpi-vol").style.color = over ? "#b4415a" : "#1a1a4e";
+          $("kpi-vol-s").textContent = over ? "outside the 2% guardrail" : "within 2% guardrail";
+          $("kpi-v-card").style.borderColor = over ? "#f3c2cc" : "#eeedfe";
+          $("kpi-m-card").style.borderColor = rec ? "#f19526" : "#eeedfe";
+          $("kpi-mar").style.color = rec ? "#f19526" : "#1a1a4e";
+          // cursor: rests near slider, travels to button, clicks
+          const c1 = eInOut(seg(t, 2.7, 3.45));
+          const cx = lerp(170 + 680, 170 + 860, c1), cy = lerp(730, 214, c1);
+          const press = t > 3.45 && t < 3.65 ? 0.85 : 1;
+          $("s5b-cursor").style.transform = `translate(${cx}px, ${cy}px) scale(${press})`;
+          $("s5b-cursor").style.opacity = (seg(t, 2.5, 2.7) * (1 - seg(t, 4.6, 4.9))).toFixed(3);
+          $("s5b-btn").style.transform = `scale(${t > 3.45 && t < 3.7 ? 0.94 : 1})`;
+          $("s5b-btn").style.background = rec ? "#f19526" : "#7751ff";
+          // 92% ring
+          const r = eOut(seg(t, 4.4, 6.2));
+          $("s5b-arc").setAttribute("stroke-dasharray", `${(92 * r).toFixed(2)} 100`);
+          $("s5b-num").textContent = Math.round(92 * r) + "%";
+        }
+        draw();
+        tl.to(drv, { t: S.s6a - S.s5b, duration: S.s6a - S.s5b, ease: "none", onUpdate: draw }, t0);
+        tl.fromTo("#s5b-card", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, t0 + 0.05);
+        tl.fromTo(["#s5b-head", "#s5b-chart", "#s5b-slider", "#s5b-kpis"], { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: "power3.out" }, t0 + 0.25);
+        tl.fromTo("#s5b-tag", { opacity: 0 }, { opacity: 1, duration: 0.4 }, t0 + 0.8);
+        tl.fromTo(["#s5b-right", "#s5b-ring"], { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.5, stagger: 0.1 }, t0 + 0.07 + BAR * 2 - 0.3);
+        tl.fromTo("#s5b-lab", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5 }, t0 + 5.6);
+      })();
+
+      // =========================== S6a ===========================
+      (function () {
+        const t0 = S.s6a;
+        tl.fromTo("#s6a-chip", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.5 }, t0 + 0.07);
+        tl.fromTo("#s6a-h", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.6, ease: "power4.out" }, t0 + 0.07 + BEAT);
+        ["#s6a-b1", "#s6a-b2", "#s6a-b3"].forEach((b, i) =>
+          tl.fromTo(b, { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.5, ease: "power3.out" }, t0 + 0.07 + BAR * (0.5 + i * 0.75)));
+        tl.fromTo("#s6a-tag", { opacity: 0 }, { opacity: 1, duration: 0.4 }, t0 + 1.2);
+      })();
+
+      // =========================== S6b ===========================
+      (function () {
+        const t0 = S.s6b;
+        const M = [
+          { up: 0.64, dip: 0.15, roi: 1.4 },
+          { up: 0.48, dip: 0.11, roi: 1.9 },
+          { up: 0.38, dip: 0.04, roi: 3.6 },
+          { up: 0.22, dip: 0.05, roi: 2.2 },
+        ];
+        const clicks = [{ t: 0.6, i: 0 }, { t: 1.7, i: 1 }, { t: 2.8, i: 3 }, { t: 3.9, i: 2 }];
+        const pillX = [], pillW = [];
+        // bars
+        const NS = "http://www.w3.org/2000/svg", g = $("s6b-bars");
+        const NW = 16, bw = 44, gap = (980 - NW * bw) / (NW - 1), YB = 380, scale = 1.9; // 100 index = 190px
+        const base = [], upr = [];
+        for (let w = 0; w < NW; w++) {
+          const b = document.createElementNS(NS, "rect"); b.setAttribute("x", w * (bw + gap)); b.setAttribute("width", bw); b.setAttribute("rx", 6);
+          const u = document.createElementNS(NS, "rect"); u.setAttribute("x", w * (bw + gap)); u.setAttribute("width", bw); u.setAttribute("rx", 6);
+          g.appendChild(b); g.appendChild(u); base.push(b); upr.push(u);
+        }
+        const baseY = YB - 100 * scale * 1.0;
+        $("s6b-base").setAttribute("y1", baseY); $("s6b-base").setAttribute("y2", baseY);
+        $("s6b-basetx").setAttribute("y", baseY - 14);
+        const promoW = [6, 7], dipW = [8, 9];
+        const bxc = (w) => w * (bw + gap) + bw / 2;
+        // ranked ROI bars (right column)
+        const rg = $("s6b-rankbars"), order = [2, 3, 1, 0], names = ["Price cut −20%", "Multibuy 3 for 2", "Feature + display", "Price cut −10%"];
+        const rank = [], rankTx = [], rankV = [];
+        const RX = (v) => (v / 4) * 520;
+        order.forEach((mi, k) => {
+          const y = 50 + k * 66;
+          const t = document.createElementNS(NS, "text"); t.setAttribute("x", 0); t.setAttribute("y", y + 14); t.setAttribute("font-size", 17); t.setAttribute("font-weight", 600); t.setAttribute("fill", "#555555"); t.setAttribute("font-family", "Sora"); t.textContent = names[mi];
+          const r = document.createElementNS(NS, "rect"); r.setAttribute("x", 0); r.setAttribute("y", y + 22); r.setAttribute("height", 26); r.setAttribute("rx", 8); r.setAttribute("fill", mi === 2 ? "#f19526" : "#b7b1e3");
+          const v = document.createElementNS(NS, "text"); v.setAttribute("y", y + 42); v.setAttribute("font-size", 18); v.setAttribute("font-weight", 800); v.setAttribute("fill", mi === 2 ? "#f19526" : "#534ab7"); v.setAttribute("font-family", "Sora");
+          rg.appendChild(t); rg.appendChild(r); rg.appendChild(v); rank.push({ r, v, mi });
+        });
+        $("s6b-be").setAttribute("x1", RX(1)); $("s6b-be").setAttribute("x2", RX(1)); $("s6b-betx").setAttribute("x", RX(1));
+
+        const drv = { t: 0 };
+        function stateAt(t) {
+          // blend from previous selection to current over 0.4s after each click
+          let cur = null, prev = null, k = 1;
+          for (let c = 0; c < clicks.length; c++) if (t >= clicks[c].t) { prev = cur; cur = clicks[c]; }
+          if (!cur) return { up: 0, dip: 0, roi: 0, sel: -1 };
+          k = eOut(seg(t, cur.t + 0.05, cur.t + 0.45));
+          const a = prev ? M[prev.i] : { up: 0, dip: 0, roi: 0 }, b = M[cur.i];
+          return { up: lerp(a.up, b.up, k), dip: lerp(a.dip, b.dip, k), roi: lerp(a.roi, b.roi, k), sel: cur.i };
+        }
+        function draw() {
+          const t = drv.t;
+          const grow = eOut(seg(t, 0.2, 0.9));
+          const st = stateAt(t);
+          const best = st.sel === 2;
+          for (let w = 0; w < NW; w++) {
+            let v = 100 + 6 * Math.sin(w * 1.3);
+            let u = 0;
+            if (promoW.includes(w)) u = 100 * st.up * (w === 7 ? 0.8 : 1);
+            if (dipW.includes(w)) v = 100 * (1 - st.dip * (w === 8 ? 1 : 0.5));
+            const hb = Math.min(v, 100 + (promoW.includes(w) ? 0 : 6 * Math.sin(w * 1.3))) * scale * grow;
+            base[w].setAttribute("y", YB - hb); base[w].setAttribute("height", hb);
+            base[w].setAttribute("fill", dipW.includes(w) && st.sel >= 0 ? "#8c88b8" : "#dcd9f3");
+            const hu = u * scale * grow;
+            upr[w].setAttribute("y", YB - hb - hu); upr[w].setAttribute("height", Math.max(0, hu));
+            upr[w].setAttribute("fill", best ? "#f19526" : "#7751ff");
+          }
+          const upTop = YB - (100 + 100 * st.up) * scale * grow;
+          $("s6b-uptx").setAttribute("x", (bxc(6) + bxc(7)) / 2); $("s6b-uptx").setAttribute("y", upTop - 14);
+          $("s6b-uptx").setAttribute("fill", best ? "#f19526" : "#7751ff");
+          $("s6b-uptx").setAttribute("opacity", st.sel >= 0 ? 1 : 0);
+          $("s6b-diptx").setAttribute("x", (bxc(8) + bxc(9)) / 2 + 40); $("s6b-diptx").setAttribute("y", baseY - 14 - 30);
+          $("s6b-diptx").setAttribute("opacity", st.sel >= 0 ? 1 : 0);
+          $("kpi-up").textContent = "+" + Math.round(st.up * 100) + "%";
+          $("kpi-dip").textContent = (st.dip > 0.001 ? "−" : "") + Math.round(st.dip * 100) + "%";
+          $("kpi-roi").textContent = st.roi.toFixed(1) + "×";
+          $("kpi-roi").style.color = best ? "#f19526" : "#1a1a4e";
+          $("kpi-roi-card").style.borderColor = best ? "#f19526" : "#eeedfe";
+          for (let i = 0; i < 4; i++) {
+            const el = $("mp" + i), on = st.sel === i;
+            el.style.background = on ? (i === 2 ? "#f19526" : "#534ab7") : "#ffffff";
+            el.style.color = on ? "#ffffff" : "#534ab7";
+            el.style.borderColor = on ? (i === 2 ? "#f19526" : "#534ab7") : "#dedcf3";
+          }
+          // cursor travels pill to pill
+          let cx = 230, cy = 330;
+          for (let c = 0; c < clicks.length; c++) {
+            const tx = 170 + clicks[c].i * (230 + 14) + 230 * 0.55, ty = 244 + 30;
+            const k = eInOut(seg(t, clicks[c].t - 0.55, clicks[c].t - 0.05));
+            cx = lerp(cx, tx, k); cy = lerp(cy, ty, k);
+          }
+          const pressed = clicks.some((c) => t >= c.t - 0.05 && t < c.t + 0.12);
+          $("s6b-cursor").style.transform = `translate(${cx.toFixed(1)}px, ${cy.toFixed(1)}px) scale(${pressed ? 0.85 : 1})`;
+          $("s6b-cursor").style.opacity = (seg(t, 0.1, 0.3) * (1 - seg(t, 4.5, 4.8))).toFixed(3);
+          // hero number + ranked bars
+          const h = eOut(seg(t, 4.5, 6.1));
+          $("s6b-num").textContent = (2.7 * h).toFixed(1) + "×";
+          rank.forEach((o, k) => {
+            const g2 = eOut(seg(t, 4.8 + k * 0.15, 5.6 + k * 0.15));
+            const v = M[o.mi].roi * g2;
+            o.r.setAttribute("width", Math.max(0.1, RX(v)).toFixed(1));
+            o.v.setAttribute("x", (RX(v) + 10).toFixed(1));
+            o.v.textContent = g2 > 0.02 ? v.toFixed(1) + "×" : "";
+          });
+        }
+        tl.to(drv, { t: S.s7 - S.s6b, duration: S.s7 - S.s6b, ease: "none", onUpdate: draw }, t0);
+        tl.fromTo("#s6b-card", { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, t0 + 0.05);
+        tl.fromTo(["#s6b-head", "#s6b-pills", "#s6b-chart", "#s6b-kpis"], { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.1, ease: "power3.out" }, t0 + 0.2);
+        tl.fromTo("#s6b-tag", { opacity: 0 }, { opacity: 1, duration: 0.4 }, t0 + 0.8);
+        tl.fromTo(["#s6b-right", "#s6b-rank"], { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.5, stagger: 0.12 }, t0 + 0.07 + BAR * 2 + 0.2);
+        draw();
+      })();
+
+      // =========================== S7 ===========================
+      (function () {
+        const t0 = S.s7;
+        const NS = "http://www.w3.org/2000/svg", g = $("s7-cells");
+        const promo = [5, 6, 12, 17, 18, 24, 29, 30, 36, 41, 46, 47];
+        const worth = [5, 6, 29, 30, 46];
+        const cw = 1680 / 52, cells = [];
+        for (let w = 0; w < 52; w++) {
+          const r = document.createElementNS(NS, "rect");
+          r.setAttribute("x", (w * cw + 2).toFixed(1)); r.setAttribute("width", (cw - 4).toFixed(1)); r.setAttribute("rx", 5);
+          g.appendChild(r); cells.push(r);
+        }
+        const drv = { t: 0 };
+        function draw() {
+          const t = drv.t;
+          for (let w = 0; w < 52; w++) {
+            const isP = promo.includes(w), isW = worth.includes(w);
+            const fill = eOut(seg(t, 0.5 + w * 0.018, 0.8 + w * 0.018));
+            let h = 120, col = "#e7e5f6";
+            if (!isP && fill > 0) col = fill > 0.5 ? "#1a1a4e" : "#c9c6e8";
+            if (isP) {
+              const rise = eBack(seg(t, 2.3 + (w / 52) * 0.6, 2.75 + (w / 52) * 0.6));
+              h = 120 + 150 * rise;
+              col = rise > 0.05 ? "#7751ff" : "#e7e5f6";
+              const sc = seg(t, 3.6 + (w / 52) * 0.5, 3.85 + (w / 52) * 0.5);
+              if (sc > 0) { col = isW ? "#f19526" : "#d6d3ee"; if (!isW) h = lerp(h, 150, eOut(sc)); }
+            }
+            cells[w].setAttribute("height", h.toFixed(1));
+            cells[w].setAttribute("y", (300 - h).toFixed(1));
+            cells[w].setAttribute("fill", col);
+          }
+        }
+        draw();
+        tl.to(drv, { t: S.s8 - S.s7, duration: S.s8 - S.s7, ease: "none", onUpdate: draw }, t0);
+        tl.fromTo("#s7-chip", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.5 }, t0 + 0.07);
+        tl.fromTo("#s7-strip", { opacity: 0 }, { opacity: 1, duration: 0.3 }, t0 + 0.3);
+        tl.fromTo("#s7-a", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: "power4.out" }, t0 + 0.07 + BEAT * 2);
+        tl.fromTo("#s7-b", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, ease: "power4.out" }, t0 + 0.07 + BAR + BEAT * 2);
+        tl.fromTo("#s7-legend", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5 }, t0 + 0.07 + BAR * 2);
+      })();
+
+      // =========================== S8 ===========================
+      (function () {
+        const t0 = S.s8;
+        tl.fromTo("#s8-chip", { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.5 }, t0 + 0.07);
+        tl.fromTo("#s8-h", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.6, ease: "power4.out" }, t0 + 0.07 + BEAT);
+        ["#s8-c1", "#s8-c2", "#s8-c3"].forEach((c, i) =>
+          tl.fromTo(c, { opacity: 0, y: 80 }, { opacity: 1, y: 0, duration: 0.6, ease: "back.out(1.4)" }, t0 + 0.07 + BAR * 0.5 + BEAT * 2 * i));
+        ["#s8-c1 .icon", "#s8-c2 .icon", "#s8-c3 .icon"].forEach((c, i) =>
+          tl.fromTo(c, { scale: 0.4, rotation: -12 }, { scale: 1, rotation: 0, duration: 0.5, ease: "back.out(2.4)" }, t0 + 0.07 + BAR * 0.5 + BEAT * 2 * i + 0.15));
+      })();
+
+      // =========================== S9 ===========================
+      (function () {
+        const t0 = S.s9;
+        tl.fromTo("#s9-l1", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.6, ease: "power4.out" }, t0 + 0.02);
+        tl.fromTo("#s9-l2", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.6, ease: "power4.out" }, t0 + 0.07 + BEAT * 2);
+        tl.fromTo("#s9-logo", { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.8, ease: "power3.out" }, t0 + 0.07 + BAR);
+        tl.fromTo("#s9-chip", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.5 }, t0 + 0.07 + BAR + BEAT * 2);
+        tl.fromTo("#s9-url", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.8)" }, t0 + 0.07 + BAR * 2);
+        tl.fromTo("#s9-foot", { opacity: 0 }, { opacity: 1, duration: 0.6 }, t0 + 0.07 + BAR * 2 + BEAT * 2);
+      })();
+
+      // mini logo
+      tl.fromTo("#minilogo-img", { opacity: 0 }, { opacity: 1, duration: 0.5 }, S.s4 + 0.3);
+      tl.to("#minilogo-img", { opacity: 0, duration: 0.3 }, S.s9 - 0.35);
+
+      // scene exits — every element tagged .ex leaves on the bar line before the next scene
+      [["s1", S.s2], ["s2", S.s3], ["s3", S.s4], ["s5a", S.s5b], ["s5b", S.s6a], ["s6a", S.s6b], ["s6b", S.s7], ["s7", S.s8], ["s8", S.s9]].forEach(([id, end]) => {
+        tl.to(`#${id} .ex`, { opacity: 0, y: -24, duration: 0.32, ease: "power2.in", stagger: 0.02 }, end - 0.42);
+      });
+
+      window.__timelines["main"] = tl;
+    </script>
+
+    <!-- ================= three.js: 3D value landscape + promotion bars ================= -->
+    <script type="module">
+      import * as THREE from "./assets/vendor/three.module.js";
+      const { S, clamp, seg, eOut, eInOut, eBack, lerp } = window.SV;
+      const canvas = document.getElementById("gl");
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, preserveDrawingBuffer: true });
+      renderer.setPixelRatio(1);
+      renderer.setSize(1920, 1080, false);
+      renderer.setClearColor(0x000000, 0);
+      renderer.autoClear = false;
+      renderer.setScissorTest(true);
+
+      const C = { navy: 0x1a1a4e, violet: 0x534ab7, bright: 0x7751ff, orange: 0xf19526, rose: 0xe0607a };
+
+      // ---------------- landscape ----------------
+      const L = new THREE.Scene();
+      const camL = new THREE.PerspectiveCamera(32, 1.5, 0.1, 200);
+      const N = 52, XR = 5, ZR = 4;
+      const H = (x, z) =>
+        2.5 * Math.exp(-((x - 0.9) ** 2 / 4.2 + (z + 0.2) ** 2 / 5)) +
+        0.75 * Math.exp(-((x + 2.9) ** 2 / 2.4 + (z - 1.8) ** 2 / 2.0)) +
+        0.16 * Math.sin(1.1 * x + 0.5) * Math.cos(0.9 * z) + 0.3;
+      const nv = (N + 1) * (N + 1);
+      const pos = new Float32Array(nv * 3), col = new Float32Array(nv * 3), base = new Float32Array(nv);
+      const cLow = new THREE.Color(0xc9c2fb), cHigh = new THREE.Color(0x5b4bd6), tmp = new THREE.Color();
+      let hmax = 0;
+      for (let i = 0; i <= N; i++) for (let j = 0; j <= N; j++) {
+        const k = i * (N + 1) + j, x = -XR + (2 * XR * j) / N, z = -ZR + (2 * ZR * i) / N;
+        pos[k * 3] = x; pos[k * 3 + 2] = z; base[k] = H(x, z); hmax = Math.max(hmax, base[k]);
+      }
+      for (let k = 0; k < nv; k++) { tmp.copy(cLow).lerp(cHigh, clamp(base[k] / hmax)); col.set([tmp.r, tmp.g, tmp.b], k * 3); }
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+      geo.setAttribute("color", new THREE.BufferAttribute(col, 3));
+      const tri = [], lines = [];
+      for (let i = 0; i < N; i++) for (let j = 0; j < N; j++) {
+        const a = i * (N + 1) + j, b = a + 1, c = a + N + 1, d = c + 1;
+        tri.push(a, c, b, b, c, d);
+      }
+      for (let i = 0; i <= N; i++) for (let j = 0; j < N; j++) { const a = i * (N + 1) + j; lines.push(a, a + 1); }
+      for (let j = 0; j <= N; j++) for (let i = 0; i < N; i++) { const a = i * (N + 1) + j; lines.push(a, a + N + 1); }
+      const surfGeo = geo.clone(); surfGeo.setIndex(tri);
+      const lineGeo = new THREE.BufferGeometry();
+      lineGeo.setAttribute("position", geo.getAttribute("position"));
+      lineGeo.setAttribute("color", geo.getAttribute("color"));
+      lineGeo.setIndex(lines);
+      surfGeo.setAttribute("position", geo.getAttribute("position"));
+      const surf = new THREE.Mesh(surfGeo, new THREE.MeshBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.22, side: THREE.DoubleSide, depthWrite: false }));
+      const wire = new THREE.LineSegments(lineGeo, new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.45 }));
+      const pts = new THREE.Points(geo, new THREE.PointsMaterial({ vertexColors: true, size: 4, sizeAttenuation: false }));
+      L.add(surf, wire, pts);
+      const floor = new THREE.GridHelper(12, 24, 0xd6d2f0, 0xe9e7f7); floor.position.y = -0.01; L.add(floor);
+
+      // guardrail (price ceiling where volume drop > 2%)
+      const XG = 2.7;
+      const guardFloor = new THREE.Mesh(new THREE.PlaneGeometry(XR - XG + 1, 2 * ZR), new THREE.MeshBasicMaterial({ color: 0xf6cfd7, transparent: true, opacity: 0.0, depthWrite: false, side: THREE.DoubleSide }));
+      guardFloor.rotation.x = -Math.PI / 2; guardFloor.position.set((XG + XR + 1) / 2, 0.005, 0); L.add(guardFloor);
+      const guardWall = new THREE.Mesh(new THREE.PlaneGeometry(2 * ZR, 3.2), new THREE.MeshBasicMaterial({ color: 0xf2b8c4, transparent: true, opacity: 0.0, depthWrite: false, side: THREE.DoubleSide }));
+      guardWall.rotation.y = Math.PI / 2; guardWall.position.set(XG, 1.6, 0); L.add(guardWall);
+      const gl = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(XG, 0.02, -ZR), new THREE.Vector3(XG, 0.02, ZR)]);
+      const guardLine = new THREE.Line(gl, new THREE.LineDashedMaterial({ color: C.rose, dashSize: 0.28, gapSize: 0.18, transparent: true, opacity: 0 }));
+      guardLine.computeLineDistances(); L.add(guardLine);
+
+      function glowTexture(hex) {
+        const c = document.createElement("canvas"); c.width = c.height = 128;
+        const g = c.getContext("2d"), gr = g.createRadialGradient(64, 64, 0, 64, 64, 64);
+        gr.addColorStop(0, hex + "ff"); gr.addColorStop(0.35, hex + "88"); gr.addColorStop(1, hex + "00");
+        g.fillStyle = gr; g.fillRect(0, 0, 128, 128);
+        return new THREE.CanvasTexture(c);
+      }
+      function marker(color, r) {
+        const grp = new THREE.Group();
+        const ball = new THREE.Mesh(new THREE.SphereGeometry(r, 24, 16), new THREE.MeshBasicMaterial({ color }));
+        const stem = new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 1, 0)]), new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.9 }));
+        const ring = new THREE.Mesh(new THREE.RingGeometry(r * 1.4, r * 1.9, 40), new THREE.MeshBasicMaterial({ color, side: THREE.DoubleSide, transparent: true }));
+        ring.rotation.x = -Math.PI / 2;
+        grp.add(ball, stem, ring);
+        return { grp, ball, stem, ring };
+      }
+      const ZM = -0.2, XY = -1.1, XRec = 0.9;
+      const mYour = marker(C.navy, 0.16); L.add(mYour.grp);
+      const mRec = marker(C.orange, 0.2); L.add(mRec.grp);
+      const glow = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTexture("#f19526"), transparent: true, depthWrite: false }));
+      L.add(glow);
+      const pulse = new THREE.Mesh(new THREE.RingGeometry(0.42, 0.48, 48), new THREE.MeshBasicMaterial({ color: C.orange, side: THREE.DoubleSide, transparent: true }));
+      pulse.rotation.x = -Math.PI / 2; L.add(pulse);
+      // scan trail from your price to the recommended price
+      const TS = 80, trailPts = new Float32Array(TS * 3);
+      const trailGeo = new THREE.BufferGeometry(); trailGeo.setAttribute("position", new THREE.BufferAttribute(trailPts, 3));
+      const trail = new THREE.Line(trailGeo, new THREE.LineBasicMaterial({ color: C.bright })); L.add(trail);
+      const head = new THREE.Mesh(new THREE.SphereGeometry(0.1, 16, 12), new THREE.MeshBasicMaterial({ color: C.bright })); L.add(head);
+
+      function setGrow(g) {
+        const p = geo.getAttribute("position");
+        for (let k = 0; k < nv; k++) p.array[k * 3 + 1] = base[k] * g;
+        p.needsUpdate = true;
+      }
+
+      // ---------------- promotion bars ----------------
+      const B = new THREE.Scene();
+      const camB = new THREE.PerspectiveCamera(32, 1.5, 0.1, 200);
+      B.add(new THREE.HemisphereLight(0xffffff, 0xcfcbe8, 1.7));
+      const dl = new THREE.DirectionalLight(0xffffff, 1.6); dl.position.set(4, 10, 8); B.add(dl);
+      const bfloor = new THREE.Mesh(new THREE.PlaneGeometry(15, 6.6), new THREE.MeshBasicMaterial({ color: 0xf3f1fd }));
+      bfloor.rotation.x = -Math.PI / 2; bfloor.position.y = -0.01; B.add(bfloor);
+      const ROWS = 4, WEEKS = 13;
+      const events = { 0: { 2: 3.0, 8: 2.8 }, 1: { 4: 2.4, 10: 2.2 }, 2: { 6: 2.0, 11: 1.9 }, 3: { 1: 1.4, 7: 1.3 } };
+      const BEST = 2;
+      const boxGeo = new THREE.BoxGeometry(0.62, 1, 0.62); boxGeo.translate(0, 0.5, 0);
+      const bars = [];
+      const bx = (w) => -6 + w * 1.0, bz = (r) => -1.8 + r * 1.2;
+      for (let r = 0; r < ROWS; r++) for (let w = 0; w < WEEKS; w++) {
+        const ev = events[r][w];
+        const h = ev || 0.5 + 0.22 * Math.abs(Math.sin(r * 3.1 + w * 1.7));
+        const m = new THREE.Mesh(boxGeo, new THREE.MeshStandardMaterial({ color: 0xcfcbea, roughness: 0.75, metalness: 0 }));
+        m.position.set(bx(w), 0, bz(r));
+        B.add(m);
+        bars.push({ m, r, w, h, ev: !!ev });
+      }
+      const scanMat = new THREE.MeshBasicMaterial({ color: C.bright, transparent: true, opacity: 0.0, depthWrite: false, side: THREE.DoubleSide });
+      const scan = new THREE.Mesh(new THREE.PlaneGeometry(5.6, 3.6), scanMat);
+      scan.rotation.y = Math.PI / 2; scan.position.y = 1.8; B.add(scan);
+      const cBase = new THREE.Color(0xcfcbea), cEv = new THREE.Color(0x7f6cf2), cMute = new THREE.Color(0xc4bfe6), cBest = new THREE.Color(0xf19526);
+
+      function setBars(t, growStart, scored, scanX) {
+        for (const b of bars) {
+          const g = eBack(seg(t, growStart + (b.w * 0.07 + b.r * 0.12), growStart + 0.55 + (b.w * 0.07 + b.r * 0.12)));
+          b.m.scale.y = Math.max(0.001, b.h * g);
+          const c = b.m.material.color;
+          if (!b.ev) { c.copy(cBase); continue; }
+          let s = scored;
+          if (scanX !== null) s = clamp((scanX - bx(b.w)) / 0.6);
+          c.copy(cEv).lerp(b.r === BEST ? cBest : cMute, s);
+        }
+      }
+
+      // ---------------- shared helpers ----------------
+      const W = 1920, HH = 1080;
+      const RECT_L4 = { x: 130, y: 372, w: 805, h: 450 }, RECT_R4 = { x: 985, y: 372, w: 805, h: 450 };
+      const RECT_3D = { x: 700, y: 100, w: 1220, h: 960 }, RECT_B = { x: 990, y: 140, w: 920, h: 880 };
+      const lerpRect = (a, b, k) => ({ x: lerp(a.x, b.x, k), y: lerp(a.y, b.y, k), w: lerp(a.w, b.w, k), h: lerp(a.h, b.h, k) });
+      function view(scene, cam, r) {
+        cam.aspect = r.w / r.h; cam.updateProjectionMatrix();
+        renderer.setViewport(r.x, HH - r.y - r.h, r.w, r.h);
+        renderer.setScissor(r.x, HH - r.y - r.h, r.w, r.h);
+        renderer.render(scene, cam);
+      }
+      const v3 = new THREE.Vector3();
+      function project(cam, r, x, y, z) {
+        v3.set(x, y, z).project(cam);
+        return { x: r.x + ((v3.x + 1) / 2) * r.w, y: r.y + ((1 - v3.y) / 2) * r.h };
+      }
+      const lab = (id) => document.getElementById(id);
+      function place(id, p, op, dx = 0, dy = 0) {
+        const el = lab(id);
+        el.style.opacity = op.toFixed(3);
+        el.style.transform = `translate(${(p.x + dx).toFixed(1)}px, ${(p.y + dy).toFixed(1)}px) translate(-50%, -100%)`;
+      }
+      function placeR(id, p, op) {
+        const el = lab(id);
+        el.style.opacity = op.toFixed(3);
+        el.style.transform = `translate(${(p.x - 12).toFixed(1)}px, ${p.y.toFixed(1)}px) translate(-100%, -50%)`;
+      }
+      const allLabels = ["lbl-your", "lbl-rec", "lbl-guard", "lbl-axis-p", "lbl-r0", "lbl-r1", "lbl-r2", "lbl-r3", "lbl-best", "lbl-weeks"];
+
+      function aimL(cam, T, r) {
+        const a = -0.95 + 0.03 * (T - S.s4);
+        const rad = 15.5 + clamp(1.6 - r.w / r.h, 0, 1) * 4;
+        cam.position.set(Math.sin(a) * rad + 0.6, 7.6, Math.cos(a) * rad);
+        cam.lookAt(0.5, 0.7, 0);
+      }
+      function aimB(cam, T, r) {
+        const a = 0.55 - 0.025 * (T - S.s4);
+        const rad = 16.5 + clamp(1.6 - r.w / r.h, 0, 1.2) * 6;
+        cam.position.set(Math.sin(a) * rad, 7.8, Math.cos(a) * rad);
+        cam.lookAt(0, 0.9, 0);
+      }
+
+      function landscapeState(T, mode) {
+        // mode "s4": orange marker shown, others hidden. mode "s5": staged reveal.
+        const lt = T - S.s5a;
+        const grow = mode === "s4" ? eOut(seg(T, S.s4 + 0.3, S.s4 + 1.7)) : 1;
+        setGrow(grow);
+        const yY = H(XY, ZM), yR = H(XRec, ZM);
+        const showYour = mode === "s5" ? eBack(seg(lt, 1.0, 1.5)) : 0;
+        const showGuard = mode === "s5" ? eOut(seg(lt, 2.0, 2.7)) : 0;
+        const scanK = mode === "s5" ? eInOut(seg(lt, 3.0, 4.5)) : 0;
+        const showRec = mode === "s4" ? grow : eBack(seg(lt, 4.5, 5.0));
+        // your price marker
+        mYour.grp.visible = showYour > 0.001;
+        mYour.grp.position.set(XY, 0, ZM);
+        mYour.ball.position.y = yY + 0.05; mYour.ball.scale.setScalar(Math.max(0.001, showYour));
+        mYour.stem.scale.y = yY * clamp(showYour); mYour.ring.material.opacity = clamp(showYour);
+        // recommended marker
+        mRec.grp.visible = showRec > 0.001;
+        mRec.grp.position.set(XRec, 0, ZM);
+        mRec.ball.position.y = yR * grow + 0.12; mRec.ball.scale.setScalar(Math.max(0.001, showRec));
+        mRec.stem.scale.y = yR * grow * clamp(showRec); mRec.ring.material.opacity = clamp(showRec);
+        glow.visible = showRec > 0.001;
+        glow.position.set(XRec, yR * grow + 0.12, ZM); glow.scale.setScalar(1.6 * clamp(showRec) * (1 + 0.08 * Math.sin(T * 5)));
+        const ph = ((T * 0.8) % 1);
+        pulse.visible = showRec > 0.5; pulse.position.set(XRec, 0.02, ZM); pulse.scale.setScalar(1 + ph * 1.6); pulse.material.opacity = (1 - ph) * 0.7;
+        // guardrail
+        guardFloor.material.opacity = 0.55 * showGuard; guardWall.material.opacity = 0.32 * showGuard;
+        guardWall.scale.y = Math.max(0.001, showGuard); guardWall.position.y = 1.6 * showGuard;
+        guardLine.material.opacity = showGuard;
+        // scan trail
+        const n = Math.max(2, Math.floor(TS * scanK));
+        for (let i = 0; i < TS; i++) {
+          const x = lerp(XY, XRec, (i / (TS - 1)) * scanK);
+          trailPts[i * 3] = x; trailPts[i * 3 + 1] = H(x, ZM) + 0.06; trailPts[i * 3 + 2] = ZM;
+        }
+        trailGeo.getAttribute("position").needsUpdate = true;
+        trailGeo.setDrawRange(0, n);
+        trail.visible = head.visible = scanK > 0.001 && mode === "s5";
+        const hx = lerp(XY, XRec, scanK); head.position.set(hx, H(hx, ZM) + 0.08, ZM);
+        return { showYour, showGuard, showRec, yY, yR: yR * grow };
+      }
+
+      function hideLabels() { for (const id of allLabels) lab(id).style.opacity = "0"; }
+
+      function renderAt(T) {
+        renderer.setViewport(0, 0, W, HH); renderer.setScissor(0, 0, W, HH); renderer.clear();
+        hideLabels();
+        let op = 0;
+        if (T >= S.s4 && T < S.s5a + 0.6) {
+          op = eOut(seg(T, S.s4 + 0.15, S.s4 + 0.7));
+          const k = eInOut(seg(T, S.s5a - 0.4, S.s5a + 0.5));
+          const rL = k > 0 ? lerpRect(RECT_L4, RECT_3D, k) : RECT_L4;
+          const st = landscapeState(T, k > 0.5 ? "s5" : "s4");
+          aimL(camL, T, rL); view(L, camL, rL);
+          if (k < 0.02) {
+            setBars(T, S.s4 + 0.4, 1, null);
+            aimB(camB, T, RECT_R4); view(B, camB, RECT_R4);
+          }
+        } else if (T >= S.s5a && T < S.s5b) {
+          op = 1 - seg(T, S.s5b - 0.45, S.s5b - 0.1);
+          const st = landscapeState(T, "s5");
+          aimL(camL, T, RECT_3D); view(L, camL, RECT_3D);
+          const lt = T - S.s5a;
+          place("lbl-your", project(camL, RECT_3D, XY, st.yY + 0.3, ZM), clamp(st.showYour) * op, 0, -10);
+          place("lbl-rec", project(camL, RECT_3D, XRec, st.yR + 0.45, ZM), clamp(st.showRec) * op, 0, -14);
+          place("lbl-guard", project(camL, RECT_3D, XG + 1.3, 0, ZR - 0.6), st.showGuard * op, 0, 0);
+          place("lbl-axis-p", project(camL, RECT_3D, 1.0, 0, ZR + 0.4), eOut(seg(lt, 0.6, 1.2)) * op, 0, 46);
+        } else if (T >= S.s6a && T < S.s6b) {
+          op = eOut(seg(T, S.s6a + 0.05, S.s6a + 0.5)) * (1 - seg(T, S.s6b - 0.45, S.s6b - 0.1));
+          const lt = T - S.s6a;
+          const scanX = lt < 3.0 ? -99 : lerp(-6.8, 7.2, eInOut(seg(lt, 3.0, 4.6)));
+          setBars(T, S.s6a + 0.15, 0, scanX);
+          scan.position.x = scanX; scanMat.opacity = lt > 2.9 && lt < 4.7 ? 0.14 : 0;
+          aimB(camB, T, RECT_B); view(B, camB, RECT_B);
+          const rowOp = eOut(seg(lt, 1.2, 1.7)) * op;
+          for (let r = 0; r < 4; r++) {
+            const dim = lt > 4.6 && r !== BEST ? 0.55 : 1;
+            placeR("lbl-r" + r, project(camB, RECT_B, bx(0) - 0.5, 0.1, bz(r)), rowOp * dim);
+          }
+          place("lbl-weeks", project(camB, RECT_B, bx(5), 0, bz(3) + 0.9), eOut(seg(lt, 1.4, 1.9)) * op, 0, 52);
+          const bestBar = bars.find((b) => b.r === BEST && b.w === 6);
+          place("lbl-best", project(camB, RECT_B, bx(6) + 2.5, bestBar.h + 0.6, bz(BEST)), eBack(seg(lt, 4.7, 5.2)) * op, 0, -6);
+        }
+        scan.visible = T >= S.s6a && T < S.s6b;
+        canvas.style.opacity = op.toFixed(3);
+      }
+
+      window.addEventListener("hf-seek", (e) => renderAt(e.detail.time));
+      renderAt(window.__hfThreeTime || 0);
+    </script>
+  </body>
+</html>
