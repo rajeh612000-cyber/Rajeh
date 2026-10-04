@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1080">
-<title>Smart Value – static post</title>
+<title>Smart Value – LinkedIn post</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 <style>
-  /* Brand tokens: live Elementor kit + homepage card system */
+  /* Brand tokens: live Elementor kit */
   :root {
-    --ink: #1a1a4e; --text: #555555; --primary: #7751ff; --deep: #534ab7; --light: #8c5fd6;
-    --lilac: #eeedfe; --border: #e0dff8; --num: #a09de8; --accent: #f19526; --soft: #f8f6ff;
+    --ink: #1a1a4e; --text: #4a4a68; --primary: #7751ff; --deep: #534ab7; --light: #8c5fd6;
+    --lilac: #eeedfe; --num: #a09de8; --accent: #f19526; --soft: #f8f6ff;
     /* the 3D scenes read these */
     --svp-ink: #1a1a4e; --svp-primary: #7751ff; --svp-deep: #534ab7; --svp-light: #8c5fd6; --svp-lilac: #eeedfe; --svp-accent: #f19526;
   }
@@ -18,113 +18,81 @@
   html, body { width: 1080px; height: 1350px; background: #fff; }
   body { font-family: 'Sora', sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
 
-  .post { position: relative; width: 1080px; height: 1350px; overflow: hidden; padding: 56px 64px 0;
+  .post { position: relative; width: 1080px; height: 1350px; overflow: hidden; padding: 58px 64px 0;
     background:
-      radial-gradient(55% 40% at 92% 6%, rgba(139, 92, 246, .16), transparent 70%),
-      radial-gradient(45% 30% at 0% 100%, rgba(241, 149, 38, .10), transparent 70%),
-      radial-gradient(60% 35% at 50% 62%, rgba(238, 237, 254, .9), transparent 75%),
+      radial-gradient(50% 34% at 100% 0%, rgba(139, 92, 246, .14), transparent 70%),
+      radial-gradient(40% 26% at 0% 100%, rgba(241, 149, 38, .10), transparent 70%),
       #fff; }
-  /* faint dot grid, top right */
-  .post::before { content: ""; position: absolute; top: 0; right: 0; width: 460px; height: 380px; pointer-events: none;
-    background-image: radial-gradient(rgba(83, 74, 183, .16) 1.4px, transparent 1.6px); background-size: 22px 22px;
-    -webkit-mask-image: radial-gradient(80% 80% at 100% 0%, #000 30%, transparent 75%); mask-image: radial-gradient(80% 80% at 100% 0%, #000 30%, transparent 75%); }
 
-  .top { position: relative; display: flex; align-items: center; justify-content: space-between; }
   /* logo crop: source 2560x1118, content box ~ x230..2330, y170..950 */
   .logo { width: 236px; height: 87.7px; background: url('logo.png') no-repeat; background-size: 287.7px auto;
     background-position: -25.9px -19.1px; mix-blend-mode: multiply; }
-  .tag { font-size: 15px; font-weight: 600; letter-spacing: .14em; color: var(--deep); background: #fff;
-    border: 1.5px solid var(--num); border-radius: 999px; padding: 9px 20px; }
 
-  .eyebrow { position: relative; display: inline-flex; align-items: center; gap: 10px; margin-top: 30px;
-    font-size: 15px; font-weight: 600; letter-spacing: .16em; color: var(--deep); }
-  .eyebrow i { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 5px rgba(241, 149, 38, .18); }
+  .eyebrow { display: flex; align-items: center; gap: 12px; margin-top: 46px;
+    font-size: 17px; font-weight: 600; letter-spacing: .18em; color: var(--deep); }
+  .eyebrow i { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 6px rgba(241, 149, 38, .18); }
 
-  h1 { position: relative; margin-top: 14px; font-size: 64px; line-height: 1.08; font-weight: 800; letter-spacing: -.025em; color: var(--ink); text-wrap: balance; }
-  h1 span { color: var(--deep); }
-  .sub { position: relative; margin-top: 16px; font-size: 26px; line-height: 1.42; font-weight: 300; color: var(--text); max-width: 900px; }
-  .sub b { font-weight: 600; color: var(--ink); }
+  h1 { margin-top: 18px; font-size: 92px; line-height: 1.02; font-weight: 800; letter-spacing: -.035em; color: var(--ink); }
+  h1 span { display: block; color: var(--deep); }
+  .sub { margin-top: 22px; font-size: 32px; line-height: 1.3; font-weight: 400; color: var(--text); }
+  .sub b { font-weight: 700; color: var(--ink); }
 
-  .cards { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 28px; }
-  .card { position: relative; overflow: hidden; background: #fff; border: 1.5px solid var(--border); border-radius: 22px 22px 22px 6px;
-    box-shadow: 0 18px 40px -18px rgba(83, 74, 183, .35); }
-  .card::before { content: ""; position: absolute; top: 0; left: 0; width: 84px; height: 84px; z-index: 2; pointer-events: none;
-    background: linear-gradient(135deg, var(--lilac) 0%, rgba(238, 237, 254, 0) 100%); clip-path: polygon(0 0, 100% 0, 0 100%); }
-  .card::after { content: ""; position: absolute; left: 0; bottom: 0; height: 5px; width: 100%;
-    background: linear-gradient(90deg, var(--deep), var(--num)); }
-  .card--promo::after { background: linear-gradient(90deg, var(--accent), #f7b56a); }
-  .viz { position: relative; height: 192px; background: linear-gradient(180deg, var(--soft), #fff); border-bottom: 1.5px solid var(--border); }
+  /* the comparison: one soft panel, two halves, no web-style cards */
+  .split { position: relative; display: grid; grid-template-columns: 1fr 1fr; margin-top: 40px;
+    border-radius: 40px 40px 40px 12px; overflow: hidden;
+    background: linear-gradient(180deg, var(--soft) 0%, var(--lilac) 100%); }
+  .split::after { content: ""; position: absolute; left: 50%; top: 40px; bottom: 40px; width: 2px; transform: translateX(-1px);
+    background: linear-gradient(180deg, transparent, rgba(83, 74, 183, .22) 15%, rgba(83, 74, 183, .22) 85%, transparent); }
+  .vs { position: absolute; left: 50%; top: 150px; z-index: 2; width: 66px; height: 66px; margin-left: -33px; border-radius: 50%;
+    display: grid; place-items: center; background: var(--accent); color: #fff; font-size: 22px; font-weight: 800; letter-spacing: .02em;
+    box-shadow: 0 0 0 8px #fff, 0 12px 26px -6px rgba(241, 149, 38, .55); }
+  .half { position: relative; display: flex; flex-direction: column; padding: 0 38px 36px; }
+  .viz { position: relative; height: 350px; margin: 6px -18px 0; }
   .viz canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-  .body { padding: 18px 26px 26px; }
-  .kicker { display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 700; letter-spacing: .16em; color: var(--deep); }
-  .kicker span { color: var(--num); letter-spacing: .1em; }
-  .card h2 { margin-top: 10px; font-size: 34px; line-height: 1.12; font-weight: 700; letter-spacing: -.01em; color: var(--ink); }
-  .card p { margin-top: 10px; font-size: 21px; line-height: 1.42; font-weight: 400; color: var(--text); }
-  .card p b { color: var(--ink); font-weight: 600; }
-  .proof { display: inline-flex; align-items: center; gap: 9px; margin-top: 14px; padding: 9px 16px; border-radius: 999px;
-    font-size: 16.5px; font-weight: 600; color: #fff; background: linear-gradient(90deg, var(--deep), var(--light)); box-shadow: 0 6px 16px rgba(83, 74, 183, .3); }
-  .proof i { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+  .name { margin-top: 8px; font-size: 17px; font-weight: 700; letter-spacing: .18em; color: var(--deep); }
+  .line { margin-top: 10px; font-size: 30px; line-height: 1.25; font-weight: 700; letter-spacing: -.01em; color: var(--ink); }
+  .stat { display: flex; align-items: baseline; gap: 12px; margin-top: 26px; }
+  .stat b { font-size: 60px; line-height: 1; font-weight: 800; letter-spacing: -.03em; color: var(--deep); }
+  .stat span { font-size: 18px; line-height: 1.3; font-weight: 500; color: var(--text); }
 
-  .who { position: relative; margin-top: 24px; }
-  .who h3 { font-size: 15px; font-weight: 700; letter-spacing: .16em; color: var(--deep); }
-  .who ul { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 12px; }
-  .who li { background: var(--soft); border: 1.5px solid var(--border); border-radius: 16px 16px 16px 5px; padding: 12px 18px 14px; }
-  .who strong { display: block; font-size: 19px; font-weight: 700; color: var(--ink); }
-  .who span { display: block; margin-top: 4px; font-size: 17.5px; line-height: 1.35; font-weight: 400; color: var(--text); }
+  .aud { margin-top: 30px; font-size: 26px; line-height: 1.35; font-weight: 400; color: var(--text); }
+  .aud b { font-weight: 700; color: var(--ink); }
 
-  .foot { position: absolute; left: 64px; right: 64px; bottom: 74px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-  .cta { display: inline-flex; align-items: center; gap: 12px; padding: 17px 30px; border-radius: 999px; font-size: 22px; font-weight: 600; color: #fff;
-    background: var(--primary); box-shadow: 0 10px 24px -6px rgba(119, 81, 255, .55); }
-  .url { font-size: 22px; font-weight: 600; color: var(--ink); }
-  .fine { position: absolute; left: 64px; right: 64px; bottom: 30px; font-size: 12.5px; line-height: 1.45; color: #8b89a8; }
+  .foot { position: absolute; left: 64px; right: 64px; bottom: 40px; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
+  .url { font-size: 26px; font-weight: 700; color: var(--deep); white-space: nowrap; }
+  .fine { max-width: 470px; font-size: 13.5px; line-height: 1.45; color: #8b89a8; text-align: right; }
 </style>
 </head>
 <body>
 <div class="post">
-  <div class="top">
-    <div class="logo" role="img" aria-label="Smart Value AI Solutions"></div>
-    <span class="tag">FOR FMCG BRANDS</span>
-  </div>
+  <div class="logo" role="img" aria-label="Smart Value AI Solutions"></div>
 
   <p class="eyebrow"><i></i>PREDICT BEFORE YOU DECIDE</p>
-  <h1>Test your next price or promotion move <span>before you commit.</span></h1>
-  <p class="sub">Measurement tools show what happened. <b>Smart Value™ shows what to do next</b>, tested on your own data.</p>
+  <h1>Which price?<span>Which promotion?</span></h1>
+  <p class="sub">Test both on <b>your own data</b>, before you commit.</p>
 
-  <div class="cards">
-    <article class="card">
-      <div class="viz"><canvas data-scene="price" data-value="4" data-zoom="0.84"></canvas></div>
-      <div class="body">
-        <div class="kicker">PRICING <span>01</span></div>
-        <h2>Price Optimizer</h2>
-        <p><b>Which price?</b> Sets your everyday price, SKU by SKU, to grow revenue and margin while protecting volume.</p>
-        <span class="proof"><i></i>92% model confidence*</span>
-      </div>
-    </article>
-    <article class="card card--promo">
-      <div class="viz"><canvas data-scene="promo" data-zoom="0.62"></canvas></div>
-      <div class="body">
-        <div class="kicker">PROMOTIONS <span>02</span></div>
-        <h2>Promotion Planner</h2>
-        <p><b>Which promotion?</b> Simulates every deal first, so trade spend backs only the promotions that pay back.</p>
-        <span class="proof"><i></i>2.7× blended ROI (simulated)</span>
-      </div>
-    </article>
+  <div class="split">
+    <div class="half">
+      <div class="viz"><canvas data-scene="price" data-value="4" data-zoom="0.86"></canvas></div>
+      <p class="name">PRICE OPTIMIZER</p>
+      <p class="line">Sets your everyday price, SKU by SKU.</p>
+      <p class="stat"><b>92%</b><span>model<br>confidence*</span></p>
+    </div>
+    <div class="vs">vs</div>
+    <div class="half">
+      <div class="viz"><canvas data-scene="promo" data-zoom="0.71"></canvas></div>
+      <p class="name">PROMOTION PLANNER</p>
+      <p class="line">Tests every deal before the budget is spent.</p>
+      <p class="stat"><b>2.7×</b><span>blended ROI<br>(simulated)</span></p>
+    </div>
   </div>
 
-  <section class="who">
-    <h3>BUILT FOR FMCG TEAMS</h3>
-    <ul>
-      <li><strong>Commercial &amp; Sales</strong><span>A price you can defend in every negotiation</span></li>
-      <li><strong>Finance</strong><span>Margin moves tested before they hit the P&amp;L</span></li>
-      <li><strong>Marketing</strong><span>Promotions that prove their return</span></li>
-    </ul>
-  </section>
+  <p class="aud">For <b>Commercial &amp; Sales</b>, <b>Finance</b> and <b>Marketing</b> teams at FMCG brands.</p>
 
   <div class="foot">
-    <span class="cta">Test one decision on your data →</span>
     <span class="url">smartvalueaisolutions.com</span>
+    <p class="fine">*Validated against real market outcomes on an actual pricing recommendation. ROI from simulation.</p>
   </div>
-  <p class="fine">*Models validated against real market outcomes: 92% confidence on an actual pricing recommendation. Promotion ROI from simulation. Each solution is sold and used on its own.</p>
 </div>
 
 <script type="module">

@@ -18,9 +18,16 @@ await page.evaluate(() => document.fonts.ready);
 await page.waitForTimeout(300);
 const out = process.argv[2] || 'smartvalue-static-post.jpg';
 await page.screenshot({ path: new URL(out, here).pathname, type: 'jpeg', quality: 92, clip: { x: 0, y: 0, width: 1080, height: 1350 } });
-const fit = await page.evaluate(() => {             // vertical gap between the last content block and the footer
-  const who = document.querySelector('.who'), foot = document.querySelector('.foot');
-  return who && foot ? { gapAboveFooter: Math.round(foot.getBoundingClientRect().top - who.getBoundingClientRect().bottom) } : {};
+const fit = await page.evaluate(() => {             // layout guards: nothing past the side margins, room above the footer
+  const right = 1080 - 64 + 1, tooWide = [];
+  document.querySelectorAll('.post *').forEach((e) => {
+    const r = e.getBoundingClientRect();
+    if (r.width && r.right > right && !e.closest('.split')) tooWide.push(`${e.tagName.toLowerCase()}.${e.className || ''}`);
+  });
+  const h1 = document.querySelector('h1'), range = document.createRange(); range.selectNodeContents(h1);
+  const lineRight = Math.max(...[...range.getClientRects()].map((r) => r.right));
+  const last = document.querySelector('.aud') || document.querySelector('.who'), foot = document.querySelector('.foot');
+  return { tooWide, h1Right: Math.round(lineRight), gapAboveFooter: last && foot ? Math.round(foot.getBoundingClientRect().top - last.getBoundingClientRect().bottom) : null };
 });
 console.log('rendered', out, '| overflow:', JSON.stringify(fit), '| errors:', errors);
 await browser.close();

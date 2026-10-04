@@ -1,12 +1,12 @@
 # LinkedIn caption (static post)
 
-Most FMCG teams can see what happened last quarter. Fewer can test their next move before they make it.
+Which price? Which promotion? Most FMCG teams still answer both from last year's numbers.
 
-Smart Value™ runs your price and promotion decisions on your own data first.
+Smart Value™ lets you test both on your own data, before you commit.
 
-Price Optimizer answers "which price?" It sets your everyday price, SKU by SKU, to grow revenue and margin while protecting volume. Our models are validated against real market outcomes, with 92% confidence on an actual pricing recommendation.
+Price Optimizer sets your everyday price, SKU by SKU, to grow revenue and margin while protecting volume. Its models are validated against real market outcomes, with 92% confidence on an actual pricing recommendation.
 
-Promotion Planner answers "which promotion?" It simulates every deal before the budget is committed, so trade spend backs only the promotions that pay back.
+Promotion Planner tests every deal before the budget is spent, so trade spend backs only the promotions that pay back (2.7× blended ROI in simulation).
 
 Built for FMCG teams:
 • Commercial & Sales: a price you can defend in every negotiation
@@ -15,6 +15,6 @@ Built for FMCG teams:
 
 Each solution is sold and used on its own. Start with one decision.
 
-Test yours: smartvalueaisolutions.com
+smartvalueaisolutions.com
 
 #FMCG #RevenueGrowthManagement #PricingStrategy #TradePromotion #CPG
