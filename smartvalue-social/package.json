@@ -1,0 +1,7 @@
+{
+  "name": "smartvalue-social",
+  "private": true,
+  "type": "module",
+  "scripts": { "build": "node build-post.mjs", "render": "node render.mjs" },
+  "devDependencies": { "playwright": "^1.63.0" }
+}

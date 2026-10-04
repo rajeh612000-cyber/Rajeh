@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<title>Smart Value – static post</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* Brand tokens: live Elementor kit + homepage card system */
+  :root {
+    --ink: #1a1a4e; --text: #555555; --primary: #7751ff; --deep: #534ab7; --light: #8c5fd6;
+    --lilac: #eeedfe; --border: #e0dff8; --num: #a09de8; --accent: #f19526; --soft: #f8f6ff;
+    /* the 3D scenes read these */
+    --svp-ink: #1a1a4e; --svp-primary: #7751ff; --svp-deep: #534ab7; --svp-light: #8c5fd6; --svp-lilac: #eeedfe; --svp-accent: #f19526;
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1350px; background: #fff; }
+  body { font-family: 'Sora', sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+
+  .post { position: relative; width: 1080px; height: 1350px; overflow: hidden; padding: 56px 64px 0;
+    background:
+      radial-gradient(55% 40% at 92% 6%, rgba(139, 92, 246, .16), transparent 70%),
+      radial-gradient(45% 30% at 0% 100%, rgba(241, 149, 38, .10), transparent 70%),
+      radial-gradient(60% 35% at 50% 62%, rgba(238, 237, 254, .9), transparent 75%),
+      #fff; }
+  /* faint dot grid, top right */
+  .post::before { content: ""; position: absolute; top: 0; right: 0; width: 460px; height: 380px; pointer-events: none;
+    background-image: radial-gradient(rgba(83, 74, 183, .16) 1.4px, transparent 1.6px); background-size: 22px 22px;
+    -webkit-mask-image: radial-gradient(80% 80% at 100% 0%, #000 30%, transparent 75%); mask-image: radial-gradient(80% 80% at 100% 0%, #000 30%, transparent 75%); }
+
+  .top { position: relative; display: flex; align-items: center; justify-content: space-between; }
+  /* logo crop: source 2560x1118, content box ~ x230..2330, y170..950 */
+  .logo { width: 236px; height: 87.7px; background: url('logo.png') no-repeat; background-size: 287.7px auto;
+    background-position: -25.9px -19.1px; mix-blend-mode: multiply; }
+  .tag { font-size: 15px; font-weight: 600; letter-spacing: .14em; color: var(--deep); background: #fff;
+    border: 1.5px solid var(--num); border-radius: 999px; padding: 9px 20px; }
+
+  .eyebrow { position: relative; display: inline-flex; align-items: center; gap: 10px; margin-top: 30px;
+    font-size: 15px; font-weight: 600; letter-spacing: .16em; color: var(--deep); }
+  .eyebrow i { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 5px rgba(241, 149, 38, .18); }
+
+  h1 { position: relative; margin-top: 14px; font-size: 64px; line-height: 1.08; font-weight: 800; letter-spacing: -.025em; color: var(--ink); text-wrap: balance; }
+  h1 span { color: var(--deep); }
+  .sub { position: relative; margin-top: 16px; font-size: 26px; line-height: 1.42; font-weight: 300; color: var(--text); max-width: 900px; }
+  .sub b { font-weight: 600; color: var(--ink); }
+
+  .cards { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 28px; }
+  .card { position: relative; overflow: hidden; background: #fff; border: 1.5px solid var(--border); border-radius: 22px 22px 22px 6px;
+    box-shadow: 0 18px 40px -18px rgba(83, 74, 183, .35); }
+  .card::before { content: ""; position: absolute; top: 0; left: 0; width: 84px; height: 84px; z-index: 2; pointer-events: none;
+    background: linear-gradient(135deg, var(--lilac) 0%, rgba(238, 237, 254, 0) 100%); clip-path: polygon(0 0, 100% 0, 0 100%); }
+  .card::after { content: ""; position: absolute; left: 0; bottom: 0; height: 5px; width: 100%;
+    background: linear-gradient(90deg, var(--deep), var(--num)); }
+  .card--promo::after { background: linear-gradient(90deg, var(--accent), #f7b56a); }
+  .viz { position: relative; height: 192px; background: linear-gradient(180deg, var(--soft), #fff); border-bottom: 1.5px solid var(--border); }
+  .viz canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .body { padding: 18px 26px 26px; }
+  .kicker { display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 700; letter-spacing: .16em; color: var(--deep); }
+  .kicker span { color: var(--num); letter-spacing: .1em; }
+  .card h2 { margin-top: 10px; font-size: 34px; line-height: 1.12; font-weight: 700; letter-spacing: -.01em; color: var(--ink); }
+  .card p { margin-top: 10px; font-size: 21px; line-height: 1.42; font-weight: 400; color: var(--text); }
+  .card p b { color: var(--ink); font-weight: 600; }
+  .proof { display: inline-flex; align-items: center; gap: 9px; margin-top: 14px; padding: 9px 16px; border-radius: 999px;
+    font-size: 16.5px; font-weight: 600; color: #fff; background: linear-gradient(90deg, var(--deep), var(--light)); box-shadow: 0 6px 16px rgba(83, 74, 183, .3); }
+  .proof i { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+
+  .who { position: relative; margin-top: 24px; }
+  .who h3 { font-size: 15px; font-weight: 700; letter-spacing: .16em; color: var(--deep); }
+  .who ul { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 12px; }
+  .who li { background: var(--soft); border: 1.5px solid var(--border); border-radius: 16px 16px 16px 5px; padding: 12px 18px 14px; }
+  .who strong { display: block; font-size: 19px; font-weight: 700; color: var(--ink); }
+  .who span { display: block; margin-top: 4px; font-size: 17.5px; line-height: 1.35; font-weight: 400; color: var(--text); }
+
+  .foot { position: absolute; left: 64px; right: 64px; bottom: 74px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+  .cta { display: inline-flex; align-items: center; gap: 12px; padding: 17px 30px; border-radius: 999px; font-size: 22px; font-weight: 600; color: #fff;
+    background: var(--primary); box-shadow: 0 10px 24px -6px rgba(119, 81, 255, .55); }
+  .url { font-size: 22px; font-weight: 600; color: var(--ink); }
+  .fine { position: absolute; left: 64px; right: 64px; bottom: 30px; font-size: 12.5px; line-height: 1.45; color: #8b89a8; }
+</style>
+</head>
+<body>
+<div class="post">
+  <div class="top">
+    <div class="logo" role="img" aria-label="Smart Value AI Solutions"></div>
+    <span class="tag">FOR FMCG BRANDS</span>
+  </div>
+
+  <p class="eyebrow"><i></i>PREDICT BEFORE YOU DECIDE</p>
+  <h1>Test your next price or promotion move <span>before you commit.</span></h1>
+  <p class="sub">Measurement tools show what happened. <b>Smart Value™ shows what to do next</b>, tested on your own data.</p>
+
+  <div class="cards">
+    <article class="card">
+      <div class="viz"><canvas data-scene="price" data-value="4" data-zoom="0.84"></canvas></div>
+      <div class="body">
+        <div class="kicker">PRICING <span>01</span></div>
+        <h2>Price Optimizer</h2>
+        <p><b>Which price?</b> Sets your everyday price, SKU by SKU, to grow revenue and margin while protecting volume.</p>
+        <span class="proof"><i></i>92% model confidence*</span>
+      </div>
+    </article>
+    <article class="card card--promo">
+      <div class="viz"><canvas data-scene="promo" data-zoom="0.62"></canvas></div>
+      <div class="body">
+        <div class="kicker">PROMOTIONS <span>02</span></div>
+        <h2>Promotion Planner</h2>
+        <p><b>Which promotion?</b> Simulates every deal first, so trade spend backs only the promotions that pay back.</p>
+        <span class="proof"><i></i>2.7× blended ROI (simulated)</span>
+      </div>
+    </article>
+  </div>
+
+  <section class="who">
+    <h3>BUILT FOR FMCG TEAMS</h3>
+    <ul>
+      <li><strong>Commercial &amp; Sales</strong><span>A price you can defend in every negotiation</span></li>
+      <li><strong>Finance</strong><span>Margin moves tested before they hit the P&amp;L</span></li>
+      <li><strong>Marketing</strong><span>Promotions that prove their return</span></li>
+    </ul>
+  </section>
+
+  <div class="foot">
+    <span class="cta">Test one decision on your data →</span>
+    <span class="url">smartvalueaisolutions.com</span>
+  </div>
+  <p class="fine">*Models validated against real market outcomes: 92% confidence on an actual pricing recommendation. Promotion ROI from simulation. Each solution is sold and used on its own.</p>
+</div>
+
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.181.0/build/three.module.min.js';
+
+/*__SCENES__*/
+
+// Render each scene once, at a settled moment, for a crisp still frame.
+function still(canvas) {
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, preserveDrawingBuffer: true });
+  renderer.setPixelRatio(window.devicePixelRatio || 1);
+  renderer.setSize(w, h, false);
+  renderer.setClearColor(0x000000, 0);
+  const css = getComputedStyle(canvas);
+  const col = (n, f) => new THREE.Color((css.getPropertyValue(n) || '').trim() || f);
+  const pal = {
+    ink: col('--svp-ink', '#1a1a4e'), primary: col('--svp-primary', '#7751ff'), deep: col('--svp-deep', '#534ab7'),
+    light: col('--svp-light', '#8c5fd6'), lilac: col('--svp-lilac', '#eeedfe'), accent: col('--svp-accent', '#f19526'),
+    soft: new THREE.Color('#c6bbea'), pale: new THREE.Color('#e0dff8'), rose: new THREE.Color('#e8c3d3'),
+  };
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(35, w / h, 0.1, 100);
+  scene.add(new THREE.HemisphereLight(0xffffff, pal.lilac, 1.6));
+  const sun = new THREE.DirectionalLight(0xffffff, 1.5);
+  sun.position.set(3, 6, 4);
+  scene.add(sun);
+  const s = SCENES[canvas.dataset.scene](THREE, scene, pal);
+  if (canvas.dataset.value !== undefined) s.setValue(Number(canvas.dataset.value));
+  for (let i = 0, t = 0; i < 150; i++) s.update((t += 1 / 30), 1 / 30);   // 5 s of settled motion
+  const zoom = Number(canvas.dataset.zoom || 1);
+  camera.position.copy(s.target).addScaledVector(s.cam.clone().sub(s.target), zoom);
+  camera.lookAt(s.target);
+  renderer.render(scene, camera);
+}
+await document.fonts.ready;
+document.querySelectorAll('canvas[data-scene]').forEach(still);
+window.__ready = true;
+</script>
+</body>
+</html>

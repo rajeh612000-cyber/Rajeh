@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<title>Smart Value – static post</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* Brand tokens: live Elementor kit + homepage card system */
+  :root {
+    --ink: #1a1a4e; --text: #555555; --primary: #7751ff; --deep: #534ab7; --light: #8c5fd6;
+    --lilac: #eeedfe; --border: #e0dff8; --num: #a09de8; --accent: #f19526; --soft: #f8f6ff;
+    /* the 3D scenes read these */
+    --svp-ink: #1a1a4e; --svp-primary: #7751ff; --svp-deep: #534ab7; --svp-light: #8c5fd6; --svp-lilac: #eeedfe; --svp-accent: #f19526;
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1350px; background: #fff; }
+  body { font-family: 'Sora', sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+
+  .post { position: relative; width: 1080px; height: 1350px; overflow: hidden; padding: 56px 64px 0;
+    background:
+      radial-gradient(55% 40% at 92% 6%, rgba(139, 92, 246, .16), transparent 70%),
+      radial-gradient(45% 30% at 0% 100%, rgba(241, 149, 38, .10), transparent 70%),
+      radial-gradient(60% 35% at 50% 62%, rgba(238, 237, 254, .9), transparent 75%),
+      #fff; }
+  /* faint dot grid, top right */
+  .post::before { content: ""; position: absolute; top: 0; right: 0; width: 460px; height: 380px; pointer-events: none;
+    background-image: radial-gradient(rgba(83, 74, 183, .16) 1.4px, transparent 1.6px); background-size: 22px 22px;
+    -webkit-mask-image: radial-gradient(80% 80% at 100% 0%, #000 30%, transparent 75%); mask-image: radial-gradient(80% 80% at 100% 0%, #000 30%, transparent 75%); }
+
+  .top { position: relative; display: flex; align-items: center; justify-content: space-between; }
+  /* logo crop: source 2560x1118, content box ~ x230..2330, y170..950 */
+  .logo { width: 236px; height: 87.7px; background: url('logo.png') no-repeat; background-size: 287.7px auto;
+    background-position: -25.9px -19.1px; mix-blend-mode: multiply; }
+  .tag { font-size: 15px; font-weight: 600; letter-spacing: .14em; color: var(--deep); background: #fff;
+    border: 1.5px solid var(--num); border-radius: 999px; padding: 9px 20px; }
+
+  .eyebrow { position: relative; display: inline-flex; align-items: center; gap: 10px; margin-top: 30px;
+    font-size: 15px; font-weight: 600; letter-spacing: .16em; color: var(--deep); }
+  .eyebrow i { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 5px rgba(241, 149, 38, .18); }
+
+  h1 { position: relative; margin-top: 14px; font-size: 64px; line-height: 1.08; font-weight: 800; letter-spacing: -.025em; color: var(--ink); text-wrap: balance; }
+  h1 span { color: var(--deep); }
+  .sub { position: relative; margin-top: 16px; font-size: 26px; line-height: 1.42; font-weight: 300; color: var(--text); max-width: 900px; }
+  .sub b { font-weight: 600; color: var(--ink); }
+
+  .cards { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 28px; }
+  .card { position: relative; overflow: hidden; background: #fff; border: 1.5px solid var(--border); border-radius: 22px 22px 22px 6px;
+    box-shadow: 0 18px 40px -18px rgba(83, 74, 183, .35); }
+  .card::before { content: ""; position: absolute; top: 0; left: 0; width: 84px; height: 84px; z-index: 2; pointer-events: none;
+    background: linear-gradient(135deg, var(--lilac) 0%, rgba(238, 237, 254, 0) 100%); clip-path: polygon(0 0, 100% 0, 0 100%); }
+  .card::after { content: ""; position: absolute; left: 0; bottom: 0; height: 5px; width: 100%;
+    background: linear-gradient(90deg, var(--deep), var(--num)); }
+  .card--promo::after { background: linear-gradient(90deg, var(--accent), #f7b56a); }
+  .viz { position: relative; height: 192px; background: linear-gradient(180deg, var(--soft), #fff); border-bottom: 1.5px solid var(--border); }
+  .viz canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .body { padding: 18px 26px 26px; }
+  .kicker { display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 700; letter-spacing: .16em; color: var(--deep); }
+  .kicker span { color: var(--num); letter-spacing: .1em; }
+  .card h2 { margin-top: 10px; font-size: 34px; line-height: 1.12; font-weight: 700; letter-spacing: -.01em; color: var(--ink); }
+  .card p { margin-top: 10px; font-size: 21px; line-height: 1.42; font-weight: 400; color: var(--text); }
+  .card p b { color: var(--ink); font-weight: 600; }
+  .proof { display: inline-flex; align-items: center; gap: 9px; margin-top: 14px; padding: 9px 16px; border-radius: 999px;
+    font-size: 16.5px; font-weight: 600; color: #fff; background: linear-gradient(90deg, var(--deep), var(--light)); box-shadow: 0 6px 16px rgba(83, 74, 183, .3); }
+  .proof i { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+
+  .who { position: relative; margin-top: 24px; }
+  .who h3 { font-size: 15px; font-weight: 700; letter-spacing: .16em; color: var(--deep); }
+  .who ul { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 12px; }
+  .who li { background: var(--soft); border: 1.5px solid var(--border); border-radius: 16px 16px 16px 5px; padding: 12px 18px 14px; }
+  .who strong { display: block; font-size: 19px; font-weight: 700; color: var(--ink); }
+  .who span { display: block; margin-top: 4px; font-size: 17.5px; line-height: 1.35; font-weight: 400; color: var(--text); }
+
+  .foot { position: absolute; left: 64px; right: 64px; bottom: 74px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+  .cta { display: inline-flex; align-items: center; gap: 12px; padding: 17px 30px; border-radius: 999px; font-size: 22px; font-weight: 600; color: #fff;
+    background: var(--primary); box-shadow: 0 10px 24px -6px rgba(119, 81, 255, .55); }
+  .url { font-size: 22px; font-weight: 600; color: var(--ink); }
+  .fine { position: absolute; left: 64px; right: 64px; bottom: 30px; font-size: 12.5px; line-height: 1.45; color: #8b89a8; }
+</style>
+</head>
+<body>
+<div class="post">
+  <div class="top">
+    <div class="logo" role="img" aria-label="Smart Value AI Solutions"></div>
+    <span class="tag">FOR FMCG BRANDS</span>
+  </div>
+
+  <p class="eyebrow"><i></i>PREDICT BEFORE YOU DECIDE</p>
+  <h1>Test your next price or promotion move <span>before you commit.</span></h1>
+  <p class="sub">Measurement tools show what happened. <b>Smart Value™ shows what to do next</b>, tested on your own data.</p>
+
+  <div class="cards">
+    <article class="card">
+      <div class="viz"><canvas data-scene="price" data-value="4" data-zoom="0.84"></canvas></div>
+      <div class="body">
+        <div class="kicker">PRICING <span>01</span></div>
+        <h2>Price Optimizer</h2>
+        <p><b>Which price?</b> Sets your everyday price, SKU by SKU, to grow revenue and margin while protecting volume.</p>
+        <span class="proof"><i></i>92% model confidence*</span>
+      </div>
+    </article>
+    <article class="card card--promo">
+      <div class="viz"><canvas data-scene="promo" data-zoom="0.62"></canvas></div>
+      <div class="body">
+        <div class="kicker">PROMOTIONS <span>02</span></div>
+        <h2>Promotion Planner</h2>
+        <p><b>Which promotion?</b> Simulates every deal first, so trade spend backs only the promotions that pay back.</p>
+        <span class="proof"><i></i>2.7× blended ROI (simulated)</span>
+      </div>
+    </article>
+  </div>
+
+  <section class="who">
+    <h3>BUILT FOR FMCG TEAMS</h3>
+    <ul>
+      <li><strong>Commercial &amp; Sales</strong><span>A price you can defend in every negotiation</span></li>
+      <li><strong>Finance</strong><span>Margin moves tested before they hit the P&amp;L</span></li>
+      <li><strong>Marketing</strong><span>Promotions that prove their return</span></li>
+    </ul>
+  </section>
+
+  <div class="foot">
+    <span class="cta">Test one decision on your data →</span>
+    <span class="url">smartvalueaisolutions.com</span>
+  </div>
+  <p class="fine">*Models validated against real market outcomes: 92% confidence on an actual pricing recommendation. Promotion ROI from simulation. Each solution is sold and used on its own.</p>
+</div>
+
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.181.0/build/three.module.min.js';
+
+// Illustrative models behind the hero controls. Not client data: they show how
+// the decisions trade off, and the pages label them as illustrative.
+// Shared by build.mjs (the first readouts are written into the HTML, so the
+// page reads correctly before any JavaScript runs) and by the browser, where
+// build.mjs inlines this file ahead of svp-hero-3d.js.
+
+const fmtPct = (x, d = 1) => {
+  const v = Math.round(x * 10 ** d) / 10 ** d;
+  return (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v).toFixed(d) + '%';
+};
+
+// Price Optimizer: a category where volume reacts more steeply the further
+// price moves. Gross margin is 40% at today's price.
+const PRICE_MODEL = {
+  min: -10, max: 15, step: 0.5,
+  guardrail: -2,                       // worst acceptable volume change, %
+  cost: 0.6,                           // unit cost as a share of today's price
+  k1: 0.34, k2: 0.032,                 // volume response: linear + accelerating term
+  volume(p) { return -this.k1 * p - this.k2 * p * Math.abs(p); },
+  at(p) {
+    const vol = this.volume(p), q = 1 + vol / 100, price = 1 + p / 100;
+    return { p, vol, rev: (price * q - 1) * 100, mar: (((price - this.cost) * q) / (1 - this.cost) - 1) * 100 };
+  },
+  guardrailPrice() {                   // price change at which volume hits the guardrail
+    return (-this.k1 + Math.sqrt(this.k1 ** 2 - 4 * this.k2 * this.guardrail)) / (2 * this.k2);
+  },
+  best() {                             // best margin while volume stays inside the guardrail
+    let best = null;
+    for (let i = 0; this.min + i * this.step <= this.max + 1e-9; i++) {
+      const r = this.at(this.min + i * this.step);
+      if (r.vol >= this.guardrail && (!best || r.mar > best.mar)) best = r;
+    }
+    return best;
+  },
+  verdict(r) {
+    const b = this.best(), g = fmtPct(this.guardrail, 0);
+    if (Math.abs(r.p - b.p) < 0.01) return `Recommended: ${fmtPct(b.p)}. The best margin that keeps volume inside the ${g} guardrail.`;
+    if (r.vol < this.guardrail) return `Too far: volume drops ${Math.abs(r.vol).toFixed(1)}%, past the ${g} guardrail, and shoppers start switching.`;
+    if (r.p < 0) return `A price cut adds volume but gives margin away (${fmtPct(r.mar)}).`;
+    if (r.p === 0) return 'Today’s price. Move the slider to test a change.';
+    return `Inside the guardrail, with room to go. The recommended move is ${fmtPct(b.p)}.`;
+  },
+};
+
+// Promotion Planner: four promotions on the same SKU. Weeks are 0–11; the
+// dip lands in the week after each promotion ends.
+const PROMO_MODEL = {
+  promos: [
+    { label: 'Price cut −20%', start: 2, len: 2, uplift: 38, dip: 12, roi: 0.6,
+      note: 'Most volume, least return. Much of the uplift would have sold anyway, and the dip afterwards eats more: 0.6× its trade spend.' },
+    { label: 'Multibuy 3 for 2', start: 6, len: 3, uplift: 29, dip: 8, roi: 0.9,
+      note: 'Strong volume, but shoppers stock up and buy less for weeks after. It returns 0.9×, just under break-even.' },
+    { label: 'Feature + display', start: 3, len: 2, uplift: 21, dip: 3, roi: 1.6,
+      note: 'The best return of the four: 1.6× its trade spend, with almost no dip afterwards.' },
+    { label: 'Price cut −10%', start: 8, len: 2, uplift: 14, dip: 2, roi: 1.1,
+      note: 'Modest uplift, a small dip and a positive return of 1.1×. A safe one to repeat.' },
+  ],
+  bestIndex() { return this.promos.reduce((b, p, i, a) => (p.roi > a[b].roi ? i : b), 0); },
+};
+
+const clamp01 = (v) => Math.min(1, Math.max(0, v));
+
+const damp = (dt, rate) => 1 - Math.exp(-dt * rate);
+
+function dotTexture(THREE) {
+  const c = document.createElement('canvas');
+  c.width = c.height = 64;
+  const g = c.getContext('2d');
+  const grd = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+  grd.addColorStop(0, 'rgba(255,255,255,1)');
+  grd.addColorStop(0.45, 'rgba(255,255,255,.9)');
+  grd.addColorStop(1, 'rgba(255,255,255,0)');
+  g.fillStyle = grd;
+  g.fillRect(0, 0, 64, 64);
+  const t = new THREE.CanvasTexture(c);
+  t.colorSpace = THREE.SRGBColorSpace;
+  return t;
+}
+
+const SCENES = {
+
+  /* Price Optimizer: a value landscape across price changes (−10% … +15%).
+     Orange = the recommended price, ink = the visitor's price from the slider,
+     rose = beyond the volume guardrail, marked by a dashed line on the floor. */
+  price(THREE, scene, pal) {
+    const M = PRICE_MODEL, best = M.best(), guard = M.guardrailPrice();
+    const group = new THREE.Group();
+    scene.add(group);
+
+    const W = 6, D = 4, SX = 60, SZ = 40, A = 1.45, FLOOR = -0.35;
+    const xOf = (p) => ((p - M.min) / (M.max - M.min)) * W - W / 2;
+    const pOf = (x) => M.min + ((x + W / 2) / W) * (M.max - M.min);
+    const ridge = (p) => { const s = p < best.p ? 7 : 4; return A * Math.exp(-((p - best.p) ** 2) / (2 * s * s)); };
+    const height = (x, z, t) => ridge(pOf(x)) * Math.exp(-(z * z) / 5)
+      + 0.035 * Math.sin(1.7 * x + t * 0.9) * Math.cos(1.3 * z + t * 0.6);
+
+    const geo = new THREE.PlaneGeometry(W, D, SX, SZ);
+    geo.rotateX(-Math.PI / 2);
+    const pos = geo.attributes.position;
+    const colors = new Float32Array(pos.count * 3);
+    geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    const dot = dotTexture(THREE);
+
+    group.add(new THREE.Mesh(geo, new THREE.MeshBasicMaterial({
+      vertexColors: true, transparent: true, opacity: 0.22, side: THREE.DoubleSide, depthWrite: false,
+    })));
+    group.add(new THREE.Mesh(geo, new THREE.MeshBasicMaterial({
+      color: pal.light, wireframe: true, transparent: true, opacity: 0.13, depthWrite: false,
+    })));
+    group.add(new THREE.Points(geo, new THREE.PointsMaterial({
+      size: 0.075, map: dot, vertexColors: true, transparent: true, depthWrite: false,
+    })));
+
+    const grid = new THREE.GridHelper(W, 12, pal.soft, pal.soft);
+    grid.position.y = FLOOR;
+    grid.material.transparent = true;
+    grid.material.opacity = 0.45;
+    group.add(grid);
+
+    // Volume guardrail: dashed line across the floor
+    const xg = xOf(guard);
+    const guardLine = new THREE.Line(
+      new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(xg, FLOOR + 0.01, -D / 2), new THREE.Vector3(xg, FLOOR + 0.01, D / 2)]),
+      new THREE.LineDashedMaterial({ color: new THREE.Color('#c97a95'), dashSize: 0.12, gapSize: 0.08, transparent: true, opacity: 0.9 }));
+    guardLine.computeLineDistances();
+    group.add(guardLine);
+    const zone = new THREE.Mesh(new THREE.PlaneGeometry(W / 2 - xg, D),   // rose band beyond the guardrail
+      new THREE.MeshBasicMaterial({ color: pal.rose, transparent: true, opacity: 0.4, depthWrite: false }));
+    zone.rotation.x = -Math.PI / 2;
+    zone.position.set((xg + W / 2) / 2, FLOOR + 0.004, 0);
+    group.add(zone);
+
+    // A marker = sphere + halo + drop line + floor ring
+    const marker = (color, radius, haloOpacity) => {
+      const m = new THREE.Mesh(new THREE.SphereGeometry(radius, 32, 16), new THREE.MeshBasicMaterial({ color }));
+      const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: dot, color, transparent: true, opacity: haloOpacity, depthWrite: false }));
+      halo.scale.setScalar(radius * 6);
+      m.add(halo);
+      const dropGeo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]);
+      const drop = new THREE.Line(dropGeo, new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.6 }));
+      const ring = new THREE.Mesh(new THREE.RingGeometry(radius * 1.2, radius * 1.6, 48),
+        new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.8, side: THREE.DoubleSide, depthWrite: false }));
+      ring.rotation.x = -Math.PI / 2;
+      group.add(m, drop, ring);
+      return {
+        m, halo, ring,
+        at(x, y, z) {
+          m.position.set(x, y, z);
+          const p = dropGeo.attributes.position;
+          p.setXYZ(0, x, y, z);
+          p.setXYZ(1, x, FLOOR, z);
+          p.needsUpdate = true;
+          ring.position.set(x, FLOOR + 0.005, z);
+        },
+      };
+    };
+    const rec = marker(pal.accent, 0.1, 0.35);
+    const you = marker(pal.ink, 0.075, 0.18);
+
+    const tmp = new THREE.Color();
+    let target = 0, cur = 0;
+
+    return {
+      cam: new THREE.Vector3(0.4, 3.3, 7.3),
+      target: new THREE.Vector3(0, 0.35, 0),
+      setValue(p) { if (Number.isFinite(p)) target = Math.min(M.max, Math.max(M.min, p)); },
+      update(t, dt) {
+        for (let i = 0; i < pos.count; i++) {
+          const x = pos.getX(i), z = pos.getZ(i), h = height(x, z, t);
+          pos.setY(i, h);
+          tmp.copy(pal.soft).lerp(pal.primary, clamp01(h / A));
+          if (h > A * 0.9) tmp.lerp(pal.deep, (h / A - 0.9) * 6);
+          if (pOf(x) > guard) tmp.lerp(pal.rose, 0.75);
+          colors[i * 3] = tmp.r; colors[i * 3 + 1] = tmp.g; colors[i * 3 + 2] = tmp.b;
+        }
+        pos.needsUpdate = true;
+        geo.attributes.color.needsUpdate = true;
+
+        const xr = xOf(best.p);
+        rec.at(xr, height(xr, 0, t) + 0.12, 0);
+        const pulse = Math.sin(t * 3);
+        rec.halo.scale.setScalar(0.55 + 0.12 * pulse);
+        rec.ring.scale.setScalar(1 + 0.25 * pulse);
+
+        cur += (target - cur) * damp(dt, 6);
+        const xu = xOf(cur);
+        you.at(xu, height(xu, 0, t) + 0.1, 0);
+
+        group.rotation.y = -0.18 + 0.12 * Math.sin(t * 0.12);
+      },
+    };
+  },
+
+  /* Promotion Planner: weeks × four promotions. Lilac = baseline, violet =
+     incremental uplift, orange = the promotion picked in the controls.
+     The week after each promotion shows its dip. */
+  promo(THREE, scene, pal) {
+    const P = PROMO_MODEL.promos;
+    const group = new THREE.Group();
+    scene.add(group);
+    const ROWS = P.length, COLS = 12, GAP = 0.46, N = ROWS * COLS;
+    const box = new THREE.BoxGeometry(0.3, 1, 0.3).translate(0, 0.5, 0);
+    const mat = new THREE.MeshStandardMaterial({ roughness: 0.55, metalness: 0 });
+    const base = new THREE.InstancedMesh(box, mat, N);
+    const lift = new THREE.InstancedMesh(box, mat.clone(), N);
+    group.add(base, lift);
+
+    const xAt = (col) => (col - (COLS - 1) / 2) * GAP;
+    const zAt = (row) => (row - (ROWS - 1) / 2) * GAP * 1.6;
+    const floor = new THREE.Mesh(new THREE.PlaneGeometry(COLS * GAP + 0.6, ROWS * GAP * 1.6 + 0.6),
+      new THREE.MeshBasicMaterial({ color: pal.lilac, transparent: true, opacity: 0.9 }));
+    floor.rotation.x = -Math.PI / 2;
+    floor.position.y = -0.002;
+    group.add(floor);
+    const strip = new THREE.Mesh(new THREE.PlaneGeometry(COLS * GAP + 0.3, GAP * 1.2),
+      new THREE.MeshBasicMaterial({ color: pal.accent, transparent: true, opacity: 0.16, depthWrite: false }));
+    strip.rotation.x = -Math.PI / 2;
+    strip.position.y = 0.002;
+    group.add(strip);
+
+    // Fixed bar heights from the model: baseline every week, uplift during the
+    // promotion, and a shorter baseline the week after (the dip, exaggerated to read).
+    const maxUp = Math.max(...P.map((p) => p.uplift));
+    const tgt = [];
+    P.forEach((pr, row) => {
+      for (let col = 0; col < COLS; col++) {
+        const on = col >= pr.start && col < pr.start + pr.len;
+        const dip = col === pr.start + pr.len;
+        const b = (0.55 + 0.08 * Math.sin(col * 0.7 + row)) * (dip ? 1 - (pr.dip / 100) * 2.2 : 1);
+        tgt.push({ b, u: on ? (pr.uplift / maxUp) * 1.15 * (0.88 + 0.12 * Math.sin(col + row)) : 0 });
+      }
+    });
+    const cur = tgt.map(() => ({ b: 0, u: 0 }));
+
+    const baseCol = pal.soft.clone().lerp(new THREE.Color('#ffffff'), 0.35);
+    const other = pal.primary.clone().lerp(pal.soft, 0.35);
+    const rowCol = P.map(() => other.clone());
+    const m = new THREE.Matrix4();
+    let sel = PROMO_MODEL.bestIndex();
+    strip.position.z = zAt(sel);
+
+    return {
+      cam: new THREE.Vector3(5.0, 5.2, 8.0),
+      target: new THREE.Vector3(0, 0.75, 0),
+      setValue(i) { if (Number.isInteger(i) && i >= 0 && i < ROWS) sel = i; },
+      update(t, dt) {
+        const a = damp(dt, 3.2);
+        for (let row = 0; row < ROWS; row++) {
+          rowCol[row].lerp(row === sel ? pal.accent : other, a);
+          const boost = row === sel ? 1.06 : 1;
+          for (let col = 0; col < COLS; col++) {
+            const i = row * COLS + col;
+            const grow = clamp01(t * 1.6 - col * 0.08 - row * 0.05); // grow-in on load
+            cur[i].b += (tgt[i].b * grow - cur[i].b) * a;
+            cur[i].u += (tgt[i].u * grow * boost - cur[i].u) * a;
+            m.makeScale(1, Math.max(cur[i].b, 0.001), 1).setPosition(xAt(col), 0, zAt(row));
+            base.setMatrixAt(i, m);
+            base.setColorAt(i, baseCol);
+            const w = cur[i].u > 0.02 ? 0.94 : 0;              // hide empty uplift caps
+            m.makeScale(w, Math.max(cur[i].u, 0.001), w).setPosition(xAt(col), cur[i].b, zAt(row));
+            lift.setMatrixAt(i, m);
+            lift.setColorAt(i, rowCol[row]);
+          }
+        }
+        base.instanceMatrix.needsUpdate = lift.instanceMatrix.needsUpdate = true;
+        base.instanceColor.needsUpdate = lift.instanceColor.needsUpdate = true;
+        strip.position.z += (zAt(sel) - strip.position.z) * a;
+        strip.material.opacity = 0.12 + 0.06 * Math.sin(t * 2.5);
+        group.rotation.y = -0.1 + 0.12 * Math.sin(t * 0.15);
+      },
+    };
+  },
+};
+
+
+// Render each scene once, at a settled moment, for a crisp still frame.
+function still(canvas) {
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, preserveDrawingBuffer: true });
+  renderer.setPixelRatio(window.devicePixelRatio || 1);
+  renderer.setSize(w, h, false);
+  renderer.setClearColor(0x000000, 0);
+  const css = getComputedStyle(canvas);
+  const col = (n, f) => new THREE.Color((css.getPropertyValue(n) || '').trim() || f);
+  const pal = {
+    ink: col('--svp-ink', '#1a1a4e'), primary: col('--svp-primary', '#7751ff'), deep: col('--svp-deep', '#534ab7'),
+    light: col('--svp-light', '#8c5fd6'), lilac: col('--svp-lilac', '#eeedfe'), accent: col('--svp-accent', '#f19526'),
+    soft: new THREE.Color('#c6bbea'), pale: new THREE.Color('#e0dff8'), rose: new THREE.Color('#e8c3d3'),
+  };
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(35, w / h, 0.1, 100);
+  scene.add(new THREE.HemisphereLight(0xffffff, pal.lilac, 1.6));
+  const sun = new THREE.DirectionalLight(0xffffff, 1.5);
+  sun.position.set(3, 6, 4);
+  scene.add(sun);
+  const s = SCENES[canvas.dataset.scene](THREE, scene, pal);
+  if (canvas.dataset.value !== undefined) s.setValue(Number(canvas.dataset.value));
+  for (let i = 0, t = 0; i < 150; i++) s.update((t += 1 / 30), 1 / 30);   // 5 s of settled motion
+  const zoom = Number(canvas.dataset.zoom || 1);
+  camera.position.copy(s.target).addScaledVector(s.cam.clone().sub(s.target), zoom);
+  camera.lookAt(s.target);
+  renderer.render(scene, camera);
+}
+await document.fonts.ready;
+document.querySelectorAll('canvas[data-scene]').forEach(still);
+window.__ready = true;
+</script>
+</body>
+</html>
