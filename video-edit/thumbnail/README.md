@@ -5,12 +5,14 @@ which is about 210px wide and where nearly every impression actually happens.
 
 ```bash
 python make_thumbnail.py --guest susan.png --host mariam.png \
-    --line1 "TWO AI REPORTS" --line2 "MISSED IT" --variant A --out ep01.png
+    --logo marketeers_white.png --logo smartvalue_white.png \
+    --line1 "TWO AI REPORTS" --line2 "MISSED IT" --variant A --out ep01.jpg
 ```
 
-Two files come out: the thumbnail, and `*_card.png` at 210px. Look at the small
-one first. If the hook does not survive there, it does not matter how good the
-big one looks.
+Two files come out: the thumbnail as JPEG, and `*_card.png` at 210px. Look at
+the small one first. If the hook does not survive there, it does not matter how
+good the big one looks. Quality steps down automatically if the JPEG would
+exceed YouTube's 2MB limit.
 
 ## Variants
 
@@ -42,7 +44,23 @@ around 800px wide or larger.
 | `--eyebrow` | Series label, top left. |
 | `--brand` / `--sub` | The lockup, bottom left. |
 | `--variant A\|B` | Layout. |
+| `--logo` | Brand logo. Repeat it for a second mark. |
+| `--quality` | JPEG quality, default 92. |
 | `--chrome` | Path to Chromium if the script cannot find one. |
+
+## Logos
+
+Pass `--logo` once per mark and they render bottom left, height-normalized to
+46px with a divider between them.
+
+Use the **white or reversed** version on a transparent background. The lockup
+sits on deep indigo, so a full-colour logo built for white backgrounds will
+either disappear or carry a visible box around it. The versions already burned
+into the episode's top-left corner are the right ones.
+
+Leave `--logo` off and the lockup renders as dashed placeholder boxes. That is
+deliberate: a thumbnail missing its branding should look unfinished rather than
+quietly ship.
 
 ## House rules for the copy
 

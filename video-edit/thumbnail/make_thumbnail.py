@@ -72,7 +72,21 @@ def font_face():
     return ""
 
 
-def build_html(guest, host, line1, line2, eyebrow, brand, sub, variant):
+def brand_lockup(logos):
+    """Real logo files when supplied; a visible gap when not, so a thumbnail
+    missing its branding never gets shipped by accident."""
+    if not logos:
+        return ("<div class='ph'>MARKETEERS LOGO</div><div class='rule'></div>"
+                "<div class='ph'>SMART VALUE LOGO</div>")
+    parts = []
+    for i, path in enumerate(logos):
+        if i:
+            parts.append("<div class='rule'></div>")
+        parts.append(f"<img src='{data_uri(path, 'image/png')}'>")
+    return "".join(parts)
+
+
+def build_html(guest, host, line1, line2, eyebrow, logos, variant):
     guest_uri = data_uri(guest, "image/png")
     host_uri = data_uri(host, "image/png") if host else None
 
@@ -101,11 +115,12 @@ def build_html(guest, host, line1, line2, eyebrow, brand, sub, variant):
       text-shadow:0 4px 28px rgba(0,0,0,.55)}}
     .l2{{font-size:156px;font-weight:700;letter-spacing:-.04em;color:{AMBER};line-height:.92;
       text-shadow:0 6px 34px rgba(0,0,0,.6)}}
-    .brand{{position:absolute;left:68px;bottom:52px;z-index:6;display:flex;align-items:center;gap:16px}}
-    .bmark{{width:30px;height:30px;border-radius:50%;border:3px solid {AMBER};position:relative}}
-    .bmark::after{{content:'';position:absolute;inset:7px;border-radius:50%;background:{AMBER}}}
-    .bname{{font-size:21px;font-weight:700;letter-spacing:.1em;color:rgba(255,255,255,.93)}}
-    .bsub{{font-size:21px;letter-spacing:.1em;color:rgba(255,255,255,.5)}}
+    .brand{{position:absolute;left:68px;bottom:48px;z-index:6;display:flex;align-items:center;gap:22px}}
+    .brand img{{height:46px;width:auto;display:block}}
+    .rule{{width:1px;height:38px;background:rgba(255,255,255,.28)}}
+    .ph{{height:46px;min-width:168px;border:2px dashed rgba(255,255,255,.45);border-radius:6px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:15px;font-weight:700;letter-spacing:.12em;color:rgba(255,255,255,.6)}}
     .panel{{position:absolute;top:0;right:0;height:{H}px;z-index:4}}
     .shot{{position:absolute;overflow:hidden;background:{INK}}}
     .shot img{{width:100%;height:100%;object-fit:cover;display:block}}
@@ -150,8 +165,7 @@ def build_html(guest, host, line1, line2, eyebrow, brand, sub, variant):
   <div class='grid'></div>
   <div class='eyebrow'>{eyebrow}</div>
   <div class='head'><div class='l1'>{line1}</div><div class='l2'>{line2}</div></div>
-  <div class='brand'><div class='bmark'></div>
-    <div class='bname'>{brand}</div><div class='bsub'>{sub}</div></div>
+  <div class='brand'>{brand_lockup(logos)}</div>
   <div class='panel'>{panel}</div>{inset}
   <div class='vig'></div>
 </div></body></html>"""
@@ -164,19 +178,21 @@ def main():
     ap.add_argument("--line1", default="TWO AI REPORTS")
     ap.add_argument("--line2", default="MISSED IT")
     ap.add_argument("--eyebrow", default="HUMAN IN THE LOOP")
-    ap.add_argument("--brand", default="MARKETEERS")
-    ap.add_argument("--sub", default="SMART VALUE")
+    ap.add_argument("--logo", action="append", default=[], metavar="PNG",
+                    help="brand logo, repeatable; use the white/reversed version "
+                         "with a transparent background. Pass twice for both marks.")
     ap.add_argument("--variant", default="A", choices=["A", "B"])
     ap.add_argument("--chrome", help="path to a Chromium binary")
-    ap.add_argument("--out", default="thumbnail.png")
+    ap.add_argument("--quality", type=int, default=92, help="JPEG quality")
+    ap.add_argument("--out", default="thumbnail.jpg")
     args = ap.parse_args()
 
-    for p in filter(None, [args.guest, args.host]):
+    for p in filter(None, [args.guest, args.host, *args.logo]):
         if not Path(p).exists():
             sys.exit(f"not found: {p}")
 
     html = build_html(args.guest, args.host, args.line1, args.line2,
-                      args.eyebrow, args.brand, args.sub, args.variant)
+                      args.eyebrow, args.logo, args.variant)
 
     chrome = find_chrome(args.chrome)
     with tempfile.TemporaryDirectory() as tmp:
@@ -198,12 +214,26 @@ def main():
             subprocess.run([sys.executable, "-m", "pip", "install", "-q", "pillow"], check=True)
             from PIL import Image
         im = Image.open(shot).convert("RGB").crop((0, 0, W, H))
-        im.save(args.out)
+        out = Path(args.out)
+        if out.suffix.lower() in (".jpg", ".jpeg"):
+            q = args.quality
+            im.save(out, "JPEG", quality=q, subsampling=0, optimize=True,
+                    progressive=True)
+            # YouTube rejects anything over 2MB; step the quality down if needed
+            while out.stat().st_size > 2_000_000 and q > 60:
+                q -= 6
+                im.save(out, "JPEG", quality=q, subsampling=0, optimize=True,
+                        progressive=True)
+        else:
+            im.save(out)
         # feed-card proof: if the hook is unreadable here, it is unreadable in the wild
-        preview = Path(args.out).with_name(Path(args.out).stem + "_card.png")
+        preview = out.with_name(out.stem + "_card.png")
         im.resize((210, 118), Image.LANCZOS).save(preview)
+        size_kb = out.stat().st_size // 1024
 
-    print(f"\n  {args.out}        {W}x{H}")
+    if not args.logo:
+        print("\n  NOTE: no --logo given, so the lockup is a placeholder.")
+    print(f"\n  {args.out}        {W}x{H}, {size_kb} KB")
     print(f"  {preview}   feed-card size, check the hook still reads\n")
 
 
