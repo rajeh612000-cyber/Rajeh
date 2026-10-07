@@ -91,9 +91,12 @@ export function buildScene5(ctx) {
   });
 
   const mark = marker('Recommended', { x: 19, y: 35.5 });
+  /* Left-aligned under the recommendation, not centred at the bottom: once the
+     camera settles on R1 the bars own the middle of the frame, and a centred
+     line lands straight across them. */
   const sVerdict = statement(
-    'The only scenario that clears the guardrail.',
-    { x: 50, y: 83, size: 42, weight: 300 }
+    'The only scenario<br>that clears<br><b>the guardrail.</b>',
+    { x: 22.5, y: 68, size: 40, weight: 300, align: 'left', width: 30 }
   );
 
   /* ---------------- timeline ---------------- */
