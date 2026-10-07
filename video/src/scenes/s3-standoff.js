@@ -140,16 +140,19 @@ export function buildScene3(ctx) {
   const kOut = kicker('One model. One set of numbers.', { x: 50, y: 88, color: 'var(--border)', size: 17 });
 
   /* ---------------- timeline ---------------- */
-  cam(tl, camera, { x: 7.5, y: 12.0, z: 12.0, lx: 0, ly: -0.3, dur: 5.6, ease: EASE.move }, T);
+  /* Two moves, not one. A single 5.6 s glide from where scene 2 left the camera
+     meant the facets were still specks a second and a half in, and the frame
+     sat nearly empty through the hand-off. Arrive quickly, then swing. */
+  cam(tl, camera, { x: 7.5, y: 12.0, z: 12.6, lx: 0, ly: -0.3, dur: 2.9, ease: EASE.settle }, T);
 
-  in3D(tl, revenue, T + 0.2, { dur: 1.0 });
-  inType(tl, kRev, T + 0.6, { dur: 0.6 });
-  in3D(tl, margin, T + 1.0, { dur: 1.0 });
-  inType(tl, kMar, T + 1.4, { dur: 0.6 });
-  in3D(tl, volume, T + 1.8, { dur: 1.0 });
-  inType(tl, kVol, T + 2.2, { dur: 0.6 });
+  in3D(tl, revenue, T + 0.05, { dur: 0.8 });
+  inType(tl, kRev, T + 0.45, { dur: 0.6 });
+  in3D(tl, margin, T + 0.5, { dur: 0.8 });
+  inType(tl, kMar, T + 0.9, { dur: 0.6 });
+  in3D(tl, volume, T + 0.95, { dur: 0.8 });
+  inType(tl, kVol, T + 1.35, { dur: 0.6 });
 
-  inType(tl, sA, T + 2.9);
+  inType(tl, sA, T + 2.3);
 
   /* The fight. Each push on one blade bends another. Two rounds, no winner. */
   tl.to(margin.rotation,  { y: BEARING[1] + 0.34, duration: 1.0, ease: EASE.move }, T + 4.3);
@@ -162,7 +165,7 @@ export function buildScene3(ctx) {
   inType(tl, sB, T + 5.9);
 
   /* They lock square. */
-  cam(tl, camera, { x: -6.0, y: 10.5, z: 11.5, lx: 0, ly: -0.3, dur: 4.2, ease: EASE.move }, T + 6.4);
+  cam(tl, camera, { x: -6.0, y: 10.5, z: 11.5, lx: 0, ly: -0.3, dur: 5.6, ease: EASE.move }, T + 5.0);
   tl.to(revenue.rotation, { y: BEARING[0], duration: 1.1, ease: EASE.snap }, T + 7.3);
   tl.to(margin.rotation,  { y: BEARING[1], duration: 1.1, ease: EASE.snap }, T + 7.3);
   tl.to(volume.rotation,  { y: BEARING[2], duration: 1.1, ease: EASE.snap }, T + 7.3);

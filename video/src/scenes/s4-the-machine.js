@@ -76,7 +76,10 @@ export function buildScene4(ctx) {
   const START_X = -16, END_X = 0.1;
   addUpdater((t) => {
     if (!group.visible) return;
-    core.rotation.y = -0.5 + t * 0.16;
+    /* Relative to the scene's own start, not to absolute time: driven by the
+       latter the lattice had already turned some arbitrary number of radians
+       by the time the scene opened, and it arrived edge-on as a slab. */
+    core.rotation.y = -0.5 + (t - T) * 0.16;
     for (const s of streams) {
       const arr = s.geometry.attributes.position.array;
       const ph = s.userData.phase;
@@ -109,15 +112,18 @@ export function buildScene4(ctx) {
 
   /* ---------------- timeline ---------------- */
   tl.call(() => { group.visible = true; }, null, T - 0.2);
-  cam(tl, camera, { x: 0.4, y: 1.1, z: 21.5, lx: 1.6, ly: 0.1, dur: 6.0, ease: EASE.move }, T);
+  /* Arrive before the build starts, or the hand-off plays out over an empty
+     frame while the camera is still travelling. */
+  cam(tl, camera, { x: 0.4, y: 1.6, z: 22.5, lx: 1.2, ly: 0.2, dur: 3.0, ease: EASE.settle }, T);
+  cam(tl, camera, { x: 0.4, y: 1.1, z: 21.0, lx: 1.6, ly: 0.1, dur: 6.0, ease: EASE.move }, T + 3.2);
 
   inType(tl, k, T + 0.2, { dur: 0.7 });
   inType(tl, s1, T + 0.5, { dur: 0.8 });
 
-  streams.forEach((s, i) => in3D(tl, s, T + 0.8 + i * 0.22, { dur: 1.0 }));
-  tl.to({ o: 0 }, { o: 1, duration: 1.4, ease: EASE.reveal, onUpdate: function () { coreOpacity(this.targets()[0].o); } }, T + 2.0);
+  streams.forEach((s, i) => in3D(tl, s, T + 0.35 + i * 0.16, { dur: 0.8 }));
+  tl.to({ o: 0 }, { o: 1, duration: 1.2, ease: EASE.reveal, onUpdate: function () { coreOpacity(this.targets()[0].o); } }, T + 0.7);
 
-  inType(tl, cards[0], T + 1.9, { dur: 0.7, y: 28 });
+  inType(tl, cards[0], T + 1.6, { dur: 0.7, y: 28 });
   inType(tl, cards[1], T + 3.8, { dur: 0.7, y: 28 });
   inType(tl, cards[2], T + 5.7, { dur: 0.7, y: 28 });
 

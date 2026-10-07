@@ -52,8 +52,8 @@ function handoff(scn, at, dur = 0.9) {
   const s = { o: 1 };
   master.to(s, { o: 0, duration: dur, ease: 'power2.inOut', onUpdate: () => scn.fade(s.o) }, at);
 }
-handoff(s1, 20.3);
-handoff(s3, 31.4);
+handoff(s1, 20.9);
+handoff(s3, 31.9);
 handoff(s4, 43.7);
 handoff(s5, 57.9);
 handoff(s6, 68.1);
@@ -62,8 +62,8 @@ handoff(s6, 68.1);
    seek to any frame lands in the right state regardless of how it got there. */
 const WINDOWS = [
   [s1.group, 0, 21.4],
-  [s3.group, 20.6, 32.5],
-  [s4.group, 31.6, 44.8],
+  [s3.group, 20.8, 33.0],
+  [s4.group, 31.5, 44.8],
   [s5.group, 44.0, 59.0],
   [s6.group, 58.1, 69.2],
   [s7.group, 68.0, DURATION],
