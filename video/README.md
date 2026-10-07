@@ -54,3 +54,22 @@ real time. Append `?render=1` to hold on frame 0 for frame-grabbing.
 `out/score.wav` is a **temp track**, generated from the film's cue sheet so the
 edit can be judged with sound. Replace it with licensed or commissioned music
 before release; `tools/score.py` documents the brief.
+
+## Narration
+
+The read is generated as one continuous take, then cut at its own silences and
+placed phrase by phrase against picture (`tools/vo_track.py`). One take keeps
+tone and pace consistent; placing it phrase by phrase stops it drifting further
+out of step with every sentence.
+
+To replace it with a human read, drop the new take in as `out/vo/raw.mp3`, update
+the `PLACEMENTS` table with that take's phrase boundaries, and re-run
+`vo_track.py` and `deliver.mjs`. The picture does not need re-rendering.
+
+## Logo
+
+The end lock-up uses the supplied artwork (`assets/brand/logo-lockup.png`),
+cropped tight and sitting on its own backdrop, `#191A4E` — one level off
+`--svp-ink`, which is why it blends without a seam. The mark's facets are
+translucent over that navy, so the background cannot be keyed out; it has to
+stay behind them, and the film resolves onto it.

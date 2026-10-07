@@ -13,7 +13,8 @@
  */
 
 import * as THREE from 'three';
-import { INK, VOID, PRIMARY, DEEP, LIGHT, NUM, BORDER, LILAC, WHITE, ACCENT, ROSE } from './brand.js';
+import { INK, VOID, PRIMARY, DEEP, LIGHT, NUM, BORDER, LILAC, WHITE, ACCENT, ROSE,
+         MARK_NODE, MARK_FACE_A, MARK_FACE_B, MARK_EDGE, MARK_LENS } from './brand.js';
 
 /* Seeded RNG — the render must be byte-identical on every pass. */
 let _seed = 20260507 >>> 0;
@@ -286,9 +287,9 @@ export function makeMarkLattice() {
 
   for (let i = 0; i < 6; i++) {
     const j = (i + 1) % 6;
-    g.add(makeEdge(hex[i], hex[j], BORDER, 0.85));
-    g.add(makeEdge(back[i], back[j], BORDER, 0.22));
-    g.add(makeEdge(hex[i], back[i], BORDER, 0.2));
+    g.add(makeEdge(hex[i], hex[j], MARK_EDGE, 0.85));
+    g.add(makeEdge(back[i], back[j], MARK_EDGE, 0.22));
+    g.add(makeEdge(hex[i], back[i], MARK_EDGE, 0.2));
   }
 
   /* Translucent faces, alternating the two tints of the mark. */
@@ -297,18 +298,18 @@ export function makeMarkLattice() {
     const geo = new THREE.BufferGeometry().setFromPoints([hex[i], hex[j], new THREE.Vector3(0, 0, 0)]);
     geo.setIndex([0, 1, 2]);
     geo.computeVertexNormals();
-    g.add(new THREE.Mesh(geo, glassMaterial(i % 2 ? LIGHT : DEEP, 0.24)));
+    g.add(new THREE.Mesh(geo, glassMaterial(i % 2 ? MARK_FACE_B : MARK_FACE_A, 0.26)));
   }
 
   const lit = [0, 2, 3, 5];
   lit.forEach((i) => {
-    const n = makeNode(PRIMARY);
+    const n = makeNode(MARK_NODE);
     n.position.copy(hex[i]);
     g.add(n);
   });
 
-  g.add(makeDashedLine(hex[3], hex[0], NUM, 0.85));
-  const lens = makeLensRing(0.55, PRIMARY, 0.9);
+  g.add(makeDashedLine(hex[3], hex[0], MARK_EDGE, 0.85));
+  const lens = makeLensRing(0.55, MARK_LENS, 0.95);
   lens.position.set(-R * 0.42, 0, 0.02);
   g.add(lens);
 

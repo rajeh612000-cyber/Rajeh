@@ -66,8 +66,12 @@
 
   /* Scenario card internals */
   .sc-id{font-size:13px;font-weight:700;letter-spacing:.2em;color:var(--num)}
-  .sc-label{font-size:21px;font-weight:600;color:#fff;margin-top:8px;line-height:1.28}
-  .sc-rows{margin-top:20px;display:flex;gap:26px}
+  /* Two lines' worth, always. R2's label fits on one line and R1's does not,
+     so without a floor the metric rows sat at three different heights across
+     the three cards. */
+  .sc-label{font-size:21px;font-weight:600;color:#fff;margin-top:8px;line-height:1.28;
+            min-height:calc(2 * 21px * 1.28)}
+  .sc-rows{margin-top:20px;display:flex;gap:26px;align-items:flex-end}
   .sc-metric{display:flex;flex-direction:column;gap:5px}
   .sc-metric .k{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(224,223,248,.6)}
   .sc-metric .v{font-size:30px;font-weight:700;color:#fff}
@@ -78,10 +82,14 @@
   .st-d{font-size:15px;font-weight:300;color:rgba(224,223,248,.72);margin-top:9px;line-height:1.5}
 
   /* Lock-up */
+  /* The lock-up carries the artwork's own backdrop, so the film resolves out of
+     the void and into brand ink — and the supplied logo, whose translucent
+     facets are composited over exactly this navy, sits on it invisibly. */
   #lockup{position:absolute;inset:0;display:flex;flex-direction:column;
-    align-items:center;justify-content:center;gap:0;opacity:0;pointer-events:none}
-  #lockup img{width:760px;filter:brightness(0) invert(1)}
-  #lockup .sub{margin-top:30px;font-size:25px;font-weight:300;color:rgba(224,223,248,.8);letter-spacing:.01em}
+    align-items:center;justify-content:center;gap:0;opacity:0;pointer-events:none;
+    background:#191a4e}
+  #lockup img{width:820px;display:block}
+  #lockup .sub{margin-top:14px;font-size:25px;font-weight:300;color:rgba(224,223,248,.8);letter-spacing:.01em}
   #lockup .cta{margin-top:42px;font-size:17px;font-weight:700;letter-spacing:.16em;
     text-transform:uppercase;color:#1a1a4e;background:var(--accent);
     padding:16px 30px;border-radius:14px 14px 14px 4px;
@@ -95,7 +103,7 @@
     <div id="type"></div>
     <div id="vignette"></div>
     <div id="lockup">
-      <img src="./assets/logo-main.png" alt="Smart Value AI Solutions">
+      <img src="./assets/brand/logo-lockup.png" alt="Smart Value AI Solutions">
       <div class="sub">Price Optimizer</div>
       <div class="cta">Book a walkthrough</div>
       <div class="host">Standalone solution. Runs on the Smart&nbsp;Value&trade; platform.</div>

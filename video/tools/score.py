@@ -11,7 +11,10 @@ before release; the cue sheet below is the brief for whoever writes it.
 The design brief it implements:
 
   Key          D minor. Low, unhurried, no resolution until the end.
-  Bed          A sub pad with slow-moving upper partials. Nothing percussive.
+  Bed          A sub pad with slow-moving upper partials, and a soft bell
+               figure over it — D, F, A, C, unhurried and never on the beat.
+               The figure is what makes it read as music rather than as a
+               room tone; the pad alone was mistaken for silence.
   Pulses       One soft mark per data event. They are the film's only rhythm,
                and they are irregular, because the data is.
   The chord    One warm settle at 0:56.4, when the recommended price locks and
@@ -116,6 +119,42 @@ def blip(freq, dur, attack=0.004, shape=3.2):
     return body * env
 
 
+def bell(freq, dur=2.6, shape=1.5):
+    """A struck bell: a fundamental, an octave and a soft inharmonic third."""
+    n = int(dur * SR)
+    t = np.arange(n) / SR
+    env = np.exp(-t * shape) * (1 - np.exp(-t * 180))
+    body = (np.sin(2 * np.pi * freq * t)
+            + 0.42 * np.exp(-t * shape * 2.0) * np.sin(2 * np.pi * freq * 2 * t)
+            + 0.14 * np.exp(-t * shape * 3.2) * np.sin(2 * np.pi * freq * 2.76 * t))
+    return body * env
+
+
+def figure(n):
+    """
+    The bell figure.
+
+    D minor, four notes, and deliberately not on a grid: the intervals between
+    strikes are irregular so it reads as something considered rather than
+    something counted. It thins out under the scenario scene, where the numbers
+    need the room, and returns for the resolve.
+    """
+    out = np.zeros(n)
+    notes = [D4, F3 * 2, A3, D3 * 2, A3, F3 * 2]
+    t = 3.0
+    i = 0
+    while t < DURATION - 3.0:
+        # Quiet through the hold before the recommendation, and through the
+        # guardrail break: those beats belong to the picture.
+        hushed = 50.0 < t < 57.0
+        gain = 0.028 if hushed else 0.075
+        if not hushed:
+            add(out, bell(notes[i % len(notes)], 3.2), t, gain)
+        i += 1
+        t += 2.6 + 0.7 * math.sin(i * 1.7)
+    return out
+
+
 def chord(freqs, dur, shape=0.9):
     n = int(dur * SR)
     t = np.arange(n) / SR
@@ -168,7 +207,7 @@ def main():
             add(cues, chord([D3, F3, A3, E4], 5.5, shape=0.55), at, 0.34 * gain)
             add(cues, blip(D4, 1.6, shape=2.0), at, 0.09 * gain)
 
-    mix = bed * 0.46 + cues
+    mix = bed * 0.42 + figure(n) + cues
     mix = reverb(mix)
 
     # Gentle head and tail, so the film never starts or stops on a hard edge.

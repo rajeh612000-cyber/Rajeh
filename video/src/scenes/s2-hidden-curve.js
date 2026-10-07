@@ -91,8 +91,11 @@ export function buildScene2(ctx, s1) {
   inType(tl, c3, T + 3.0, { dur: 0.5 });
 
   inType(tl, s_a, T + 3.3);
-  outType(tl, s_a, T + 5.0);
-  inType(tl, s_b, T + 5.1);
+  /* The outgoing line must be gone before the incoming one starts. Both sit at
+     the same place in frame, so overlapping their fades superimposes two
+     different sentences for half a second — which is exactly how 0:14 read. */
+  outType(tl, s_a, T + 4.7, { dur: 0.5 });
+  inType(tl, s_b, T + 5.4);
 
   /* Pull all the way back out. Now the comparison can be made. */
   cam(tl, camera, { x: 0, y: 5.0, z: 30.5, lx: 0, ly: 1.3, dur: 4.2, ease: EASE.move }, T + 6.2);

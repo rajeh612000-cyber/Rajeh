@@ -161,8 +161,8 @@ export function buildScene3(ctx) {
   tl.to(margin.rotation,  { y: BEARING[1] - 0.22, duration: 1.0, ease: EASE.move }, T + 5.6);
   tl.to(volume.rotation,  { y: BEARING[2] + 0.28, duration: 1.0, ease: EASE.move }, T + 6.0);
 
-  outType(tl, sA, T + 5.6);
-  inType(tl, sB, T + 5.9);
+  outType(tl, sA, T + 5.3, { dur: 0.5 });
+  inType(tl, sB, T + 6.0);
 
   /* They lock square. */
   cam(tl, camera, { x: -6.0, y: 10.5, z: 11.5, lx: 0, ly: -0.3, dur: 5.6, ease: EASE.move }, T + 5.0);

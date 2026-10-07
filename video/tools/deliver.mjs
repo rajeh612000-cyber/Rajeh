@@ -20,16 +20,23 @@ import { access, mkdir } from 'node:fs/promises';
 
 const MASTER = 'out/price-optimizer-78s-1080p-silent.mp4';
 const SCORE = 'out/score.wav';
+const VO = 'out/vo/vo-track.wav';
+const MIX = 'out/mix.wav';
 const OUT = 'out';
 
 /**
  * The 20s cut. Three passages, chosen because each works without the others:
  * the problem, the verdict, the brand.
  */
+/*
+ * Segment boundaries are chosen around whole voiceover phrases, not around the
+ * prettiest frames. A cut that lands mid-sentence is the first thing anyone
+ * hears, and no amount of picture makes up for it.
+ */
 const SEGMENTS = [
-  [1.2, 7.2],    // the blanket increase, and the four SKUs it costs
-  [50.6, 58.2],  // the guardrail break, the settle, the recommendation
-  [71.6, 78.0],  // the lattice becoming the mark, and the CTA
+  [1.0, 6.2],    // the blanket increase, and the four SKUs it costs
+  [53.6, 60.3],  // the settle, the recommendation, the verdict
+  [70.0, 78.0],  // the lattice becoming the mark, and the CTA
 ];
 const JOIN = 0.22;  // a short dip to ink at each join
 
@@ -85,19 +92,39 @@ const LOUDNORM = 'loudnorm=I=-16:TP=-1.5:LRA=11,aresample=48000';
 
 await access(MASTER);
 await access(SCORE);
+await access(VO);
 await mkdir(OUT, { recursive: true });
 
-console.log('1/5  scoring the master');
+/*
+ * The bed is ducked under the narration by its own sidechain rather than by a
+ * hand-drawn envelope, so it breathes with the read instead of stepping around
+ * it. Slow release: a bed that snaps back between sentences draws attention to
+ * itself, which is the one thing a bed must never do.
+ */
+console.log('0/6  mixing score under voiceover');
 await run([
-  '-i', MASTER, '-i', SCORE,
+  '-i', SCORE, '-i', VO,
+  '-filter_complex', [
+    '[1:a]asplit=2[vo][key]',
+    '[0:a]volume=0.82[bed]',
+    '[bed][key]sidechaincompress=threshold=0.035:ratio=6:attack=25:release=700:makeup=1[duck]',
+    '[duck][vo]amix=inputs=2:normalize=0:dropout_transition=0[mix]',
+  ].join(';'),
+  '-map', '[mix]', '-ar', '48000', '-ac', '2',
+  MIX,
+], 'mix');
+
+console.log('1/6  scoring the master');
+await run([
+  '-i', MASTER, '-i', MIX,
   '-map', '0:v:0', '-map', '1:a:0', '-shortest',
   ...X264, ...AAC, '-af', LOUDNORM,
   `${OUT}/price-optimizer-78s-1080p.mp4`,
 ], 'master');
 
-console.log('2/5  cutting 20s landscape');
+console.log('2/6  cutting 20s landscape');
 await run([
-  '-i', MASTER, '-i', SCORE,
+  '-i', MASTER, '-i', MIX,
   '-filter_complex', [
     segmentChains('0:v', 'v', 'v'),
     segmentChains('1:a', 'a', 'a'),
@@ -111,7 +138,7 @@ await run([
 
 let step = 3;
 for (const [name, f] of Object.entries(FRAMES)) {
-  console.log(`${step++}/5  framing 20s ${name}`);
+  console.log(`${step++}/6  framing 20s ${name}`);
   await run([
     '-i', `${OUT}/price-optimizer-20s-16x9.mp4`,
     '-loop', '1', '-framerate', '30', '-i', `${OUT}/furniture/${name}.png`,
@@ -127,7 +154,7 @@ for (const [name, f] of Object.entries(FRAMES)) {
   ], name);
 }
 
-console.log('5/5  poster frames');
+console.log('6/6  poster frames');
 for (const [name, t] of [['hero', 56.9], ['curves', 19.0], ['scenarios', 53.4]]) {
   await run(['-ss', String(t), '-i', MASTER, '-frames:v', '1', `${OUT}/poster-${name}.png`], 'poster');
 }

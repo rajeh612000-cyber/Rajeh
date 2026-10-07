@@ -19,6 +19,21 @@ export const WHITE      = 0xffffff;
 /** Rationed. Two uses in the entire film: the recommended price, and the CTA. */
 export const ACCENT     = 0xf19526; // --svp-accent
 
+/**
+ * The mark's own palette, sampled from the supplied artwork.
+ *
+ * The lattice in the logo is blue, not violet — the violet belongs to the
+ * wordmark. The film's 3D mark is built in these values so the dissolve into
+ * the real lock-up has nothing to give itself away.
+ */
+export const MARK_NODE  = 0x3281ff; // the lit vertices
+export const MARK_FACE_A = 0x6068e9; // lavender-blue facet
+export const MARK_FACE_B = 0xb8c6ff; // pale periwinkle facet
+export const MARK_EDGE  = 0x8fb4ff; // hairline
+export const MARK_LENS  = 0x3b6ff5; // lens ring
+/** The artwork's own backdrop. One level off --svp-ink, so the lock-up blends. */
+export const MARK_BG    = 0x191a4e;
+
 /** The losing scenario only. Never decorative. */
 export const ROSE       = 0x9b3d5a;
 export const ROSE_SOFT  = 0xc97a95;
