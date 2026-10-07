@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="data:,">
+<title>Price Optimizer — Smart Value AI</title>
+<link rel="stylesheet" href="./assets/fonts/sora.css">
+<style>
+  :root{
+    --ink:#1a1a4e; --primary:#7751ff; --deep:#534ab7; --light:#8c5fd6;
+    --num:#a09de8; --border:#e0dff8; --lilac:#eeedfe; --soft:#f8f6ff;
+    --accent:#f19526; --rose:#9b3d5a; --rose-soft:#c97a95; --void:#0a0a23;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#000;overflow:hidden}
+  #stage{
+    position:relative;width:1920px;height:1080px;overflow:hidden;
+    background:var(--void);
+    font-family:'Sora',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  #gl{position:absolute;inset:0;display:block;width:1920px;height:1080px}
+
+  /* Vignette, in ink rather than black — the frame edge still belongs to the brand. */
+  #vignette{
+    position:absolute;inset:0;pointer-events:none;
+    background:
+      radial-gradient(118% 92% at 50% 44%, rgba(10,10,35,0) 38%, rgba(10,10,35,.62) 100%),
+      linear-gradient(to bottom, rgba(10,10,35,.5) 0%, rgba(10,10,35,0) 16%, rgba(10,10,35,0) 82%, rgba(10,10,35,.62) 100%);
+  }
+
+  #type{position:absolute;inset:0;pointer-events:none}
+  #type > *{position:absolute;will-change:opacity,transform}
+
+  .tx-kicker{
+    font-weight:600;letter-spacing:.26em;text-transform:uppercase;
+    white-space:nowrap;
+  }
+  .tx-statement{
+    line-height:1.14;letter-spacing:-.018em;
+    text-wrap:balance;
+  }
+  .tx-statement b{font-weight:700;color:#fff}
+  .tx-statement .hi{font-weight:700;color:var(--num)}
+  .tx-chip{
+    font-size:17px;font-weight:400;letter-spacing:.03em;
+    padding:9px 16px;white-space:nowrap;backdrop-filter:blur(2px);
+  }
+  .tx-card{
+    background:linear-gradient(140deg, rgba(119,81,255,.13), rgba(83,74,183,.07));
+    border:1px solid rgba(224,223,248,.22);
+    box-shadow:0 10px 28px rgba(83,74,183,.12);
+    backdrop-filter:blur(3px);
+    padding:26px 28px 24px;
+  }
+  .tx-counter{
+    font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;
+    letter-spacing:-.02em;
+  }
+  .tx-rule{height:1px}
+  .tx-marker{
+    font-size:16px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+    color:#1a1a4e;background:var(--accent);padding:10px 18px;white-space:nowrap;
+    box-shadow:0 8px 26px rgba(241,149,38,.42);
+  }
+
+  /* Scenario card internals */
+  .sc-id{font-size:13px;font-weight:700;letter-spacing:.2em;color:var(--num)}
+  .sc-label{font-size:21px;font-weight:600;color:#fff;margin-top:8px;line-height:1.28}
+  .sc-rows{margin-top:20px;display:flex;gap:26px}
+  .sc-metric{display:flex;flex-direction:column;gap:5px}
+  .sc-metric .k{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(224,223,248,.6)}
+  .sc-metric .v{font-size:30px;font-weight:700;color:#fff}
+
+  /* Step card internals */
+  .st-n{font-size:12px;font-weight:700;letter-spacing:.22em;color:var(--accent-dim,var(--num))}
+  .st-t{font-size:23px;font-weight:600;color:#fff;margin-top:10px;line-height:1.25}
+  .st-d{font-size:15px;font-weight:300;color:rgba(224,223,248,.72);margin-top:9px;line-height:1.5}
+
+  /* Lock-up */
+  #lockup{position:absolute;inset:0;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:0;opacity:0;pointer-events:none}
+  #lockup img{width:760px;filter:brightness(0) invert(1)}
+  #lockup .sub{margin-top:30px;font-size:25px;font-weight:300;color:rgba(224,223,248,.8);letter-spacing:.01em}
+  #lockup .cta{margin-top:42px;font-size:17px;font-weight:700;letter-spacing:.16em;
+    text-transform:uppercase;color:#1a1a4e;background:var(--accent);
+    padding:16px 30px;border-radius:14px 14px 14px 4px;
+    box-shadow:0 10px 34px rgba(241,149,38,.4)}
+  #lockup .host{margin-top:26px;font-size:14px;font-weight:300;color:rgba(160,157,232,.72);letter-spacing:.06em}
+</style>
+</head>
+<body>
+  <div id="stage">
+    <canvas id="gl" width="1920" height="1080"></canvas>
+    <div id="type"></div>
+    <div id="vignette"></div>
+    <div id="lockup">
+      <img src="./assets/logo-main.png" alt="Smart Value AI Solutions">
+      <div class="sub">Price Optimizer</div>
+      <div class="cta">Book a walkthrough</div>
+      <div class="host">Standalone solution. Runs on the Smart&nbsp;Value&trade; platform.</div>
+    </div>
+  </div>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "./node_modules/three/build/three.module.js",
+      "three/addons/": "./node_modules/three/examples/jsm/",
+      "gsap": "./node_modules/gsap/index.js"
+    }
+  }
+  </script>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
